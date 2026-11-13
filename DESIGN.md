@@ -20,6 +20,12 @@ faces are two CSS variables, `--display` and `--text`, at the top of its
 styles. Three wider studies were tried and set aside as more change than
 was wanted; they are kept in `docs/mockups/type-studies.html`.
 
+**Fonts tried, November 2026 (the owner's pick):** Averia Serif Libre
+Light for large headings and the wordmark; Cormorant Garamond for medium
+headings (capitals, lightly spaced) and for text. Cormorant runs small and
+light, so text is 20px at weight 500, small text no less than 17px, and
+counts are bold. Not final until the owner says so.
+
 **The mark is a cat in round glasses,** one red line (the owner's call,
 replacing the thrush). Product Hunt's mascot is also a cat, so the drawing
 stays unlike theirs: face-on, reading glasses, no body. Have it looked at

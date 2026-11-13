@@ -1,495 +1,444 @@
 <title>Author Hunt Mockups</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..700&display=swap">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..600&display=swap">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&display=swap">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&display=swap">
 <style>
-/* Layout: a white page set like a nineteenth-century novel. Black ink, hairline and thick-thin rules,
-   small capitals, italics and old-style figures do all the work. No radius anywhere. Light only, by choice:
-   these mocks are for judging the page in daylight. Three directions share the content and differ in setting. */
+/* Layout: Product Hunt's structure (a ranked daily list beside a rail, then a launch page with a thread)
+   set as a book page. White, black ink, square corners. Life comes from three things only: covers that lift
+   on a hard shadow, a red cheer arrow, and a reader's yellow highlighter. Light only, by choice. */
 :root {
   color-scheme: light;
-  --page: #FFFFFF; --ink: #111111; --ink-2: #333333; --muted: #5A5A5A; --hair: #C9C9C9; --tint: #F4F4F2;
-  --oxblood: #7A1F1F; --prussian: #1D3557;
-  /* Stand-ins for uploaded covers and portraits. */
-  --cv-1: #1F3044; --cv-2: #5C2630; --cv-3: #2A4034; --cv-4: #3F3558; --cv-5: #6B5220; --cv-6: #2A2A30; --cv-ink: #F5F2EA;
-  --accent: var(--ink);
+  --page: #FFFFFF; --ink: #111111; --ink-2: #333333; --muted: #5C5C5C; --hair: #D4D4D4; --tint: #F5F4F0;
+  --red: #D9361E; --red-text: #B92C16; --mark: #FFE14D;
+  --cv-1: #1F3A5C; --cv-2: #7A2533; --cv-3: #24503B; --cv-4: #4A3A78; --cv-5: #B5791A; --cv-6: #26262C; --cv-7: #C24A2A; --cv-ink: #FBF7EC;
+  --display: "Instrument Serif", "Iowan Old Style", Georgia, serif;
+  --text: "Newsreader", Georgia, "Times New Roman", serif;
 }
-.A { --display: "Bodoni Moda", "Bodoni 72", Didot, "Times New Roman", serif; --text: "Newsreader", Georgia, "Times New Roman", serif; --accent: var(--oxblood); }
-.B { --display: "Libre Caslon Display", "Libre Caslon Text", Georgia, serif; --text: "Libre Caslon Text", Georgia, "Times New Roman", serif; --accent: var(--ink); }
-.C { --display: "Old Standard TT", "Century Schoolbook", Georgia, serif; --text: "Old Standard TT", "Century Schoolbook", Georgia, serif; --accent: var(--prussian); }
-
 *, *::before, *::after { box-sizing: border-box; border-radius: 0; }
-body { background: var(--page); color: var(--ink); font: 400 17px/1.5 Georgia, "Times New Roman", serif; -webkit-font-smoothing: antialiased; }
-body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--page); }
+body { background: var(--page); color: var(--ink); font: 400 17px/1.5 var(--text); -webkit-font-smoothing: antialiased; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 30; background: var(--page); }
 h1, h2, h3, p, ul, ol, dl, dd, figure { margin: 0; padding: 0; }
 ul, ol { list-style: none; }
 a { color: inherit; text-decoration: none; }
 button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
 :focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
-.wrap { max-width: 1080px; margin-inline: auto; padding-left: max(20px, env(safe-area-inset-left, 0px)); padding-right: max(20px, env(safe-area-inset-right, 0px)); }
-.view { font-family: var(--text); font-variant-numeric: oldstyle-nums; }
-.sc { font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; font-variant-numeric: lining-nums; }
+.wrap { max-width: 1120px; margin-inline: auto; padding-left: max(20px, env(safe-area-inset-left, 0px)); padding-right: max(20px, env(safe-area-inset-right, 0px)); }
+.sc { font-size: 12px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; }
 .it { font-style: italic; }
+.hl { background: linear-gradient(transparent 55%, var(--mark) 55%, var(--mark) 92%, transparent 92%); padding-inline: 2px; }
 .word { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 4px; }
 .word:hover { text-decoration-thickness: 2px; }
-.solid { display: inline-block; background: var(--ink); color: var(--page); padding: 10px 20px; border: 1px solid var(--ink); }
-.open { display: inline-block; padding: 10px 20px; border: 1px solid var(--ink); }
-.solid:hover { background: var(--page); color: var(--ink); }
-.open:hover { background: var(--ink); color: var(--page); }
-.thickthin { height: 6px; border-top: 3px solid var(--ink); border-bottom: 1px solid var(--ink); }
-.swell { width: 160px; height: 5px; margin-inline: auto; background: var(--ink); clip-path: polygon(0 50%, 50% 0, 100% 50%, 50% 100%); }
-.cover { aspect-ratio: 2 / 3; width: 100%; color: var(--cv-ink); display: flex; align-items: flex-end; padding: 7px; font: 400 10px/1.15 var(--display); border: 1px solid var(--ink); }
-.portrait { aspect-ratio: 4 / 5; width: 100%; color: var(--cv-ink); display: grid; place-items: center; font: 400 26px/1 var(--display); border: 1px solid var(--ink); }
-.c1 { background: var(--cv-1); } .c2 { background: var(--cv-2); } .c3 { background: var(--cv-3); } .c4 { background: var(--cv-4); } .c5 { background: var(--cv-5); } .c6 { background: var(--cv-6); }
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 9px 18px; border: 1.5px solid var(--ink); font-weight: 500; white-space: nowrap; transition: transform 120ms ease-out, box-shadow 120ms ease-out; }
+.btn.solid { background: var(--ink); color: var(--page); }
+.btn:hover { transform: translate(-2px, -2px); box-shadow: 4px 4px 0 var(--ink); }
+.btn.solid:hover { box-shadow: 4px 4px 0 var(--red); }
+.cover, .portrait { color: var(--cv-ink); border: 1px solid var(--ink); display: flex; overflow: hidden; }
+.cover { aspect-ratio: 2 / 3; align-items: flex-end; padding: 8%; font: 400 11px/1.05 var(--display); }
+.portrait { aspect-ratio: 1; align-items: center; justify-content: center; font: 400 22px/1 var(--display); }
+.c1 { background: var(--cv-1); } .c2 { background: var(--cv-2); } .c3 { background: var(--cv-3); } .c4 { background: var(--cv-4); } .c5 { background: var(--cv-5); } .c6 { background: var(--cv-6); } .c7 { background: var(--cv-7); }
 
 /* The mock's own switcher: not part of the product. */
 .mockbar { background: var(--tint); border-bottom: 1px solid var(--hair); font: 14px/1.4 system-ui, -apple-system, "Segoe UI", sans-serif; }
-.mockbar .wrap { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 22px; padding-block: 10px; }
+.mockbar .wrap { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 22px; padding-block: 9px; }
 .mockbar span { color: var(--muted); }
-.mockbar nav { display: flex; flex-wrap: wrap; gap: 4px 18px; }
+.mockbar nav { display: flex; gap: 18px; }
 .mockbar a { color: var(--muted); padding-block: 3px; border-bottom: 2px solid transparent; }
 .mockbar a[aria-current="page"] { color: var(--ink); border-bottom-color: var(--ink); font-weight: 600; }
-.note { background: var(--tint); border-bottom: 1px solid var(--hair); font: 14px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; color: var(--ink-2); }
-.note .wrap { padding-block: 10px; }
-.note b { font-weight: 600; color: var(--ink); }
 
-/* ── A. Title page: centred, Bodoni and Newsreader, oxblood for what has been done ── */
-.A .mast { text-align: center; padding-block: 30px 0; }
-.A .mast .name { font: 500 30px/1 var(--display); letter-spacing: 0.22em; text-transform: uppercase; }
-.A .mast nav { margin-top: 20px; display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 30px; padding-block: 12px; border-block: 1px solid var(--ink); }
-.A .mast nav a:hover, .A .mast nav a[aria-current] { color: var(--accent); }
-.A .head { text-align: center; padding-block: 52px 36px; }
-.A .head h1 { margin-top: 18px; font: 400 clamp(38px, 6.4vw, 76px)/1.02 var(--display); letter-spacing: -0.015em; text-wrap: balance; }
-.A .head p { margin: 20px auto 28px; max-width: 34rem; color: var(--ink-2); font-size: 19px; }
-.A .col { max-width: 800px; margin-inline: auto; }
-.A .row { display: grid; grid-template-columns: 44px 70px minmax(0, 1fr) 76px; gap: 20px; align-items: start; padding-block: 24px; border-bottom: 1px solid var(--hair); }
-.A .rank { font: italic 400 24px/1.2 var(--display); }
-.A .row h3 { font: 500 25px/1.15 var(--display); letter-spacing: -0.005em; }
-.A .row h3 a:hover { color: var(--accent); }
-.A .row .by { margin-top: 3px; color: var(--ink-2); }
-.A .row .tag { margin-top: 8px; }
-.A .row .meta { margin-top: 10px; color: var(--muted); display: flex; flex-wrap: wrap; gap: 2px 8px; }
-.A .row .meta a:hover { color: var(--ink); }
-.A .row .meta a + a::before, .A .row .acts > * + *::before { content: "·"; margin-right: 8px; color: var(--muted); display: inline-block; text-decoration: none; }
-.A .row .acts { margin-top: 10px; display: flex; flex-wrap: wrap; gap: 2px 8px; font-size: 15px; }
-.A .cheer { text-align: center; width: 100%; }
-.A .cheer b { display: block; font: 400 34px/1 var(--display); font-variant-numeric: oldstyle-nums; padding-bottom: 7px; border-bottom: 1px solid var(--ink); }
-.A .cheer span { display: block; margin-top: 7px; }
-.A .cheer:hover span { text-decoration: underline; text-underline-offset: 4px; }
-.A .cheer[aria-pressed="true"] { color: var(--accent); }
-.A .cheer[aria-pressed="true"] b { border-bottom: 3px solid var(--accent); padding-bottom: 5px; }
-.A .foot3 { margin-top: 56px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 40px; padding-bottom: 72px; }
-.A .foot3 h2 { font: 500 20px/1.2 var(--display); padding-bottom: 10px; border-bottom: 1px solid var(--ink); }
-.A .foot3 li { display: flex; justify-content: space-between; gap: 12px; padding-block: 9px; border-bottom: 1px solid var(--hair); }
-.A .foot3 li span { color: var(--muted); white-space: nowrap; }
-.A .foot3 p { margin-top: 12px; color: var(--ink-2); }
-.A .foot3 form { margin-top: 14px; display: grid; gap: 8px; }
-.A .foot3 input { padding: 10px 12px; border: 1px solid var(--ink); background: var(--page); color: var(--ink); font: inherit; min-width: 0; }
-@media (max-width: 760px) { .A .foot3 { grid-template-columns: minmax(0, 1fr); } }
-@media (max-width: 560px) { .A .row { grid-template-columns: 26px 52px minmax(0, 1fr); gap: 14px; } .A .cheer { grid-column: 3; text-align: left; display: flex; align-items: baseline; gap: 10px; } .A .cheer b { font-size: 24px; } .A .cheer span { margin: 0; } .A .row h3 { font-size: 21px; } .A .mast .name { font-size: 22px; } }
+/* Header: a mark, a search line, three places, two actions. Everything else lives behind them. */
+.bar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: var(--page); border-bottom: 1.5px solid var(--ink); }
+.bar .wrap { display: flex; align-items: center; gap: 28px; height: 64px; }
+.logo { display: inline-flex; align-items: baseline; gap: 9px; font: italic 400 30px/1 var(--display); white-space: nowrap; }
+.logo svg { width: 15px; height: 17px; align-self: center; fill: var(--red); }
+.bar .search { flex: 1 1 200px; max-width: 300px; min-width: 0; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid var(--ink); padding-block: 5px; }
+.bar .search svg { width: 15px; height: 15px; fill: none; stroke: var(--ink); stroke-width: 1.6; flex: none; }
+.bar .search input { border: 0; outline: 0; background: none; font: inherit; font-style: italic; color: var(--ink); width: 100%; min-width: 0; }
+.bar nav { display: flex; gap: 26px; }
+.bar nav a { padding-block: 4px; }
+.bar nav a:hover, .bar nav a[aria-current] { box-shadow: inset 0 -8px 0 var(--mark); }
+.bar .end { margin-left: auto; display: flex; align-items: center; gap: 20px; }
+@media (max-width: 900px) { .bar nav { display: none; } }
+@media (max-width: 620px) { .bar .search, .bar .end .signin { display: none; } .bar .wrap { gap: 12px; } .logo { font-size: 26px; } }
 
-/* ── B. Contents: left-set, Caslon, ink only. The board is a table of contents; cheers stand where page numbers would. ── */
-.B .bar { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 28px; padding-block: 22px 14px; border-bottom: 1px solid var(--ink); }
-.B .bar .name { font: italic 400 26px/1 var(--text); }
-.B .bar nav { display: flex; flex-wrap: wrap; gap: 4px 24px; }
-.B .bar nav a[aria-current], .B .bar nav a:hover { text-decoration: underline; text-underline-offset: 6px; }
-.B .head { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: 16px 40px; padding-block: 64px 22px; }
-.B .head h1 { font: 400 clamp(44px, 7.6vw, 92px)/0.98 var(--display); letter-spacing: -0.01em; }
-.B .head p { color: var(--ink-2); text-align: right; line-height: 1.6; }
-@media (max-width: 700px) { .B .head { grid-template-columns: minmax(0, 1fr); } .B .head p { text-align: left; } }
-.B .split { display: grid; grid-template-columns: minmax(0, 1fr) 270px; gap: 56px; padding-block: 0 72px; }
-@media (max-width: 900px) { .B .split { grid-template-columns: minmax(0, 1fr); gap: 44px; } }
-.B .entry { padding-block: 22px; border-bottom: 1px solid var(--hair); }
-.B .entry:first-child { border-top: 1px solid var(--ink); }
-.B .line { display: flex; align-items: baseline; gap: 10px; }
-.B .line .rank { flex: 0 0 38px; font-size: 19px; }
-.B .line h3 { font: 400 clamp(22px, 2.6vw, 28px)/1.15 var(--display); min-width: 0; }
-.B .line h3 a:hover { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 5px; }
-.B .line .dots { flex: 1 1 24px; min-width: 24px; border-bottom: 2px dotted var(--ink); transform: translateY(-5px); }
-.B .cheer { display: inline-flex; align-items: baseline; gap: 8px; white-space: nowrap; }
-.B .cheer svg { width: 13px; height: 9px; fill: none; stroke: var(--ink); stroke-width: 1.5; stroke-linejoin: miter; overflow: visible; }
-.B .cheer b { font: 400 26px/1 var(--display); min-width: 3ch; text-align: right; }
-.B .cheer[aria-pressed="true"] svg { fill: var(--ink); }
-.B .cheer[aria-pressed="true"] b { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 5px; }
-.B .cheer:hover svg { stroke-width: 2.5; }
-.B .sub { margin: 6px 0 0 48px; }
-.B .sub .tag { color: var(--ink-2); }
-.B .sub .meta { margin-top: 8px; color: var(--muted); display: flex; flex-wrap: wrap; gap: 2px 18px; }
-.B .sub .meta a:hover, .B .sub .meta button:hover { color: var(--ink); text-decoration: underline; text-underline-offset: 4px; }
-@media (max-width: 520px) { .B .sub { margin-left: 0; } .B .line .rank { flex-basis: 28px; } }
-.B .rail { display: grid; gap: 40px; align-content: start; }
-.B .rail h2 { font: 400 13px/1 var(--text); letter-spacing: 0.16em; text-transform: uppercase; padding-bottom: 10px; border-bottom: 1px solid var(--ink); }
-.B .rail li { padding-block: 10px; border-bottom: 1px solid var(--hair); display: flex; justify-content: space-between; gap: 12px; }
-.B .rail li span { color: var(--muted); white-space: nowrap; }
-.B .rail li a:hover { text-decoration: underline; text-underline-offset: 4px; }
-.B .rail p { margin-top: 12px; color: var(--ink-2); font-size: 16px; }
+/* The letter banner, where Product Hunt puts its promo */
+.letter { border-bottom: 1px solid var(--hair); background: var(--tint); }
+.letter .wrap { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 24px; padding-block: 12px; }
+.letter form { display: flex; gap: 0; flex: 0 1 380px; min-width: 0; }
+.letter input { flex: 1; min-width: 0; padding: 8px 12px; border: 1.5px solid var(--ink); border-right: 0; background: var(--page); font: inherit; color: var(--ink); }
+.letter button { padding: 8px 16px; background: var(--ink); color: var(--page); border: 1.5px solid var(--ink); font-weight: 500; white-space: nowrap; }
+.letter .said { font-style: italic; }
 
-/* ── C. Plates: covers lead, Old Standard, Prussian blue. The first launch is the frontispiece; the rest are plates. ── */
-.C .bar { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 20px; padding-block: 20px; border-bottom: 1px solid var(--ink); }
-.C .bar .name { font: 700 28px/1 var(--display); letter-spacing: 0.01em; text-align: center; }
-.C .bar .name em { font-weight: 400; }
-.C .bar nav { display: flex; flex-wrap: wrap; gap: 4px 22px; }
-.C .bar nav.end { justify-content: flex-end; }
-.C .bar nav a:hover, .C .bar nav a[aria-current] { color: var(--accent); }
-@media (max-width: 760px) { .C .bar { grid-template-columns: minmax(0, 1fr); justify-items: center; } .C .bar nav, .C .bar nav.end { justify-content: center; } }
-.C .dateline { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 20px; padding-block: 10px; border-bottom: 3px double var(--ink); color: var(--ink-2); }
-.C .front { display: grid; grid-template-columns: minmax(0, 300px) minmax(0, 1fr); gap: 56px; align-items: center; padding-block: 56px; border-bottom: 1px solid var(--ink); }
-@media (max-width: 760px) { .C .front { grid-template-columns: minmax(0, 1fr); gap: 32px; } .C .front figure { max-width: 240px; } }
-.C .frame { padding: 8px; border: 1px solid var(--ink); outline: 1px solid var(--ink); outline-offset: 4px; margin: 5px; }
-.C .frame .cover { font-size: 22px; padding: 18px; line-height: 1.1; border: 0; }
-.C figcaption { margin-top: 16px; text-align: center; color: var(--ink-2); }
-.C .front h1 { margin-top: 14px; font: 700 clamp(36px, 5.2vw, 62px)/1.04 var(--display); letter-spacing: -0.01em; text-wrap: balance; }
-.C .front .by { margin-top: 12px; font-size: 21px; }
-.C .front .lede { margin-top: 20px; font-size: 20px; line-height: 1.55; max-width: 34rem; }
-.C .front .lede::first-letter { float: left; font: 700 62px/0.86 var(--display); padding: 5px 10px 0 0; color: var(--accent); }
-.C .front .meta { margin-top: 18px; color: var(--muted); display: flex; flex-wrap: wrap; gap: 2px 18px; }
-.C .front .acts { margin-top: 26px; display: flex; flex-wrap: wrap; align-items: center; gap: 14px 22px; }
-.C .cheer.solid[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--page); }
-.C .plates { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 44px 36px; padding-block: 48px 72px; }
-@media (max-width: 860px) { .C .plates { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-.C .plate .cover, .C .plate .portrait { font-size: 15px; padding: 12px; }
-.C .plate .portrait { aspect-ratio: 2 / 3; font-size: 40px; }
-.C .plate .no { margin-top: 14px; color: var(--accent); }
-.C .plate h3 { margin-top: 6px; font: 700 21px/1.15 var(--display); }
-.C .plate h3 a:hover { color: var(--accent); }
-.C .plate .by { margin-top: 2px; color: var(--ink-2); }
-.C .plate .cheer { margin-top: 10px; }
-.C .plate .cheer[aria-pressed="true"] { color: var(--accent); font-weight: 700; }
+.split { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 64px; padding-block: 40px 80px; }
+@media (max-width: 960px) { .split { grid-template-columns: minmax(0, 1fr); gap: 48px; } }
+.sec + .sec { margin-top: 64px; }
+.sec > header { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 20px; padding-bottom: 14px; border-bottom: 1.5px solid var(--ink); }
+.sec > header h1 { font: 400 clamp(34px, 5vw, 52px)/1.02 var(--display); letter-spacing: -0.01em; }
+.sec > header h2 { font: 400 32px/1.05 var(--display); }
+.sec > header span { color: var(--muted); }
+.more { display: inline-block; margin-top: 18px; }
 
-/* ── An author's page, set in direction A ── */
-.P .who { display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: 44px; align-items: end; padding-block: 52px 36px; }
-@media (max-width: 700px) { .P .who { grid-template-columns: 120px minmax(0, 1fr); gap: 20px; align-items: start; } }
-.P .who .portrait { font-size: 56px; }
-.P .who h1 { margin-top: 12px; font: 400 clamp(36px, 5.6vw, 68px)/1.02 var(--display); letter-spacing: -0.015em; text-wrap: balance; }
-.P .who .line { margin-top: 12px; font-size: 20px; color: var(--ink-2); }
-.P .who .acts { margin-top: 24px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; }
-.P .who .solid[aria-pressed="true"] { background: var(--page); color: var(--ink); }
-.P .body { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 64px; padding-block: 40px 72px; }
-@media (max-width: 900px) { .P .body { grid-template-columns: minmax(0, 1fr); gap: 44px; } }
-.P .bio { font-size: 20px; line-height: 1.6; max-width: 60ch; }
-.P .bio + .bio { margin-top: 14px; text-indent: 1.6em; }
-.P .bio.first::first-letter { float: left; font: 400 74px/0.82 var(--display); padding: 6px 10px 0 0; }
-.P .sect { margin-top: 48px; }
-.P .sect > h2, .P aside h2 { font: 500 22px/1.2 var(--display); padding-bottom: 10px; border-bottom: 1px solid var(--ink); display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
-.P .sect > h2 span { font: 400 15px/1 var(--text); color: var(--muted); }
-.P .row { grid-template-columns: 84px minmax(0, 1fr) 76px; }
-.P .when { color: var(--accent); margin-bottom: 6px; }
-@media (max-width: 560px) { .P .row { grid-template-columns: 60px minmax(0, 1fr); } .P .row .cheer { grid-column: 2; } }
-.P aside { display: grid; gap: 40px; align-content: start; }
-.P dl > div { display: grid; grid-template-columns: 108px minmax(0, 1fr); gap: 12px; padding-block: 11px; border-bottom: 1px solid var(--hair); }
-.P dt { color: var(--muted); padding-top: 4px; }
-.P dd a { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 4px; }
-.P .gift { border: 1px solid var(--ink); padding: 20px; }
-.P .gift h2 { border: 0; padding: 0; }
-.P .gift p { margin-top: 8px; color: var(--ink-2); font-size: 16px; }
-.P .amounts { margin-top: 14px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border: 1px solid var(--ink); }
-.P .amounts button { padding: 10px 4px; border-right: 1px solid var(--ink); }
-.P .amounts button:last-child { border-right: 0; }
-.P .amounts button[aria-pressed="true"] { background: var(--ink); color: var(--page); }
-.P .gift .solid { margin-top: 14px; width: 100%; text-align: center; }
-.P .sticker { margin-top: 14px; display: inline-grid; grid-template-columns: auto auto; align-items: center; gap: 12px; padding: 10px 14px; border: 2px solid var(--ink); background: var(--page); }
-.P .sticker i { width: 34px; aspect-ratio: 4 / 5; background: var(--cv-1); color: var(--cv-ink); display: grid; place-items: center; font: normal 400 13px/1 var(--display); }
-.P .sticker b { display: block; font: 500 17px/1.1 var(--display); }
-.P .sticker span { display: block; margin-top: 3px; font-size: 11px; }
-.P aside p { margin-top: 10px; color: var(--ink-2); font-size: 16px; }
+/* A launch row: rank, picture, words, then the thread count and the cheer at the right edge */
+.row { position: relative; display: grid; grid-template-columns: 30px 60px minmax(0, 1fr) auto; gap: 18px; align-items: center; padding-block: 18px; border-bottom: 1px solid var(--hair); }
+.row .rank { font: 400 26px/1 var(--display); color: var(--muted); text-align: center; }
+.row .pic { transition: transform 140ms ease-out, box-shadow 140ms ease-out; }
+.row:hover .pic { transform: translate(-3px, -3px) rotate(-1.5deg); box-shadow: 5px 5px 0 var(--ink); }
+.row h3 { font: 400 26px/1.1 var(--display); }
+.row h3 a::after { content: ""; position: absolute; inset: 0; }
+.row:hover h3 a { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 5px; }
+.row .tag { margin-top: 3px; color: var(--ink-2); }
+.row .tag .it { color: var(--muted); }
+.row .meta { margin-top: 7px; display: flex; flex-wrap: wrap; gap: 2px 8px; color: var(--muted); font-size: 14px; }
+.row .meta > * { position: relative; z-index: 1; }
+.row .meta a:hover { color: var(--ink); text-decoration: underline; }
+.row .meta > * + *::before { content: "•"; margin-right: 8px; color: var(--hair); }
+.row .meta .warn { color: var(--ink); font-weight: 500; }
+.row .acts { position: relative; z-index: 1; display: flex; align-items: stretch; gap: 6px; }
+.count, .cheer { width: 54px; height: 62px; display: grid; place-items: center; align-content: center; gap: 5px; border: 1.5px solid transparent; font: 500 16px/1 var(--text); font-variant-numeric: lining-nums tabular-nums; }
+.count svg { width: 17px; height: 15px; fill: none; stroke: var(--ink); stroke-width: 1.5; }
+.count { color: var(--ink-2); }
+.count:hover { border-color: var(--hair); }
+.cheer { border-color: var(--ink); transition: transform 120ms ease-out, box-shadow 120ms ease-out; }
+.cheer svg { width: 16px; height: 16px; fill: none; stroke: var(--ink); stroke-width: 1.8; stroke-linejoin: miter; transition: transform 160ms ease-out; }
+.cheer:hover { transform: translate(-2px, -2px); box-shadow: 4px 4px 0 var(--red); }
+.cheer:hover svg { transform: translateY(-3px); }
+.cheer[aria-pressed="true"] { border-color: var(--red); color: var(--red-text); }
+.cheer[aria-pressed="true"] svg { fill: var(--red); stroke: var(--red); }
+.cheer.pop svg { animation: hop 320ms ease-out; }
+@keyframes hop { 40% { transform: translateY(-9px); } 100% { transform: none; } }
+@media (prefers-reduced-motion: reduce) { .row .pic, .btn, .cheer, .cheer svg { transition: none; } .cheer.pop svg { animation: none; } .row:hover .pic { transform: none; } }
+.row.first { grid-template-columns: 30px 132px minmax(0, 1fr) auto; padding-block: 28px; align-items: start; }
+.row.first .rank { color: var(--red-text); padding-top: 6px; }
+.row.first h3 { font-size: clamp(32px, 4.4vw, 46px); line-height: 1.02; margin-top: 8px; }
+.row.first .tag { margin-top: 8px; font-size: 19px; }
+.row.first .cover { font-size: 18px; }
+.row.first .acts { padding-top: 6px; }
+.row.promo .rank { font: 500 10px/1 var(--text); letter-spacing: 0.12em; text-transform: uppercase; writing-mode: vertical-rl; transform: rotate(180deg); justify-self: center; }
+.row.small { grid-template-columns: 30px 44px minmax(0, 1fr) auto; padding-block: 13px; }
+.row.small h3 { font-size: 22px; }
+.row.small .count { display: none; }
+.row.small .cheer { height: 46px; grid-auto-flow: column; width: 76px; gap: 7px; border-color: var(--hair); }
+@media (max-width: 600px) {
+  .row, .row.first { grid-template-columns: 22px 46px minmax(0, 1fr) auto; gap: 12px; }
+  .row.first { grid-template-columns: 22px 78px minmax(0, 1fr) auto; }
+  .row h3 { font-size: 22px; } .row.first h3 { font-size: 28px; } .row.first .tag { font-size: 17px; } .row.first .cover { font-size: 12px; }
+  .count { display: none; } .cheer { width: 48px; height: 56px; }
+}
 
-footer { border-top: 1px solid var(--ink); color: var(--muted); font-size: 14px; }
+/* The rail */
+.rail { display: grid; gap: 44px; align-content: start; }
+.rail h2 { font: 400 24px/1.1 var(--display); padding-bottom: 10px; border-bottom: 1.5px solid var(--ink); }
+.rail li { padding-block: 12px; border-bottom: 1px solid var(--hair); }
+.rail .topic a { display: block; line-height: 1.3; }
+.rail .topic a:hover { text-decoration: underline; text-underline-offset: 4px; }
+.rail small { display: block; margin-top: 4px; color: var(--muted); font-size: 14px; }
+.rail .person { display: grid; grid-template-columns: 40px minmax(0, 1fr) auto; gap: 12px; align-items: center; }
+.rail .person .portrait { font-size: 15px; }
+.rail .person b { font-weight: 500; display: block; line-height: 1.2; }
+.rail .person .up { color: var(--red-text); font-weight: 500; font-variant-numeric: lining-nums; white-space: nowrap; }
+.rail .soon { display: grid; grid-template-columns: 52px minmax(0, 1fr); gap: 12px; align-items: baseline; }
+.rail .soon time { font: 400 20px/1 var(--display); }
+.genres { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px; }
+.genres a { padding: 4px 10px; border: 1px solid var(--ink); font-size: 15px; }
+.genres a:hover { background: var(--mark); }
+
+/* A launch's own page */
+.lhead { display: grid; grid-template-columns: 200px minmax(0, 1fr) auto; gap: 40px; align-items: start; padding-block: 44px 32px; }
+.lhead .cover { font-size: 24px; box-shadow: 8px 8px 0 var(--ink); }
+.lhead h1 { margin-top: 10px; font: 400 clamp(40px, 6vw, 68px)/0.98 var(--display); letter-spacing: -0.01em; text-wrap: balance; }
+.lhead .tag { margin-top: 12px; font-size: 21px; color: var(--ink-2); max-width: 32rem; }
+.lhead .byline { margin-top: 18px; display: flex; align-items: center; gap: 12px; }
+.lhead .byline .portrait { width: 40px; font-size: 15px; flex: none; }
+.lhead .go { margin-top: 24px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 18px; }
+.bigcheer { width: 108px; padding: 16px 0 14px; display: grid; justify-items: center; gap: 6px; border: 1.5px solid var(--ink); transition: transform 120ms ease-out, box-shadow 120ms ease-out; }
+.bigcheer svg { width: 24px; height: 24px; fill: none; stroke: var(--ink); stroke-width: 1.8; }
+.bigcheer b { font: 400 40px/1 var(--display); }
+.bigcheer:hover { transform: translate(-3px, -3px); box-shadow: 6px 6px 0 var(--red); }
+.bigcheer[aria-pressed="true"] { border-color: var(--red); color: var(--red-text); }
+.bigcheer[aria-pressed="true"] svg { fill: var(--red); stroke: var(--red); }
+@media (max-width: 820px) { .lhead { grid-template-columns: 120px minmax(0, 1fr); gap: 20px; } .lhead .cover { font-size: 15px; box-shadow: 5px 5px 0 var(--ink); } .bigcheer { grid-column: 1 / -1; width: 100%; grid-auto-flow: column; justify-content: center; align-items: center; gap: 12px; padding: 12px; } .bigcheer b { font-size: 28px; } }
+.tabs { display: flex; gap: 28px; border-bottom: 1.5px solid var(--ink); overflow-x: auto; }
+.tabs a { padding-block: 12px; white-space: nowrap; color: var(--muted); }
+.tabs a[aria-current] { color: var(--ink); box-shadow: inset 0 -4px 0 var(--red); }
+.lbody p.lead { font-size: 20px; line-height: 1.6; max-width: 62ch; }
+.lbody p.lead + p.lead { margin-top: 14px; text-indent: 1.5em; }
+.lbody p.lead:first-of-type::first-letter { float: left; font: 400 76px/0.8 var(--display); padding: 6px 10px 0 0; color: var(--red-text); }
+.notes { margin-top: 28px; border: 1.5px solid var(--ink); padding: 14px 18px; display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 14px; }
+.notes b { font-weight: 600; }
+.notes [hidden] + button { margin-left: auto; }
+.gallery { margin-top: 28px; display: grid; grid-auto-flow: column; grid-auto-columns: minmax(200px, 1fr); gap: 14px; overflow-x: auto; padding-bottom: 8px; }
+.gallery div { aspect-ratio: 4 / 3; border: 1px solid var(--ink); padding: 14px; color: var(--cv-ink); font: italic 400 20px/1.2 var(--display); display: flex; align-items: flex-end; }
+.thread { margin-top: 56px; }
+.thread > header { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding-bottom: 12px; border-bottom: 1.5px solid var(--ink); }
+.thread > header h2 { font: 400 32px/1 var(--display); }
+.say { margin-top: 18px; display: grid; grid-template-columns: 40px minmax(0, 1fr); gap: 14px; }
+.say .portrait { font-size: 14px; }
+.say textarea { width: 100%; min-height: 76px; padding: 10px 12px; border: 1.5px solid var(--ink); font: inherit; color: var(--ink); background: var(--page); resize: vertical; }
+.say .foot { margin-top: 8px; display: flex; justify-content: space-between; align-items: center; gap: 12px; color: var(--muted); font-size: 14px; }
+.cm { display: grid; grid-template-columns: 40px minmax(0, 1fr); gap: 14px; padding-block: 22px; border-bottom: 1px solid var(--hair); }
+.cm .portrait { font-size: 14px; }
+.cm .who { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; }
+.cm .who b { font-weight: 600; }
+.cm .who span { color: var(--muted); font-size: 14px; }
+.cm p { margin-top: 6px; max-width: 62ch; }
+.cm .do { margin-top: 10px; display: flex; flex-wrap: wrap; gap: 4px 18px; font-size: 14px; color: var(--muted); }
+.cm .do button:hover { color: var(--ink); text-decoration: underline; }
+.cm .do .up { display: inline-flex; align-items: center; gap: 6px; color: var(--ink); font-weight: 500; }
+.cm .do .up svg { width: 11px; height: 11px; fill: none; stroke: var(--ink); stroke-width: 1.8; }
+.cm .do .up[aria-pressed="true"] { color: var(--red-text); }
+.cm .do .up[aria-pressed="true"] svg { fill: var(--red); stroke: var(--red); }
+.cm.pinned { border: 1.5px solid var(--ink); padding: 18px; margin-top: 22px; }
+.cm .reply { grid-column: 2; padding-block: 18px 0; border: 0; border-top: 1px solid var(--hair); margin-top: 18px; }
+.facts > div { display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 12px; padding-block: 11px; border-bottom: 1px solid var(--hair); }
+.facts dt { color: var(--muted); padding-top: 4px; }
+.card { border: 1.5px solid var(--ink); padding: 18px; }
+.card .person { display: grid; grid-template-columns: 52px minmax(0, 1fr); gap: 14px; align-items: center; }
+.card .person b { font: 400 24px/1.05 var(--display); display: block; }
+.card .go { margin-top: 16px; display: flex; flex-wrap: wrap; gap: 10px; }
+.card p { margin-top: 12px; color: var(--ink-2); font-size: 16px; }
+
+footer { border-top: 1.5px solid var(--ink); color: var(--muted); font-size: 14px; }
 footer .wrap { padding-block: 20px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px 24px; }
 </style>
 
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <symbol id="up" viewBox="0 0 16 16"><path d="M8 2 14.5 13h-13z"/></symbol>
+  <symbol id="say" viewBox="0 0 17 15"><path d="M1 1h15v9.5H7L3.5 14v-3.5H1z"/></symbol>
+</defs></svg>
+
 <div class="mockbar"><div class="wrap">
-  <span>Three directions, sample authors and books</span>
-  <nav aria-label="Mock screens">
-    <a href="#title-page" data-view="title-page">A. Title page</a>
-    <a href="#contents" data-view="contents">B. Contents</a>
-    <a href="#plates" data-view="plates">C. Plates</a>
-    <a href="#author" data-view="author">An author's page (in A)</a>
-  </nav>
+  <span>Mockup, sample authors and books</span>
+  <nav aria-label="Mock screens"><a href="#home" data-view="home">Home</a><a href="#launch" data-view="launch">A book's launch page</a></nav>
 </div></div>
 
-<!-- ═════════════ A. Title page ═════════════ -->
-<div class="view A" id="view-title-page">
-  <div class="note"><div class="wrap"><b>A. Title page.</b> Centred like a novel's title page. Bodoni Moda over Newsreader, a swelled rule, Roman numerals for rank. Oxblood appears only on what a reader has already done.</div></div>
-  <div class="wrap">
-    <header class="mast">
-      <a class="name" href="#title-page">Author Hunt</a>
-      <nav class="sc" aria-label="Site"><a href="#title-page" aria-current="page">Today</a><a href="#title-page">Authors</a><a href="#title-page">Books</a><a href="#title-page">For you</a><a href="#title-page">Collections</a><a href="#title-page">Sign in</a><a href="#title-page">Launch your page</a></nav>
-    </header>
-    <div class="head">
-      <div class="sc">Friday, November 13, 2026</div>
-      <h1>Find your next <span class="it">favourite author.</span></h1>
-      <p>New authors and new books, launched each day and ranked by the readers and writers who cheer them on.</p>
-      <div class="swell" aria-hidden="true"></div>
-    </div>
-    <div class="col">
-      <div class="thickthin" aria-hidden="true"></div>
-      <ol>
-        <li class="row">
-          <div class="rank">I.</div><div class="cover c1">The Salt Road Almanac</div>
-          <div>
-            <h3><a href="#author">The Salt Road Almanac</a></h3>
-            <div class="by it">by Maren Okafor-Lindqvist</div>
-            <p class="tag">A mapmaker's daughter inherits an atlas that redraws itself each winter.</p>
-            <div class="meta sc"><a href="#title-page">Fantasy</a><a href="#title-page">Raleigh, N.C.</a><a href="#title-page">For readers of Ursula K. Le Guin</a></div>
-            <div class="acts"><a class="word" href="#author">Support</a><a class="word" href="#title-page">Save</a><a class="word" href="#title-page">Share</a></div>
-          </div>
-          <button class="cheer" type="button" aria-pressed="false" data-title="The Salt Road Almanac"><b>128</b><span class="sc">Cheer</span></button>
-        </li>
-        <li class="row">
-          <div class="rank">II.</div><div class="portrait c2">TB</div>
-          <div>
-            <h3><a href="#author">Tobias Brandt-Ueda</a></h3>
-            <div class="by it">an author's page, launched today</div>
-            <p class="tag">Quiet horror set in the fishing towns of the North Sea. Two novels, a third on the way.</p>
-            <div class="meta sc"><a href="#title-page">Horror</a><a href="#title-page">Aberdeen</a><a href="#title-page">Inspired by Shirley Jackson</a></div>
-            <div class="acts"><a class="word" href="#author">Support</a><a class="word" href="#title-page">Save</a><a class="word" href="#title-page">Share</a></div>
-          </div>
-          <button class="cheer" type="button" aria-pressed="true" data-title="Tobias Brandt-Ueda"><b>97</b><span class="sc">Cheered</span></button>
-        </li>
-        <li class="row">
-          <div class="rank">III.</div><div class="cover c3">Small Hours at the Fig Tree</div>
-          <div>
-            <h3><a href="#author">Small Hours at the Fig Tree</a></h3>
-            <div class="by it">by Ines Carvalho Pryce</div>
-            <p class="tag">A night-shift baker, a retired detective, and the bread that keeps going missing.</p>
-            <div class="meta sc"><a href="#title-page">Cozy mystery</a><a href="#title-page">Lisbon</a><a href="#title-page">For readers of Richard Osman</a></div>
-            <div class="acts"><a class="word" href="#author">Support</a><a class="word" href="#title-page">Save</a><a class="word" href="#title-page">Share</a></div>
-          </div>
-          <button class="cheer" type="button" aria-pressed="false" data-title="Small Hours at the Fig Tree"><b>84</b><span class="sc">Cheer</span></button>
-        </li>
-        <li class="row">
-          <div class="rank">IV.</div><div class="cover c4">Low Orbit, Late Rent</div>
-          <div>
-            <h3><a href="#author">Low Orbit, Late Rent</a></h3>
-            <div class="by it">by Dev Raghunathan</div>
-            <p class="tag">Six flatmates on a failing space station try to make the month's payment.</p>
-            <div class="meta sc"><a href="#title-page">Science fiction</a><a href="#title-page">Toronto</a><a href="#title-page">For readers of Becky Chambers</a></div>
-            <div class="acts"><a class="word" href="#author">Support</a><a class="word" href="#title-page">Save</a><a class="word" href="#title-page">Share</a></div>
-          </div>
-          <button class="cheer" type="button" aria-pressed="false" data-title="Low Orbit, Late Rent"><b>61</b><span class="sc">Cheer</span></button>
-        </li>
-      </ol>
-    </div>
-    <div class="foot3">
+<header class="bar"><div class="wrap">
+  <a class="logo" href="#home"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#up"/></svg>Author Hunt</a>
+  <label class="search"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="6.5" cy="6.5" r="5"/><path d="m10.5 10.5 4.5 4.5"/></svg><input id="q" type="search" placeholder="Authors, books, cities" aria-label="Search"></label>
+  <nav aria-label="Site"><a href="#home" data-nav>Launches</a><a href="#home">Authors</a><a href="#home">Threads</a></nav>
+  <div class="end"><a class="signin word" href="#home">Sign in</a><a class="btn solid" href="#home">Launch</a></div>
+</div></header>
+
+<!-- ═════════════ Home ═════════════ -->
+<div id="view-home">
+  <div class="letter"><div class="wrap">
+    <span><b class="hl">The Sunday letter.</b> The week's top launches, in the genres you read.</span>
+    <form class="digest"><input id="digest-email" type="email" required placeholder="you@example.com" aria-label="Email address"><button type="submit">Subscribe</button></form>
+    <span class="said" hidden>You're on the list. The first one arrives Sunday.</span>
+  </div></div>
+
+  <div class="wrap split">
+    <main>
+      <section class="sec">
+        <header><h1>Top launches <span class="it">today</span></h1><span>Friday, November 13</span></header>
+        <ol>
+          <li class="row first">
+            <div class="rank">1</div><div class="pic cover c1">The Salt Road Almanac</div>
+            <div>
+              <span class="sc"><span class="hl">Leading today</span></span>
+              <h3><a href="#launch">The Salt Road Almanac</a></h3>
+              <p class="tag">A mapmaker's daughter inherits an atlas that redraws itself each winter. <span class="it">by Maren Okafor-Lindqvist</span></p>
+              <div class="meta"><a href="#home">Fantasy</a><a href="#home">Raleigh, N.C.</a><a href="#home">For readers of Ursula K. Le Guin</a></div>
+            </div>
+            <div class="acts"><a class="count" href="#launch" aria-label="42 comments"><svg aria-hidden="true"><use href="#say"/></svg>42</a><button class="cheer" type="button" aria-pressed="false" data-title="The Salt Road Almanac"><svg aria-hidden="true"><use href="#up"/></svg><b>128</b></button></div>
+          </li>
+          <li class="row">
+            <div class="rank">2</div><div class="pic portrait c2">TB</div>
+            <div>
+              <h3><a href="#launch">Tobias Brandt-Ueda</a></h3>
+              <p class="tag">Quiet horror from the fishing towns of the North Sea. <span class="it">An author's page</span></p>
+              <div class="meta"><a href="#home">Horror</a><a href="#home">Aberdeen</a><a href="#home">Inspired by Shirley Jackson</a><span class="warn">Mature</span></div>
+            </div>
+            <div class="acts"><a class="count" href="#launch" aria-label="31 comments"><svg aria-hidden="true"><use href="#say"/></svg>31</a><button class="cheer" type="button" aria-pressed="true" data-title="Tobias Brandt-Ueda"><svg aria-hidden="true"><use href="#up"/></svg><b>97</b></button></div>
+          </li>
+          <li class="row">
+            <div class="rank">3</div><div class="pic cover c3">Small Hours at the Fig Tree</div>
+            <div>
+              <h3><a href="#launch">Small Hours at the Fig Tree</a></h3>
+              <p class="tag">A night-shift baker, a retired detective, and the missing bread. <span class="it">by Ines Carvalho Pryce</span></p>
+              <div class="meta"><a href="#home">Cozy mystery</a><a href="#home">Lisbon</a><a href="#home">For readers of Richard Osman</a></div>
+            </div>
+            <div class="acts"><a class="count" href="#launch" aria-label="18 comments"><svg aria-hidden="true"><use href="#say"/></svg>18</a><button class="cheer" type="button" aria-pressed="false" data-title="Small Hours at the Fig Tree"><svg aria-hidden="true"><use href="#up"/></svg><b>84</b></button></div>
+          </li>
+          <li class="row promo">
+            <div class="rank">Promoted</div><div class="pic cover c7">Draft Day</div>
+            <div>
+              <h3><a href="#launch">Draft Day, a writing retreat</a></h3>
+              <p class="tag">Five days in the Blue Ridge to finish the book. Twelve places. <span class="it">A sponsor</span></p>
+              <div class="meta"><span>Paid placement, not ranked</span></div>
+            </div>
+            <div class="acts"><a class="btn" href="#home">Visit</a></div>
+          </li>
+          <li class="row">
+            <div class="rank">4</div><div class="pic cover c4">Low Orbit, Late Rent</div>
+            <div>
+              <h3><a href="#launch">Low Orbit, Late Rent</a></h3>
+              <p class="tag">Six flatmates on a failing space station try to make rent. <span class="it">by Dev Raghunathan</span></p>
+              <div class="meta"><a href="#home">Science fiction</a><a href="#home">Toronto</a><a href="#home">For readers of Becky Chambers</a></div>
+            </div>
+            <div class="acts"><a class="count" href="#launch" aria-label="12 comments"><svg aria-hidden="true"><use href="#say"/></svg>12</a><button class="cheer" type="button" aria-pressed="false" data-title="Low Orbit, Late Rent"><svg aria-hidden="true"><use href="#up"/></svg><b>61</b></button></div>
+          </li>
+          <li class="row">
+            <div class="rank">5</div><div class="pic portrait c5">HA</div>
+            <div>
+              <h3><a href="#launch">Hollis Abernathy-Cruz</a></h3>
+              <p class="tag">Poems about freight trains, grandmothers and the panhandle. <span class="it">An author's page</span></p>
+              <div class="meta"><a href="#home">Poetry</a><a href="#home">Amarillo</a><a href="#home">Inspired by Mary Oliver</a></div>
+            </div>
+            <div class="acts"><a class="count" href="#launch" aria-label="9 comments"><svg aria-hidden="true"><use href="#say"/></svg>9</a><button class="cheer" type="button" aria-pressed="false" data-title="Hollis Abernathy-Cruz"><svg aria-hidden="true"><use href="#up"/></svg><b>43</b></button></div>
+          </li>
+        </ol>
+        <a class="more word" href="#home">See all 14 of today's launches</a>
+      </section>
+
+      <section class="sec">
+        <header><h2>Yesterday's top launches</h2><span>Thursday, November 12</span></header>
+        <ol>
+          <li class="row small"><div class="rank">1</div><div class="pic cover c6">What the River Kept</div><div><h3><a href="#launch">What the River Kept</a></h3><p class="tag it">Literary fiction, by Maren Okafor-Lindqvist</p></div><div class="acts"><button class="cheer" type="button" aria-pressed="false" data-title="What the River Kept"><svg aria-hidden="true"><use href="#up"/></svg><b>212</b></button></div></li>
+          <li class="row small"><div class="rank">2</div><div class="pic cover c7">A Field Guide to Leaving</div><div><h3><a href="#launch">A Field Guide to Leaving</a></h3><p class="tag it">Essays, by Priya Venkataraman-Holt</p></div><div class="acts"><button class="cheer" type="button" aria-pressed="false" data-title="A Field Guide to Leaving"><svg aria-hidden="true"><use href="#up"/></svg><b>167</b></button></div></li>
+          <li class="row small"><div class="rank">3</div><div class="pic portrait c3">CA</div><div><h3><a href="#launch">Callum Adeyemi</a></h3><p class="tag it">Thrillers, Lagos and London</p></div><div class="acts"><button class="cheer" type="button" aria-pressed="false" data-title="Callum Adeyemi"><svg aria-hidden="true"><use href="#up"/></svg><b>139</b></button></div></li>
+        </ol>
+        <a class="more word" href="#home">See all of yesterday's launches</a>
+      </section>
+    </main>
+
+    <aside class="rail">
+      <section><h2>Trending threads</h2><ul>
+        <li class="topic"><a href="#home">How long did your first novel take, honestly?</a><small>Writing life · 86 replies</small></li>
+        <li class="topic"><a href="#home">Cover reveal: which of these three would you pick up?</a><small>Covers · 54 replies</small></li>
+        <li class="topic"><a href="#home">Readers, what made you try an author you'd never heard of?</a><small>For readers · 41 replies</small></li>
+      </ul><a class="more word" href="#home">Start a thread</a></section>
+      <section><h2>Rising authors</h2><ul>
+        <li class="person"><div class="portrait c1">MO</div><div><b>Maren Okafor-Lindqvist</b><small>Fantasy · Raleigh</small></div><span class="up">↑ 486</span></li>
+        <li class="person"><div class="portrait c4">DR</div><div><b>Dev Raghunathan</b><small>Science fiction · Toronto</small></div><span class="up">↑ 351</span></li>
+        <li class="person"><div class="portrait c3">IC</div><div><b>Ines Carvalho Pryce</b><small>Cozy mystery · Lisbon</small></div><span class="up">↑ 298</span></li>
+      </ul></section>
       <section><h2>Launching soon</h2><ul>
-        <li><a href="#author">A Field Guide to Leaving</a><span class="it">Nov. 14</span></li>
-        <li><a href="#author">The Understudy's Knife</a><span class="it">Nov. 16</span></li>
-        <li><a href="#author">Tidewrack</a><span class="it">Nov. 19</span></li></ul></section>
-      <section><h2>For readers of</h2><ul>
-        <li><a href="#title-page">Ursula K. Le Guin</a><span>41</span></li>
-        <li><a href="#title-page">Shirley Jackson</a><span>33</span></li>
-        <li><a href="#title-page">Becky Chambers</a><span>27</span></li></ul></section>
-      <section><h2>The Sunday letter</h2><p>The week's best launches in the genres you read, once a week.</p>
-        <form class="digest"><input id="digest-a" type="email" required placeholder="you@example.com" aria-label="Email address"><button class="solid" type="submit">Send it to me</button></form>
-        <p class="said it" hidden>You're on the list. The first one arrives Sunday.</p></section>
-    </div>
+        <li class="soon"><time>Nov 16</time><div><a class="word" href="#launch">The Understudy's Knife</a><small>Thriller · 64 readers waiting</small></div></li>
+        <li class="soon"><time>Nov 19</time><div><a class="word" href="#launch">Tidewrack</a><small>Horror · 112 readers waiting</small></div></li>
+      </ul></section>
+      <section><h2>Browse</h2><div class="genres"><a href="#home">Fantasy</a><a href="#home">Romance</a><a href="#home">Mystery</a><a href="#home">Science fiction</a><a href="#home">Horror</a><a href="#home">Literary</a><a href="#home">Poetry</a><a href="#home">Memoir</a><a href="#home">Near me</a></div></section>
+    </aside>
   </div>
 </div>
 
-<!-- ═════════════ B. Contents ═════════════ -->
-<div class="view B" id="view-contents" hidden>
-  <div class="note"><div class="wrap"><b>B. Contents.</b> The day's board set as a table of contents: no pictures, dot leaders, and the cheer count where a page number would stand. Caslon throughout, black ink only.</div></div>
+<!-- ═════════════ A book's launch page ═════════════ -->
+<div id="view-launch" hidden>
   <div class="wrap">
-    <header class="bar">
-      <a class="name" href="#contents">Author Hunt</a>
-      <nav class="sc" aria-label="Site"><a href="#contents" aria-current="page">Today</a><a href="#contents">Authors</a><a href="#contents">Books</a><a href="#contents">For you</a><a href="#contents">Collections</a><a href="#contents">Sign in</a></nav>
-    </header>
-    <div class="head">
-      <h1>The day's <span class="it">launches</span></h1>
-      <p><span class="sc">Friday, November 13, 2026</span><br><span class="it">Five launched, three to come this week.</span></p>
-    </div>
-    <div class="split">
-      <ol>
-        <li class="entry">
-          <div class="line"><span class="rank it">I.</span><h3><a href="#author">The Salt Road Almanac</a></h3><span class="dots" aria-hidden="true"></span>
-            <button class="cheer" type="button" aria-pressed="false" data-title="The Salt Road Almanac"><svg viewBox="0 0 13 9" aria-hidden="true"><path d="M1 8.5 6.5 1 12 8.5z"/></svg><b>128</b></button></div>
-          <div class="sub"><p class="tag"><span class="it">Maren Okafor-Lindqvist.</span> A mapmaker's daughter inherits an atlas that redraws itself each winter.</p>
-            <div class="meta sc"><a href="#contents">Fantasy</a><a href="#contents">Raleigh, N.C.</a><a href="#contents">For readers of Ursula K. Le Guin</a><a href="#author">Support</a><a href="#contents">Save</a></div></div>
-        </li>
-        <li class="entry">
-          <div class="line"><span class="rank it">II.</span><h3><a href="#author">Tobias Brandt-Ueda</a></h3><span class="dots" aria-hidden="true"></span>
-            <button class="cheer" type="button" aria-pressed="true" data-title="Tobias Brandt-Ueda"><svg viewBox="0 0 13 9" aria-hidden="true"><path d="M1 8.5 6.5 1 12 8.5z"/></svg><b>97</b></button></div>
-          <div class="sub"><p class="tag"><span class="it">An author's page.</span> Quiet horror set in the fishing towns of the North Sea. Two novels, a third on the way.</p>
-            <div class="meta sc"><a href="#contents">Horror</a><a href="#contents">Aberdeen</a><a href="#contents">Inspired by Shirley Jackson</a><a href="#author">Support</a><a href="#contents">Save</a></div></div>
-        </li>
-        <li class="entry">
-          <div class="line"><span class="rank it">III.</span><h3><a href="#author">Small Hours at the Fig Tree</a></h3><span class="dots" aria-hidden="true"></span>
-            <button class="cheer" type="button" aria-pressed="false" data-title="Small Hours at the Fig Tree"><svg viewBox="0 0 13 9" aria-hidden="true"><path d="M1 8.5 6.5 1 12 8.5z"/></svg><b>84</b></button></div>
-          <div class="sub"><p class="tag"><span class="it">Ines Carvalho Pryce.</span> A night-shift baker, a retired detective, and the bread that keeps going missing.</p>
-            <div class="meta sc"><a href="#contents">Cozy mystery</a><a href="#contents">Lisbon</a><a href="#contents">For readers of Richard Osman</a><a href="#author">Support</a><a href="#contents">Save</a></div></div>
-        </li>
-        <li class="entry">
-          <div class="line"><span class="rank it">IV.</span><h3><a href="#author">Low Orbit, Late Rent</a></h3><span class="dots" aria-hidden="true"></span>
-            <button class="cheer" type="button" aria-pressed="false" data-title="Low Orbit, Late Rent"><svg viewBox="0 0 13 9" aria-hidden="true"><path d="M1 8.5 6.5 1 12 8.5z"/></svg><b>61</b></button></div>
-          <div class="sub"><p class="tag"><span class="it">Dev Raghunathan.</span> Six flatmates on a failing space station try to make the month's payment.</p>
-            <div class="meta sc"><a href="#contents">Science fiction</a><a href="#contents">Toronto</a><a href="#contents">For readers of Becky Chambers</a><a href="#author">Support</a><a href="#contents">Save</a></div></div>
-        </li>
-        <li class="entry">
-          <div class="line"><span class="rank it">V.</span><h3><a href="#author">Hollis Abernathy-Cruz</a></h3><span class="dots" aria-hidden="true"></span>
-            <button class="cheer" type="button" aria-pressed="false" data-title="Hollis Abernathy-Cruz"><svg viewBox="0 0 13 9" aria-hidden="true"><path d="M1 8.5 6.5 1 12 8.5z"/></svg><b>43</b></button></div>
-          <div class="sub"><p class="tag"><span class="it">An author's page.</span> Poems about freight trains, grandmothers and the Texas panhandle.</p>
-            <div class="meta sc"><a href="#contents">Poetry</a><a href="#contents">Amarillo</a><a href="#contents">Inspired by Mary Oliver</a><a href="#author">Support</a><a href="#contents">Save</a></div></div>
-        </li>
-      </ol>
-      <aside class="rail">
-        <section><h2>Find by</h2><ul>
-          <li><a href="#contents">Genre</a><span class="it">62</span></li>
-          <li><a href="#contents">City</a><span class="it">118</span></li>
-          <li><a href="#contents">For readers of</a><span class="it">240</span></li>
-          <li><a href="#contents">Inspired by</a><span class="it">311</span></li></ul></section>
-        <section><h2>Launching soon</h2><ul>
-          <li><a href="#author">A Field Guide to Leaving</a><span class="it">Nov. 14</span></li>
-          <li><a href="#author">The Understudy's Knife</a><span class="it">Nov. 16</span></li>
-          <li><a href="#author">Tidewrack</a><span class="it">Nov. 19</span></li></ul></section>
-        <section><h2>For authors</h2><p>Launch your page and each book you write. Thirty days free, then $5 a month.</p><p><a class="word" href="#contents">Launch your page</a></p></section>
-      </aside>
-    </div>
-  </div>
-</div>
-
-<!-- ═════════════ C. Plates ═════════════ -->
-<div class="view C" id="view-plates" hidden>
-  <div class="note"><div class="wrap"><b>C. Plates.</b> Covers lead. The day's first launch is the frontispiece in a ruled frame with a drop capital; the rest follow as numbered plates. Old Standard throughout, with Prussian blue.</div></div>
-  <div class="wrap">
-    <header class="bar">
-      <nav class="sc" aria-label="Site"><a href="#plates" aria-current="page">Today</a><a href="#plates">Authors</a><a href="#plates">Books</a><a href="#plates">For you</a></nav>
-      <a class="name" href="#plates">Author <em>Hunt</em></a>
-      <nav class="sc end" aria-label="Account"><a href="#plates">Collections</a><a href="#plates">Sign in</a><a href="#plates">Launch your page</a></nav>
-    </header>
-    <div class="dateline"><span class="sc">Friday, November 13, 2026</span><span class="it">New authors and new books, ranked each day by their readers.</span></div>
-    <section class="front">
-      <figure><div class="frame"><div class="cover c1">The Salt Road Almanac</div></div><figcaption class="it">Frontispiece. First of the day.</figcaption></figure>
+    <div class="lhead">
+      <div class="cover c1">The Salt Road Almanac</div>
       <div>
-        <div class="sc">No. I &ensp;·&ensp; A book</div>
+        <span class="sc"><span class="hl">No. 1 today</span> &ensp;Launched November 13</span>
         <h1>The Salt Road Almanac</h1>
-        <p class="by it">by Maren Okafor-Lindqvist</p>
-        <p class="lede">A mapmaker's daughter inherits an atlas that redraws itself each winter, and a debt to everyone it has ever led astray.</p>
-        <div class="meta sc"><a href="#plates">Fantasy</a><a href="#plates">Raleigh, N.C.</a><a href="#plates">For readers of Ursula K. Le Guin</a></div>
-        <div class="acts"><button class="cheer solid" type="button" aria-pressed="false" data-title="The Salt Road Almanac" data-inline>Cheer · <b>128</b></button><a class="open" href="#author">Support</a><a class="word" href="#plates">Save</a><a class="word" href="#plates">Share</a></div>
+        <p class="tag">A mapmaker's daughter inherits an atlas that redraws itself each winter.</p>
+        <div class="byline"><div class="portrait c1">MO</div><span>by <a class="word" href="#launch">Maren Okafor-Lindqvist</a> &ensp;<button class="word" type="button" id="follow" aria-pressed="false">Follow</button></span></div>
+        <div class="go"><a class="btn solid" href="#launch">Get the book</a><a class="btn" href="#launch">Support the author</a><button class="word" type="button" id="save">Save</button><button class="word" type="button">Share</button></div>
       </div>
-    </section>
-    <section class="plates" aria-label="More launched today">
-      <article class="plate"><div class="portrait c2">TB</div><div class="no sc">No. II · An author</div><h3><a href="#author">Tobias Brandt-Ueda</a></h3><div class="by it">Horror, Aberdeen</div><button class="cheer word" type="button" aria-pressed="true" data-title="Tobias Brandt-Ueda" data-inline>Cheered · <b>97</b></button></article>
-      <article class="plate"><div class="cover c3">Small Hours at the Fig Tree</div><div class="no sc">No. III · A book</div><h3><a href="#author">Small Hours at the Fig Tree</a></h3><div class="by it">by Ines Carvalho Pryce</div><button class="cheer word" type="button" aria-pressed="false" data-title="Small Hours at the Fig Tree" data-inline>Cheer · <b>84</b></button></article>
-      <article class="plate"><div class="cover c4">Low Orbit, Late Rent</div><div class="no sc">No. IV · A book</div><h3><a href="#author">Low Orbit, Late Rent</a></h3><div class="by it">by Dev Raghunathan</div><button class="cheer word" type="button" aria-pressed="false" data-title="Low Orbit, Late Rent" data-inline>Cheer · <b>61</b></button></article>
-      <article class="plate"><div class="portrait c5">HA</div><div class="no sc">No. V · An author</div><h3><a href="#author">Hollis Abernathy-Cruz</a></h3><div class="by it">Poetry, Amarillo</div><button class="cheer word" type="button" aria-pressed="false" data-title="Hollis Abernathy-Cruz" data-inline>Cheer · <b>43</b></button></article>
-    </section>
-  </div>
-</div>
-
-<!-- ═════════════ An author's page, in A ═════════════ -->
-<div class="view A P" id="view-author" hidden>
-  <div class="note"><div class="wrap"><b>An author's page, set in direction A.</b> It shows the new pieces: Support, Save to a collection, the AI declaration, and the link sticker for video. It will be reset in whichever direction you choose.</div></div>
-  <div class="wrap">
-    <header class="mast">
-      <a class="name" href="#title-page">Author Hunt</a>
-      <nav class="sc" aria-label="Site"><a href="#title-page">Today</a><a href="#title-page">Authors</a><a href="#title-page">Books</a><a href="#title-page">For you</a><a href="#title-page">Collections</a><a href="#title-page">Sign in</a></nav>
-    </header>
-    <div class="who">
-      <div class="portrait c1">MO</div>
-      <div>
-        <div class="sc">Fantasy &ensp;·&ensp; Raleigh, North Carolina</div>
-        <h1>Maren <span class="it">Okafor-Lindqvist</span></h1>
-        <p class="line it">Novels about maps, weather and inheritance.</p>
-        <div class="acts"><button class="solid" type="button" id="follow" aria-pressed="false">Follow</button><a class="open" href="#gift">Support</a><button class="word" type="button" id="save">Save to a collection</button><button class="word" type="button">Share</button></div>
-      </div>
+      <button class="bigcheer cheer-big" type="button" aria-pressed="false" data-title="The Salt Road Almanac"><svg aria-hidden="true"><use href="#up"/></svg><b>128</b><span class="sc">Cheer</span></button>
     </div>
-    <div class="thickthin" aria-hidden="true"></div>
-    <div class="body">
-      <div>
-        <p class="bio first">I trained as a cartographer and spent eight years drawing flood maps for the state before I wrote a word of fiction. My books are about people who are handed a map and told it's finished.</p>
-        <p class="bio">The Salt Road Almanac is my second novel. I'm writing the third now, a chapter a week, and posting what I learn here.</p>
-        <section class="sect"><h2>Books <span class="it">two launched</span></h2>
-          <div class="row">
-            <div class="cover c1">The Salt Road Almanac</div>
-            <div><div class="when sc">First of the day · November 13, 2026</div><h3><a href="#author">The Salt Road Almanac</a></h3><p class="tag">A mapmaker's daughter inherits an atlas that redraws itself each winter.</p>
-              <div class="meta sc"><a href="#author">Bookshop.org</a><a href="#author">Kobo</a><a href="#author">Amazon</a><a href="#author">From the author</a></div></div>
-            <button class="cheer" type="button" aria-pressed="false" data-title="The Salt Road Almanac"><b>128</b><span class="sc">Cheer</span></button>
-          </div>
-          <div class="row">
-            <div class="cover c6">What the River Kept</div>
-            <div><div class="when sc">Fourth of the day · March 2, 2026</div><h3><a href="#author">What the River Kept</a></h3><p class="tag">A surveyor returns to a drowned town to settle who owned what.</p>
-              <div class="meta sc"><a href="#author">Bookshop.org</a><a href="#author">Kobo</a><a href="#author">Amazon</a></div></div>
-            <button class="cheer" type="button" aria-pressed="true" data-title="What the River Kept"><b>212</b><span class="sc">Cheered</span></button>
-          </div>
+    <nav class="tabs" aria-label="Sections"><a href="#launch" aria-current="page">About</a><a href="#launch">Excerpt</a><a href="#launch">Comments 42</a><a href="#launch">The author</a><a href="#launch">More by Maren</a></nav>
+
+    <div class="split">
+      <main class="lbody">
+        <p class="lead">Every winter the atlas in Odile's attic changes. Roads move. A town she has visited is gone from the page, and then gone from the valley. Her mother drew it, and her mother's debts came with it.</p>
+        <p class="lead">The Salt Road Almanac is a novel about inheritance and weather, and about what a map owes the people it leads astray.</p>
+
+        <div class="notes"><b>Content notes</b><span id="notes-text" hidden>Death of a parent, drowning, and a house fire. No graphic violence.</span><button class="word" type="button" id="notes-btn" aria-expanded="false">Show</button><span class="it" style="color:var(--muted)">Shown only if you ask.</span></div>
+
+        <div class="gallery" aria-label="Pictures"><div class="c1">The cover, in full</div><div class="c6">The atlas, plate three</div><div class="c3">Map of the Salt Road</div></div>
+
+        <section class="thread">
+          <header><h2>42 comments</h2><span class="sc">Best first</span></header>
+          <div class="say"><div class="portrait c5">You</div><div><textarea id="comment" placeholder="What would you ask the author?" aria-label="Your comment"></textarea><div class="foot"><span>Be kind. Say something you'd say to their face.</span><button class="btn solid" type="button">Comment</button></div></div></div>
+
+          <div class="cm pinned"><div class="portrait c1">MO</div><div>
+            <div class="who"><b>Maren Okafor-Lindqvist</b><span class="sc">Author</span><span>pinned · 9h</span></div>
+            <p>Hello, and thank you for being here on launch day. I drew flood maps for eight years before I wrote fiction, and this book is what came of wondering who a map belongs to. Ask me anything, including about the ferry.</p>
+            <div class="do"><button class="up" type="button" aria-pressed="false"><svg aria-hidden="true"><use href="#up"/></svg><span>36</span></button><button type="button">Reply</button><button type="button">Share</button><button type="button">Report</button></div>
+          </div></div>
+
+          <div class="cm"><div class="portrait c4">DR</div><div>
+            <div class="who"><b>Dev Raghunathan</b><span class="sc">Author</span><span>6h</span></div>
+            <p>Read an early copy. The chapter where the town comes off the map is the best thing I read this year. How did you decide what the atlas was allowed to change?</p>
+            <div class="do"><button class="up" type="button" aria-pressed="true"><svg aria-hidden="true"><use href="#up"/></svg><span>21</span></button><button type="button">Reply</button><button type="button">Share</button><button type="button">Report</button></div>
+            <div class="cm reply"><div class="portrait c1">MO</div><div>
+              <div class="who"><b>Maren Okafor-Lindqvist</b><span class="sc">Author</span><span>5h</span></div>
+              <p>One rule: it can only take away what somebody has stopped looking after. That did most of the plotting for me.</p>
+              <div class="do"><button class="up" type="button" aria-pressed="false"><svg aria-hidden="true"><use href="#up"/></svg><span>14</span></button><button type="button">Reply</button><button type="button">Report</button></div>
+            </div></div>
+          </div></div>
+
+          <div class="cm"><div class="portrait c3">JB</div><div>
+            <div class="who"><b>June Bellweather</b><span>reader · 3h</span></div>
+            <p>Bought it from my local shop this morning on the strength of the Le Guin comparison. Is there a map in the print edition?</p>
+            <div class="do"><button class="up" type="button" aria-pressed="false"><svg aria-hidden="true"><use href="#up"/></svg><span>8</span></button><button type="button">Reply</button><button type="button">Share</button><button type="button">Report</button></div>
+          </div></div>
         </section>
-      </div>
-      <aside>
-        <section><h2>Particulars</h2>
-          <dl>
-            <div><dt class="sc">Genre</dt><dd><a href="#title-page">Fantasy</a>, <a href="#title-page">Literary</a></dd></div>
-            <div><dt class="sc">City</dt><dd><a href="#title-page">Raleigh, N.C.</a></dd></div>
-            <div><dt class="sc">For readers of</dt><dd><a href="#title-page">Ursula K. Le Guin</a>, <a href="#title-page">Susanna Clarke</a></dd></div>
-            <div><dt class="sc">Inspired by</dt><dd><a href="#title-page">Italo Calvino</a>, <a href="#title-page">Tove Jansson</a></dd></div>
+      </main>
+
+      <aside class="rail">
+        <section class="card">
+          <div class="person"><div class="portrait c1">MO</div><div><b>Maren Okafor-Lindqvist</b><small>Fantasy · Raleigh, N.C.</small></div></div>
+          <p>Novels about maps, weather and inheritance. 1,204 followers.</p>
+          <div class="go"><a class="btn solid" href="#launch">Follow</a><a class="btn" href="#launch">Support</a></div>
+        </section>
+        <section><h2>About this book</h2>
+          <dl class="facts">
+            <div><dt class="sc">Genre</dt><dd><a class="word" href="#home">Fantasy</a>, <a class="word" href="#home">Literary</a></dd></div>
+            <div><dt class="sc">Readers of</dt><dd><a class="word" href="#home">Ursula K. Le Guin</a>, <a class="word" href="#home">Susanna Clarke</a></dd></div>
+            <div><dt class="sc">Out</dt><dd>November 13, 2026 · 352 pages</dd></div>
             <div><dt class="sc">Written</dt><dd>Without AI, as declared by the author.</dd></div>
-            <div><dt class="sc">Elsewhere</dt><dd><a href="#author">marenwrites.example</a>, <a href="#author">Newsletter</a>, <a href="#author">Instagram</a></dd></div>
+            <div><dt class="sc">Buy</dt><dd><a class="word" href="#launch">Bookshop.org</a>, <a class="word" href="#launch">Kobo</a>, <a class="word" href="#launch">Amazon</a>, <a class="word" href="#launch">the author</a></dd></div>
           </dl>
         </section>
-        <section class="gift" id="gift"><h2>Support Maren</h2>
-          <p>A gift goes to the author. Of $5, Maren receives about $4.30 after card and platform fees.</p>
-          <div class="amounts" role="group" aria-label="Amount"><button type="button" aria-pressed="false">$3</button><button type="button" aria-pressed="true">$5</button><button type="button" aria-pressed="false">$10</button><button type="button" aria-pressed="false">Other</button></div>
-          <button class="solid" type="button">Give $5</button>
-        </section>
-        <section><h2>For your videos</h2>
-          <p>A sticker to lay over a TikTok or Reel, and a short link for your profile.</p>
-          <div class="sticker"><i>MO</i><div><b>authorhunt.com/maren</b><span class="sc">Find me on Author Hunt</span></div></div>
-          <p><a class="word" href="#author">Save the sticker</a> &ensp; <a class="word" href="#author">Copy the link</a></p>
+        <section><h2>Something wrong?</h2>
+          <ul>
+            <li><button class="word" type="button">Report this launch</button><small>Spam, stolen work, a missing content note, or AI use that wasn't declared.</small></li>
+          </ul>
         </section>
       </aside>
     </div>
   </div>
 </div>
 
-<footer><div class="wrap"><span>Author Hunt. Free for readers. Thirty days free for authors, then $5 a month or $40 a year.</span><span>Sample authors and books, for the mock only.</span></div></footer>
+<footer><div class="wrap"><span>Author Hunt. Free for readers and free to launch.</span><span>Sample authors and books, for the mock only.</span></div></footer>
 
 <script>
 (function () {
-  var names = ["title-page", "contents", "plates", "author"];
+  var names = ["home", "launch"];
   function show() {
     var name = location.hash.replace("#", "");
-    if (name === "gift") name = "author";
-    if (names.indexOf(name) < 0) name = "title-page";
+    if (names.indexOf(name) < 0) name = "home";
     names.forEach(function (n) { document.getElementById("view-" + n).hidden = n !== name; });
     document.querySelectorAll("[data-view]").forEach(function (a) {
       if (a.dataset.view === name) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current");
     });
+    var nav = document.querySelector("[data-nav]");
+    if (name === "home") nav.setAttribute("aria-current", "page"); else nav.removeAttribute("aria-current");
   }
-  window.addEventListener("hashchange", function () { show(); if (location.hash !== "#gift") window.scrollTo(0, 0); });
+  window.addEventListener("hashchange", function () { show(); window.scrollTo(0, 0); });
   show();
 
-  document.querySelectorAll(".cheer").forEach(function (b) {
-    var count = b.querySelector("b"), word = b.querySelector("span");
+  function toggle(b, count) {
+    var on = b.getAttribute("aria-pressed") !== "true";
+    b.setAttribute("aria-pressed", String(on));
+    count.textContent = String(Number(count.textContent) + (on ? 1 : -1));
+    b.classList.remove("pop"); void b.offsetWidth; if (on) b.classList.add("pop");
+    return on;
+  }
+  document.querySelectorAll(".cheer, .cheer-big").forEach(function (b) {
+    var count = b.querySelector("b"), word = b.querySelector(".sc");
     function label() { b.setAttribute("aria-label", "Cheer for " + b.dataset.title + ", " + count.textContent + " cheers"); }
     label();
-    b.addEventListener("click", function () {
-      var on = b.getAttribute("aria-pressed") !== "true";
-      b.setAttribute("aria-pressed", String(on));
-      count.textContent = String(Number(count.textContent) + (on ? 1 : -1));
-      if (word) word.textContent = on ? "Cheered" : "Cheer";
-      if (b.hasAttribute("data-inline")) b.firstChild.nodeValue = (on ? "Cheered" : "Cheer") + " · ";
-      label();
-    });
+    b.addEventListener("click", function () { var on = toggle(b, count); if (word) word.textContent = on ? "Cheered" : "Cheer"; label(); });
   });
+  document.querySelectorAll(".cm .up").forEach(function (b) { b.addEventListener("click", function () { toggle(b, b.querySelector("span")); }); });
 
   var follow = document.getElementById("follow");
-  follow.addEventListener("click", function () {
-    var on = follow.getAttribute("aria-pressed") !== "true";
-    follow.setAttribute("aria-pressed", String(on));
-    follow.textContent = on ? "Following" : "Follow";
-  });
+  follow.addEventListener("click", function () { var on = follow.getAttribute("aria-pressed") !== "true"; follow.setAttribute("aria-pressed", String(on)); follow.textContent = on ? "Following" : "Follow"; });
   var save = document.getElementById("save");
-  save.addEventListener("click", function () { save.textContent = save.textContent === "Save to a collection" ? "Saved to Fantasy to read" : "Save to a collection"; });
+  save.addEventListener("click", function () { save.textContent = save.textContent === "Save" ? "Saved" : "Save"; });
+  var nb = document.getElementById("notes-btn"), nt = document.getElementById("notes-text");
+  nb.addEventListener("click", function () { nt.hidden = !nt.hidden; nb.textContent = nt.hidden ? "Show" : "Hide"; nb.setAttribute("aria-expanded", String(!nt.hidden)); });
 
-  var amounts = document.querySelectorAll(".amounts button"), give = document.querySelector(".gift .solid");
-  amounts.forEach(function (a) { a.addEventListener("click", function () {
-    amounts.forEach(function (x) { x.setAttribute("aria-pressed", String(x === a)); });
-    give.textContent = a.textContent === "Other" ? "Choose an amount" : "Give " + a.textContent;
-  }); });
-
-  document.querySelectorAll("form.digest").forEach(function (f) { f.addEventListener("submit", function (e) {
-    e.preventDefault(); f.parentNode.querySelector(".said").hidden = false;
-  }); });
+  document.querySelector("form.digest").addEventListener("submit", function (e) { e.preventDefault(); e.target.hidden = true; document.querySelector(".letter .said").hidden = false; });
 })();
 </script>

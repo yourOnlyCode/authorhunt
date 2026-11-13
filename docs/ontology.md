@@ -96,6 +96,20 @@ Launch states: `scheduled` → `live` → `closed`. A removed launch is
 | Card | (a link's preview) | `opengraph-image` | The picture a shared link shows. |
 | Badge | Featured on Author Hunt | `/api/badge/[handle]` | A mark an author embeds on their own site, linking back. |
 
+## Community and care
+
+| Term | In the UI | In code | What it is |
+|---|---|---|---|
+| Comment | comment | `comments` | A reader's or author's words on a launch or a thread. Can be cheered, replied to, reported. |
+| Author's note | (pinned, marked Author) | `comments.pinned` | The author's own first comment on their launch. |
+| Thread | thread | `threads`, `rooms` | A discussion outside any launch. Later. |
+| Notification | (the bell) | `notifications`, `notification_prefs` | Something that happened which a person asked to hear about. |
+| Mature | Mature | `books.mature`, `authors.mature` | Not for under-18s. Blurred until confirmed. |
+| Content notes | Content notes | `books.content_notes` | Things a reader may want to know first. Shown only when asked for. Never "trigger warnings" in the UI. |
+| Standing | (told privately) | `standing` = `good`, `suspended`, `banned` | Whether an account or page may take part. |
+| Case | (not shown) | `reports`, `moderation_log` | A report under review, and the record of what was decided. |
+| Promoted | Promoted | `promotions` | A paid, unranked row for a service. Never a book or an author. Under discussion. |
+
 ## Relations
 
 ```
@@ -119,6 +133,10 @@ Pro, Premium, upgrade, shelf (replaced by collection, November 2026).
 
 ## Changes
 
+- 2026-11-13, later. Comments, the author's note, threads, notifications,
+  content notes, standing, cases and Promoted added. Membership's meaning
+  is under discussion (monetization.md): the Money table describes the
+  first plan until that settles.
 - 2026-11-13. First version. "Shelf" became "Collection" and now holds
   authors as well as books. Support, the AI declaration with bans, the
   sticker and Unclaimed pages added.

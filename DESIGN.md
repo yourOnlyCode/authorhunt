@@ -4,11 +4,34 @@
 > are the reference. When review corrects a design choice, the rule lands
 > here in the same PR, with its reason.
 
-**Status, November 2026.** The first mock borrowed too much from Lorec and
-was set aside. Three new directions are in the mock (A. Title page,
-B. Contents, C. Plates). The rules under "Settled" hold for all three. The
-section "The three directions" is replaced by the chosen one's tokens once
-the owner picks.
+**Status, November 2026.** Third round. The first mock borrowed too much
+from Lorec. The second (three Victorian directions) was too static, its
+masthead too formal, its header too crowded. The current mock keeps that
+round's rules (white page, ink, serif, square corners) and adds life. The
+section "The three directions" below is history; "The current direction"
+is what to build from, pending the owner's word.
+
+## The current direction
+
+- **Structure is Product Hunt's** (docs/product-structure.md): a numbered
+  daily list beside a rail, then a launch page with a thread.
+- **Type:** Instrument Serif for headings and the wordmark, Newsreader for
+  text. Instrument Serif is sharp and narrow without Bodoni's fashion-
+  magazine hairlines. The wordmark is its italic, in sentence case, after a
+  small red triangle: friendly, not grand.
+- **Three sources of life, and no others:**
+  1. *Covers lift.* On hover a row's cover shifts up and left onto a hard
+     black shadow and turns a degree and a half. Buttons do the same.
+  2. *The cheer is red.* A square-cornered outline at the right of every
+     row, an upward triangle over the count. Hovering nudges the triangle
+     up; cheering fills it red and it hops once.
+  3. *A reader's highlighter.* A flat yellow stroke under a few words a
+     page: the leading launch, the current place in the header, the
+     letter. Never more than two or three in view.
+- **Colour:** ink, white, red `#D9361E` (text on white uses `#B92C16`),
+  highlighter `#FFE14D`. Covers bring the rest.
+- **The header** has a mark, a search line, three places and two actions.
+- **Still refused:** radius, gradients, soft shadows, sans-serif, ornament.
 
 ## The idea
 
@@ -36,9 +59,9 @@ contrast, sharp, Victorian in its characteristics and never a costume.
 - **Lines, not boxes.** Structure comes from hairlines, a thick-thin rule,
   and space. A filled box is for the one primary button in a view. No
   shadows, no gradients, no tinted cards.
-- **The cheer is type, not a tile.** A number and the word Cheer, with a
-  rule or a small drawn triangle. Never a square card. Cheered is shown by
-  weight, a heavier rule or the accent, and the word changes to Cheered.
+- **The cheer sits at the right of a row, with an up arrow** (the owner's
+  call, November 2026, after a round where it was only type). See the
+  current direction.
 - **Light first.** Mocks and the first build are light. A dark mode can
   follow as ink and page swapped, once the light page is right.
 - **Permitted devices,** each used sparingly and only where it's true to
@@ -53,8 +76,9 @@ contrast, sharp, Victorian in its characteristics and never a costume.
 - **A portrait is a 4:5 rectangle** with a hairline border. A cover is 2:3
   with a hairline border. A book with no cover shows its title set in the
   display face.
-- **Motion:** none that isn't a response. A press may change weight or
-  colour at once. No scroll effects.
+- **Motion is a response to the reader:** hover and press only, under
+  200ms, with a reduced-motion fallback. No scroll effects, nothing that
+  moves unasked.
 
 ## The three directions
 

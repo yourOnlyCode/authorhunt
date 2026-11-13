@@ -234,6 +234,11 @@ Lorec that no competitor can copy.
   genres, new books from authors you follow, and what's coming. This is the
   main reason a reader returns, so it ships with the first version.
 
+> **Sections 6 and 6a are being reopened.** docs/monetization.md has the
+> options: launching free for good with a membership that buys tools, and
+> Support through the author's own link rather than Stripe Connect. Build
+> neither section as written until the owner decides.
+
 ## 6. Billing
 
 - **Thirty days free, no card.** `authors.trial_ends_at` is set when the
@@ -413,6 +418,10 @@ the fallback. A link shared from Author Hunt carries `?via=<platform>` so
 the author's analytics show where readers came from.
 
 ## 8. Trust and moderation
+
+Reports, standing, bans, the Mature mark and content notes are specified
+in docs/product-structure.md §5 to §7, along with comments, notifications
+and the Clerk webhook. The owner reviews reports and decides bans.
 
 Enough for launch, and no more.
 

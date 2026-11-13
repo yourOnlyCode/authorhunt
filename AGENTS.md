@@ -15,6 +15,8 @@ drift apart.
 | [DESIGN.md](DESIGN.md) | Tokens, type, components, voice. Read before building any UI. |
 | [docs/development.md](docs/development.md) | Architecture, data model, ranking, billing, SEO, build order. |
 | [docs/ontology.md](docs/ontology.md) | Every noun, state and relation, and the word people see for it. Living. |
+| [docs/product-structure.md](docs/product-structure.md) | How each part maps to Product Hunt; comments, notifications, content notes, reports, bans, the Clerk webhook. |
+| [docs/monetization.md](docs/monetization.md) | What's free, what a membership buys, Support and its fees. **Under discussion.** |
 | [docs/launch.md](docs/launch.md) | The Product Hunt launch, the cold start, and the name check. |
 | [docs/mockups/](docs/mockups/) | The approved look. Port from it; don't reinterpret it. |
 
@@ -31,6 +33,11 @@ reason; change one only when the owner says so, and change this file with it.
    never enter a score. Scores come from `lib/ranking/` only, which reads no
    billing or gift data.
    *Why:* a board that sells position is an ad page, and readers can tell.
+> Rules 1, 3 and the Billing section assume the first plan, in which
+> launching needed a membership after thirty days. That is being reopened
+> (docs/monetization.md): the likely outcome is that launching is free for
+> good and a membership buys tools. Don't build a paywall on launching.
+
 3. **A page outlives its plan.** When a trial or membership ends, the author's
    page, books and past launches stay public and indexed. What stops is new
    launches, updates and the author's analytics. *Why:* a page that vanishes
@@ -110,6 +117,8 @@ own (pass `now` in), so the tests are cheap and there is no excuse.
 - Mutations are route handlers under `app/api/`, each of which checks the
   Clerk session, then the entitlement if it's an author action
   (`requireAuthorAccess`, `lib/billing/access.ts`), then the rate limit.
+- The Clerk webhook is Author Hunt's own endpoint on Lorec's instance
+  (docs/product-structure.md §8). It makes no row on `user.created`.
 - Admin pages check `isAdminUser` (`ADMIN_EMAILS`) on the server and 404 for
   anyone else.
 

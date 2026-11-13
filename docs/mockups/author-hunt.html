@@ -1,0 +1,397 @@
+<title>Author Hunt Mockups</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=Inter:wght@400;500;600&family=Lora:ital,wght@0,500;0,600;1,500&display=swap">
+<style>
+/* Layout: the library's new-arrivals desk. One ranked column of rows beside a narrow rail;
+   paper first, night as the dark theme; forest for what you press, stamp ink for what's on record. */
+:root {
+  --ground: #F4EEE3; --ground-2: #EBE3D4; --card: #FBF8F2;
+  --ink: #1C1F25; --ink-soft: #33373F; --muted: #575E6A; --line: #DDD3C1;
+  --forest: #2F7450; --forest-shade: #1F5A3F; --forest-text: #1F5A3F; --key-ink: #F6F2EA;
+  --stamp: #3D3A8C; --error: #A6402A;
+  /* Stand-ins for uploaded cover art and portraits: the same in both themes, as a photo would be. */
+  --cv-1: #23405C; --cv-2: #6B2D3A; --cv-3: #2E4A3A; --cv-4: #4A3F6B; --cv-5: #7A5A1E; --cv-6: #2B2B33; --cv-ink: #F3EEE4;
+  --display: "Lora", Georgia, "Times New Roman", serif;
+  --body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --record: "Courier Prime", "Courier New", ui-monospace, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --ground: #0E1014; --ground-2: #14171D; --card: #171B22;
+  --ink: #EDE6DA; --ink-soft: #C9C3B8; --muted: #A3A9B3; --line: #262A32;
+  --forest: #3A8660; --forest-shade: #2F7450; --forest-text: #74B391; --key-ink: #F6F2EA;
+  --stamp: #A9A6F0; --error: #E59878; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --ground: #0E1014; --ground-2: #14171D; --card: #171B22;
+  --ink: #EDE6DA; --ink-soft: #C9C3B8; --muted: #A3A9B3; --line: #262A32;
+  --forest: #3A8660; --forest-shade: #2F7450; --forest-text: #74B391; --key-ink: #F6F2EA;
+  --stamp: #A9A6F0; --error: #E59878; color-scheme: dark }
+
+*, *::before, *::after { box-sizing: border-box; }
+body { background: var(--ground); color: var(--ink); font: 400 15px/1.5 var(--body); -webkit-font-smoothing: antialiased; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--ground); }
+h1, h2, h3, p, ul, ol, dl, dd { margin: 0; padding: 0; }
+ul, ol { list-style: none; }
+a { color: inherit; text-decoration: none; }
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--forest-text); outline-offset: 3px; border-radius: 4px; }
+.wrap { max-width: 1120px; margin-inline: auto; padding-left: max(20px, env(safe-area-inset-left, 0px)); padding-right: max(20px, env(safe-area-inset-right, 0px)); }
+.rec { font-family: var(--record); text-transform: uppercase; letter-spacing: 0.06em; font-size: 13px; }
+.word { color: var(--forest-text); font-weight: 500; background: none; border: 0; padding: 0; cursor: pointer; }
+.word:hover { text-decoration: underline; text-underline-offset: 4px; }
+.key { display: inline-flex; align-items: center; padding: 10px 18px; border: 0; border-radius: 8px; cursor: pointer; font-weight: 500; color: var(--key-ink); background: linear-gradient(180deg, var(--forest), var(--forest-shade)); box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.22); white-space: nowrap; }
+
+/* The mock's own switcher: not part of the product. */
+.mockbar { background: var(--ground-2); border-bottom: 1px solid var(--line); }
+.mockbar .wrap { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 20px; padding-block: 10px; }
+.mockbar span { color: var(--muted); font-size: 13px; }
+.mockbar nav { display: flex; gap: 18px; }
+.mockbar a { font-size: 13px; font-weight: 500; color: var(--muted); padding-block: 4px; border-bottom: 2px solid transparent; }
+.mockbar a[aria-current="page"] { color: var(--ink); border-bottom-color: var(--forest); }
+
+/* Site bar */
+.bar { border-bottom: 1px solid var(--line); }
+.bar .wrap { display: flex; align-items: center; gap: 28px; height: 60px; }
+.bar .name { font: 600 22px/1 var(--display); letter-spacing: -0.01em; white-space: nowrap; }
+.bar .name em { font-weight: 500; }
+.bar nav { display: flex; gap: 22px; color: var(--muted); }
+.bar nav a:hover, .bar nav a[aria-current] { color: var(--ink); }
+.bar .end { margin-left: auto; display: flex; align-items: center; gap: 18px; }
+@media (max-width: 760px) { .bar nav, .bar .end .word { display: none; } }
+
+/* The board's head */
+.head { padding-block: 40px 28px; display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 20px; }
+.head h1 { font: 500 clamp(32px, 5vw, 56px)/1.05 var(--display); letter-spacing: -0.02em; text-wrap: balance; max-width: 14ch; }
+.head h1 em { color: var(--forest-text); }
+.head p { margin-top: 12px; color: var(--muted); font-size: 17px; max-width: 34rem; }
+.datestamp { font: 700 15px/1 var(--record); letter-spacing: 0.1em; text-transform: uppercase; color: var(--stamp); border: 2px solid var(--stamp); border-radius: 4px; padding: 10px 14px 8px; transform: rotate(-2deg); white-space: nowrap; }
+.datestamp small { display: block; font-weight: 400; font-size: 11px; margin-bottom: 5px; }
+
+/* Filters */
+.filters { border-block: 1px solid var(--line); background: var(--ground-2); }
+.filters .wrap { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 22px; padding-block: 12px; }
+.filters .tabs { display: flex; gap: 20px; }
+.filters .tabs a { font-weight: 500; color: var(--muted); }
+.filters .tabs a[aria-current] { color: var(--ink); text-decoration: underline; text-decoration-color: var(--forest); text-decoration-thickness: 2px; text-underline-offset: 6px; }
+.filters .by { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; margin-left: auto; color: var(--muted); }
+.token { display: inline-flex; align-items: center; gap: 8px; padding: 4px 6px 4px 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--card); color: var(--ink); }
+.token button { border: 0; background: none; cursor: pointer; color: var(--muted); padding: 0 4px; font-size: 16px; line-height: 1; }
+
+/* Board and rail */
+.split { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); gap: 56px; padding-block: 8px 72px; }
+@media (max-width: 900px) { .split { grid-template-columns: minmax(0, 1fr); gap: 40px; } }
+.row { display: grid; grid-template-columns: 34px 64px minmax(0, 1fr) 56px; gap: 18px; align-items: center; padding-block: 20px; border-bottom: 1px solid var(--line); }
+.row .rank { font: 700 21px/1 var(--record); color: var(--stamp); font-variant-numeric: tabular-nums; }
+.row h3 { font: 600 21px/1.2 var(--display); letter-spacing: -0.01em; }
+.row h3 a:hover { text-decoration: underline; text-underline-offset: 4px; }
+.row .by { color: var(--muted); }
+.row .by a { color: var(--ink-soft); font-weight: 500; }
+.row .tag { margin-top: 4px; color: var(--ink-soft); }
+.row .rec { margin-top: 8px; color: var(--muted); display: flex; flex-wrap: wrap; gap: 2px 14px; }
+.row .rec a:hover { color: var(--ink); text-decoration: underline; }
+@media (max-width: 520px) { .row { grid-template-columns: 22px 48px minmax(0, 1fr) 48px; gap: 12px; } .row h3 { font-size: 18px; } .row .rank { font-size: 17px; } }
+
+.cover { aspect-ratio: 2 / 3; width: 100%; border-radius: 4px; color: var(--cv-ink); display: flex; align-items: flex-end; padding: 6px; font: 600 9px/1.15 var(--display); box-shadow: inset 3px 0 0 rgb(0 0 0 / 0.22); overflow: hidden; }
+.portrait { aspect-ratio: 1; width: 100%; border-radius: 22%; color: var(--cv-ink); display: grid; place-items: center; font: 600 20px/1 var(--display); }
+.c1 { background: var(--cv-1); } .c2 { background: var(--cv-2); } .c3 { background: var(--cv-3); } .c4 { background: var(--cv-4); } .c5 { background: var(--cv-5); } .c6 { background: var(--cv-6); }
+
+.cheer { width: 56px; height: 56px; border: 1px solid var(--line); border-radius: 8px; background: var(--card); cursor: pointer; display: grid; place-items: center; align-content: center; gap: 3px; box-shadow: 0 2px 0 var(--line); transition: transform 120ms ease-out, box-shadow 120ms ease-out; }
+.cheer::before { content: ""; width: 0; height: 0; border-inline: 6px solid transparent; border-bottom: 8px solid currentColor; }
+.cheer span { font: 700 15px/1 var(--record); font-variant-numeric: tabular-nums; }
+.cheer:active { transform: translateY(2px); box-shadow: none; }
+.cheer[aria-pressed="true"] { background: var(--forest); border-color: var(--forest); color: var(--key-ink); box-shadow: 0 2px 0 var(--forest-shade); }
+@media (max-width: 520px) { .cheer { width: 48px; height: 48px; } }
+@media (prefers-reduced-motion: reduce) { .cheer { transition: none; } .cheer:active { transform: none; } }
+
+.rail { display: grid; gap: 36px; align-content: start; }
+.rail h2 { font: 600 17px/1.3 var(--display); padding-bottom: 10px; border-bottom: 1px solid var(--line); }
+.rail li { display: flex; justify-content: space-between; gap: 12px; padding-block: 10px; border-bottom: 1px solid var(--line); }
+.rail li span { color: var(--muted); white-space: nowrap; }
+.rail li a:hover { text-decoration: underline; text-underline-offset: 4px; }
+.rail .soon li { display: grid; grid-template-columns: 62px minmax(0, 1fr); align-items: baseline; }
+.rail .soon .rec { color: var(--stamp); }
+.rail .soon small { display: block; color: var(--muted); font-size: 13px; }
+.sheet { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 20px; }
+.sheet h2 { border: 0; padding: 0; }
+.sheet p { margin-top: 6px; color: var(--muted); }
+.sheet form { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px; }
+.sheet input { flex: 1 1 150px; min-width: 0; padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--ground); color: var(--ink); font: inherit; }
+.sheet .said { margin-top: 10px; color: var(--forest-text); font-weight: 500; }
+
+/* Author page */
+.author { padding-block: 44px 72px; display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); gap: 56px; }
+@media (max-width: 900px) { .author { grid-template-columns: minmax(0, 1fr); gap: 36px; } }
+.who { display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: 24px; align-items: center; }
+.who .portrait { font-size: 38px; }
+.who h1 { font: 500 clamp(30px, 4.4vw, 44px)/1.08 var(--display); letter-spacing: -0.02em; }
+.who .line { margin-top: 8px; color: var(--muted); }
+.who .acts { margin-top: 16px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; }
+@media (max-width: 520px) { .who { grid-template-columns: 76px minmax(0, 1fr); gap: 16px; } .who .portrait { font-size: 26px; } }
+.bio { margin-top: 28px; font-size: 17px; line-height: 1.65; color: var(--ink-soft); max-width: 62ch; }
+.bio + .bio { margin-top: 14px; }
+.sect { margin-top: 44px; }
+.sect > h2 { font: 600 21px/1.3 var(--display); padding-bottom: 10px; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+.sect > h2 span { font: 400 13px/1 var(--body); color: var(--muted); }
+.row.book { grid-template-columns: 72px minmax(0, 1fr) 56px; }
+.row.book .when { color: var(--stamp); margin-top: 0; margin-bottom: 6px; }
+@media (max-width: 520px) { .row.book { grid-template-columns: 54px minmax(0, 1fr) 48px; } }
+.update { padding-block: 18px; border-bottom: 1px solid var(--line); }
+.update .rec { color: var(--muted); }
+.update p { margin-top: 6px; color: var(--ink-soft); font-size: 17px; line-height: 1.6; max-width: 62ch; }
+
+.catalogue { background: var(--card); border: 1px solid var(--line); border-radius: 10px; }
+.catalogue header { padding: 14px 18px 10px; border-bottom: 2px solid var(--stamp); display: flex; justify-content: space-between; gap: 12px; color: var(--stamp); }
+.catalogue dl { padding: 4px 18px 10px; }
+.catalogue dl > div { display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: 12px; padding-block: 10px; border-bottom: 1px solid var(--line); }
+.catalogue dl > div:last-child { border-bottom: 0; }
+.catalogue dt { color: var(--muted); }
+.catalogue dd { font-size: 14px; text-transform: none; letter-spacing: 0; font-family: var(--body); }
+.catalogue dd a { color: var(--forest-text); text-decoration: underline; text-underline-offset: 3px; }
+.links li { display: flex; justify-content: space-between; gap: 12px; padding-block: 10px; border-bottom: 1px solid var(--line); }
+.links span { color: var(--muted); font-size: 13px; }
+.momentum { display: flex; align-items: baseline; gap: 10px; }
+.momentum b { font: 700 28px/1 var(--record); color: var(--stamp); }
+.momentum span { color: var(--muted); }
+
+footer { border-top: 1px solid var(--line); color: var(--muted); font-size: 13px; }
+footer .wrap { padding-block: 22px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px; }
+</style>
+
+<div class="mockbar"><div class="wrap">
+  <span>Mockup, with sample authors and books</span>
+  <nav aria-label="Mock screens"><a href="#board" data-view="board">Today's board</a><a href="#author" data-view="author">An author's page</a></nav>
+</div></div>
+
+<header class="bar"><div class="wrap">
+  <a class="name" href="#board">Author <em>Hunt</em></a>
+  <nav aria-label="Site"><a href="#board" data-nav="board">Today</a><a href="#board">Authors</a><a href="#board">Books</a><a href="#board">For you</a></nav>
+  <div class="end"><button class="word" type="button">Sign in</button><button class="key" type="button">Launch your page</button></div>
+</div></header>
+
+<!-- ───────────── Today's board ───────────── -->
+<main id="view-board">
+  <div class="wrap head">
+    <div>
+      <h1>Find your next <em>favourite author.</em></h1>
+      <p>New authors and new books, launched each day and ranked by the readers and writers who cheer them on.</p>
+    </div>
+    <div class="datestamp" aria-label="Friday, 13 November 2026"><small>Launched</small>Nov 13 2026</div>
+  </div>
+
+  <div class="filters"><div class="wrap">
+    <div class="tabs"><a href="#board" aria-current="page">Today</a><a href="#board">This week</a><a href="#board">This month</a></div>
+    <div class="by">
+      <span class="token">Fantasy <button type="button" aria-label="Remove the Fantasy filter">×</button></span>
+      <button class="word" type="button">Genre</button>
+      <button class="word" type="button">City</button>
+      <button class="word" type="button">For readers of</button>
+      <button class="word" type="button">Inspired by</button>
+    </div>
+  </div></div>
+
+  <div class="wrap split">
+    <section aria-label="Today's launches">
+      <ol>
+        <li class="row">
+          <div class="rank">01</div>
+          <div class="cover c1">The Salt Road Almanac</div>
+          <div>
+            <h3><a href="#author">The Salt Road Almanac</a></h3>
+            <div class="by">A book by <a href="#author">Maren Okafor-Lindqvist</a></div>
+            <p class="tag">A mapmaker's daughter inherits an atlas that redraws itself each winter.</p>
+            <div class="rec"><a href="#board">Fantasy</a><a href="#board">Raleigh, NC</a><a href="#board">For readers of Ursula K. Le Guin</a></div>
+          </div>
+          <button class="cheer" type="button" aria-pressed="false" data-title="The Salt Road Almanac"><span>128</span></button>
+        </li>
+        <li class="row">
+          <div class="rank">02</div>
+          <div class="portrait c2">TB</div>
+          <div>
+            <h3><a href="#author">Tobias Brandt-Ueda</a></h3>
+            <div class="by">An author's page, launched today</div>
+            <p class="tag">Quiet horror set in the fishing towns of the North Sea. Two novels, a third on the way.</p>
+            <div class="rec"><a href="#board">Horror</a><a href="#board">Aberdeen, UK</a><a href="#board">Inspired by Shirley Jackson</a></div>
+          </div>
+          <button class="cheer" type="button" aria-pressed="true" data-title="Tobias Brandt-Ueda"><span>97</span></button>
+        </li>
+        <li class="row">
+          <div class="rank">03</div>
+          <div class="cover c3">Small Hours at the Fig Tree</div>
+          <div>
+            <h3><a href="#author">Small Hours at the Fig Tree</a></h3>
+            <div class="by">A book by <a href="#author">Ines Carvalho Pryce</a></div>
+            <p class="tag">A night-shift baker, a retired detective, and the bread that keeps going missing.</p>
+            <div class="rec"><a href="#board">Cozy mystery</a><a href="#board">Lisbon, PT</a><a href="#board">For readers of Richard Osman</a></div>
+          </div>
+          <button class="cheer" type="button" aria-pressed="false" data-title="Small Hours at the Fig Tree"><span>84</span></button>
+        </li>
+        <li class="row">
+          <div class="rank">04</div>
+          <div class="cover c4">Low Orbit, Late Rent</div>
+          <div>
+            <h3><a href="#author">Low Orbit, Late Rent</a></h3>
+            <div class="by">A book by <a href="#author">Dev Raghunathan</a></div>
+            <p class="tag">Six flatmates on a failing space station try to make the month's payment.</p>
+            <div class="rec"><a href="#board">Science fiction</a><a href="#board">Toronto, ON</a><a href="#board">For readers of Becky Chambers</a></div>
+          </div>
+          <button class="cheer" type="button" aria-pressed="false" data-title="Low Orbit, Late Rent"><span>61</span></button>
+        </li>
+        <li class="row">
+          <div class="rank">05</div>
+          <div class="portrait c5">HA</div>
+          <div>
+            <h3><a href="#author">Hollis Abernathy-Cruz</a></h3>
+            <div class="by">An author's page, launched today</div>
+            <p class="tag">Poems about freight trains, grandmothers and the Texas panhandle.</p>
+            <div class="rec"><a href="#board">Poetry</a><a href="#board">Amarillo, TX</a><a href="#board">Inspired by Mary Oliver</a></div>
+          </div>
+          <button class="cheer" type="button" aria-pressed="false" data-title="Hollis Abernathy-Cruz"><span>43</span></button>
+        </li>
+      </ol>
+    </section>
+
+    <aside class="rail">
+      <section class="sheet" aria-labelledby="digest-h">
+        <h2 id="digest-h">The week's best, on Sunday</h2>
+        <p>One email: the top launches in the genres you read, and new books from authors you follow.</p>
+        <form id="digest"><input id="digest-email" type="email" required placeholder="you@example.com" aria-label="Email address"><button class="key" type="submit">Send it to me</button></form>
+        <p class="said" id="digest-said" hidden>You're on the list. The first one arrives Sunday.</p>
+      </section>
+      <section aria-labelledby="soon-h">
+        <h2 id="soon-h">Launching soon</h2>
+        <ul class="soon">
+          <li><span class="rec">Nov 14</span><div><a href="#author">A Field Guide to Leaving</a><small>Essays · Priya Venkataraman-Holt</small></div></li>
+          <li><span class="rec">Nov 16</span><div><a href="#author">The Understudy's Knife</a><small>Thriller · Callum Adeyemi</small></div></li>
+          <li><span class="rec">Nov 19</span><div><a href="#author">Tidewrack</a><small>Horror · Tobias Brandt-Ueda</small></div></li>
+        </ul>
+      </section>
+      <section aria-labelledby="readers-h">
+        <h2 id="readers-h">For readers of</h2>
+        <ul>
+          <li><a href="#board">Ursula K. Le Guin</a><span>41 authors</span></li>
+          <li><a href="#board">Shirley Jackson</a><span>33 authors</span></li>
+          <li><a href="#board">Becky Chambers</a><span>27 authors</span></li>
+          <li><a href="#board">Octavia E. Butler</a><span>24 authors</span></li>
+        </ul>
+      </section>
+    </aside>
+  </div>
+</main>
+
+<!-- ───────────── An author's page ───────────── -->
+<main id="view-author" hidden>
+  <div class="wrap author">
+    <div>
+      <div class="who">
+        <div class="portrait c1">MO</div>
+        <div>
+          <h1>Maren Okafor-Lindqvist</h1>
+          <p class="line">Fantasy about maps, weather and inheritance. Raleigh, North Carolina.</p>
+          <div class="acts"><button class="key" type="button" id="follow" aria-pressed="false">Follow</button><span id="followers">1,204 readers follow</span><button class="word" type="button">Share</button></div>
+        </div>
+      </div>
+
+      <p class="bio">I trained as a cartographer and spent eight years drawing flood maps for the state before I wrote a word of fiction. My books are about people who are handed a map and told it's finished.</p>
+      <p class="bio">The Salt Road Almanac is my second novel. I'm writing the third now, a chapter a week, and posting what I learn here.</p>
+
+      <section class="sect" aria-labelledby="books-h">
+        <h2 id="books-h">Books <span>2 launched</span></h2>
+        <div class="row book">
+          <div class="cover c1">The Salt Road Almanac</div>
+          <div>
+            <div class="rec when">No. 1 of the day · Nov 13 2026</div>
+            <h3><a href="#author">The Salt Road Almanac</a></h3>
+            <p class="tag">A mapmaker's daughter inherits an atlas that redraws itself each winter.</p>
+            <div class="rec"><a href="#author">Bookshop.org</a><a href="#author">Kobo</a><a href="#author">Amazon</a><a href="#author">From the author</a></div>
+          </div>
+          <button class="cheer" type="button" aria-pressed="false" data-title="The Salt Road Almanac"><span>128</span></button>
+        </div>
+        <div class="row book">
+          <div class="cover c6">What the River Kept</div>
+          <div>
+            <div class="rec when">No. 4 of the day · Mar 02 2026</div>
+            <h3><a href="#author">What the River Kept</a></h3>
+            <p class="tag">A surveyor returns to a drowned town to settle who owned what.</p>
+            <div class="rec"><a href="#author">Bookshop.org</a><a href="#author">Kobo</a><a href="#author">Amazon</a></div>
+          </div>
+          <button class="cheer" type="button" aria-pressed="true" data-title="What the River Kept"><span>212</span></button>
+        </div>
+      </section>
+
+      <section class="sect" aria-labelledby="updates-h">
+        <h2 id="updates-h">Updates</h2>
+        <div class="update"><div class="rec">Nov 10 2026 · Progress</div><p>Chapter nine of the third book is done. It has a ferry in it, which I swore I'd never write again.</p></div>
+        <div class="update"><div class="rec">Nov 02 2026 · Event</div><p>Reading at Quail Ridge Books in Raleigh on the 21st, 7pm. I'll bring the original atlas drawings.</p></div>
+      </section>
+    </div>
+
+    <aside class="rail">
+      <div class="catalogue">
+        <header class="rec"><span>Author Hunt</span><span>Founding author</span></header>
+        <dl class="rec">
+          <div><dt>Genre</dt><dd><a href="#board">Fantasy</a>, <a href="#board">Literary</a></dd></div>
+          <div><dt>City</dt><dd><a href="#board">Raleigh, NC</a></dd></div>
+          <div><dt>For readers of</dt><dd><a href="#board">Ursula K. Le Guin</a>, <a href="#board">Susanna Clarke</a></dd></div>
+          <div><dt>Inspired by</dt><dd><a href="#board">Italo Calvino</a>, <a href="#board">Tove Jansson</a></dd></div>
+          <div><dt>How it's written</dt><dd>Without AI. Writing record verified by Lorec.</dd></div>
+        </dl>
+      </div>
+      <section aria-labelledby="mom-h">
+        <h2 id="mom-h">Momentum</h2>
+        <p class="momentum" style="margin-top:14px"><b>486</b><span>points this month, 3rd in Fantasy</span></p>
+      </section>
+      <section aria-labelledby="links-h">
+        <h2 id="links-h">Find her elsewhere</h2>
+        <ul class="links">
+          <li><a class="word" href="#author">marenwrites.example</a><span>Site verified</span></li>
+          <li><a class="word" href="#author">Newsletter</a><span>Substack</span></li>
+          <li><a class="word" href="#author">Instagram</a><span>@marenwrites</span></li>
+        </ul>
+      </section>
+    </aside>
+  </div>
+</main>
+
+<footer><div class="wrap"><span>Author Hunt, from the makers of Lorec. Free for readers. Thirty days free for authors, then $5 a month or $40 a year.</span><span>Sample authors and books, for the mock only.</span></div></footer>
+
+<script>
+(function () {
+  var views = { board: document.getElementById("view-board"), author: document.getElementById("view-author") };
+  function show() {
+    var name = location.hash.replace("#", "");
+    if (!views[name]) name = "board";
+    Object.keys(views).forEach(function (k) { views[k].hidden = k !== name; });
+    document.querySelectorAll("[data-view]").forEach(function (a) {
+      if (a.dataset.view === name) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current");
+    });
+    var today = document.querySelector('[data-nav="board"]');
+    if (name === "board") today.setAttribute("aria-current", "page"); else today.removeAttribute("aria-current");
+  }
+  window.addEventListener("hashchange", function () { show(); window.scrollTo(0, 0); });
+  show();
+
+  document.querySelectorAll(".cheer").forEach(function (b) {
+    var count = b.querySelector("span");
+    function label() { b.setAttribute("aria-label", "Cheer for " + b.dataset.title + ", " + count.textContent + " cheers"); }
+    label();
+    b.addEventListener("click", function () {
+      var on = b.getAttribute("aria-pressed") === "true";
+      b.setAttribute("aria-pressed", String(!on));
+      count.textContent = String(Number(count.textContent) + (on ? -1 : 1));
+      label();
+    });
+  });
+
+  var follow = document.getElementById("follow"), followers = document.getElementById("followers");
+  follow.addEventListener("click", function () {
+    var on = follow.getAttribute("aria-pressed") === "true";
+    follow.setAttribute("aria-pressed", String(!on));
+    follow.textContent = on ? "Follow" : "Following";
+    followers.textContent = (on ? "1,204" : "1,205") + " readers follow";
+  });
+
+  document.getElementById("digest").addEventListener("submit", function (e) {
+    e.preventDefault();
+    document.getElementById("digest-said").hidden = false;
+  });
+})();
+</script>

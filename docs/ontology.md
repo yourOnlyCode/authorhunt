@@ -29,7 +29,9 @@ Status marks: **built**, **planned** (designed, not built), **later**
 |---|---|---|---|
 | Author page | page | `authors`, `/author/[handle]`, short link `/[handle]` | The author's public page. Outlives the plan that made it. |
 | Handle | (in the URL) | `authors.handle` | The page's unique name in its address. Lowercase, letters, digits, hyphens. |
-| Book | book | `books`, `/book/[slug]` | One title by one author, upcoming or out. |
+| Work | a novel, a story, a serial, an issue | `works` (`kind` = `book`, `short`, `serial`, `issue`), `/work/[slug]` | One thing an author or publication launches. The UI always says the specific word, never "work". |
+| Publication | (its name) | `authors.kind = publication` | A magazine, journal or small press with a page of its own, launching issues. |
+| Platform | Published through … | `platforms`, `work_platforms` | Where a work is published: KDP, IngramSpark, Lulu, Wattpad, the author's own site, and so on. Lorec is reserved and hidden until ready. |
 | Update | update | `updates` | A short post by an author: progress, a cover, an event, an excerpt. |
 | Particulars | Particulars | columns on `authors` | The facts on a page: genre, city, for readers of, inspired by, how it's written, links. Each value links to its filter. |
 | Unclaimed page | Unclaimed | `authors.claim_state` | **Later.** A page Author Hunt made for an established author who hasn't joined. See development.md §9. |
@@ -74,8 +76,7 @@ Launch states: `scheduled` → `live` → `closed`. A removed launch is
 | Comp | (not shown) | `comps` | Access given without payment: `admin`, `founding`. | The Writers Pass comp isn't built and isn't mentioned in the app (development.md §6). |
 | Access | (not shown) | `authorAccess()` → `trial`, `member`, `comp`, `lapsed` | Whether an author can act right now. | Never read from anywhere else. |
 | Lapsed | (the author is told privately) | `authorAccess() = lapsed` | Trial or membership has ended. The page stays; launching stops. | Not shown to readers. |
-| Support | Support, Give | `gifts`, `payout_accounts` | Money a reader or another author gives an author. | Never "donation" (it isn't charity), never "tip". Never enters a score. |
-| Gift | gift | `gifts` | One payment of Support. | |
+| Support | Support | `authors.support_url` | A member's link to their own Ko-fi, PayPal or similar. Author Hunt handles no money. | Never "donation", never "tip". Never enters a score. |
 
 ## Trust
 
@@ -133,6 +134,9 @@ Pro, Premium, upgrade, shelf (replaced by collection, November 2026).
 
 ## Changes
 
+- 2026-11-13, later still. Decisions: launching is free; Membership buys
+  tools; Support is a member's outside link (gifts and payout accounts
+  removed). Book became Work with kinds; Publication and Platform added.
 - 2026-11-13, later. Comments, the author's note, threads, notifications,
   content notes, standing, cases and Promoted added. Membership's meaning
   is under discussion (monetization.md): the Money table describes the

@@ -1,11 +1,18 @@
 # Author Hunt: how it makes money
 
-**Status: under discussion, November 2026.** The first plan made the $5
-membership a condition of launching after thirty days. The owner's concern
-is that a mandatory fee gives an empty app, and that the card fees on
-Support are too high. This file sets out the options and a recommendation.
-Nothing here is decided until the owner says so; when it is, the decision
-moves into docs/development.md §6 and AGENTS.md's rules.
+**Status: decided, November 2026.** The first plan made the $5 membership
+a condition of launching after thirty days. The owner's concern was that a
+mandatory fee gives an empty app, and that card fees on Support were too
+high. The owner's decisions:
+
+1. **Launching is free, for good.**
+2. **$5 a month ($40 a year) buys tools, never position.**
+3. **Support is the author's own link** (Ko-fi, PayPal and the like), and
+   **showing it is a member tool.** Author Hunt processes no gifts.
+4. **Promoted rows wait until there's traffic.**
+
+The rest of this file is the reasoning and the options that were weighed.
+Where it says "recommended", read "chosen" for 1 to 4 above.
 
 ## 1. The membership
 
@@ -32,7 +39,7 @@ ones with no sales yet.
 | **Launch tools:** schedule far ahead, reschedule, a second pinned comment, a launch-day checklist | basic | yes |
 | **The page as a link-in-bio:** unlimited links, sections you can order, a newsletter sign-up box | 5 links | yes |
 | **Share kit:** stickers, cards and badges in every shape | one of each | yes |
-| **Support fee** (if Author Hunt processes gifts, see §2) | standard | reduced or none |
+| **A Support button** linking to the author's own Ko-fi, PayPal or similar (§2) | no | yes |
 | Rank, Momentum, placement | never | never |
 
 What decides it: nothing a reader sees first is paid for. A member gets
@@ -99,10 +106,18 @@ Notes:
 - Under any option, raising the minimum to $5 and letting the giver choose
   to cover the fee both help more than any change of processor.
 
-**Recommended:** A at launch (a "Support" button that opens the author's
-own link, with a line saying it leaves the site). B later, if authors ask
-for gifts that stay on Author Hunt, with a small application fee that
-members don't pay. C and D not at all.
+**Chosen:** A, as a member tool. A member adds one support link; their
+page and launches show a "Support" button that opens it in a new tab, with
+a line saying it leaves Author Hunt. The link is `rel="nofollow"` and is
+checked against a list of known services at first, so the button can't be
+pointed at anything. When a membership ends the button is hidden and the
+link is kept for when it resumes. B stays open for later if authors ask
+for gifts that stay on the site. C and D not at all.
+
+One thing to watch: a reader who wants to give to a free author can't.
+That is the trade the owner chose; if it costs goodwill, the cheapest fix
+is to let every author show the link and keep the button's placement on
+launch rows as the member tool.
 
 ## 3. Money that doesn't come from authors
 

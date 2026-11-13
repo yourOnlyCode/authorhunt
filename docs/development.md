@@ -205,6 +205,33 @@ streak or a finished chapter from the writing record). It ties "the more you
 create" to actual writing rather than posting, and it is a reason to use
 Lorec that no competitor can copy.
 
+### Kinds of work, and where it's published
+
+Author Hunt isn't only for novels (the owner's direction, November 2026).
+
+- **A work has a kind:** `book` (novel, non-fiction, collection, chapbook),
+  `short` (a story, poem or essay), `serial` (published in parts),
+  `issue` (one issue of a magazine or journal). The board has a tab for
+  each beside Everything and Authors. `books` becomes `works` with a
+  `kind` column, and the UI says the specific word ("a novel", "an issue").
+- **A page has a kind too:** `author` (a person or pen name) or
+  `publication` (a magazine, journal or small press). A publication's page
+  launches issues; its contributors can be linked authors. Same table,
+  same rules, one extra column. Publications can wait for the second
+  release without changing the schema.
+- **Where it's published** is a fact on a work and a filter: Amazon KDP,
+  IngramSpark, Lulu, Draft2Digital, Kobo Writing Life, Wattpad, Royal Road,
+  Substack, the author's own site, a named publisher. One row each in a
+  `platforms` table kept by admins; a work lists the ones it's on, beside
+  its buy links. Each has a page ("Launched on Wattpad"), which is also a
+  search landing page and a natural thing for those platforms' own
+  communities to link to.
+- **Lorec is on that list in reserve.** The row exists and is hidden until
+  Lorec's publishing is ready; then "Published with Lorec" becomes a
+  filter and a page like the others, with the writing record beside it.
+- Naming a platform isn't an endorsement and isn't verified at launch; a
+  false one is a report reason.
+
 ## 5. Discovery
 
 - **Directory filters** (`/authors`): genre, city, for readers of, inspired
@@ -234,10 +261,14 @@ Lorec that no competitor can copy.
   genres, new books from authors you follow, and what's coming. This is the
   main reason a reader returns, so it ships with the first version.
 
-> **Sections 6 and 6a are being reopened.** docs/monetization.md has the
-> options: launching free for good with a membership that buys tools, and
-> Support through the author's own link rather than Stripe Connect. Build
-> neither section as written until the owner decides.
+> **Sections 6 and 6a are superseded** (the owner's decisions, November
+> 2026; docs/monetization.md). Launching is free for good. The membership
+> buys tools. Support is a member's own outside link: there is no Stripe
+> Connect, no `gifts` or `payout_accounts` table, and "lapsed" means only
+> that the member tools are off. What still holds from §6: the price, the
+> thirty-day trial with no card (now a trial of the tools), sharing Lorec's
+> Stripe account safely, and the Writers Pass to-do. Read the rest of 6
+> and 6a as history.
 
 ## 6. Billing
 

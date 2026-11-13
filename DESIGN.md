@@ -31,7 +31,28 @@ is what to build from, pending the owner's word.
 - **Colour:** ink, white, red `#D9361E` (text on white uses `#B92C16`),
   highlighter `#FFE14D`. Covers bring the rest.
 - **The header** has a mark, a search line, three places and two actions.
-- **Still refused:** radius, gradients, soft shadows, sans-serif, ornament.
+- **The mark is a bird,** a thrush drawn in one red line, before the
+  wordmark. *Why:* the owner asked for an animal's contour in place of the
+  up arrow (November 2026). Not a cat: that's Product Hunt's. The thrush is
+  the bird in William Morris's Strawberry Thief, a hunter of sorts, and
+  it sits with the ornament below. The up arrow belongs to the cheer only.
+- **Ornament, in small doses:** William Morris's *Marigold* (1875), from
+  the Art Institute of Chicago's open-access collection (artwork 39143,
+  public domain), cut to one colour, the brand red
+  (`docs/mockups/assets/marigold.webp`). It appears as a backdrop at about
+  an eighth of its strength behind small sections (the Sunday letter band,
+  the author card) and at full strength as a 16px trim above the footer.
+  Never behind running text at more than that, never on the board itself,
+  never animated. The footer credits it. *Why:* the owner liked the floral
+  wallpaper on pass.lorec.io; the pass uses Morris's Snakeshead in full
+  colour, so Author Hunt takes a different design in a single colour.
+- **Tags on a row are in fixed places:** line one is the genre in small
+  capitals, then the place after a small diamond; line two is "For readers
+  of" or "Inspired by" in italic. Mature is a small red-outlined label
+  beside the title, not among the tags. Kinds of work are tabs above the
+  list. *Why:* the owner found the first run of bulleted tags untidy.
+- **Still refused:** radius, gradients, soft shadows, sans-serif, and any
+  ornament but the one above.
 
 ## The idea
 

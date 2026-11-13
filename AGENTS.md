@@ -16,7 +16,7 @@ drift apart.
 | [docs/development.md](docs/development.md) | Architecture, data model, ranking, billing, SEO, build order. |
 | [docs/ontology.md](docs/ontology.md) | Every noun, state and relation, and the word people see for it. Living. |
 | [docs/product-structure.md](docs/product-structure.md) | How each part maps to Product Hunt; comments, notifications, content notes, reports, bans, the Clerk webhook. |
-| [docs/monetization.md](docs/monetization.md) | What's free, what a membership buys, Support and its fees. **Under discussion.** |
+| [docs/monetization.md](docs/monetization.md) | What's free, what a membership buys, Support, promoted rows. Decided November 2026. |
 | [docs/launch.md](docs/launch.md) | The Product Hunt launch, the cold start, and the name check. |
 | [docs/mockups/](docs/mockups/) | The approved look. Port from it; don't reinterpret it. |
 
@@ -33,15 +33,13 @@ reason; change one only when the owner says so, and change this file with it.
    never enter a score. Scores come from `lib/ranking/` only, which reads no
    billing or gift data.
    *Why:* a board that sells position is an ad page, and readers can tell.
-> Rules 1, 3 and the Billing section assume the first plan, in which
-> launching needed a membership after thirty days. That is being reopened
-> (docs/monetization.md): the likely outcome is that launching is free for
-> good and a membership buys tools. Don't build a paywall on launching.
-
-3. **A page outlives its plan.** When a trial or membership ends, the author's
-   page, books and past launches stay public and indexed. What stops is new
-   launches, updates and the author's analytics. *Why:* a page that vanishes
-   breaks every link pointing at it, the author's and ours.
+3. **Launching is free, for good. A membership buys tools, never position.**
+   Making a page, launching it and launching every work costs nothing and
+   needs no plan. $5 a month adds tools around a launch (emailing followers,
+   the coming-soon list, full analytics, the Support button, the full share
+   kit: docs/monetization.md). When a membership ends those tools switch
+   off and nothing public disappears. *Why:* the owner's call, November
+   2026: a fee at the door gives an empty board.
 4. **Followed links are earned, not sold.** See "Outbound links" in
    docs/development.md. Never make `rel` depend on plan. *Why:* selling
    followed links is a link scheme under Google's spam policies and would
@@ -115,8 +113,8 @@ own (pass `now` in), so the tests are cheap and there is no excuse.
   `generateMetadata` (title, description, canonical, Open Graph) and its
   JSON-LD. A public page with no canonical URL fails review.
 - Mutations are route handlers under `app/api/`, each of which checks the
-  Clerk session, then the entitlement if it's an author action
-  (`requireAuthorAccess`, `lib/billing/access.ts`), then the rate limit.
+  Clerk session, then the entitlement if it's a member tool
+  (`requireMember`, `lib/billing/access.ts`), then the rate limit.
 - The Clerk webhook is Author Hunt's own endpoint on Lorec's instance
   (docs/product-structure.md §8). It makes no row on `user.created`.
 - Admin pages check `isAdminUser` (`ADMIN_EMAILS`) on the server and 404 for
@@ -133,11 +131,12 @@ own (pass `now` in), so the tests are cheap and there is no excuse.
 - Author Hunt signs in through **Lorec's Clerk instance**. Never change a
   Clerk setting, a sign-in page or user metadata that Lorec reads; Author
   Hunt's own metadata lives under an `authorhunt` key.
-- Gifts go through Stripe Connect as destination charges. No gift code
-  imports from `lib/ranking/`, and nothing in `lib/ranking/` imports gifts.
-- Whether an author can act is one function: `authorAccess(author, now)` in
-  `lib/billing/access.ts`. Nothing else reads `trial_ends_at`, the
-  subscription or the comp.
+- **Author Hunt processes no gifts.** Support is a member's own outside
+  link (Ko-fi, PayPal and the like), opened in a new tab. No Stripe Connect.
+- Whether an author has the member tools is one function:
+  `authorAccess(author, now)` in `lib/billing/access.ts`. It gates tools
+  only. Nothing may call it to decide whether someone can make a page,
+  launch, comment or appear on a board.
 
 ## Writing code here
 
@@ -169,7 +168,7 @@ lane first, and later through a small PR of its own.
 | Email | `lib/emails/`, `app/api/cron/digest/` | schema |
 | Uploads | `lib/images/`, `app/api/uploads/` | Foundation |
 | Share | `app/[handle]/`, `app/api/sticker/`, `app/api/badge/`, Open Graph images | Pages |
-| Support | `lib/gifts/`, `app/api/gifts/`, Connect onboarding in Studio | Billing |
+| Support | the support-link field in Studio and its button (`components/author/support-link.tsx`) | Billing |
 | Trust | `lib/trust/` (declaration, reports, standing), the admin queue | schema |
 
 A lane's session reads this file, DESIGN.md and its section of

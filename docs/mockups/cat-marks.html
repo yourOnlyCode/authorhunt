@@ -1,0 +1,118 @@
+<title>Author Hunt Cat Marks</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Averia+Serif+Libre:ital,wght@0,300;1,300&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&display=swap">
+<style>
+/* Layout: a specimen sheet. Each mark is shown large, at three small sizes, beside the wordmark, and reversed.
+   Light only, by choice, to match the product mock. */
+:root {
+  color-scheme: light;
+  --page: #FFFFFF; --ink: #111111; --ink-2: #333333; --muted: #5C5C5C; --hair: #D4D4D4; --tint: #F5F4F0;
+  --red: #D9361E; --red-text: #B92C16;
+  --display: "Averia Serif Libre", "Iowan Old Style", Georgia, serif;
+  --text: "Cormorant Garamond", Garamond, Georgia, serif;
+}
+*, *::before, *::after { box-sizing: border-box; border-radius: 0; }
+body { background: var(--page); color: var(--ink); font: 500 20px/1.45 var(--text); -webkit-font-smoothing: antialiased; }
+h1, h2, p { margin: 0; }
+.wrap { max-width: 1120px; margin-inline: auto; padding-left: max(20px, env(safe-area-inset-left, 0px)); padding-right: max(20px, env(safe-area-inset-right, 0px)); padding-block: 40px 64px; }
+header h1 { font: 300 clamp(36px, 6vw, 56px)/1.02 var(--display); }
+header p { margin-top: 10px; max-width: 44rem; color: var(--ink-2); }
+.sheet { margin-top: 36px; display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 28px; }
+.card { border: 1.5px solid var(--ink); display: grid; }
+.card .big { display: grid; place-items: center; padding: 28px; border-bottom: 1px solid var(--hair); }
+.card .big svg { width: 168px; height: 168px; }
+.card .row { display: grid; border-bottom: 1px solid var(--hair); }
+.card .lock { display: flex; align-items: center; gap: 10px; padding: 14px 18px; font: italic 300 28px/1 var(--display); white-space: nowrap; }
+.card .lock svg { width: 40px; height: 40px; flex: none; }
+.card .sizes { display: flex; align-items: center; gap: 18px; padding: 14px 18px; border-top: 1px solid var(--hair); }
+.card .inv { background: var(--ink); display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 18px; color: var(--page); font: italic 300 24px/1 var(--display); }
+.card .inv svg { width: 44px; height: 44px; }
+.card .say { padding: 16px 18px 18px; }
+.card h2 { font: 600 17px/1.2 var(--text); letter-spacing: 0.08em; text-transform: uppercase; }
+.card .say p { margin-top: 6px; font-size: 18px; color: var(--ink-2); }
+svg.m { color: var(--red); --k: var(--page); fill: none; stroke: currentColor; stroke-width: 3; stroke-linejoin: miter; stroke-linecap: square; overflow: visible; }
+.inv svg.m { color: var(--page); --k: var(--ink); }
+svg.m.s16 { width: 16px; height: 16px; stroke-width: 7; } svg.m.s32 { width: 32px; height: 32px; stroke-width: 4.5; } svg.m.s64 { width: 64px; height: 64px; }
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <!-- A. Line: the mark in the mock now -->
+  <symbol id="a" viewBox="0 0 120 120">
+    <path d="M24 14 44 36q16-5 32 0L96 14l2 48q-2 36-38 40-36-4-38-40z"/>
+    <circle cx="43" cy="62" r="13"/><circle cx="77" cy="62" r="13"/>
+    <path d="M56 60q4-3 8 0M30 60l-8-3M90 60l8-3M28 82 8 78M29 88 10 93M92 82l20-4M91 88l19 5"/>
+    <path fill="currentColor" stroke="none" d="M55 79h10l-5 6z"/>
+  </symbol>
+  <!-- B. Tabby: eyes, stripes, ears, mouth -->
+  <symbol id="b" viewBox="0 0 120 120">
+    <path d="M24 14 44 36q16-5 32 0L96 14l2 48q-2 36-38 40-36-4-38-40z"/>
+    <path stroke-width="2" d="M31 26l3 15M89 26l-3 15M60 35v11M52 36l2 9M68 36l-2 9M22 70l-9 3 10 4M98 70l9 3-10 4"/>
+    <circle cx="43" cy="62" r="13"/><circle cx="77" cy="62" r="13"/>
+    <path d="M56 60q4-3 8 0M30 60l-8-3M90 60l8-3"/>
+    <path stroke-width="2" d="M35 62q8-8 16 0-8 8-16 0zM69 62q8-8 16 0-8 8-16 0z"/>
+    <path fill="currentColor" stroke="none" d="M41.500 57h3v10h-3zM75.500 57h3v10h-3zM55 79h10l-5 6z"/>
+    <path stroke-width="2" d="M60 85v4q-5 5-10 1M60 89q5 5 10 1M30 84 9 80M30 89 10 95M90 84l21-4M90 89l20 6"/>
+  </symbol>
+  <!-- C. Pince-nez: a Victorian reader, lids half down, a chain -->
+  <symbol id="c" viewBox="0 0 120 120">
+    <path d="M24 14 44 36q16-5 32 0L96 14l2 48q-2 36-38 40-36-4-38-40z"/>
+    <path stroke-width="2" d="M31 26l3 15M89 26l-3 15"/>
+    <ellipse cx="45" cy="63" rx="11" ry="9"/><ellipse cx="75" cy="63" rx="11" ry="9"/>
+    <path d="M55 59q5-9 10 0"/>
+    <path stroke-width="2" d="M86 65q14 10 8 44M38 64q7-5 14 0M68 64q7-5 14 0"/>
+    <path fill="currentColor" stroke="none" d="M55 79h10l-5 6z"/>
+    <path stroke-width="2" d="M60 85v4q-5 5-10 1M60 89q5 5 10 1M30 84 9 80M30 89 10 95M88 86l22-3"/>
+  </symbol>
+  <!-- D. Over the book -->
+  <symbol id="d" viewBox="0 0 120 120">
+    <path d="M26 8 45 29q15-5 30 0L94 8l2 44q-1 14-8 22H32q-7-8-8-22z"/>
+    <circle cx="44" cy="52" r="12"/><circle cx="76" cy="52" r="12"/>
+    <path d="M56 50q4-3 8 0M32 50l-8-3M88 50l8-3"/>
+    <path fill="currentColor" stroke="none" d="M56 67h8l-4 5z"/><circle fill="currentColor" stroke="none" cx="44" cy="55" r="3.500"/><circle fill="currentColor" stroke="none" cx="76" cy="55" r="3.500"/>
+    <path d="M8 80q26-12 52 0 26-12 52 0v30q-26-12-52 0-26-12-52 0zM60 80v30"/>
+    <path stroke-width="2" d="M18 88q17-6 32-1M18 96q17-6 32-1M70 87q15-5 32 1M70 95q15-5 32 1"/>
+  </symbol>
+  <!-- E. Stamp: solid, for small sizes -->
+  <symbol id="e" viewBox="0 0 120 120">
+    <path fill="currentColor" stroke="none" d="M24 14 44 36q16-5 32 0L96 14l2 48q-2 36-38 40-36-4-38-40z"/>
+    <circle style="fill:var(--k);stroke:none" cx="43" cy="62" r="14"/><circle style="fill:var(--k);stroke:none" cx="77" cy="62" r="14"/>
+    <path style="fill:var(--k);stroke:none" d="M55 58h10v5H55zM55 80h10l-5 6z"/>
+    <circle fill="currentColor" stroke="none" cx="43" cy="62" r="5"/><circle fill="currentColor" stroke="none" cx="77" cy="62" r="5"/>
+    <path d="M18 82 4 79M18 89 5 94M102 82l14-3M102 89l13 5"/>
+  </symbol>
+  <!-- F. Angular: straight lines and square frames, to sit with the square corners -->
+  <symbol id="f" viewBox="0 0 120 120">
+    <path d="M22 12 44 34h32l22-22v54l-38 38-38-38z"/>
+    <path d="M30 50h26v22H30zM64 50h26v22H64zM56 60h8M30 58l-8-4M90 58l8-4"/>
+    <path fill="currentColor" stroke="none" d="M40 57h6v8h-6zM74 57h6v8h-6zM55 80h10l-5 7z"/>
+    <path d="M26 84 6 82M28 91 10 98M94 84l20-2M92 91l18 7"/>
+  </symbol>
+</defs></svg>
+
+<div class="wrap">
+  <header>
+    <h1>Six cats in glasses</h1>
+    <p>Each is shown large, at 64, 32 and 16 pixels, beside the wordmark, and reversed on black. The small sizes matter most: the mark lives in a browser tab and a header.</p>
+  </header>
+  <div class="sheet" id="sheet"></div>
+</div>
+
+<script>
+(function () {
+  var marks = [
+    ["a", "A. Line", "The one in the mock now. A plain contour, round frames, four whiskers."],
+    ["b", "B. Tabby", "More drawing: eyes with slit pupils, forehead stripes, ear and cheek fur, a mouth."],
+    ["c", "C. Pince-nez", "Oval lenses with no arms, a spring bridge and a chain. Lids half down. The most Victorian."],
+    ["d", "D. Over the book", "The cat looks up over an open book. Says reading without a word."],
+    ["e", "E. Stamp", "Solid red with the lenses cut out. The strongest at 16 pixels."],
+    ["f", "F. Angular", "Straight lines and square frames, to sit with the site's square corners."]
+  ];
+  function svg(id, cls) { return '<svg class="m ' + (cls || "") + '" viewBox="0 0 120 120" aria-hidden="true"><use href="#' + id + '"/></svg>'; }
+  document.getElementById("sheet").innerHTML = marks.map(function (m) {
+    return '<section class="card"><div class="big">' + svg(m[0]) + '</div>' +
+      '<div class="row"><div class="lock">' + svg(m[0]) + 'Author Hunt</div><div class="sizes">' + svg(m[0], "s64") + svg(m[0], "s32") + svg(m[0], "s16") + '</div></div>' +
+      '<div class="inv"><span>Author Hunt</span>' + svg(m[0]) + '</div>' +
+      '<div class="say"><h2>' + m[1] + '</h2><p>' + m[2] + '</p></div></section>';
+  }).join("");
+})();
+</script>

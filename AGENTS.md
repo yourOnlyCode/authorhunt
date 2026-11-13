@@ -3,8 +3,9 @@
 Author Hunt is a daily launch board for authors and their books, and a place
 readers come to find their next favourite author. Authors launch a page, then
 launch each book like a product. The community cheers, comments and follows,
-and each day has a ranking. It is a web app only, built on the same stack as
-Lorec (github.com/yourOnlyCode/lorec) and sold through Lorec's Stripe account.
+and each day has a ranking. It lives at authorhunt.com, is a web app only,
+and is built on the same stack as Lorec (github.com/yourOnlyCode/lorec),
+with Lorec's sign-in and Lorec's Stripe account. It does not look like Lorec.
 
 This file is the entry point. `CLAUDE.md` only imports it, so the two can't
 drift apart.
@@ -13,20 +14,22 @@ drift apart.
 |---|---|
 | [DESIGN.md](DESIGN.md) | Tokens, type, components, voice. Read before building any UI. |
 | [docs/development.md](docs/development.md) | Architecture, data model, ranking, billing, SEO, build order. |
-| [docs/launch.md](docs/launch.md) | The Product Hunt launch and the cold-start plan. |
+| [docs/ontology.md](docs/ontology.md) | Every noun, state and relation, and the word people see for it. Living. |
+| [docs/launch.md](docs/launch.md) | The Product Hunt launch, the cold start, and the name check. |
 | [docs/mockups/](docs/mockups/) | The approved look. Port from it; don't reinterpret it. |
 
-## The product in six rules
+## The product in eight rules
 
 These are the decisions most likely to be undone by accident. Each has its
 reason; change one only when the owner says so, and change this file with it.
 
 1. **Readers never pay and never hit a wall.** Every author page, book page,
    daily board and filter is public and server-rendered. An account is asked
-   for at the action (cheer, follow, comment, shelve), never at the door.
+   for at the action (cheer, follow, save, give), never at the door.
    *Why:* the site is worth something to authors only if readers are here.
-2. **Rank can't be bought.** Plan, trial and comp status never enter a score.
-   Scores come from `lib/ranking/` only, which reads no billing data.
+2. **Rank can't be bought.** Plan, trial, comp status and Support (gifts)
+   never enter a score. Scores come from `lib/ranking/` only, which reads no
+   billing or gift data.
    *Why:* a board that sells position is an ad page, and readers can tell.
 3. **A page outlives its plan.** When a trial or membership ends, the author's
    page, books and past launches stay public and indexed. What stops is new
@@ -41,17 +44,33 @@ reason; change one only when the owner says so, and change this file with it.
 6. **The day is a date in `America/New_York`.** `launchDay()` in
    `lib/ranking/day.ts` is the only place that turns a time into a day.
    Never call `new Date().toDateString()` for it.
+7. **How a work was written is declared, and a false declaration is a ban.**
+   No page or book goes public without its AI declaration. A ban is a
+   person's decision on evidence, logged, never an AI detector's score.
+   *Why:* the owner's rule; and a detector that's wrong about one honest
+   author costs more trust than it buys.
+8. **The Writers Pass isn't mentioned in this app** until it opens. The
+   comp is a to-do recorded in docs/development.md, not a feature.
 
 ## Stack
 
 Next.js 16 (App Router, on Vercel `iad1`), React 19, TypeScript, Tailwind 3,
-Clerk, Drizzle on Supabase Postgres (`us-east-1`), Stripe, Resend, Upstash
+Clerk (Lorec's instance, as a satellite domain), Drizzle on Supabase Postgres (`us-east-1`), Stripe, Resend, Upstash
 rate limiting, Vitest. No Tauri, no static export: this app can use server
 components, ISR and route handlers freely, which Lorec's desktop build can't.
 
 Next 16 differs from older versions (the request interceptor is `proxy.ts`,
 not `middleware.ts`, and it runs on Node). Read the guide in
 `node_modules/next/dist/docs/` before writing routing or caching code.
+
+## The ontology
+
+[docs/ontology.md](docs/ontology.md) is the list of what exists here and
+what it's called: in the UI, and in code. Read it before naming a table, a
+type, a route or a button. **A PR that adds or renames a table, an enum
+value, a state or a word people read changes that file in the same PR**,
+and adds a line under its "Changes". If the code and the ontology disagree,
+one of them has a bug.
 
 ## Checks before you push
 
@@ -102,6 +121,11 @@ own (pass `now` in), so the tests are cheap and there is no excuse.
   doesn't. It has its own webhook endpoint and signing secret.
 - Never reuse a Lorec Stripe customer. An Author Hunt customer is created
   for the Author Hunt account, so Lorec's webhook never finds a user for it.
+- Author Hunt signs in through **Lorec's Clerk instance**. Never change a
+  Clerk setting, a sign-in page or user metadata that Lorec reads; Author
+  Hunt's own metadata lives under an `authorhunt` key.
+- Gifts go through Stripe Connect as destination charges. No gift code
+  imports from `lib/ranking/`, and nothing in `lib/ranking/` imports gifts.
 - Whether an author can act is one function: `authorAccess(author, now)` in
   `lib/billing/access.ts`. Nothing else reads `trial_ends_at`, the
   subscription or the comp.
@@ -111,9 +135,8 @@ own (pass `now` in), so the tests are cheap and there is no excuse.
 - Comments explain why, in plain sentences, at the top of a file or above a
   non-obvious block.
 - Copy follows DESIGN.md's voice: calm, plain, no exclamation marks, no
-  growth-speak. The product's words are Launch, Cheer, Follow, Shelf,
-  Momentum. Don't coin others, and never say "upvote" or "hunt" as a verb
-  in the UI.
+  growth-speak. The product's words are in docs/ontology.md, with the ones
+  we don't use. Don't coin others.
 - Keep a change to what it's for. Spotted something else? Note it in the PR.
 - When review corrects a design or product choice, the rule lands in
   DESIGN.md or here in the same PR, with a one-line reason.
@@ -135,6 +158,10 @@ lane first, and later through a small PR of its own.
 | Studio | `app/(app)/studio/` (the author's side: edit page, launch, updates) | Foundation |
 | Billing | `lib/billing/`, `app/api/stripe/`, `app/(public)/pricing/` | schema |
 | Email | `lib/emails/`, `app/api/cron/digest/` | schema |
+| Uploads | `lib/images/`, `app/api/uploads/` | Foundation |
+| Share | `app/[handle]/`, `app/api/sticker/`, `app/api/badge/`, Open Graph images | Pages |
+| Support | `lib/gifts/`, `app/api/gifts/`, Connect onboarding in Studio | Billing |
+| Trust | `lib/trust/` (declaration, reports, standing), the admin queue | schema |
 
 A lane's session reads this file, DESIGN.md and its section of
 docs/development.md, builds against the seeded database (`npm run db:seed`),

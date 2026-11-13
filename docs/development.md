@@ -11,10 +11,14 @@ A daily launch board for authors and books.
   and how the community responds earns Momentum, which decides where they
   sit in the feeds.
 - **Readers** browse today's launches, filter the directory (genre, city,
-  "for readers of", "inspired by"), follow authors, keep a shelf, and get a
-  feed and a weekly email shaped by who they follow and cheer.
-- **Lorec** gets a front door: Author Hunt is free with the Writers Pass,
-  shows which books were written in Lorec, and sends authors to both.
+  "for readers of", "inspired by"), follow authors, save them to
+  collections, support them with a gift, and get a feed and a weekly email
+  shaped by who they follow and cheer.
+- **Lorec** runs it and takes the payments, and the two share a sign-in.
+  Author Hunt has its own name, domain (authorhunt.com) and look.
+
+The words for all of this are in [ontology.md](ontology.md). Read it before
+naming anything.
 
 ## 2. Architecture
 
@@ -25,7 +29,7 @@ The same stack as Lorec, minus everything the desktop app forced on it.
 | Framework | Next.js 16 App Router, React 19 | Server components and ISR for every public page. |
 | Hosting | Vercel, functions in `iad1` | Same region as the database. |
 | Database | Supabase Postgres, `us-east-1`, **its own project** | Drizzle schema, SQL migrations. |
-| Auth | Clerk | See "Accounts" below. |
+| Auth | Clerk, **Lorec's instance**, as a satellite domain | See "Accounts" below. |
 | Payments | Stripe, **Lorec's account**, own product and webhook | See "Billing". |
 | Email | Resend, React Email | Launch-day mail and the weekly digest. |
 | Rate limits | Upstash | Cheers, comments, sign-ups, public reads. |
@@ -44,12 +48,14 @@ app/
     genre/[slug]/  city/[slug]/  for-readers-of/[slug]/  inspired-by/[slug]/
     pricing/
   (app)/               signed in
-    for-you/  shelf/  studio/ (the author's side)
+    for-you/  collections/  studio/ (the author's side)
   api/
-    cheers/ follows/ comments/ launches/ updates/ shelf/
+    cheers/ follows/ comments/ launches/ updates/ collections/ gifts/ uploads/
     stripe/checkout/ stripe/portal/ stripe/webhook/
     cron/momentum/ cron/close-day/ cron/digest/
     badge/[handle]/    the embeddable badge (SVG)
+    sticker/[handle]/  the picture for video (PNG)
+  [handle]/            the short link, redirects to the author's page
   sitemap.ts  robots.ts
 lib/
   db/schema/  ranking/  billing/  discover/  seo/  emails/  auth/
@@ -59,22 +65,32 @@ components/
 
 ### Accounts
 
-One account type. Anyone can cheer, follow and comment; an account becomes
-an author when it creates a page. A person can be both.
+One account type. Anyone can cheer, follow, save and give; an account
+becomes an author when it creates a page. A person can be both.
 
-**Open: one Clerk instance with Lorec, or two.** Default for the first
-build: a separate Clerk application, with accounts matched to Lorec by
-verified email where the two need to meet (the Writers Pass comp, "written
-in Lorec"). It is the option that can't break Lorec's sign-in, and it takes
-no configuration on Lorec's side. Sharing Lorec's instance would give one
-sign-in across both, and is cheap if Author Hunt lives on a lorec.io
-subdomain; on its own domain it needs Clerk's satellite-domain setup, whose
-plan requirements should be checked before committing. Moving later means
-migrating users, so decide before the public launch, not after.
+**Sign-in is Lorec's Clerk instance** (the owner's call, November 2026), so
+one account works on both. authorhunt.com is a different domain from
+lorec.io, which makes it a Clerk *satellite domain*: lorec.io stays the
+primary, holds the session, and authorhunt.com reads it.
 
-**Open: the domain.** Default: its own domain. A launch on Product Hunt and
-a brand readers remember both want one, and the site needs to earn its own
-search authority either way.
+- Clerk's pricing page lists satellite domains on the Pro plan at $10 a
+  month each (checked November 2026; confirm on clerk.com/pricing).
+- Setup: add the satellite in Clerk's dashboard, add the `clerk` CNAME on
+  authorhunt.com, and set `isSatellite`, the domain and the primary's
+  sign-in URL in Author Hunt's Clerk config. Sign-in happens on the primary
+  and returns, so Lorec's sign-in pages need Author Hunt's URLs in their
+  allowed redirects, and should say where the visitor is headed.
+- **Sharing an instance means sharing its settings and its users.** Author
+  Hunt never edits Clerk metadata Lorec reads (the plan, the ambassador
+  code), and keeps its own under an `authorhunt` key. A reader who signs up
+  on Author Hunt becomes a Clerk user Lorec's webhook also hears about:
+  check that Lorec's `user.created` handler is content to make a free Lorec
+  row for them, or skips sign-ups that came from Author Hunt.
+- Author Hunt still has its own database. Its `users.id` is the Clerk id,
+  so a Lorec account and an Author Hunt account are the same person by
+  construction, with no matching by email.
+
+The domain is **authorhunt.com**.
 
 ## 3. Data model
 
@@ -82,11 +98,14 @@ search authority either way.
 users             id (Clerk), email, display_name, created_at
 authors           id, user_id, handle, pen_name, bio, portrait_url, city, region,
                   country, website, links jsonb, site_verified_at, lorec_handle,
-                  ai_disclosure, mature bool, trial_ends_at, momentum numeric,
+                  ai_use (none|assisted|generated), ai_declared_at,
+                  standing (good|suspended|banned), claim_state (later),
+                  mature bool, trial_ends_at, momentum numeric,
                   follower_count, launched_at, created_at
 books             id, author_id, slug, title, tagline, description, cover_url,
                   status (upcoming|out), pub_date, isbn, buy_links jsonb,
-                  excerpt, made_with_lorec bool, mature bool
+                  excerpt, ai_use (none|assisted|generated), made_with_lorec bool,
+                  mature bool
 launches          id, kind (author|book), author_id, book_id null, launch_day date,
                   status (scheduled|live|closed), cheer_count, comment_count,
                   score numeric, rank_day int null, rank_week int null
@@ -94,7 +113,14 @@ cheers            user_id, launch_id, weight, created_at     unique (user_id, la
 follows           user_id, author_id, created_at             unique
 comments          id, launch_id, user_id, parent_id null, body, created_at, removed_at
 updates           id, author_id, book_id null, kind, body, created_at
-shelf_items       user_id, book_id, created_at               unique
+collections       id, user_id, name, slug, is_public, created_at
+collection_items  collection_id, author_id null, book_id null, created_at
+                  exactly one of author_id and book_id; unique per collection
+gifts             id, from_user_id, author_id, launch_id null, amount_cents,
+                  fee_cents, stripe_payment_intent_id, status, note, created_at
+payout_accounts   author_id, stripe_account_id, charges_enabled, payouts_enabled
+images            id, owner_user_id, kind (portrait|cover|update), blob_url,
+                  width, height, bytes, removed_at
 notify_requests   email or user_id, launch_id                "tell me when it launches"
 genres            id, slug, name, parent_id null
 author_genres     author_id, genre_id
@@ -104,7 +130,7 @@ author_references author_id, reference_id, kind (readers_of|inspired_by)
 point_events      id, author_id, kind, points, created_at    append-only ledger
 subscriptions     author_id, stripe_customer_id, stripe_subscription_id, status,
                   interval, current_period_end
-comps             email, reason (pass|admin|founding), until null
+comps             user_id, reason (admin|founding), until null
 reports           id, reporter_id, target_kind, target_id, reason, resolved_at
 site_events       the page's own analytics: views and outbound clicks per page
 ```
@@ -198,8 +224,12 @@ Lorec that no competitor can copy.
   A reader with no history gets asked for three genres and one or two
   authors they love (matched to `reference_authors`), which fills the feed
   from the first visit.
-- **Shelf.** A reader saves a book. It's their list, and it is the signal
-  the weekly email uses.
+- **Collections.** A reader saves authors and books into named lists
+  ("Fantasy to read", "Local authors"). Every account starts with one,
+  "Saved", so Save is a single press; naming more is optional. A collection
+  is private until its owner shares it, and a shared one has its own page
+  and link. Saves feed For you and the weekly email. A save is not a cheer
+  and earns no points: it's the reader's own list, not a public signal.
 - **The weekly email** (Sunday morning): the week's top launches in your
   genres, new books from authors you follow, and what's coming. This is the
   main reason a reader returns, so it ships with the first version.
@@ -212,7 +242,6 @@ Lorec that no competitor can copy.
 - **$5 a month or $40 a year.** One Stripe product ("Author Hunt") with two
   prices, in Lorec's account. Checkout is Stripe Checkout; managing and
   cancelling is the Stripe customer portal.
-- **Free with the Writers Pass.** A row in `comps` with reason `pass`.
 
 ```ts
 // lib/billing/access.ts: the only place that answers "can this author act?"
@@ -227,8 +256,12 @@ authorAccess(author, now) -> "trial" | "member" | "comp" | "lapsed"
 | Analytics (views, link clicks, where readers came from) | yes | no |
 | Earn new Momentum from creating | yes | no (it decays) |
 
-**Open: what lapsing takes away.** The table is the default. The alternative,
-hiding the page, would break authors' links and shrink what readers find.
+"Lapsed" is this document's word for an author whose thirty days ran out,
+or who cancelled, and who isn't paying. The table is what they keep and
+lose. Readers aren't told a page is lapsed.
+
+**Open: confirm the table.** The alternative, hiding the page, would break
+the author's links and shrink what readers find.
 
 ### Sharing Lorec's Stripe account safely
 
@@ -245,24 +278,64 @@ hiding the page, would break authors' links and shrink what readers find.
   This has not been verified yet. A test-mode subscription to the Author
   Hunt price, with Lorec's test webhook listening, settles it.
 
-### The Writers Pass
+### The Writers Pass: a to-do for the pass, not for this app
 
-The pass opens in summer 2027; today it is a wait list
-(`writers_pass_waitlist` in Lorec). So "free with the pass" needs a decision
-about now.
+The owner's call, November 2026: Writers Pass members get Author Hunt at no
+charge, in full, **from the day the pass opens and not before**. Until
+then Author Hunt says nothing about it: no line on the pricing page, no
+"free with the pass", no comp for the wait list.
 
-**Open: who gets the comp before passes open.** Default: every address with
-a confirmed seat on the wait list. It gives the wait list something real
-today and costs nothing. Until Lorec exposes a lookup, the owner exports
-confirmed addresses into `comps`; the durable version is a small signed
-endpoint on Lorec (`GET /api/integrations/authorhunt/pass?email=`) that
-Author Hunt calls when an account verifies its email and once a day after.
+To do when the pass opens (summer 2027), recorded here so it isn't lost:
 
-The other direction is already built: the pass page records a link's `?src=`.
-Every pass link on Author Hunt is `pass.lorec.io/?src=authorhunt`, and the
-lapsed and pricing screens both offer it ("Free with the Writers Pass").
-Adding Author Hunt to the pass page as a perk means a new key in `HERO_KEYS`
-and its tile, per Lorec's AGENTS.md.
+- Add `pass` as a `comps.reason`. Because sign-in is shared, a pass member
+  is the same Clerk user here, so the comp is granted by user id.
+- Lorec tells Author Hunt when a membership starts or ends: a signed
+  webhook from Lorec's billing code, or a daily read of a small signed
+  Lorec endpoint. A member who is already paying $5 has their Author Hunt
+  subscription cancelled at period end, and is told.
+- Add Author Hunt to the pass page as a perk (a key in `HERO_KEYS` and its
+  tile, per Lorec's AGENTS.md), and only then mention the pass here.
+
+## 6a. Support (gifts to authors)
+
+A reader, or another author, can give an author money from the author's
+page and from a launch on the board.
+
+- **Stripe Connect, Express accounts,** on Lorec's Stripe account. An
+  author who wants Support turns it on in Studio and completes Stripe's
+  onboarding (identity, bank, tax details). Until `payouts_enabled`, no
+  Support button shows on their page. Stripe handles the tax forms.
+- **A gift is a destination charge** with an application fee: the giver
+  pays, Stripe takes its card fee, Author Hunt takes its fee, the rest goes
+  to the author's connected account. `metadata.app = "authorhunt"` and
+  `metadata.kind = "gift"` on every one.
+- **Amounts:** $3, $5, $10, or the giver's own from **$3** up to $500. The
+  floor is $3 because the card fee has a fixed 30¢ in it: on $2 that is
+  18% gone before anyone is paid; on $3 it is 13%; on $5, 9%.
+- **The page says what the author receives** before the giver pays ("Of $5,
+  Maren receives about $4.30"), and an optional box lets the giver cover
+  the fees.
+- **Support is never Cheer.** A gift doesn't move a launch's score or an
+  author's Momentum, and a giver's name is shown only if they choose.
+  *Why:* rule 2. If money moved rank, rank would be for sale.
+- Givers need an account with a verified email, and gifts are rate limited
+  per account, card and IP. Small open payment forms are what card thieves
+  use to test stolen numbers; Stripe Radar is on, and an author's first
+  gifts are held for a few days before payout.
+- A lapsed author keeps receiving Support. The page stays, so the button
+  stays.
+
+**Open: the platform fee.** The figures in the mock assume 5%. What Stripe
+charges the platform matters here (from Stripe's Connect pricing as
+reported in November 2026; confirm on stripe.com/connect/pricing): about $2
+for each connected account in a month when it's paid out, plus 0.25% + 25¢
+per payout. An author who receives one $3 gift in a month would cost more
+to pay than the fee earns. So pay out monthly, and only once a balance
+passes about $25, and set the fee with that in mind: 5% roughly breaks even
+on small accounts; 8 to 10% covers them.
+
+**Open: where it works.** Connect payouts depend on the author's country.
+Launch with the United States, then add countries as authors ask.
 
 ## 7. Outbound links and search
 
@@ -308,6 +381,37 @@ record of who the author is, and link out honestly.
 - `robots.ts` allows everything public; `llms.txt` describes the site for AI
   crawlers.
 
+### Sharing a page on video
+
+What an author wants is the link sticker a shop gets on a TikTok or a
+Reel. What the platforms allow today, as far as could be confirmed in
+November 2026 (they change often; test in the apps before promising it):
+
+- **Instagram Stories:** the link sticker takes any URL, on any account.
+  This works now.
+- **Instagram Reels and TikTok videos:** no sticker that links to an
+  outside site. TikTok's product stickers are for TikTok Shop. Links in
+  captions aren't clickable. The link a viewer can press is the one in the
+  profile.
+
+So Author Hunt gives the author the three things that do work:
+
+1. **A short link,** `authorhunt.com/<handle>`, that is easy to read aloud,
+   type from a video, and put in a profile. The author page is laid out to
+   work as that profile link: books, buy links, Support and Follow on one
+   phone screen.
+2. **A sticker to lay over the video:** a transparent PNG with the short
+   link and the portrait, in two shapes, made at `/api/sticker/[handle]`.
+   It's a picture, so it isn't clickable, and the screen that offers it
+   says so. For a Story, the same screen gives the link to paste into
+   Instagram's own sticker.
+3. **A card for every link:** the page's Open Graph picture, so a pasted
+   link looks finished anywhere.
+
+Share opens the phone's share sheet (`navigator.share`), with Copy link as
+the fallback. A link shared from Author Hunt carries `?via=<platform>` so
+the author's analytics show where readers came from.
+
 ## 8. Trust and moderation
 
 Enough for launch, and no more.
@@ -319,17 +423,89 @@ Enough for launch, and no more.
   queue that can hide a comment, pull a launch, or suspend a page.
 - **Who's the author:** site verification above. A pen name is fine; using
   another living author's name is not, and is a report reason.
-- **AI use:** each author states it once, shown on the page ("Written
-  without AI", "AI-assisted", "AI-generated"), and readers can filter on it.
-  Lorec's verified writing record, where an author has one, is shown beside
-  it. This is the question readers of new authors ask first, and Lorec is
-  the one company that can answer it with evidence.
+- **AI use must be declared, and an undeclared use ends in a ban** (the
+  owner's rule, November 2026). See "The AI declaration" below.
 - **Mature work:** a flag on author and book; flagged work is left out of
   the boards and feeds for signed-out visitors.
 - **Covers and text** are the author's to upload; the terms say so, and a
   takedown address is published.
 
-## 9. Build order
+### The AI declaration
+
+- **Required, not optional.** A page can't be made public, and a book can't
+  be added, until the author has chosen one: *written without AI*, *written
+  with AI assistance*, or *written by AI*. The page shows it under
+  Particulars and readers can filter on it. Changing it later is allowed
+  and logged.
+- **The terms define the three,** in plain words, because the rule can't be
+  enforced without them. A starting point for the owner to settle: spelling
+  and grammar checkers don't count; AI that drafted, rewrote or translated
+  passages of the text is "assistance"; a text mostly produced by a model
+  is "by AI". Whether an AI-made **cover** has to be declared is a separate
+  line on the book, and needs its own answer.
+- **Enforcement is a person's decision on evidence.** A report, or an
+  admin's own doubt, opens a review. The page is suspended while it's
+  open, the author is told what was reported and can answer, and an admin
+  decides. Found undeclared: the page is banned, its launches are pulled,
+  and the account can't make another. One appeal, to a second admin where
+  there is one.
+- **A detector's score is never the evidence.** AI-text detectors wrongly
+  flag human writing often enough, and more often for people writing in a
+  second language, that a ban resting on one would be unjust and would not
+  survive a public complaint. Evidence is what a person can point to: the
+  author's own statements, drafts they can or can't show, a Lorec writing
+  record, model boilerplate left in the text.
+- Every decision is written to an audit log: who, when, what was looked at.
+- Lorec's verified writing record, where an author has one, is shown beside
+  the declaration. It is the one positive proof on offer.
+
+### Images
+
+Portraits, covers, and pictures on updates.
+
+- **Upload:** the browser asks the server for a signed upload URL and sends
+  the file straight to Vercel Blob; the server then records it in `images`
+  and ties it to the page or book. JPEG, PNG or WebP, up to 8 MB.
+- **Processing** (sharp, on the server): strip EXIF data, which can carry
+  the place a photo was taken; resize to the sizes pages use (portrait 4:5
+  at 320 and 800 wide; cover 2:3 at 240, 480 and 960); store WebP. Pages
+  serve them through `next/image`. A cover that isn't 2:3 is fitted, never
+  stretched, with a crop the author can adjust.
+- **Limits:** signed-in accounts only, a per-account daily count, and the
+  type is checked from the file's own bytes, not its name.
+- **Review:** a newly uploaded image is live at once and reportable. The
+  terms say the author must hold the rights to what they upload; a takedown
+  address is published. Automatic screening for explicit images is worth
+  adding before the Product Hunt launch, since covers are on the home page.
+- Removing an image removes the file, not only the row.
+
+## 9. Unclaimed pages (after launch)
+
+Not in the first version (the owner's call, November 2026): it needs a
+review process that isn't worth building until authors are arriving on
+their own. Recorded so the schema and the words leave room for it.
+
+- An **unclaimed page** is one Author Hunt makes for an established author
+  who hasn't joined, from public facts: name, books, genres. It is marked
+  "Unclaimed" wherever it appears, has no launches, no Support and no
+  updates, earns no Momentum, and never tops a board.
+- **Claiming** is a request from an account, verified by something only
+  the author controls: a link back from their official site, a message
+  from the address on that site, or their agent or publisher. An admin
+  reviews every claim. A claimed page becomes an ordinary author page.
+- **The author can also ask for it to be taken down,** and that request is
+  honoured without a review of who is asking beyond the same proof.
+- What to settle before building it: who chooses which authors get one;
+  where the facts and any picture come from, and the rights to them; what
+  the page may say about a living person who didn't ask to be listed; and
+  how a wrong claim is undone. Photos and biographies written by others
+  are the legal risk, so an unclaimed page starts with a name and a list
+  of books and nothing else.
+- `authors.claim_state` (`claimed`, `unclaimed`, `pending`) is reserved in
+  the schema, and every new page is `claimed`. `authors.user_id` becomes
+  nullable only when this is built.
+
+## 10. Build order
 
 Each step ends with something that works on its own. The first four are the
 hackathon cut; the rest follow in the order they add the most.
@@ -338,7 +514,7 @@ hackathon cut; the rest follow in the order they add the most.
    migrations, `npm run db:seed` with thirty authors and sixty books so
    every page has something to show.
 2. **Pages.** Author page and book page, public, with metadata, JSON-LD and
-   the link policy.
+   the link policy. Image upload for portraits and covers.
 3. **The board.** Today, a past day, cheer and follow, the launch score, the
    shuffled first hours.
 4. **Studio.** Make and edit a page, add a book, schedule a launch.
@@ -347,13 +523,19 @@ hackathon cut; the rest follow in the order they add the most.
 6. **Billing.** Trial clock, checkout, portal, webhook, the lapsed state,
    comps.
 7. **Comments and updates.**
-8. **For you, shelf, the weekly email, coming-soon pages.**
-9. **Verification, badge, reports queue, analytics for authors.**
-10. **Launch week.** See docs/launch.md.
+8. **For you, collections, the weekly email, coming-soon pages.**
+9. **Sharing:** short links, cards, the sticker.
+10. **Support:** Connect onboarding, gifts, payouts.
+11. **Verification, badge, reports queue, analytics for authors.**
+12. **Launch week.** See docs/launch.md.
 
-## 10. Not at launch
+Images are part of step 1 (the upload path) and step 4 (Studio uses it).
+The AI declaration is part of step 4: a page can't be published without it.
+
+## 11. Not at launch
 
 Named so nobody builds them by accident: native apps, direct messages,
-reader reviews and star ratings, selling books or taking a cut, affiliate
+unclaimed pages, any mention of the Writers Pass, reader reviews and star
+ratings, selling books or taking a cut of sales, affiliate
 links, paid placement of any kind, maps, a recommendation model, a public
 API, importing from Goodreads or Amazon.

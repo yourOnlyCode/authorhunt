@@ -114,15 +114,14 @@ Launch states: `scheduled` → `live` → `closed`. A removed launch is
 ## Relations
 
 ```
-Account 1 ── 0..1 Author 1 ── * Book
+Account 1 ── 0..1 Author 1 ── * Work * ── * Platform
 Author  1 ── * Update            Author 1 ── 0..1 Launch (kind = author)
-Book    1 ── 0..1 Launch (kind = book)
+Work    1 ── 0..1 Launch (kind = work)
 Account * ── * Launch   through Cheer   (unique; never the author's own)
 Account * ── * Author   through Follow
 Account 1 ── * Collection * ── * (Author | Book)   through Save
 Author  * ── * Genre
 Author  * ── * Reference author   through For readers of | Inspired by
-Account 1 ── * Gift * ── 1 Author
 Author  1 ── 0..1 Membership     Author 1 ── 0..1 Payout account
 ```
 

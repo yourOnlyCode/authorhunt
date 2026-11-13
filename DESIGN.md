@@ -11,32 +11,19 @@ round's rules (white page, ink, serif, square corners) and adds life. The
 section "The three directions" below is history; "The current direction"
 is what to build from, pending the owner's word.
 
-## Type and layout studies (pending the owner's pick)
+## Fonts are open; everything else in the current direction stands
 
-The owner's note on the round below: the fonts read as "AI made this".
-The cause was a fashionable pairing (Instrument Serif over Newsreader)
-used the fashionable way: an italic accent word in each headline,
-letterspaced capitals over every title, hairlines on a tidy grid.
-`docs/mockups/author-hunt.html` now holds three studies that each take
-their form from a printed object instead; `board-and-launch.html` keeps
-the earlier round for its structure.
+The owner's call, November 2026: the layout, colour, cheer, tags, ornament
+and motion in `docs/mockups/author-hunt.html` are liked. Only the fonts
+read as "AI made this", and the owner is choosing new ones. The mock's two
+faces are two CSS variables, `--display` and `--text`, at the top of its
+styles. Three wider studies were tried and set aside as more change than
+was wanted; they are kept in `docs/mockups/type-studies.html`.
 
-1. **Playbill.** Abril Fatface and Stint Ultra Condensed at very different
-   sizes, Besley for text, heavy rules, solid black cheer blocks.
-2. **Margins.** Sorts Mill Goudy alone, with no bold: size, italic and
-   position carry the hierarchy. Ranks and red notes hang in a wide margin.
-3. **Spines.** The ranked list as a stack of books seen from the side:
-   each launch a band in its cover's colour, set out of line, sliding out
-   on hover. Besley, heavy.
-
-Whichever is chosen: no italic accent word in headlines, no letterspaced
-capitals as a default label, and the type must come from the object the
-layout imitates.
-
-**The mark is now a cat in round glasses,** one red line (the owner's
-call, replacing the thrush). Product Hunt's mascot is also a cat, so the
-drawing stays unlike theirs: face-on, reading glasses, no body. Have it
-looked at with the name before launch (docs/launch.md).
+**The mark is a cat in round glasses,** one red line (the owner's call,
+replacing the thrush). Product Hunt's mascot is also a cat, so the drawing
+stays unlike theirs: face-on, reading glasses, no body. Have it looked at
+with the name before launch (docs/launch.md).
 
 ## The current direction
 
@@ -58,11 +45,8 @@ looked at with the name before launch (docs/launch.md).
 - **Colour:** ink, white, red `#D9361E` (text on white uses `#B92C16`),
   highlighter `#FFE14D`. Covers bring the rest.
 - **The header** has a mark, a search line, three places and two actions.
-- **The mark is a bird,** a thrush drawn in one red line, before the
-  wordmark. *Why:* the owner asked for an animal's contour in place of the
-  up arrow (November 2026). Not a cat: that's Product Hunt's. The thrush is
-  the bird in William Morris's Strawberry Thief, a hunter of sorts, and
-  it sits with the ornament below. The up arrow belongs to the cheer only.
+- **The mark is the cat in glasses** (above). The up arrow belongs to the
+  cheer only.
 - **Ornament, in small doses:** William Morris's *Marigold* (1875), from
   the Art Institute of Chicago's open-access collection (artwork 39143,
   public domain), cut to one colour, the brand red

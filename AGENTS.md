@@ -17,6 +17,7 @@ drift apart.
 | [docs/ontology.md](docs/ontology.md) | Every noun, state and relation, and the word people see for it. Living. |
 | [docs/product-structure.md](docs/product-structure.md) | How each part maps to Product Hunt; comments, notifications, content notes, reports, bans, the Clerk webhook. |
 | [docs/monetization.md](docs/monetization.md) | What's free, what a membership buys, Support, promoted rows. Decided November 2026. |
+| [docs/setup-checklist.md](docs/setup-checklist.md) | Every account, key and DNS record to wire up, in order, with who does it. |
 | [docs/launch.md](docs/launch.md) | The Product Hunt launch, the cold start, and the name check. |
 | [docs/mockups/](docs/mockups/) | The approved look. Port from it; don't reinterpret it. |
 
@@ -35,7 +36,7 @@ reason; change one only when the owner says so, and change this file with it.
    *Why:* a board that sells position is an ad page, and readers can tell.
 3. **Launching is free, for good. A membership buys tools, never position.**
    Making a page, launching it and launching every work costs nothing and
-   needs no plan. $3.99 a month adds tools around a launch (emailing followers,
+   needs no plan. $3.99 a month ($32 a year) adds tools around a launch (emailing followers,
    the coming-soon list, full analytics, the Support button, the full share
    kit: docs/monetization.md). When a membership ends those tools switch
    off and nothing public disappears. *Why:* the owner's call, November

@@ -7,7 +7,7 @@ high. The owner's decisions:
 
 1. **Launching is free, for good.**
 2. **$3.99 a month buys tools, never position** (set 14 November; it was
-   $5 a month and $40 a year). A yearly price is not set yet.
+   $5 a month and $40 a year). **$32 a year.**
 3. **Support is the author's own link** (Ko-fi, PayPal and the like), and
    **showing it is a member tool.** Author Hunt processes no gifts. A free
    author cannot show a support link anywhere (confirmed 14 November).
@@ -29,7 +29,7 @@ ones with no sales yet.
 
 ### Recommended: free to launch, paid for the tools around a launch
 
-| | Free, for good | Member ($3.99 a month) |
+| | Free, for good | Member ($3.99 a month, $32 a year) |
 |---|---|---|
 | Author page, books, images, links | yes | yes |
 | Launch the page; launch each book | yes | yes |
@@ -145,8 +145,7 @@ In rough order of fit:
 
 1. Free to launch, with the member tools above? (Recommended.)
 2. Which rows of the table are member-only. The first three carry it.
-3. The yearly price to go with $3.99 a month. The old pair was eight
-   months' worth ($40 for $5 a month); the same ratio is about $32.
+3. Settled: $32 a year beside $3.99 a month.
 4. Support: A now, B later? And the minimum, $3 or $5.
 5. Promoted placements: allowed at launch, or held until there's traffic.
 6. Once decided: rule 3 in AGENTS.md ("a page outlives its plan") becomes

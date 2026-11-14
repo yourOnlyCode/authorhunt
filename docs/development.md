@@ -275,8 +275,8 @@ Author Hunt isn't only for novels (the owner's direction, November 2026).
 - **Thirty days free, no card.** `authors.trial_ends_at` is set when the
   page is created. Nothing in Stripe exists for an author until they choose
   to pay.
-- **$3.99 a month** (the owner's call, November 2026; it was $5). A yearly
-  price isn't set. One Stripe product ("Author Hunt") with two
+- **$3.99 a month or $32 a year** (the owner's call, November 2026; it
+  was $5 and $40). One Stripe product ("Author Hunt") with two
   prices, in Lorec's account. Checkout is Stripe Checkout; managing and
   cancelling is the Stripe customer portal.
 

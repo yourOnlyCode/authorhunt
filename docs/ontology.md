@@ -72,7 +72,7 @@ Launch states: `scheduled` → `live` → `closed`. A removed launch is
 | Term | In the UI | In code | What it is | Not |
 |---|---|---|---|---|
 | Trial | thirty days free | `authors.trial_ends_at` | The author's first thirty days. No card. | |
-| Membership | $3.99 a month | `subscriptions` | What an author pays for the member tools, including showing a Support link. Launching never needs it. | Never "Pro", "Premium", "upgrade". |
+| Membership | $3.99 a month, $32 a year | `subscriptions` | What an author pays for the member tools, including showing a Support link. Launching never needs it. | Never "Pro", "Premium", "upgrade". |
 | Comp | (not shown) | `comps` | Access given without payment: `admin`, `founding`. | The Writers Pass comp isn't built and isn't mentioned in the app (development.md §6). |
 | Access | (not shown) | `authorAccess()` → `trial`, `member`, `comp`, `lapsed` | Whether an author can act right now. | Never read from anywhere else. |
 | Lapsed | (the author is told privately) | `authorAccess() = lapsed` | Trial or membership has ended. The page stays; launching stops. | Not shown to readers. |
@@ -133,8 +133,7 @@ Pro, Premium, upgrade, shelf (replaced by collection, November 2026).
 
 ## Changes
 
-- 2026-11-14. Membership is $3.99 a month (was $5); a yearly price is
-  open. Confirmed: a free author cannot show a Support link.
+- 2026-11-14. Membership is $3.99 a month or $32 a year (was $5 and $40). Confirmed: a free author cannot show a Support link.
 - 2026-11-13, later still. Decisions: launching is free; Membership buys
   tools; Support is a member's outside link (gifts and payout accounts
   removed). Book became Work with kinds; Publication and Platform added.

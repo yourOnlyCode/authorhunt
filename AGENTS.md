@@ -35,7 +35,7 @@ reason; change one only when the owner says so, and change this file with it.
    *Why:* a board that sells position is an ad page, and readers can tell.
 3. **Launching is free, for good. A membership buys tools, never position.**
    Making a page, launching it and launching every work costs nothing and
-   needs no plan. $5 a month adds tools around a launch (emailing followers,
+   needs no plan. $3.99 a month adds tools around a launch (emailing followers,
    the coming-soon list, full analytics, the Support button, the full share
    kit: docs/monetization.md). When a membership ends those tools switch
    off and nothing public disappears. *Why:* the owner's call, November

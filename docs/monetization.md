@@ -6,9 +6,11 @@ mandatory fee gives an empty app, and that card fees on Support were too
 high. The owner's decisions:
 
 1. **Launching is free, for good.**
-2. **$5 a month ($40 a year) buys tools, never position.**
+2. **$3.99 a month buys tools, never position** (set 14 November; it was
+   $5 a month and $40 a year). A yearly price is not set yet.
 3. **Support is the author's own link** (Ko-fi, PayPal and the like), and
-   **showing it is a member tool.** Author Hunt processes no gifts.
+   **showing it is a member tool.** Author Hunt processes no gifts. A free
+   author cannot show a support link anywhere (confirmed 14 November).
 4. **Promoted rows wait until there's traffic.**
 
 The rest of this file is the reasoning and the options that were weighed.
@@ -27,7 +29,7 @@ ones with no sales yet.
 
 ### Recommended: free to launch, paid for the tools around a launch
 
-| | Free, for good | Member ($5 a month, $40 a year) |
+| | Free, for good | Member ($3.99 a month) |
 |---|---|---|
 | Author page, books, images, links | yes | yes |
 | Launch the page; launch each book | yes | yes |
@@ -47,7 +49,7 @@ better tools for reaching the readers they have earned, and never a better
 place on the board. Rule 2 (rank can't be bought) stays whole.
 
 The strongest of these is the first row. An author's followers on Author
-Hunt are an audience; emailing them is the thing an author will pay $5 for,
+Hunt are an audience; emailing them is the thing an author will pay $3.99 for,
 and it costs little to send.
 
 Thirty days free still makes sense, as a trial of the member tools rather
@@ -114,10 +116,9 @@ pointed at anything. When a membership ends the button is hidden and the
 link is kept for when it resumes. B stays open for later if authors ask
 for gifts that stay on the site. C and D not at all.
 
-One thing to watch: a reader who wants to give to a free author can't.
-That is the trade the owner chose; if it costs goodwill, the cheapest fix
-is to let every author show the link and keep the button's placement on
-launch rows as the member tool.
+A reader who wants to give to a free author can't. The owner weighed that
+and confirmed it on 14 November: the support link is one of the reasons to
+become a member.
 
 ## 3. Money that doesn't come from authors
 
@@ -126,7 +127,7 @@ In rough order of fit:
 1. **Lorec itself.** Author Hunt is where authors and readers meet Lorec:
    "Written in Lorec" on a book, the writing record beside the AI
    declaration, and, once it opens, the Writers Pass. An author who joins
-   Lorec is worth more than a year of $5. This may be the real business,
+   Lorec is worth more than a year of $3.99. This may be the real business,
    with the rest paying for the servers.
 2. **Promoted placements,** as Product Hunt sells them: a row in the board
    marked "Promoted", unranked, and the same in the Sunday letter. For
@@ -144,7 +145,8 @@ In rough order of fit:
 
 1. Free to launch, with the member tools above? (Recommended.)
 2. Which rows of the table are member-only. The first three carry it.
-3. Keep $5 and $40, or raise once the email tool exists.
+3. The yearly price to go with $3.99 a month. The old pair was eight
+   months' worth ($40 for $5 a month); the same ratio is about $32.
 4. Support: A now, B later? And the minimum, $3 or $5.
 5. Promoted placements: allowed at launch, or held until there's traffic.
 6. Once decided: rule 3 in AGENTS.md ("a page outlives its plan") becomes

@@ -275,7 +275,8 @@ Author Hunt isn't only for novels (the owner's direction, November 2026).
 - **Thirty days free, no card.** `authors.trial_ends_at` is set when the
   page is created. Nothing in Stripe exists for an author until they choose
   to pay.
-- **$5 a month or $40 a year.** One Stripe product ("Author Hunt") with two
+- **$3.99 a month** (the owner's call, November 2026; it was $5). A yearly
+  price isn't set. One Stripe product ("Author Hunt") with two
   prices, in Lorec's account. Checkout is Stripe Checkout; managing and
   cancelling is the Stripe customer portal.
 
@@ -327,7 +328,7 @@ To do when the pass opens (summer 2027), recorded here so it isn't lost:
   is the same Clerk user here, so the comp is granted by user id.
 - Lorec tells Author Hunt when a membership starts or ends: a signed
   webhook from Lorec's billing code, or a daily read of a small signed
-  Lorec endpoint. A member who is already paying $5 has their Author Hunt
+  Lorec endpoint. A member who is already paying for a membership has their Author Hunt
   subscription cancelled at period end, and is told.
 - Add Author Hunt to the pass page as a perk (a key in `HERO_KEYS` and its
   tile, per Lorec's AGENTS.md), and only then mention the pass here.

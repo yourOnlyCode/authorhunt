@@ -39,7 +39,7 @@ outside is invited:
   and visits, never for upvotes: Product Hunt penalises the ask. Reply to
   every comment the same day.
 - **The offer.** Anyone who makes a page during launch week is a founding
-  author. No discount is needed on $5.
+  author. No discount is needed on $3.99.
 - **After.** The Product Hunt badge on the home page footer; a written
   account of the launch for Lorec's blog, which is also the first real link
   to the new domain.
@@ -82,7 +82,7 @@ Still to do, by the owner, before money goes into the name:
   costs, and say gifts are not charitable donations and aren't refundable
   once paid out. Privacy notice (what's public, what's emailed, how to delete),
   and a takedown address.
-- Stripe in live mode with a real $5 charge refunded, and Lorec's webhook
+- Stripe in live mode with a real $3.99 charge refunded, and Lorec's webhook
   confirmed to ignore it (docs/development.md, section 6).
 - Every public page: title, description, canonical URL, Open Graph card,
   JSON-LD that passes Google's Rich Results test.

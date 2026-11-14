@@ -143,8 +143,8 @@ Calm, plain and specific.
 - No exclamation marks, no emoji, no growth-speak. The words people read
   are in [docs/ontology.md](docs/ontology.md); use those and no others.
 - A number carries what it counts.
-- Prices are in US dollars and said once: "Thirty days free, then $5 a
-  month or $40 a year."
+- Prices are in US dollars and said once: "Free to launch. $3.99 a
+  month for the member tools." (A yearly price isn't set yet.)
 - Money given to an author is "Support" and a "gift". It is never called a
   donation, and the page says what the author receives.
 

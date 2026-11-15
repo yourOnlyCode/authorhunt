@@ -111,6 +111,13 @@ Launch states: `scheduled` → `live` → `closed`. A removed launch is
 | Case | (not shown) | `reports`, `moderation_log` | A report under review, and the record of what was decided. |
 | Promoted | Promoted | `promotions` | A paid, unranked row for a service. Never a book or an author. Under discussion. |
 
+## Before opening
+
+| Term | In the UI | In code | What it is |
+|---|---|---|---|
+| Splash | (the page before January 8, 2027) | `LAUNCH_AT`, `app/(public)/splash/` | What authorhunt.com shows until opening. |
+| Waitlist | the list | `waitlist` (email, kind = `author` or `reader`, confirmed_at, src, invited_at) | Addresses collected before opening. Each confirmed one gets a Clerk invitation on opening day. Not Clerk's waitlist mode, which would affect Lorec. |
+
 ## Relations
 
 ```
@@ -133,6 +140,7 @@ Pro, Premium, upgrade, shelf (replaced by collection, November 2026).
 
 ## Changes
 
+- 2026-11-15. Opening date set: January 8, 2027. Splash and Waitlist added.
 - 2026-11-14. Membership is $3.99 a month or $32 a year (was $5 and $40). Confirmed: a free author cannot show a Support link.
 - 2026-11-13, later still. Decisions: launching is free; Membership buys
   tools; Support is a member's outside link (gifts and payout accounts

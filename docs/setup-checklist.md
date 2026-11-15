@@ -199,6 +199,21 @@ Claude writes `.env.example` with these names and no values.
 - [ ] **Claude.** Draft all three documents for a lawyer to review, if
       asked. A draft is not legal advice.
 
+## 11a. The splash page (live well before January 8, 2027)
+
+Needs only sections 0 to 2, Resend (5) and Upstash (6). It does not need
+Clerk or Stripe.
+
+- [ ] **Claude.** Build the splash from `docs/mockups/splash.html`, the
+      `waitlist` table, the form route and the confirming email.
+- [ ] **You.** `LAUNCH_AT=2027-01-08T05:00:00Z` in Vercel (midnight Eastern).
+- [ ] **You.** Do **not** turn on Clerk's waitlist mode: it would apply to
+      Lorec's sign-ups.
+- [ ] **You.** A short privacy line for the list (what's kept, that it's
+      two emails, how to be removed), linked under the form.
+- [ ] **Claude, at opening.** Send Clerk invitations to confirmed
+      addresses, in batches, after checking Clerk's limits.
+
 ## 12. The order to do it in
 
 1. Section 0, then Vercel and Supabase (sections 1 and 2). With those,

@@ -3,6 +3,49 @@
 Two launches: filling the board so it's worth visiting, and Product Hunt.
 The first decides how the second goes.
 
+## The date, and the splash page
+
+**Author Hunt opens on Friday, January 8, 2027** (the owner's call,
+November 2026). The first board's day begins at midnight Eastern.
+
+Until then authorhunt.com shows a splash page in place of the board
+(`docs/mockups/splash.html`): everything centred, a live countdown, a short
+account of what Author Hunt and a launch are, and a waitlist under "Be part
+of the first launch!" (the owner's wording, exclamation mark included).
+
+**The waitlist is Author Hunt's own table, turned into Clerk accounts at
+opening.** The owner asked whether Clerk could hold the waitlist so that
+people have accounts on day one. Three ways were weighed:
+
+- *Clerk's own waitlist mode.* It is a setting on the whole Clerk
+  instance, and the instance is Lorec's: turning it on would put Lorec's
+  sign-ups behind a waitlist too. Not usable.
+- *Real sign-up now.* On a satellite domain, sign-up happens on the
+  primary, so a visitor would be sent to lorec.io to make an account for a
+  site that isn't open, and would become a Lorec user at once. Too much to
+  ask of someone who wanted to leave an address.
+- *An email now, an invitation at opening* (chosen). The page takes an
+  address and whether the person is an author or a reader, into a
+  `waitlist` table, with one confirming email. On January 8 each confirmed
+  address is sent a Clerk invitation: one click makes the account with the
+  email already verified. Check Clerk's current invitation API and its
+  sending limits before relying on it for a large list.
+
+Rules carried over from the Writers Pass wait list, which solved the same
+problems: a honeypot and a per-IP limit on the form; the same answer
+whether or not an address is already on the list, so the list can't be
+probed; confirmation by a POST from the page, never by the link's GET, so
+a mail scanner confirms nothing; one reminder after a day, never a second;
+the link's `?src=` kept on the row.
+
+Authors on the list are asked, in the weeks before opening, to set up
+their page and pick a launch day through a private link, so the first
+boards are full (see "The cold start").
+
+The splash is a switch, not a branch: `LAUNCH_AT` in the environment. Before
+it, `/` renders the splash and every other public route redirects there;
+after it, the app is the app. Admins see the real site either way.
+
 ## The cold start
 
 A daily board with three launches on it looks abandoned. Before anyone

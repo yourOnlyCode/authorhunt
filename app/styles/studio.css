@@ -83,8 +83,6 @@
 .studio-steps { display: grid; gap: 14px; counter-reset: step; max-width: 44rem; }
 .studio-steps li { display: grid; grid-template-columns: 40px minmax(0, 1fr); counter-increment: step; }
 .studio-steps li::before { content: counter(step, upper-roman) "."; font: 300 24px/1.2 var(--display); color: var(--red-text); }
-.studio-steps li > b { grid-column: 2; }
-.studio-steps li { grid-auto-flow: row; }
 .studio-points { display: grid; gap: 10px; max-width: 46rem; }
 .studio-points li { padding-left: 20px; position: relative; }
 .studio-points li::before { content: ""; position: absolute; left: 2px; top: 0.62em; width: 7px; height: 7px; background: var(--ink); transform: rotate(45deg); }

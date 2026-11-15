@@ -75,7 +75,7 @@ export function PageForm(props: Props) {
       router.refresh();
     }
     if (!res.ok) { setStatus({ tone: "bad", text: res.error }); return; }
-    setStatus({ tone: "ok", text: publish && data?.author.publishedAt ? "Saved. Your page is public." : res.data.created ? "Your page is made. It stays a draft until you make it public." : "Saved." });
+    setStatus({ tone: "ok", text: publish && res.data.author.publishedAt ? "Saved. Your page is public." : res.data.created ? "Your page is made. It stays a draft until you make it public." : "Saved." });
   }
 
   async function verify() {

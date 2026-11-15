@@ -24,21 +24,21 @@ export const metadata: Metadata = { title: "Desk" };
 const STATE_WORDS = { scheduled: "Launching", live: "Live today", closed: "Launched", pulled: "Removed from the board" } as const;
 
 export default async function StudioDesk() {
-  const viewer = await requireViewer("/studio");
+  await requireViewer("/studio");
   const author = await getViewerAuthor();
 
   if (!author) {
     return (
       <main className="wrap studio">
         <div className="page-head">
-          <h1>Welcome, {viewer.displayName.split(" ")[0]}</h1>
+          <h1>Welcome</h1>
           <p>This is where an author keeps their page. Make yours, add what you&rsquo;ve written, and choose a day to put it on the board. Making a page and launching are free, for good.</p>
         </div>
         <section className="studio-part">
           <ol className="studio-steps">
-            <li><b>Make your page.</b> A portrait, a few lines about you, your genres and where readers can find you.</li>
-            <li><b>Say how you write.</b> Every page declares whether AI was used. It takes one choice.</li>
-            <li><b>Launch.</b> Your page goes on a day&rsquo;s board once, and each work once, on days you choose.</li>
+            <li><span><b>Make your page.</b> A portrait, a few lines about you, your genres and where readers can find you.</span></li>
+            <li><span><b>Say how you write.</b> Every page declares whether AI was used. It takes one choice.</span></li>
+            <li><span><b>Launch.</b> Your page goes on a day&rsquo;s board once, and each work once, on days you choose.</span></li>
           </ol>
           <p className="studio-actions"><Link className="btn solid" href="/studio/page">Make your page</Link></p>
           <p className="hint">Here to read? You don&rsquo;t need a page. <Link className="word" href="/">See today&rsquo;s launches</Link></p>

@@ -140,6 +140,13 @@ Pro, Premium, upgrade, shelf (replaced by collection, November 2026).
 
 ## Changes
 
+- 2026-11-15, the first build. In code, genres, reference authors and
+  platforms are lookup tables keyed by slug, listed on a page or work in
+  `text[]` columns (`genres`, `readers_of`, `inspired_by`, `platforms`);
+  there are no join tables for them. `works` replaces `books`. Added
+  `letter_subscribers` (the Sunday letter's readers without an account) and
+  `comment_cheers`. Access states are `trial`, `member`, `comp`, `free`
+  ("lapsed" is gone: nothing public depends on a plan).
 - 2026-11-15. Opening date set: January 8, 2027. Splash and Waitlist added.
 - 2026-11-14. Membership is $3.99 a month or $32 a year (was $5 and $40). Confirmed: a free author cannot show a Support link.
 - 2026-11-13, later still. Decisions: launching is free; Membership buys

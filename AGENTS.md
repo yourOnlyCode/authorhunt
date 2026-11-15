@@ -17,6 +17,7 @@ drift apart.
 | [docs/ontology.md](docs/ontology.md) | Every noun, state and relation, and the word people see for it. Living. |
 | [docs/product-structure.md](docs/product-structure.md) | How each part maps to Product Hunt; comments, notifications, content notes, reports, bans, the Clerk webhook. |
 | [docs/monetization.md](docs/monetization.md) | What's free, what a membership buys, Support, promoted rows. Decided November 2026. |
+| [docs/build-notes.md](docs/build-notes.md) | How to run it, and what the code already provides. Read before adding anything. |
 | [docs/setup-checklist.md](docs/setup-checklist.md) | Every account, key and DNS record to wire up, in order, with who does it. |
 | [docs/launch.md](docs/launch.md) | The Product Hunt launch, the cold start, and the name check. |
 | [docs/mockups/](docs/mockups/) | The approved look. Port from it; don't reinterpret it. |
@@ -98,6 +99,16 @@ own (pass `now` in), so the tests are cheap and there is no excuse.
   that needs it; say so in the PR body.
 - Author Hunt has **its own Supabase project**. Never point it at Lorec's
   database, and never write a migration that touches Lorec's tables.
+- With no `DATABASE_URL`, development runs on PGlite (Postgres in
+  WebAssembly) in `.data/`, migrated from the same SQL files and filled by
+  `scripts/seed.ts`. Sample data never reaches a real database: the seed
+  refuses to run against `DATABASE_URL`.
+- Enumerations are text columns with a TypeScript union, not Postgres
+  enums. Genres, reference authors and platforms are lookup tables keyed by
+  slug, and a page or work lists its slugs in a `text[]` column.
+- Row level security is on for every table with no policy: nothing is
+  readable through Supabase's public API, and the app reads and writes on
+  the server only.
 - RLS policies use `requesting_user_id()`, never `auth.uid()`, which is null
   for Clerk users. The server reads through Drizzle with the pooler
   (`prepare: false`); the browser never holds a service key.
@@ -107,9 +118,11 @@ own (pass `now` in), so the tests are cheap and there is no excuse.
 
 ## Routes
 
-- Public pages are listed in `isPublicRoute` in `proxy.ts`. A page that isn't
-  listed is signed-in only. Signed-out reads of public APIs are rate limited
-  per IP.
+- A page that needs a signed-in person says so itself, by calling
+  `requireViewer("/its/path")` (`lib/auth`); everything else is public.
+  `proxy.ts` only holds the pre-launch gate (`LAUNCH_AT`) and Clerk's
+  middleware. Signed-out calls to public APIs are rate limited per IP
+  (`byIp`, `lib/api.ts`).
 - A public page is a server component that fetches its own data and exports
   `generateMetadata` (title, description, canonical, Open Graph) and its
   JSON-LD. A public page with no canonical URL fails review.

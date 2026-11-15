@@ -17,7 +17,7 @@ building.
 | Home: "Top Products Launching Today", numbered rows, then "Yesterday's Top Products", then "Last Week's" | Home: "Top launches today", then yesterday's, then last week's | The same. The first row is drawn larger. |
 | A row: thumbnail, name, tagline, topic tags, comment count, upvote count | A row: cover or portrait, title, tagline and byline, genre · city · for readers of, comment count, cheer with an up arrow at the right | Tags are our filters. A Mature mark where it applies. |
 | "Promoted" rows in the list | "Promoted" rows, unranked, for services authors buy | Never a book or an author (docs/monetization.md §3). |
-| Launch archive by day, week, month, year | `/launches/2026/11/13`, `/launches/2026/week/46`, `/launches/2026/11` | The same. |
+| Launch archive by day, week, month, year | `/launches/2026-11-13` for a day, `/launches` for the archive (weeks and months later) | The same. |
 | A product's page, with its launches under it | An **author's page**, with their books and launches under it | The author is the lasting thing, as the product is there. |
 | A launch page: thumbnail, name, tagline, Visit, upvote; gallery; description; makers; comments | A **launch page**: cover, title, tagline, byline, Get the book, cheer; pictures; description; excerpt; content notes; the author; comments | "Visit" becomes "Get the book", which opens the author's buy links. |
 | Makers and hunters | The **author** only | No hunters: an author launches their own work. Unclaimed pages are later. |

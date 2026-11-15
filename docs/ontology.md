@@ -65,7 +65,7 @@ Launch states: `scheduled` → `live` → `closed`. A removed launch is
 | Collection | collection | `collections`, `collection_items` | A named list a reader keeps, of authors and books. Private unless shared. Every account starts with one, "Saved". |
 | Save | Save, Saved | a `collection_items` row | Putting an author or a book in a collection. |
 | For you | For you | `/for-you`, `lib/discover/` | A signed-in reader's feed, built from follows, cheers and saves. |
-| Sunday letter | the Sunday letter | `lib/emails/`, `cron/digest` | The weekly email. |
+| Sunday letter | the Sunday letter | `lib/cron/letter.ts`, `/api/cron/letter`, `letter_subscribers` | The weekly email. |
 
 ## Money
 
@@ -74,8 +74,8 @@ Launch states: `scheduled` → `live` → `closed`. A removed launch is
 | Trial | thirty days free | `authors.trial_ends_at` | The author's first thirty days. No card. | |
 | Membership | $3.99 a month, $32 a year | `subscriptions` | What an author pays for the member tools, including showing a Support link. Launching never needs it. | Never "Pro", "Premium", "upgrade". |
 | Comp | (not shown) | `comps` | Access given without payment: `admin`, `founding`. | The Writers Pass comp isn't built and isn't mentioned in the app (development.md §6). |
-| Access | (not shown) | `authorAccess()` → `trial`, `member`, `comp`, `lapsed` | Whether an author can act right now. | Never read from anywhere else. |
-| Lapsed | (the author is told privately) | `authorAccess() = lapsed` | Trial or membership has ended. The page stays; launching stops. | Not shown to readers. |
+| Access | (not shown) | `authorAccess()` → `trial`, `member`, `comp`, `free` | Whether an author can act right now. | Never read from anywhere else. |
+| Free | (not shown) | `authorAccess() = free` | No member tools. The page, works and launching are unaffected. | Never shown to readers. |
 | Support | Support | `authors.support_url` | A member's link to their own Ko-fi, PayPal or similar. Author Hunt handles no money. | Never "donation", never "tip". Never enters a score. |
 
 ## Trust

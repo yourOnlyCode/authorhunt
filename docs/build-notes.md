@@ -49,6 +49,38 @@ LOCAL_DB_DIR=.data/pg-x NEXT_DIST_DIR=.next-x npx next dev -p 3201
 | `app/(site)/` | Pages that wear the header and footer. `app/splash`, `app/confirm` don't. |
 | `proxy.ts` | The pre-launch gate (`LAUNCH_AT`, `PREVIEW_SECRET`) and Clerk's middleware when configured. |
 
+## Areas built on the foundation
+
+| Area | Where |
+|---|---|
+| Work and author pages, comments, day archives | `app/(site)/work`, `author`, `launches`; `components/comments`, `components/author`, `components/book`; `app/api/comments`, `notify-requests` |
+| Short links, share images, badge, sticker, sitemap | `app/[handle]/route.ts`, `opengraph-image.tsx` files, `app/api/badge`, `app/api/sticker`, `app/sitemap.ts`, `robots.ts`, `llms.txt`; fonts for drawn images in `assets/fonts` (`lib/og-fonts.ts`) |
+| Page analytics | `components/analytics` (`Track`, `OutLink`), `app/api/events` |
+| Directory, filter pages, search | `lib/queries/directory.ts`, `lib/discover`, `components/discover`, `app/(site)/authors`, `genre`, `city`, `for-readers-of`, `inspired-by`, `platform`, `search` |
+| Collections, For you, the reader's own pages | `app/(site)/collections`, `collection/[id]`, `for-you`, `you`, `notifications`, `settings`; `app/api/collections`, `settings`, `notifications` |
+| The author studio | `app/(site)/studio`, `components/studio`, `lib/studio` (rules, validation), `lib/images/store.ts`, `app/api/studio`, `app/api/uploads` |
+| Membership | `app/(site)/pricing`, `lib/billing/stripe.ts`, `app/api/stripe` |
+| Scheduled jobs and email | `lib/cron` (`pure.ts` is tested), `app/api/cron`, `vercel.json`, `lib/emails/templates.ts`, `app/api/letter`, `app/letter/unsubscribe`, `scripts/invite-waitlist.ts` |
+| Clerk webhook | `app/api/clerk/webhook` |
+| Reports, cases, standing | `lib/trust`, `app/api/reports`, `app/api/admin`, `app/(site)/admin`, `app/(site)/standing` |
+| Legal and about (drafts) | `app/(site)/terms`, `privacy`, `about` |
+
+`npm run build` lists every route.
+
+## Known gaps (November 2026)
+
+- Live calls to Stripe, Clerk, Resend, Upstash and Vercel Blob have not been
+  made: there were no keys. Each path runs without its key and was tested
+  that way; the Stripe webhook was tested with locally signed events.
+- A new account's comment containing a link is not held for review, and
+  commenting does not yet require a verified email (that needs Clerk).
+- "One email to followers a day" is kept by the rate limiter, so it is only
+  durable with Upstash configured.
+- The Sunday letter's sign-up has no confirming email.
+- Un-banning does not restore the weight of cheers the account gave.
+- Threads (the forum) and unclaimed pages are not built, as planned.
+- Uploads go through the server (`app/api/uploads`), not straight to Blob.
+
 ## Routes that exist
 
 `/` (the board), `/splash`, `/confirm`, `/sign-in`, `POST /api/cheers`,

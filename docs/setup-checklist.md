@@ -177,6 +177,9 @@ Names to create in Vercel. Values come from the steps above.
 | `STRIPE_WEBHOOK_SECRET` | Stripe | Author Hunt's endpoint's own secret |
 | `STRIPE_PRICE_MONTHLY`, `STRIPE_PRICE_YEARLY` | Stripe | the two price ids |
 | `RESEND_API_KEY`, `EMAIL_FROM` | Resend | |
+| `EMAIL_POSTAL_ADDRESS` | you | printed at the foot of the Sunday letter |
+| `REPORTS_EMAIL` | you | where a banned or suspended person is told to write |
+| `LAUNCH_AT`, `PREVIEW_SECRET` | you | the pre-launch switch, and the way past it |
 | `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN` | Upstash | |
 | `BLOB_READ_WRITE_TOKEN` | Vercel | added with the Blob store |
 | `CRON_SECRET` | you | |

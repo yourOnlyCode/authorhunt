@@ -22,6 +22,9 @@ export const metadata: Metadata = {
 /** Midnight Eastern on January 8, 2027, when the first board's day begins. */
 const DEFAULT_OPENING = Date.UTC(2027, 0, 8, 5, 0, 0);
 
+/** The server's clock, read once per request for the countdown's first frame. */
+const serverNow = () => new Date().getTime();
+
 export default async function Splash({ searchParams }: { searchParams: Promise<{ src?: string }> }) {
   const { src } = await searchParams;
   const opens = launchAt()?.getTime() ?? DEFAULT_OPENING;
@@ -35,7 +38,7 @@ export default async function Splash({ searchParams }: { searchParams: Promise<{
           <h1>Find your next favourite author.</h1>
           <p className="what">Author Hunt is a daily launch board for authors and their books. New work goes up each morning, readers cheer for what they love, and every day ends with a ranking.</p>
         </section>
-        <Countdown opensAt={opens} initialNow={Date.now()} />
+        <Countdown opensAt={opens} initialNow={serverNow()} />
         <section className="join" id="join" aria-labelledby="join-h"><WaitlistForm src={src?.slice(0, 80)} /></section>
         <section className="launch" aria-labelledby="launch-h">
           <h2 id="launch-h">What a launch is</h2>

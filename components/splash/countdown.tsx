@@ -8,7 +8,7 @@ const two = (n: number) => (n < 10 ? `0${n}` : String(n));
 export function Countdown({ opensAt, initialNow }: { opensAt: number; initialNow: number }) {
   const [now, setNow] = useState(initialNow);
   useEffect(() => {
-    setNow(Date.now());
+    // The first frame uses the server's clock; the browser's takes over at the first tick.
     const timer = setInterval(() => setNow(Date.now()), 1000);
     return () => clearInterval(timer);
   }, []);

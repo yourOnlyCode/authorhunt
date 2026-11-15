@@ -125,7 +125,7 @@ export async function PUT(req: Request) {
     aiUse: d.aiUse ?? existing?.aiUse ?? null,
     aiDeclaredAt: d.aiUse && d.aiUse !== existing?.aiUse ? now : existing?.aiDeclaredAt ?? null,
     // A verified site was verified for that address and that handle. Change either and it has to be checked again.
-    siteVerifiedAt: existing && existing.website === website && existing.handle === d.handle ? existing.siteVerifiedAt : null,
+    siteVerifiedAt: existing && safeUrl(existing.website) === website && existing.handle === d.handle ? existing.siteVerifiedAt : null,
   };
 
   const [anyWork] = existing ? await db.select({ id: works.id }).from(works).where(eq(works.authorId, existing.id)).limit(1) : [];

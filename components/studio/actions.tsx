@@ -69,7 +69,7 @@ export function LaunchControls({ id, day, today, lastDay }: { id: string; day: s
 
   return (
     <div className="studio-controls">
-      {open === "none" && <><button type="button" className="word" onClick={() => setOpen("move")}>Move</button> <button type="button" className="word" onClick={() => setOpen("cancel")}>Cancel</button></>}
+      {open === "none" && <span><button type="button" className="word" onClick={() => setOpen("move")}>Move</button> <button type="button" className="word" onClick={() => setOpen("cancel")}>Cancel</button></span>}
       {open === "move" && (
         <span className="studio-move">
           <input type="date" className="input" aria-label="The new day" min={today} max={lastDay} value={next} onChange={(e) => setNext(e.target.value)} />

@@ -1,0 +1,47 @@
+{
+  "name": "authorhunt",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint app components lib",
+    "test": "vitest run",
+    "predev": "tsx scripts/dev-db.ts",
+    "db:seed": "tsx scripts/seed.ts",
+    "db:reset": "rm -rf .data && tsx scripts/dev-db.ts",
+    "db:migrate": "tsx scripts/migrate.ts"
+  },
+  "dependencies": {
+    "@clerk/nextjs": "^7.10.0",
+    "@electric-sql/pglite": "^0.5.16",
+    "@upstash/ratelimit": "^2.2.1",
+    "@upstash/redis": "^1.41.0",
+    "@vercel/blob": "^2.9.0",
+    "drizzle-orm": "^0.45.4",
+    "next": "^16.4.6",
+    "postgres": "^3.4.9",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "resend": "^6.38.1",
+    "sharp": "^0.35.5",
+    "stripe": "^23.1.0",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@types/node": "^22",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "autoprefixer": "^10",
+    "drizzle-kit": "^0.31.11",
+    "eslint": "^9",
+    "eslint-config-next": "^16.4.6",
+    "postcss": "^8",
+    "tailwindcss": "^3.4.19",
+    "tsx": "^4.23.15",
+    "typescript": "^5",
+    "vitest": "^5.1.0"
+  }
+}

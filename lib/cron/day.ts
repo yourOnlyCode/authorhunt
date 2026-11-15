@@ -31,9 +31,11 @@ import { count, inEmailQuietHours, placeWord, rankClosedDay, topThreeLine } from
 type Joined = { launch: Launch; author: Author; work: Work | null };
 
 /** What a launch is called and where it lives. Shared with the mailer, which looks launches up again by id. */
-export function launchFacts(row: Joined): { title: string; href: string; authorName: string } {
+export function launchFacts(row: Joined): { title: string; ownTitle: string; href: string; authorName: string } {
   return {
     title: row.work ? row.work.title : row.author.name,
+    // What the author themselves is told: a page launch is "Your page", not their own name.
+    ownTitle: row.work ? row.work.title : "Your page",
     href: row.work ? `/work/${row.work.slug}` : `/author/${row.author.handle}`,
     authorName: row.author.name,
   };
@@ -59,11 +61,11 @@ async function goLive(now: Date): Promise<{ live: number; followersTold: number 
       .where(and(eq(launches.id, row.launch.id), eq(launches.status, "scheduled"))).returning({ id: launches.id });
     if (!changed) continue;
     live += 1;
-    const { title, href, authorName } = launchFacts(row);
+    const { title, ownTitle, href, authorName } = launchFacts(row);
 
     await awardPoints(row.author.id, row.launch.kind === "work" ? "launch_work" : "launch_page", { now, subject: row.launch.id });
     await notify({
-      userId: row.author.userId, kind: "launch", title: `Your launch is live: ${title}`,
+      userId: row.author.userId, kind: "launch", title: row.work ? `Your launch is live: ${ownTitle}` : "Your page is live on today's board",
       body: `It is on the board for ${formatDay(today)}, until midnight Eastern.`, href, groupKey: `launch-live:${row.launch.id}`,
     });
 
@@ -151,11 +153,11 @@ async function closeDays(now: Date): Promise<{ closed: number; days: string[] }>
 
   for (const { row, rank, of } of closed) {
     if (rank === null) continue;
-    const { title, href } = launchFacts(row);
+    const { ownTitle, href } = launchFacts(row);
     const top = topThreeLine(rank);
     await notify({
       userId: row.author.userId, kind: "launch",
-      title: `${title} finished ${placeWord(rank)} of ${count(of, "launch", "launches")}`,
+      title: `${ownTitle} finished ${placeWord(rank)} of ${count(of, "launch", "launches")}`,
       body: `${formatDay(row.launch.launchDay)}, with ${count(row.launch.cheerCount, "cheer")}.${top ? ` ${top}` : ""}`,
       href, groupKey: `launch-closed:${row.launch.id}`,
     });
@@ -172,7 +174,7 @@ export async function runDay(now: Date) {
 }
 
 /** For the mailer: the launch a notification is about, with what its template needs. */
-export async function launchForMail(launchId: string): Promise<{ title: string; href: string; authorName: string; day: string; rank: number | null; cheers: number; of: number } | null> {
+export async function launchForMail(launchId: string): Promise<{ title: string; ownTitle: string; href: string; authorName: string; day: string; rank: number | null; cheers: number; of: number } | null> {
   const [row] = await joined().where(eq(launches.id, launchId)).limit(1);
   if (!row) return null;
   const ranked = await db.select({ id: launches.id }).from(launches).where(and(eq(launches.launchDay, row.launch.launchDay), isNotNull(launches.rankDay)));

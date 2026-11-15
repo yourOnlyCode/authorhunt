@@ -1,1 +1,80 @@
 /* Styles for the admin pages and reports. Tokens and shared components are in app/globals.css; add only what this area needs. */
+
+.admin { padding-bottom: 80px; }
+.admin .page-head { border-bottom: 0; padding-bottom: 14px; }
+.admin .page-head .sc { margin: 0 0 8px; color: var(--muted); }
+.admin-nav { margin-bottom: 28px; }
+.admin .split { padding-block: 28px 0; }
+.admin .sec > header { margin-bottom: 18px; }
+.admin-flash { margin-bottom: 24px; }
+.admin-rule { margin-bottom: 8px; background: var(--tint); }
+.admin-flag { margin-left: 0; }
+.admin-empty { padding-block: 40px; color: var(--muted); }
+.admin-aside { color: var(--ink-2); font-size: 18px; margin-top: 12px; }
+.admin-nowrap { white-space: nowrap; }
+.admin-scroll { overflow-x: auto; }
+.admin-scroll .table { min-width: 560px; }
+.admin .table td { font-size: 18px; overflow-wrap: anywhere; }
+.admin-lognote { display: block; margin-top: 4px; color: var(--muted); font-size: 17px; overflow-wrap: anywhere; }
+
+/* The desk: a row of figures, each a link to where it is dealt with */
+.admin-counts { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; border-top: 1px solid var(--hair); border-left: 1px solid var(--hair); }
+.admin-counts li { border-right: 1px solid var(--hair); border-bottom: 1px solid var(--hair); }
+.admin-counts li > * { display: grid; gap: 4px; padding: 18px; height: 100%; align-content: start; }
+.admin-counts a:hover { background: var(--tint); }
+.admin-counts b { font: 300 44px/1 var(--display); font-variant-numeric: lining-nums; }
+.admin-counts small { color: var(--muted); font-size: 17px; }
+.admin-places li { padding-block: 12px; border-bottom: 1px solid var(--hair); display: flex; flex-wrap: wrap; gap: 4px 16px; align-items: baseline; }
+.admin-places span { color: var(--muted); font-size: 18px; }
+@media (max-width: 760px) { .admin-counts { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+/* The queue: one entry per thing reported */
+.admin-queue > li { padding-block: 22px; border-bottom: 1px solid var(--hair); display: grid; gap: 8px; justify-items: start; }
+.admin-queue-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 14px; }
+.admin-queue-head .sc { color: var(--muted); }
+.admin-queue h2 { font: 300 28px/1.1 var(--display); }
+.admin-queue h2 a:hover { text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; }
+.admin-meta { display: flex; flex-wrap: wrap; gap: 2px 18px; color: var(--muted); font-size: 18px; align-items: baseline; }
+.admin-notes { display: grid; gap: 6px; padding-left: 14px; border-left: 3px solid var(--mark); font-size: 18px; max-width: 70ch; }
+.admin-notes small { color: var(--muted); font-size: 16px; margin-left: 6px; }
+
+/* A case */
+.admin-excerpt, .standing-quote { margin: 0 0 14px; padding: 12px 16px; background: var(--tint); font-size: 18px; white-space: pre-wrap; overflow-wrap: anywhere; }
+.admin-excerpt small { display: block; margin-top: 8px; color: var(--muted); font-size: 16px; }
+.admin-acts { display: grid; gap: 0; border-top: 1px solid var(--hair); }
+.admin-acts details { border-bottom: 1px solid var(--hair); }
+.admin-acts summary { padding-block: 12px; cursor: pointer; font-weight: 600; }
+.admin-acts summary:hover { text-decoration: underline; text-underline-offset: 4px; }
+.admin-acts details[open] { padding-bottom: 20px; }
+.admin-acts form p, .admin-steps form p { color: var(--ink-2); font-size: 18px; max-width: 62ch; }
+.admin-note { min-height: 84px; }
+.admin-choices { border: 0; padding: 0; margin: 0; display: grid; gap: 10px; }
+.admin-choices legend { padding: 0; margin-bottom: 8px; }
+.admin-choices label, .admin-check { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 8px; align-items: baseline; font-size: 18px; max-width: 62ch; }
+.admin-choices input, .admin-check input { accent-color: var(--ink); width: 16px; height: 16px; }
+.admin-choices label:has(input:disabled) { color: var(--muted); }
+
+/* The undeclared-AI process: four numbered steps, a rule down the side that fills in as each is done */
+.admin-steps { display: grid; gap: 0; }
+.admin-steps > li { padding: 18px 0 22px 20px; border-left: 3px solid var(--hair); display: grid; gap: 12px; }
+.admin-steps > li[data-done] { border-left-color: var(--ink); }
+.admin-steps h3 { font: 600 20px/1.2 var(--text); }
+.admin-steps > li > p { color: var(--ink-2); font-size: 18px; max-width: 62ch; }
+
+.admin .rail li b { font-weight: 600; display: block; }
+.admin-search { display: flex; gap: 12px; margin-block: 20px; max-width: 520px; }
+.admin-inline { display: flex; gap: 12px; align-items: center; }
+.admin-inline .input, .admin-inline .select { min-width: 0; padding-block: 6px; }
+.admin-inline button { white-space: nowrap; }
+.admin-pager { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding-block: 24px; color: var(--muted); }
+.admin-refs > li { display: grid; grid-template-columns: minmax(0, 1.2fr) auto minmax(0, 1.4fr) minmax(0, 1.4fr); gap: 16px; align-items: center; padding-block: 16px; border-bottom: 1px solid var(--hair); }
+.admin-refs h2 { font: 300 24px/1.1 var(--display); }
+.admin-refs small { color: var(--muted); font-size: 16px; }
+.admin-approved { color: var(--ink-2); font-size: 18px; }
+@media (max-width: 900px) { .admin-refs > li { grid-template-columns: minmax(0, 1fr); } }
+
+/* What a reported or sanctioned person sees */
+.standing { padding-bottom: 80px; }
+.standing-flash { margin-top: 24px; }
+.standing-body { padding-top: 32px; max-width: 720px; }
+.standing-body .notice p { font-size: 18px; color: var(--ink-2); }

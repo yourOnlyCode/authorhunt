@@ -30,7 +30,7 @@ export function CommentForm({ launchId, signedIn, me }: Props) {
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
-    if (!signedIn) { window.location.href = `/sign-in?next=${encodeURIComponent(`${window.location.pathname}#comments`)}`; return; }
+    if (!signedIn) { router.push(`/sign-in?next=${encodeURIComponent(`${window.location.pathname}#comments`)}`); return; }
     if (!body.trim()) { setError("Write something first."); return; }
     setBusy(true); setError(null);
     const res = await sendComment({ launchId, body });

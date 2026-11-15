@@ -31,10 +31,6 @@ type Props = {
   mentions: string[];
 };
 
-function toSignIn() {
-  window.location.href = `/sign-in?next=${encodeURIComponent(`${window.location.pathname}#comments`)}`;
-}
-
 async function call(url: string, method: string, body?: unknown): Promise<{ ok: boolean; data: Record<string, unknown> }> {
   try {
     const res = await fetch(url, { method, headers: body ? { "content-type": "application/json" } : undefined, body: body ? JSON.stringify(body) : undefined });
@@ -45,6 +41,7 @@ async function call(url: string, method: string, body?: unknown): Promise<{ ok: 
 
 export function CommentItem({ comment: c, launchId, topId, isReply, signedIn, viewerIsLaunchAuthor, mentions }: Props) {
   const router = useRouter();
+  const toSignIn = () => router.push(`/sign-in?next=${encodeURIComponent(`${window.location.pathname}#comments`)}`);
   const [cheer, setCheer] = useState({ count: c.cheerCount, on: c.cheered });
   const [mode, setMode] = useState<"read" | "reply" | "edit" | "remove">("read");
   const [draft, setDraft] = useState("");

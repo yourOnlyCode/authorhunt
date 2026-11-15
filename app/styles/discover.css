@@ -1,1 +1,87 @@
 /* Styles for the directory, filter pages, search and collections. Tokens and shared components are in app/globals.css; add only what this area needs. */
+
+/* A directory row is a launch row without the rank column: picture, words, then Momentum and Follow. */
+.row.author { grid-template-columns: 60px minmax(0, 1fr) auto; }
+.row.author .acts { flex-direction: column; align-items: flex-end; justify-content: center; gap: 6px; font-size: 17px; }
+.row.author .acts .up { color: var(--red-text); font: 700 19px/1 var(--text); font-variant-numeric: lining-nums tabular-nums; white-space: nowrap; }
+.row.author .acts .when { color: var(--muted); white-space: nowrap; }
+.row.author.work { grid-template-columns: 48px minmax(0, 1fr) auto; }
+.row.author .tags span.p { color: var(--ink-2); }
+@media (max-width: 600px) {
+  .row.author { grid-template-columns: 46px minmax(0, 1fr) auto; gap: 12px; }
+  .row.author.work { grid-template-columns: 40px minmax(0, 1fr) auto; }
+}
+
+/* The filter bar: six selects on a grid, then the tokens for what's applied. */
+.filters { padding-block: 22px 6px; }
+.filter-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px 20px; }
+@media (max-width: 860px) { .filter-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 520px) { .filter-grid { grid-template-columns: minmax(0, 1fr); } }
+.filter-foot { margin-top: 16px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 24px; }
+.check { display: inline-flex; align-items: baseline; gap: 9px; cursor: pointer; }
+.check input, .prefs input { width: 17px; height: 17px; accent-color: var(--ink); flex: none; }
+.applied { margin-top: 18px; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; }
+.applied a:not(.word) { display: inline-flex; align-items: baseline; gap: 9px; padding: 3px 10px; border: 1px solid var(--ink); font-size: 17px; }
+.applied a:not(.word):hover { background: var(--mark); }
+.applied a span { font-weight: 700; }
+.applied .clear { margin-left: 6px; font-size: 17px; }
+.sec.directory { margin-top: 28px; padding-bottom: 80px; }
+.empty { padding-block: 28px; color: var(--ink-2); max-width: 44rem; }
+.pager { margin-top: 28px; display: grid; grid-template-columns: 1fr auto 1fr; align-items: baseline; gap: 16px; color: var(--muted); }
+.pager > :last-child { justify-self: end; }
+.page-head .sc { display: block; margin-bottom: 10px; color: var(--muted); }
+.genres a .n { color: var(--muted); font-variant-numeric: lining-nums; }
+
+/* Pages that are one column: indexes, search, collections, the account's places. */
+.index-page, .search-page { padding-bottom: 80px; }
+.index-page > .sec, .search-page > .sec, .index-page > .notice, .index-page > form { margin-top: 36px; }
+.index-page > .sec + .sec, .search-page > .sec + .sec { margin-top: 56px; }
+.after { margin-top: 28px; display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px 28px; }
+.sec.prose p .btn { margin-top: 8px; }
+
+/* A title, dot leaders, then what it counts: the contents page of a book (DESIGN.md, permitted devices). */
+.leaders li { border-bottom: 1px solid var(--hair); }
+.leaders a { display: flex; align-items: baseline; gap: 10px; padding-block: 13px; }
+.leaders a > span { font: 300 24px/1.15 var(--display); }
+.leaders a:hover > span { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 5px; }
+.leaders a > i { flex: 1; min-width: 20px; border-bottom: 2px dotted var(--hair); transform: translateY(-5px); }
+.leaders a > b { font-weight: 500; color: var(--muted); font-size: 18px; font-variant-numeric: lining-nums; text-align: right; }
+.leaders .by { font: italic 500 17px/1 var(--text); color: var(--muted); margin-left: 6px; }
+.leaders em.hl { font: 600 14px/1 var(--text); font-style: normal; letter-spacing: 0.1em; text-transform: uppercase; margin-left: 8px; }
+@media (max-width: 520px) { .leaders a > span { font-size: 21px; } .leaders a > b { font-size: 17px; max-width: 45%; } }
+
+.search-form { margin-top: 18px; display: flex; gap: 10px; max-width: 34rem; }
+.search-form .input { flex: 1; min-width: 0; }
+.inline-field { display: flex; gap: 10px; max-width: 34rem; }
+.inline-field .input { flex: 1; min-width: 0; }
+.new-collection { margin-top: 28px; }
+.owner-controls { margin-top: 28px; }
+
+/* For you */
+.taste fieldset { border: 0; padding: 0; margin: 0; min-width: 0; }
+.taste legend { padding: 0; margin-bottom: 10px; }
+.taste .filter-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 44rem; }
+@media (max-width: 520px) { .taste .filter-grid { grid-template-columns: minmax(0, 1fr); } }
+.choices { display: flex; flex-wrap: wrap; gap: 8px 24px; }
+.feed-updates li { padding-block: 16px; border-bottom: 1px solid var(--hair); }
+.feed-updates .who { color: var(--muted); font-size: 18px; }
+.feed-updates .who a { color: var(--ink); }
+.feed-updates .who time::before { content: "·"; margin-inline: 4px 8px; }
+.feed-updates li p + p { margin-top: 6px; max-width: 62ch; }
+
+/* Notifications and settings */
+.notes-list li { display: flex; align-items: baseline; justify-content: space-between; gap: 6px 24px; padding-block: 14px; border-bottom: 1px solid var(--hair); }
+.notes-list li a:hover { text-decoration: underline; text-underline-offset: 4px; }
+.notes-list li.unread a { font-weight: 700; }
+.notes-list .more-count, .notes-list .body, .notes-list time { color: var(--muted); font-size: 17px; }
+.notes-list time { white-space: nowrap; font-variant-numeric: lining-nums; }
+.notes-list .sc { font-size: 12px; }
+.settings.stack { gap: 0; }
+.settings .sec { max-width: 46rem; }
+.settings .sec > header { margin-bottom: 18px; }
+.settings p.hint { font-size: 17px; color: var(--muted); margin-top: -10px; }
+.prefs th[scope="row"] { font-size: inherit; font-weight: 500; letter-spacing: 0; text-transform: none; border-bottom: 1px solid var(--hair); padding-block: 12px; }
+.prefs th small { display: block; color: var(--muted); font-size: 17px; font-weight: 500; }
+.prefs td, .prefs thead th:not(:first-child) { width: 76px; text-align: center; vertical-align: middle; padding-right: 0; }
+.save-line { margin-top: 36px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; }
+@media (max-width: 520px) { .notes-list li { flex-direction: column; } }

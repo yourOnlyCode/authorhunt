@@ -1,1 +1,29 @@
 /* Styles for pricing, settings, notifications and the legal pages. Tokens and shared components are in app/globals.css; add only what this area needs. */
+
+/* ── Pricing ── */
+.pricing { padding-bottom: 72px; }
+.pricing > section { padding-block: 28px; }
+.pricing > section > h2 { margin-bottom: 10px; }
+.price-state { border-bottom: 1.5px solid var(--ink); font-size: 21px; }
+.price-state p { max-width: 46rem; }
+.price-acts { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 14px; }
+.price-acts .error-text { flex-basis: 100%; }
+.price-acts .btn:disabled { opacity: 0.55; cursor: default; transform: none; box-shadow: none; }
+.price-table { overflow-x: auto; }
+.price-table .table { min-width: 560px; }
+.price-table .table tbody th { text-align: left; font-size: inherit; font-weight: 500; letter-spacing: 0; text-transform: none; padding: 12px 16px 12px 0; border-bottom: 1px solid var(--hair); width: 50%; }
+.price-table .table tr.never th, .price-table .table tr.never td { border-bottom: 1.5px solid var(--ink); border-top: 1.5px solid var(--ink); font-weight: 600; }
+.price-notes h2 { margin-bottom: 12px; }
+
+/* ── Terms, privacy, about ── */
+.legal { padding-bottom: 72px; }
+.legal .notice { margin-top: 24px; max-width: 62ch; }
+.legal .prose { padding-top: 8px; }
+.legal .prose h2 { margin-top: 34px; margin-bottom: 8px; font: 300 30px/1.1 var(--display); }
+.legal .prose ul { margin-top: 10px; padding-left: 1.2em; list-style: disc; }
+.legal .prose li + li { margin-top: 6px; }
+.legal .prose ul + p, .legal .prose p + ul { margin-top: 14px; }
+.legal .prose dl { margin-top: 12px; display: grid; gap: 12px; }
+.legal .prose dt { font-weight: 700; }
+.legal .dated { color: var(--muted); font-size: 18px; margin-top: 28px; }
+@media (max-width: 460px) { .price-state { font-size: 19px; } }

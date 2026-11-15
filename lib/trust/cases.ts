@@ -190,3 +190,18 @@ export async function authorOfUser(userId: string) {
   const [a] = await db.select().from(authors).where(eq(authors.userId, userId)).limit(1);
   return a ?? null;
 }
+
+/** The undeclared-AI cases about a person that are waiting for their answer: told, and not yet decided. */
+export async function openAiCasesFor(owner: { userId: string; authorId: string | null }): Promise<{ kind: string; id: string; opened: LogRow }[]> {
+  const history = await historyFor(owner);
+  const out: { kind: string; id: string; opened: LogRow }[] = [];
+  const seen = new Set<string>();
+  for (const row of history) {
+    const key = `${row.targetKind}:${row.targetId}`;
+    if (row.action !== "ai_case_opened" || seen.has(key)) continue;
+    seen.add(key);
+    const c = await aiCaseOn(row.targetKind, row.targetId);
+    if (c.opened && !c.decision) out.push({ kind: row.targetKind, id: row.targetId, opened: c.opened });
+  }
+  return out;
+}

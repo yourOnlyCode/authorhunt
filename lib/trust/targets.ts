@@ -8,7 +8,7 @@
 
 import { and, eq } from "drizzle-orm";
 import { db } from "../db";
-import { authors, collections, comments, images, launches, users, works, type AiUse, type Author, type ReportTarget, type Standing } from "../db/schema";
+import { authors, collections, comments, images, launches, users, works, type AiUse, type Author, type LaunchStatus, type ReportTarget, type Standing } from "../db/schema";
 import { launchDay } from "../ranking/day";
 import { isUuid } from "./policy";
 
@@ -31,6 +31,7 @@ export type ResolvedTarget = {
   work: { id: string; slug: string; title: string; aiUse: AiUse | null; mature: boolean; contentNotes: string[]; contentNoteText: string } | null;
   /** The launch the target is, or sits on. */
   launchId: string | null;
+  launchStatus: LaunchStatus | null;
 };
 
 const clip = (s: string, n = 280) => (s.length > n ? `${s.slice(0, n).trimEnd()}…` : s);
@@ -55,7 +56,7 @@ export async function resolveTarget(kind: ReportTarget, id: string, now: Date): 
     return {
       kind, id, title: a.name, href: `/author/${a.handle}`, excerpt: clip(a.bio || a.tagline), state: a.standing === "good" ? (a.publishedAt ? "public" : "not public yet") : a.standing,
       hidden: a.standing !== "good" || !a.publishedAt, liveToday: Boolean(live), ownerUserId: a.userId, ownerName: user?.name ?? a.name, ownerStanding: user?.standing ?? "good",
-      author: pickAuthor(a), work: null, launchId: null,
+      author: pickAuthor(a), work: null, launchId: null, launchStatus: null,
     };
   }
 
@@ -73,7 +74,7 @@ export async function resolveTarget(kind: ReportTarget, id: string, now: Date): 
       excerpt: clip(work ? work.description || work.tagline : a.bio || a.tagline),
       state: a.standing !== "good" ? a.standing : launch ? `${launch.status}, ${launch.launchDay}` : "no launch",
       hidden: a.standing !== "good" || (kind === "launch" && pulled), liveToday, ownerUserId: a.userId, ownerName: user?.name ?? a.name, ownerStanding: user?.standing ?? "good",
-      author: pickAuthor(a), work: work ? pickWork(work) : null, launchId: launch?.id ?? null,
+      author: pickAuthor(a), work: work ? pickWork(work) : null, launchId: launch?.id ?? null, launchStatus: launch?.status ?? null,
     };
   }
 
@@ -90,7 +91,7 @@ export async function resolveTarget(kind: ReportTarget, id: string, now: Date): 
       state: row.comment.removedAt ? "removed" : row.comment.hiddenAt ? "hidden by the author" : "showing",
       hidden: Boolean(row.comment.removedAt), liveToday: row.launch.status === "live" && row.launch.launchDay === today,
       ownerUserId: row.comment.userId, ownerName: user?.name ?? "Someone", ownerStanding: user?.standing ?? "good",
-      author: author ? pickAuthor(author) : null, work: null, launchId: row.launch.id,
+      author: author ? pickAuthor(author) : null, work: null, launchId: row.launch.id, launchStatus: row.launch.status,
     };
   }
 
@@ -101,7 +102,7 @@ export async function resolveTarget(kind: ReportTarget, id: string, now: Date): 
     return {
       kind, id, title: `${c.name}, a collection by ${user?.name ?? "someone"}`, href: c.isPublic ? `/collections/${c.id}` : null, excerpt: "",
       state: c.isPublic ? "public" : "private", hidden: !c.isPublic, liveToday: false,
-      ownerUserId: c.userId, ownerName: user?.name ?? "Someone", ownerStanding: user?.standing ?? "good", author: author ? pickAuthor(author) : null, work: null, launchId: null,
+      ownerUserId: c.userId, ownerName: user?.name ?? "Someone", ownerStanding: user?.standing ?? "good", author: author ? pickAuthor(author) : null, work: null, launchId: null, launchStatus: null,
     };
   }
 
@@ -111,6 +112,6 @@ export async function resolveTarget(kind: ReportTarget, id: string, now: Date): 
   return {
     kind, id, title: `A ${img.kind === "gallery" ? "gallery picture" : img.kind} uploaded by ${user?.name ?? "someone"}`, href: img.url, excerpt: "",
     state: img.removedAt ? "removed" : "showing", hidden: Boolean(img.removedAt), liveToday: false,
-    ownerUserId: img.ownerUserId, ownerName: user?.name ?? "Someone", ownerStanding: user?.standing ?? "good", author: author ? pickAuthor(author) : null, work: null, launchId: null,
+    ownerUserId: img.ownerUserId, ownerName: user?.name ?? "Someone", ownerStanding: user?.standing ?? "good", author: author ? pickAuthor(author) : null, work: null, launchId: null, launchStatus: null,
   };
 }

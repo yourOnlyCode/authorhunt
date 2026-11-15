@@ -35,7 +35,7 @@ export function launchLive(input: { title: string; href: string; day: string }):
     action: { label: "See your launch", url: abs(input.href) },
     footer: accountFooter,
   });
-  return { subject: `Your launch is live: ${input.title}`, ...mail };
+  return { subject: `${input.title} is live on today's board`, ...mail };
 }
 
 /** To the author, once the day has closed and the place is final. */

@@ -1,1 +1,67 @@
 /* Styles for author pages, launch pages and comments. Tokens and shared components are in app/globals.css; add only what this area needs. */
+
+/* The head of a work's or an author's page */
+.lhead .flag { font-size: 11px; }
+.lhead .go .followers, .fine { color: var(--muted); font-size: 17px; }
+.share { display: inline-flex; align-items: baseline; gap: 10px; }
+.share [role="status"] { color: var(--muted); font-size: 17px; }
+.owner-note { margin-top: 24px; }
+.coming { margin-top: 22px; padding-top: 18px; border-top: 1px solid var(--hair); max-width: 34rem; }
+.tellme { margin-top: 12px; display: flex; flex-wrap: wrap; gap: 10px; }
+.tellme .input { flex: 1 1 220px; width: auto; }
+.tellme .error-text { flex-basis: 100%; }
+.tellme-done { margin-top: 12px; font-style: italic; }
+.gate { margin-top: 22px; max-width: 34rem; display: grid; gap: 14px; justify-items: start; }
+.gated { padding-bottom: 96px; }
+
+/* An author's page: the portrait is a 4:5 rectangle (DESIGN.md) */
+.portrait.tall { aspect-ratio: 4 / 5; }
+.ahead .portrait.tall { font-size: 56px; box-shadow: 8px 8px 0 var(--ink); }
+.ahead .launched { margin-top: 18px; }
+.author-split main > .lbody { margin-bottom: 56px; }
+.work-row .sc { display: block; font-size: 12px; color: var(--muted); margin-bottom: 4px; }
+.work-row .sc .hl { color: var(--ink); }
+.work-row .meta a { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+.updates li { display: grid; grid-template-columns: 132px minmax(0, 1fr); gap: 18px; padding-block: 18px; border-bottom: 1px solid var(--hair); }
+.updates .when { display: grid; gap: 4px; align-content: start; }
+.updates .when .sc { font-size: 12px; }
+.updates .when time { color: var(--muted); font-size: 17px; }
+.updates .body p + p { margin-top: 10px; }
+.facts dd small { display: block; }
+.elsewhere { display: grid; gap: 4px; }
+.momentum b { display: block; margin-top: 14px; font: 300 52px/1 var(--display); color: var(--red-text); font-variant-numeric: lining-nums; }
+@media (max-width: 820px) { .ahead .portrait.tall { font-size: 32px; box-shadow: 5px 5px 0 var(--ink); } }
+@media (max-width: 600px) { .updates li { grid-template-columns: minmax(0, 1fr); gap: 6px; } }
+
+/* A work's body */
+.gallery .shot { padding: 0; }
+.gallery .shot img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.excerpt { margin-top: 48px; padding-top: 22px; border-top: 1.5px solid var(--ink); }
+.excerpt h2 { font: 500 26px/1 var(--text); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 18px; }
+.excerpt .prose { font-style: italic; }
+.excerpt .prose p + p { text-indent: 1.5em; margin-top: 0; }
+.tabs a:hover { color: var(--ink); }
+.lbody section[id], .thread, .card[id] { scroll-margin-top: 84px; }
+
+/* Comments */
+.sorts { display: flex; gap: 18px; }
+.sorts a { color: var(--muted); }
+.sorts a[aria-current] { color: var(--ink); box-shadow: inset 0 -6px 0 var(--mark); }
+.thread-empty { padding-block: 24px; color: var(--ink-2); }
+.cm { scroll-margin-top: 84px; }
+.cm:target > div > .who b { background: linear-gradient(transparent 55%, var(--mark) 55%, var(--mark) 92%, transparent 92%); }
+.cm p + p { margin-top: 10px; }
+.cm .gone, .cm.is-hidden > div > p { color: var(--muted); }
+.cm .do button:disabled { opacity: 0.5; cursor: default; }
+.cm .do .word { text-decoration: none; }
+.cm .do .cm-report:has(form) { flex-basis: 100%; color: var(--ink); font-size: 20px; }
+.cm .do [role="status"] { font-style: italic; }
+.cm .error-text { font-size: 17px; }
+.cm-form { margin-top: 12px; display: grid; gap: 10px; max-width: 62ch; }
+.cm-form .textarea { min-height: 84px; }
+.cm-form .foot { display: flex; align-items: center; gap: 16px; }
+
+/* A day's board and the archive */
+.daypage { padding-block: 40px 80px; }
+.daynav { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px 20px; padding-block: 12px; border-bottom: 1px solid var(--hair); color: var(--ink-2); font-size: 18px; }
+.archive .daycount { color: var(--muted); font-size: 17px; white-space: nowrap; align-self: center; }

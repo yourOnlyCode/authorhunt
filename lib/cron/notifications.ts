@@ -77,8 +77,8 @@ async function single(row: PendingNotification): Promise<Mail | null> {
   if (!launchId || !["launch-live", "launch-closed", "notify-live"].includes(what ?? "")) return null;
   const launch = await launchForMail(launchId);
   if (!launch) return null;
-  if (what === "launch-live") return launchLive(launch);
-  if (what === "launch-closed") return launchClosed(launch);
+  if (what === "launch-live") return launchLive({ ...launch, title: launch.ownTitle });
+  if (what === "launch-closed") return launchClosed({ ...launch, title: launch.ownTitle });
   return notifyRequestLive({ ...launch, account: true });
 }
 

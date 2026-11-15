@@ -10,18 +10,20 @@
  */
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export function AdultGate({ signedIn, what }: { signedIn: boolean; what: string }) {
+  const router = useRouter();
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   async function confirm() {
     const signIn = `/sign-in?next=${encodeURIComponent(window.location.pathname)}`;
-    if (!signedIn) { window.location.href = signIn; return; }
+    if (!signedIn) { router.push(signIn); return; }
     setBusy(true); setError(null);
     try {
       const res = await fetch("/api/settings/adult", { method: "POST", headers: { "content-type": "application/json" }, body: "{}" });
-      if (res.status === 401) { window.location.href = signIn; return; }
+      if (res.status === 401) { router.push(signIn); return; }
       if (res.ok) { window.location.reload(); return; }
       const data = await res.json().catch(() => ({}));
       setError(data.error ?? "That didn't go through.");

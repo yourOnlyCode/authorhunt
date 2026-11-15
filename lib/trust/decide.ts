@@ -205,9 +205,9 @@ export async function decideAppeal(admin: Viewer, userId: string, outcome: strin
   const target = page ? { kind: "author", id: page.id } : { kind: "user", id: userId };
   if (outcome === "overturned") {
     await logStep(admin, "appeal_decided", target, `Overturned. ${why}`);
-    return `The appeal is upheld and the decision overturned. ${await sanction(admin, userId, "restore", why)}`;
+    return `The decision is overturned. ${await sanction(admin, userId, "restore", why)}`;
   }
-  if (outcome === "upheld") {
+  if (outcome === "stands") {
     await logStep(admin, "appeal_decided", target, `The decision stands. ${why}`);
     await notify({ userId, kind: "decision", title: "Your appeal was read, and the decision stands", body: "A person read what you wrote. This was the one appeal.", href: "/standing" });
     return "The decision stands, and the person has been told.";

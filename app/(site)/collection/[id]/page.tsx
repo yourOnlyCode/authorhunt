@@ -6,6 +6,7 @@
  * that doesn't exist. A private collection is never offered to search engines.
  */
 
+import { cache } from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -20,7 +21,8 @@ import { ReportLink } from "@/components/trust/report-link";
 export const dynamic = "force-dynamic";
 type Props = { params: Promise<{ id: string }> };
 
-async function load(id: string) {
+// Metadata and the page both need it; read once per request.
+const load = cache(async (id: string) => {
   const viewer = await getViewer();
   const view = await collectionView(id, viewer?.id ?? null);
   if (!view) notFound();
@@ -28,7 +30,7 @@ async function load(id: string) {
   // A shared collection goes with its owner's standing: a suspended or banned account's lists aren't shown.
   if (!isOwner && (!view.collection.isPublic || view.ownerStanding !== "good")) notFound();
   return { viewer, view, isOwner };
-}
+});
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = await params;
@@ -90,10 +92,10 @@ export default async function CollectionPage({ params }: Props) {
         </section>
       )}
 
-      <p className="after">
+      <div className="after">
         <Link className="word" href="/collections">{isOwner ? "All your collections" : "More collections"}</Link>
         {!isOwner && <ReportLink targetKind="collection" targetId={collection.id} signedIn={signedIn} />}
-      </p>
+      </div>
     </div>
   );
 }

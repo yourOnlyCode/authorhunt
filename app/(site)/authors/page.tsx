@@ -27,7 +27,8 @@ type Props = { searchParams: Promise<RawParams> };
 export async function generateMetadata({ searchParams }: Props): Promise<Metadata> {
   const raw = await searchParams;
   const filters = parseFilters(raw);
-  const page = parsePage(raw);
+  // The page that will really be shown: a number past the end falls back to the last page, and so must its canonical.
+  const { page } = await directory(filters, { viewerId: null, page: parsePage(raw), now: new Date() });
   const canonical = directoryHref(filters, page);
   const title = page > 1 ? `Authors, page ${page}` : "Authors";
   return {

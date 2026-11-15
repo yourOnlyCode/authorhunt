@@ -29,7 +29,7 @@
 import { and, eq, gte, inArray, lte, ne, sql } from "drizzle-orm";
 import { db } from "../db";
 import { authors, follows, launches, letterSubscribers, siteEvents, works } from "../db/schema";
-import { sendEmail } from "../emails/send";
+import { sendEmail, unsubscribeHeaders } from "../emails/send";
 import { sundayLetter, type LetterItem } from "../emails/templates";
 import { appUrl } from "../env";
 import { comingSoon, topBetween, type LaunchCard } from "../queries/board";
@@ -102,7 +102,7 @@ export async function sendSundayLetter(now: Date, opts: { force?: boolean } = {}
       const email = s.email.toLowerCase();
       if (s.unsubscribedAt || seen.has(email)) continue;
       seen.add(email);
-      await sendEmail({ to: s.email, ...sundayLetter({ weekOf: today, top, followed: [], soon, unsubscribeUrl: `${appUrl}/letter/unsubscribe?t=${encodeURIComponent(s.token)}` }) });
+      await sendEmail({ to: s.email, ...sundayLetter({ weekOf: today, top, followed: [], soon, unsubscribeUrl: `${appUrl}/letter/unsubscribe?t=${encodeURIComponent(s.token)}` }), headers: unsubscribeHeaders(`${appUrl}/api/letter/unsubscribe?t=${encodeURIComponent(s.token)}`) });
       toAddresses += 1;
     }
   }

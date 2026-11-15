@@ -41,8 +41,11 @@ export function addressRefused(address: string): boolean {
   return true;
 }
 
-// Only for trying the check against a server on this machine in development. Never in production.
+// Only for trying the check against a server on this machine in development: it lets loopback and a port through,
+// and nothing else that is refused. Never in production.
 const allowLocal = process.env.NODE_ENV !== "production" && process.env.VERIFY_SITE_ALLOW_LOCAL === "1";
+const loopback = (address: string) => address === "::1" || /^127\./.test(address);
+const refusedHere = (address: string) => addressRefused(address) && !(allowLocal && loopback(address));
 
 export class SiteCheckError extends Error {}
 
@@ -67,7 +70,7 @@ async function checked(raw: string): Promise<Target> {
   const first = found[0];
   if (!first) throw new SiteCheckError("That site's name couldn't be found.");
   // Every answer has to be public: a name with one private address among several is refused whole.
-  if (!allowLocal && found.some((a) => addressRefused(a.address))) throw refuse();
+  if (found.some((a) => refusedHere(a.address))) throw refuse();
   return { url, address: first.address, family: first.family === 6 ? 6 : 4 };
 }
 

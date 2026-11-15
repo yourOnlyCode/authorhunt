@@ -131,7 +131,9 @@ export async function PUT(req: Request) {
   const [anyWork] = existing ? await db.select({ id: works.id }).from(works).where(eq(works.authorId, existing.id)).limit(1) : [];
   // A public page stays whole: a change that would leave it without something it needed to go public is refused.
   if (existing?.publishedAt) {
-    const gone = missingFrom(pageChecklist(values, anyWork ? 1 : 0));
+    // Only what this save takes away counts: a page made public before a rule existed can still be edited.
+    const had = new Set(pageChecklist(existing, anyWork ? 1 : 0).filter((i) => i.done).map((i) => i.key));
+    const gone = pageChecklist(values, anyWork ? 1 : 0).filter((i) => !i.done && had.has(i.key)).map((i) => i.label);
     if (gone.length > 0) return fail(400, `A public page needs: ${gone.join("; ")}.`);
   }
 

@@ -9,7 +9,7 @@
 import { Resend } from "resend";
 import { resendEnabled } from "../env";
 
-export type Email = { to: string; subject: string; html: string; text: string };
+export type Email = { to: string; subject: string; html: string; text: string; headers?: Record<string, string> };
 
 const FROM = process.env.EMAIL_FROM ?? "Author Hunt <hello@authorhunt.com>";
 
@@ -19,9 +19,14 @@ export async function sendEmail(mail: Email): Promise<{ ok: boolean }> {
     return { ok: true };
   }
   const resend = new Resend(process.env.RESEND_API_KEY);
-  const { error } = await resend.emails.send({ from: FROM, to: mail.to, subject: mail.subject, html: mail.html, text: mail.text });
+  const { error } = await resend.emails.send({ from: FROM, to: mail.to, subject: mail.subject, html: mail.html, text: mail.text, headers: mail.headers });
   if (error) console.error("[email] failed", mail.subject, error);
   return { ok: !error };
+}
+
+/** The headers mailbox providers expect on bulk mail, so "unsubscribe" works from the inbox itself. */
+export function unsubscribeHeaders(url: string): Record<string, string> {
+  return { "List-Unsubscribe": `<${url}>`, "List-Unsubscribe-Post": "List-Unsubscribe=One-Click" };
 }
 
 const esc = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");

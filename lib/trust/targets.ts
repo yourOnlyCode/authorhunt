@@ -100,7 +100,7 @@ export async function resolveTarget(kind: ReportTarget, id: string, now: Date): 
     if (!c) return null;
     const { user, author } = await ownerOf(c.userId);
     return {
-      kind, id, title: `${c.name}, a collection by ${user?.name ?? "someone"}`, href: c.isPublic ? `/collections/${c.id}` : null, excerpt: "",
+      kind, id, title: `${c.name}, a collection by ${user?.name ?? "someone"}`, href: c.isPublic ? `/collection/${c.id}` : null, excerpt: "",
       state: c.isPublic ? "public" : "private", hidden: !c.isPublic, liveToday: false,
       ownerUserId: c.userId, ownerName: user?.name ?? "Someone", ownerStanding: user?.standing ?? "good", author: author ? pickAuthor(author) : null, work: null, launchId: null, launchStatus: null,
     };

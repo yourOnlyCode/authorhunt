@@ -21,6 +21,8 @@ export const NOTIFICATION_KINDS = {
   followed_update: { label: "An author you follow posts an update", emailNow: false },
   notify_live: { label: "A launch you asked about goes live", emailNow: true },
   decision: { label: "Decisions on reports", emailNow: true },
+  // Not a notification anyone is sent through notify(): the weekly letter's own switch, kept with the rest so one settings page covers every email.
+  letter: { label: "The Sunday letter", emailNow: false },
 } as const;
 export type NotificationKind = keyof typeof NOTIFICATION_KINDS;
 

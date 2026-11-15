@@ -12,6 +12,7 @@ import { eq } from "drizzle-orm";
 import { ImageResponse } from "next/og";
 import { db } from "@/lib/db";
 import { authors } from "@/lib/db/schema";
+import { OG_FONT_FAMILY, ogFonts } from "@/lib/og-fonts";
 
 const SHAPES = { wide: { width: 900, height: 300 }, tall: { width: 540, height: 720 } } as const;
 
@@ -28,12 +29,12 @@ export async function GET(req: Request, { params }: { params: Promise<{ handle: 
 
   return new ImageResponse(
     (
-      <div style={{ width: "100%", height: "100%", display: "flex", background: "#FFFFFF", border: "2px solid #111111", color: "#111111", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: tall ? 44 : 36, textAlign: "center" }}>
+      <div style={{ width: "100%", height: "100%", display: "flex", background: "#FFFFFF", border: "2px solid #111111", color: "#111111", fontFamily: OG_FONT_FAMILY, flexDirection: "column", alignItems: "center", justifyContent: "center", padding: tall ? 44 : 36, textAlign: "center" }}>
         <div style={{ width: tall ? 40 : 28, height: tall ? 40 : 28, background: "#D9361E", display: "flex" }} />
         <div style={{ display: "flex", marginTop: tall ? 44 : 22, fontSize: tall ? 40 : 34, letterSpacing: 3, textTransform: "uppercase" }}>Find me on Author Hunt</div>
         <div style={{ display: "flex", marginTop: tall ? 40 : 20, fontSize: linkSize, lineHeight: 1.1, borderBottom: "4px solid #D9361E", paddingBottom: 8 }}>{link}</div>
       </div>
     ),
-    { ...shape, headers: { "cache-control": "public, max-age=3600, s-maxage=86400" } },
+    { ...shape, fonts: await ogFonts(), headers: { "cache-control": "public, max-age=3600, s-maxage=86400" } },
   );
 }

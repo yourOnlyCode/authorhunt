@@ -3,12 +3,12 @@
  *
  * The card a pasted link shows: a white page, ink, the brand red, a title and
  * a byline. One drawing for author pages and work pages, so a link looks
- * finished anywhere. It is set in the face next/og carries with it, since the
- * image is drawn on the server with no access to the site's own fonts, and a
- * card that always renders is worth more than one that sometimes can't.
+ * finished anywhere. It is set in the site's heading face, read from
+ * assets/fonts (lib/og-fonts.ts), and falls back to the built-in face.
  */
 
 import { ImageResponse } from "next/og";
+import { OG_FONT_FAMILY, ogFonts } from "@/lib/og-fonts";
 
 export const OG_SIZE = { width: 1200, height: 630 };
 const INK = "#111111";
@@ -16,11 +16,12 @@ const RED = "#D9361E";
 
 type Card = { kicker: string; title: string; line?: string; foot: string };
 
-export function ogCard({ kicker, title, line, foot }: Card): ImageResponse {
+export async function ogCard({ kicker, title, line, foot }: Card): Promise<ImageResponse> {
+  const fonts = await ogFonts();
   const size = title.length > 60 ? 64 : title.length > 32 ? 80 : 100;
   return new ImageResponse(
     (
-      <div style={{ width: "100%", height: "100%", display: "flex", background: "#FFFFFF", padding: 28 }}>
+      <div style={{ width: "100%", height: "100%", display: "flex", background: "#FFFFFF", padding: 28, fontFamily: OG_FONT_FAMILY }}>
         <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "space-between", border: `3px solid ${INK}`, padding: "48px 56px", color: INK }}>
           <div style={{ display: "flex", alignItems: "center", fontSize: 26, letterSpacing: 4, textTransform: "uppercase" }}>
             <div style={{ width: 18, height: 18, background: RED, marginRight: 18 }} />
@@ -37,6 +38,6 @@ export function ogCard({ kicker, title, line, foot }: Card): ImageResponse {
         </div>
       </div>
     ),
-    OG_SIZE,
+    { ...OG_SIZE, fonts },
   );
 }

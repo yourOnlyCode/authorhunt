@@ -206,7 +206,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 .cm .do .up[aria-pressed="true"] svg { fill: var(--red); stroke: var(--red); }
 .cm.pinned { border: 1.5px solid var(--ink); padding: 18px; margin-top: 22px; }
 .cm .reply { grid-column: 2; padding-block: 18px 0; border: 0; border-top: 1px solid var(--hair); margin-top: 18px; }
-.facts > div { display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 12px; padding-block: 11px; border-bottom: 1px solid var(--hair); }
+.facts > div { display: grid; grid-template-columns: 124px minmax(0, 1fr); gap: 12px; padding-block: 11px; border-bottom: 1px solid var(--hair); }
 .facts dt { color: var(--muted); padding-top: 4px; }
 .card { position: relative; border: 1.5px solid var(--ink); padding: 18px; }
 .card > * { position: relative; }

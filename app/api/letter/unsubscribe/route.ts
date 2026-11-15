@@ -18,9 +18,17 @@ const Body = z.object({ token: z.string().min(10).max(100) });
 export async function POST(req: Request) {
   const limited = await byIp(req, { name: "letter-unsubscribe", max: 20, windowSec: 600 });
   if (limited) return limited;
-  const body = await readBody(req, Body);
-  if ("response" in body) return body.response;
-  await db.update(letterSubscribers).set({ unsubscribedAt: new Date() }).where(and(eq(letterSubscribers.token, body.data.token), isNull(letterSubscribers.unsubscribedAt)));
-  const [row] = await db.select({ email: letterSubscribers.email }).from(letterSubscribers).where(eq(letterSubscribers.token, body.data.token)).limit(1);
+  // A mailbox's own "unsubscribe" button posts to the address in the List-Unsubscribe
+  // header with the token in the query and a form body, not JSON. Still a POST, never a GET.
+  const fromQuery = Body.safeParse({ token: new URL(req.url).searchParams.get("t") });
+  let token: string;
+  if (fromQuery.success) token = fromQuery.data.token;
+  else {
+    const body = await readBody(req, Body);
+    if ("response" in body) return body.response;
+    token = body.data.token;
+  }
+  await db.update(letterSubscribers).set({ unsubscribedAt: new Date() }).where(and(eq(letterSubscribers.token, token), isNull(letterSubscribers.unsubscribedAt)));
+  const [row] = await db.select({ email: letterSubscribers.email }).from(letterSubscribers).where(eq(letterSubscribers.token, token)).limit(1);
   return json({ ok: Boolean(row) });
 }

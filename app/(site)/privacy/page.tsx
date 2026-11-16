@@ -1,15 +1,15 @@
 /**
  * app/(site)/privacy/page.tsx
  *
- * The privacy notice, as a DRAFT for a lawyer's review
- * (docs/setup-checklist.md §11). What it says the app does is what the app
- * does; keep it true when either changes.
+ * The privacy notice. What it says the app does is what the app does: keep it
+ * true when either changes. The waiting list's sign-up form links here
+ * ("What we keep"), so it is public before the site opens.
  */
 
 import type { Metadata } from "next";
 import Link from "next/link";
 
-const description = "What Author Hunt keeps, what is public, what is emailed, how sign-in is shared with Lorec, and how to delete an account.";
+const description = "What Author Hunt keeps, what is public, what is emailed, and how to delete an account.";
 
 export const metadata: Metadata = {
   title: "Privacy",
@@ -27,7 +27,6 @@ export default function Privacy() {
         <h1>Privacy</h1>
         <p>What Author Hunt keeps about you, who can see it, and how to remove it.</p>
       </header>
-      <p className="notice warn" role="note"><b>Draft.</b> This page is a draft waiting for a lawyer&apos;s review. It describes what Author Hunt does today, and it is not yet the final notice. The address on it is a placeholder.</p>
 
       <div className="prose">
         <h2>The short version</h2>
@@ -70,15 +69,9 @@ export default function Privacy() {
         <h2>The waiting list before opening</h2>
         <p>If you joined the list before Author Hunt opened, we kept your address, whether you said you were an author or a reader, and which link brought you. It is used for two emails: one asking you to confirm the address (with a single reminder if you didn&apos;t), and one on opening day inviting you to make your account. An address that is never confirmed is dropped. To be taken off the list, write to the address at the foot of this page.</p>
 
-        <h2>Sign-in is shared with Lorec</h2>
-        <p>Author Hunt is made by the people who make Lorec, a writing app, and the two share one sign-in. This is what that means:</p>
-        <ul>
-          <li>You sign in on Lorec&apos;s sign-in page, and one set of sign-in details works for both.</li>
-          <li>The sign-in service (Clerk) holds your email address, your name and picture, and how you sign in. Both sites can read those.</li>
-          <li><b>Everything else is separate.</b> Your Author Hunt page, cheers, follows, comments and collections are kept in Author Hunt&apos;s own database, which Lorec doesn&apos;t read. What you write in Lorec isn&apos;t read by Author Hunt.</li>
-          <li>A ban or suspension on Author Hunt applies to Author Hunt only.</li>
-          <li>Deleting the shared sign-in removes your account on both. See below for removing only your Author Hunt data.</li>
-        </ul>
+        <h2>Signing in</h2>
+        <p>Author Hunt has its own accounts. The sign-in service (Clerk) holds your email address, your name and picture, and how you sign in. Your page, cheers, follows, comments and collections are kept in Author Hunt&apos;s own database.</p>
+        <p>Author Hunt is made by the people who make Lorec, a writing app. The two are separate: an account here is not a Lorec account, and neither reads the other&apos;s data.</p>
 
         <h2>Page analytics, without cookies</h2>
         <p>Author Hunt counts page views and presses on outbound links itself, so authors can see how their pages are doing. A count records the page, the day, the site you came from and the link pressed. It records no name, no account, no IP address and no identifier that follows you from page to page, and it sets no cookie. That is why there is no cookie banner.</p>
@@ -92,10 +85,7 @@ export default function Privacy() {
         <p>Services that run Author Hunt for us, each only for its job: hosting (Vercel), the database (Supabase), sign-in (Clerk), payments (Stripe), email (Resend), rate limiting (Upstash). None of them may use your data for their own purposes. We don&apos;t sell personal data and show no advertising based on it.</p>
 
         <h2>How to delete an account</h2>
-        <ul>
-          <li><b>Only your Author Hunt account.</b> Write to the address below, from the address on the account. Your page, works, launches, cheers, follows, comments, collections and notifications are deleted, and a running membership is cancelled. Your Lorec account, if you have one, is left alone.</li>
-          <li><b>The shared sign-in.</b> Deleting it removes your Author Hunt data too, automatically, along with your Lorec account.</li>
-        </ul>
+        <p>Write to the address below, from the address on the account. Your sign-in, page, works, launches, cheers, follows, comments, collections and notifications are deleted, and a running membership is cancelled.</p>
         <p>Deletion is permanent. Copies in backups go as the backups expire. A record that a decision was made about a banned page is kept, so the ban holds.</p>
 
         <h2>Your rights</h2>
@@ -107,7 +97,7 @@ export default function Privacy() {
         <h2>Contact</h2>
         <p><a className="word" href={`mailto:${CONTACT}`}>{CONTACT}</a></p>
 
-        <p className="dated">Draft of November 2026. Not yet in force.</p>
+        <p className="dated">Last updated November 2026.</p>
       </div>
     </main>
   );

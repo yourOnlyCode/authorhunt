@@ -195,25 +195,20 @@ accept AI-written work (AGENTS.md rule 7, made stricter November 16, 2026):
 5. One appeal, in writing, within thirty days.
 6. Every step is in `moderation_log`.
 
-What a ban does not do: it doesn't touch the person's Lorec account, which
-is a separate product with its own rules, though the two share a sign-in.
+What a ban does not do: it has nothing to do with Lorec, which is a separate
+product with separate accounts.
 Author Hunt's standing is stored in Author Hunt's database only.
 
 ## 8. The Clerk webhook
 
-Author Hunt uses Lorec's Clerk instance and has **its own webhook
-endpoint** (the owner's call, November 2026): a second endpoint registered
-in the same Clerk instance, at `authorhunt.com/api/clerk/webhook`, with its
-own signing secret, writing only to Author Hunt's database.
+Author Hunt has **its own Clerk application** (the owner's call, November
+16, 2026; the earlier plan shared Lorec's). Its webhook endpoint is
+`authorhunt.com/api/clerk/webhook`, with its own signing secret, writing
+only to Author Hunt's database.
 
-Because the instance is shared, both endpoints hear every user event,
-whichever site the person signed up on. So:
-
-- Author Hunt's handler makes its own `users` row lazily, on a person's
-  first signed-in request, not on `user.created`. Lorec-only users never
-  get a row here.
-- Lorec's handler will hear about people who signed up on Author Hunt.
-  Read it before launch: it should either make them an ordinary free Lorec
-  account, or skip sign-ups that carry Author Hunt's marker in their
-  sign-up metadata. Neither handler writes metadata the other reads.
-- `user.deleted` is honoured by both: each removes its own data.
+- It makes no `users` row on `user.created`. `lib/auth` makes one on a
+  person's first signed-in request, so there is one place that does.
+- `user.updated` refreshes the email, name and picture of a row that
+  exists. `user.deleted` removes the row and everything of theirs, and
+  cancels a running membership.
+- Lorec's Clerk instance and its webhook are untouched by any of this.

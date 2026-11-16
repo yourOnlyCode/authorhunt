@@ -18,6 +18,8 @@ done to the main app can break it.
 
 ### 1.1 Decided (November 16)
 
+- [x] **Sign-in is Author Hunt's own, not shared with Lorec** (decided
+      November 16, later). An account here is not a Lorec account.
 - [x] **The list is an email list, not accounts.** The splash takes an
       email and "I'm an author / I'm a reader", stores it, and sends one
       email to confirm the address. On opening day each confirmed address
@@ -154,7 +156,7 @@ only the waitlist's reminder has work to do, and it runs once a day, so
 | 4 | Supabase | the database | yes | yes | no (local database only) |
 | 5 | Resend | all email | yes | yes | no (printed to the log) |
 | 6 | Upstash | rate limits | yes | yes | no (in-memory) |
-| 7 | Clerk | sign-in, shared with Lorec | no | yes | no (sample accounts) |
+| 7 | Clerk | sign-in, Author Hunt's own application | no | yes | no (sample accounts) |
 | 8 | Vercel Blob | portraits and covers | no | yes | no (saved to disk) |
 | 9 | Stripe | the $3.99 / $32 membership | no | yes | no (signed test events only) |
 | 10 | Sentry | error reports | no | wanted | no |
@@ -168,18 +170,14 @@ only the waitlist's reminder has work to do, and it runs once a day, so
 
 **November 24 to December 6: sign-in and images.**
 
-- [ ] **You.** Clerk: confirm Lorec's plan allows satellite domains (Part
-      3). Add `authorhunt.com` as a satellite in Lorec's Clerk instance and
-      add the `clerk` DNS record. Keep Lorec's sign-in open and test it
-      after each step.
-- [ ] **You.** Clerk: allow redirects back to authorhunt.com; add the
-      second webhook endpoint (`/api/clerk/webhook`) and copy its secret.
-- [ ] **You.** Read Clerk's invitation email template. It will say Lorec.
-      Decide the wording, since every waitlist address gets it on Jan 8.
-- [ ] **Claude.** Read Lorec's Clerk webhook and report what it does with
-      someone who signed up on Author Hunt; fix in Lorec if needed.
-- [ ] **Claude.** Turn Clerk on in a preview, then test: sign up, sign in
-      from each site, sign out, the webhook updating and deleting a user.
+- [ ] **You.** Clerk: create Author Hunt's **own** application (not
+      Lorec's; decided November 16), its production instance on
+      authorhunt.com with the DNS records Clerk lists, and the webhook
+      endpoint (`/api/clerk/webhook`). docs/setup-checklist.md, section 3.
+- [ ] **You.** Word Clerk's invitation email. Every waitlist address gets
+      it on January 8.
+- [ ] **Claude.** Turn Clerk on in a preview, then test: sign up, sign in,
+      sign out, the webhook updating and deleting a user.
 - [ ] **You.** Vercel Blob: create the store.
 - [ ] **Claude.** Test uploads against Blob in a preview.
 - [ ] **Claude.** Finish what the first build left out: hold a new
@@ -253,7 +251,7 @@ company's own page before paying.**
 |---|---|---|---|
 | **Vercel** | Hobby is for personal, non-commercial use, and its scheduled jobs may run only once a day. Author Hunt's run hourly: on Hobby the deploy fails. | **Pro**, before the splash goes live. | $20 a month per seat |
 | **Supabase** | Free allows two projects per organisation, pauses a project after a week with no activity, and has no backups to restore from. Author Hunt needs a production and a preview project beside Lorec's. | **Pro** for the organisation by early December, before real pages exist. The splash can start on a free project if a slot is open. | $25 a month, plus roughly $10 for each extra project's compute |
-| **Clerk** | Satellite domains (sharing Lorec's sign-in across a second domain) are not on the free plan. | **Pro** plus one satellite domain, by late November. | $25 a month ($20 billed yearly) + $10 a month |
+| **Clerk** | None expected. Author Hunt has its own Clerk application, so no satellite domain is needed; the free plan is reported to cover a production application on its own domain up to 50,000 users. | Stay on free. | $0 |
 | **Resend** | Free allows one sending domain and 100 emails a day. Lorec's domain uses the one; a busy sign-up day or opening day passes 100. | **Pro**, before the splash is announced. | $20 a month (50,000 emails) |
 | **Upstash** | Free allows one database and 500,000 commands a month. | Share Lorec's database (keys are prefixed), or pay as you go. Probably nothing at first. | $0 to a few dollars |
 | **Vercel Blob** | Included amounts on the Vercel plan; not checked. | Covered by Vercel Pro at this size. | usage |
@@ -262,15 +260,12 @@ company's own page before paying.**
 | **Domain** | | Register it. | about $12 a year |
 | **Mailbox** | | Forwarding from the registrar is free; a real inbox costs. | $0 to $7 a month |
 
-**Roughly $100 to $135 a month** once everything is on, of which about
-$40 (Vercel and Resend) is needed for the splash itself.
+**Roughly $65 to $100 a month** once everything is on (Clerk is no longer
+part of it), of which about $20 to $40 (Vercel, and Resend if its free
+limits bite) is needed for the splash itself.
 
-Two ways to spend less, each with a cost of its own:
+One way to spend less at the start:
 
-- **A separate, free Clerk application for Author Hunt** instead of
-  sharing Lorec's saves about $35 a month. People would then have two
-  accounts, one per site, and the Writers Pass link-up later gets harder.
-  You chose shared sign-in; this is the fallback if the price matters.
 - **Starting the splash on Supabase's free plan** is fine if Lorec's
   organisation has a free slot, as long as you move to Pro before authors
   start making pages. A free project with no backups is not where to keep

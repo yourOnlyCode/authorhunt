@@ -6,7 +6,7 @@ launch each piece of work like a product: a novel, and just as much a poem,
 an essay, flash fiction, a short story, an article or a novella. Small counts. The community cheers, comments and follows,
 and each day has a ranking. It lives at authorhunt.com, is a web app only,
 and is built on the same stack as Lorec (github.com/yourOnlyCode/lorec),
-with Lorec's sign-in and Lorec's Stripe account. It does not look like Lorec.
+with its own sign-in and Lorec's Stripe account. It does not look like Lorec.
 
 This file is the entry point. `CLAUDE.md` only imports it, so the two can't
 drift apart.
@@ -69,7 +69,7 @@ reason; change one only when the owner says so, and change this file with it.
 ## Stack
 
 Next.js 16 (App Router, on Vercel `iad1`), React 19, TypeScript, Tailwind 3,
-Clerk (Lorec's instance, as a satellite domain), Drizzle on Supabase Postgres (`us-east-1`), Stripe, Resend, Upstash
+Clerk (Author Hunt's own application), Drizzle on Supabase Postgres (`us-east-1`), Stripe, Resend, Upstash
 rate limiting, Vitest. No Tauri, no static export: this app can use server
 components, ISR and route handlers freely, which Lorec's desktop build can't.
 
@@ -136,8 +136,9 @@ own (pass `now` in), so the tests are cheap and there is no excuse.
 - Mutations are route handlers under `app/api/`, each of which checks the
   Clerk session, then the entitlement if it's a member tool
   (`requireMember`, `lib/billing/access.ts`), then the rate limit.
-- The Clerk webhook is Author Hunt's own endpoint on Lorec's instance
-  (docs/product-structure.md §8). It makes no row on `user.created`.
+- The Clerk webhook belongs to Author Hunt's own Clerk application
+  (docs/product-structure.md §8). It makes no row on `user.created`;
+  `lib/auth` makes one on a person's first signed-in request.
 - Admin pages check `isAdminUser` (`ADMIN_EMAILS`) on the server and 404 for
   anyone else.
 
@@ -149,9 +150,10 @@ own (pass `now` in), so the tests are cheap and there is no excuse.
   doesn't. It has its own webhook endpoint and signing secret.
 - Never reuse a Lorec Stripe customer. An Author Hunt customer is created
   for the Author Hunt account, so Lorec's webhook never finds a user for it.
-- Author Hunt signs in through **Lorec's Clerk instance**. Never change a
-  Clerk setting, a sign-in page or user metadata that Lorec reads; Author
-  Hunt's own metadata lives under an `authorhunt` key.
+- **Sign-in is Author Hunt's own Clerk application, not Lorec's** (the
+  owner's call, November 2026, reversing the earlier plan to share one).
+  An Author Hunt account and a Lorec account are different accounts, even
+  for the same person. Only Stripe is shared with Lorec.
 - **Author Hunt processes no gifts.** Support is a member's own outside
   link (Ko-fi, PayPal and the like), opened in a new tab. No Stripe Connect.
 - Whether an author has the member tools is one function:

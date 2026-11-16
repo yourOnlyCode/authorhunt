@@ -17,7 +17,7 @@ Status marks: **built**, **planned** (designed, not built), **later**
 
 | Term | In the UI | In code | What it is | Not |
 |---|---|---|---|---|
-| Account | (unnamed) | `users` | One signed-in person, from Clerk. Can cheer, follow, save, comment, give. | Not an author until it has a page. |
+| Account | (unnamed) | `users` | One signed-in person, from Author Hunt's own Clerk application (not shared with Lorec). Can cheer, follow, save, comment, give. | Not an author until it has a page. |
 | Reader | reader | no table; any `users` row | Someone here to find authors. Never pays. | Not a separate account type. |
 | Author | author | `authors` | An account that has made a page. One page per account. | Never "creator", "maker", "user". |
 | Reference author | (the name itself) | `reference_authors` | A well-known writer used as a signpost: "for readers of Ursula K. Le Guin". Has no account and no page of their own. | Not an Author. Not an Unclaimed page. |
@@ -140,6 +140,8 @@ Pro, Premium, upgrade, shelf (replaced by collection, November 2026).
 
 ## Changes
 
+- 2026-11-16, later. Sign-in is Author Hunt's own Clerk application. An
+  Author Hunt account and a Lorec account are different accounts.
 - 2026-11-16. Author Hunt no longer accepts AI-written work. The AI
   declaration has two accepted answers; the report reason reads "Written by
   AI"; AI-written work is removed and its author banned.

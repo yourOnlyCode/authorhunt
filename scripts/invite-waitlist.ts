@@ -12,11 +12,10 @@
  * It is safe to run again: a row is marked invited as soon as its invitation
  * is made, and only rows with invited_at null are picked up.
  *
- * The Clerk instance is Lorec's. This only creates invitations; it changes no
- * setting, and it never turns on Clerk's own waitlist mode, which would put
- * Lorec's sign-ups behind a waitlist too. The invitation email is Clerk's
- * "invitation" template and is worded by that instance: read it in the
- * dashboard before the first real run, since by default it says Lorec.
+ * This runs against Author Hunt's own Clerk application. It only creates
+ * invitations and changes no setting. The invitation email is Clerk's
+ * "invitation" template: read and word it in the dashboard before the
+ * first real run.
  * Check Clerk's current rate limits for invitations too; BATCH and PAUSE_MS
  * are deliberately slow.
  */
@@ -84,7 +83,7 @@ async function main() {
           console.error(`  failed: ${row.email}`, (err as { errors?: unknown }).errors ?? (err instanceof Error ? err.message : err));
           continue;
         }
-        // They already have an account on the shared sign-in (a Lorec writer, say) or an invitation. Mark the row so it isn't tried again.
+        // They already have an account or an invitation. Mark the row so it isn't tried again.
         known += 1;
       }
       await db.update(waitlist).set({ invitedAt: new Date() }).where(and(eq(waitlist.id, row.id), isNull(waitlist.invitedAt)));

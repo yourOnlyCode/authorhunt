@@ -1,18 +1,16 @@
 /**
  * POST /api/clerk/webhook
  *
- * Author Hunt's own endpoint on Lorec's Clerk instance, with its own signing
- * secret (docs/product-structure.md §8). The instance is shared, so this
- * hears about every user, most of whom are Lorec's and never come here:
+ * The webhook for Author Hunt's own Clerk application (it does not share
+ * Lorec's: the owner's call, November 2026; docs/product-structure.md §8).
  *
  * - user.created makes no row. A users row is made on a person's first
- *   signed-in request (lib/auth), so Lorec-only users never get one.
+ *   signed-in request (lib/auth), which keeps one place that makes it.
  * - user.updated changes the email, name and picture of a row that already
  *   exists, and does nothing otherwise.
  * - user.deleted removes the row, and everything of theirs goes with it.
  *
- * It writes only to Author Hunt's database and never to Clerk: no metadata
- * that Lorec reads is touched from here.
+ * It writes only to Author Hunt's database and never to Clerk.
  */
 
 import type { NextRequest } from "next/server";

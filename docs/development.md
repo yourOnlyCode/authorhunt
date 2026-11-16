@@ -14,7 +14,7 @@ A daily launch board for authors and books.
   "for readers of", "inspired by"), follow authors, save them to
   collections, support them with a gift, and get a feed and a weekly email
   shaped by who they follow and cheer.
-- **Lorec** runs it and takes the payments, and the two share a sign-in.
+- **Lorec** runs it and takes the payments. Sign-in is Author Hunt's own.
   Author Hunt has its own name, domain (authorhunt.com) and look.
 
 The words for all of this are in [ontology.md](ontology.md). Read it before
@@ -29,7 +29,7 @@ The same stack as Lorec, minus everything the desktop app forced on it.
 | Framework | Next.js 16 App Router, React 19 | Server components and ISR for every public page. |
 | Hosting | Vercel, functions in `iad1` | Same region as the database. |
 | Database | Supabase Postgres, `us-east-1`, **its own project** | Drizzle schema, SQL migrations. |
-| Auth | Clerk, **Lorec's instance**, as a satellite domain | See "Accounts" below. |
+| Auth | Clerk, **Author Hunt's own application** | See "Accounts" below. |
 | Payments | Stripe, **Lorec's account**, own product and webhook | See "Billing". |
 | Email | Resend, React Email | Launch-day mail and the weekly digest. |
 | Rate limits | Upstash | Cheers, comments, sign-ups, public reads. |
@@ -68,27 +68,21 @@ components/
 One account type. Anyone can cheer, follow, save and give; an account
 becomes an author when it creates a page. A person can be both.
 
-**Sign-in is Lorec's Clerk instance** (the owner's call, November 2026), so
-one account works on both. authorhunt.com is a different domain from
-lorec.io, which makes it a Clerk *satellite domain*: lorec.io stays the
-primary, holds the session, and authorhunt.com reads it.
+**Sign-in is Author Hunt's own Clerk application** (the owner's call,
+November 16, 2026, reversing the earlier plan to share Lorec's instance as
+a satellite domain).
 
-- Clerk's pricing page lists satellite domains on the Pro plan at $10 a
-  month each (checked November 2026; confirm on clerk.com/pricing).
-- Setup: add the satellite in Clerk's dashboard, add the `clerk` CNAME on
-  authorhunt.com, and set `isSatellite`, the domain and the primary's
-  sign-in URL in Author Hunt's Clerk config. Sign-in happens on the primary
-  and returns, so Lorec's sign-in pages need Author Hunt's URLs in their
-  allowed redirects, and should say where the visitor is headed.
-- **Sharing an instance means sharing its settings and its users.** Author
-  Hunt never edits Clerk metadata Lorec reads (the plan, the ambassador
-  code), and keeps its own under an `authorhunt` key. A reader who signs up
-  on Author Hunt becomes a Clerk user Lorec's webhook also hears about:
-  check that Lorec's `user.created` handler is content to make a free Lorec
-  row for them, or skips sign-ups that came from Author Hunt.
-- Author Hunt still has its own database. Its `users.id` is the Clerk id,
-  so a Lorec account and an Author Hunt account are the same person by
-  construction, with no matching by email.
+- An Author Hunt account and a Lorec account are different accounts, even
+  for the same person. Nothing is shared between the two but the Stripe
+  account behind the membership.
+- No satellite domain, so no paid Clerk plan is needed for that: Clerk's
+  free plan covers a production application on its own domain.
+- Clerk's emails (the opening-day invitation, verification codes) are
+  Author Hunt's own templates and say Author Hunt.
+- What this gives up: one sign-in across both sites, and knowing by account
+  that a Lorec writer and an Author Hunt author are the same person. Where
+  the two need to meet later (the Writers Pass comp, "written in Lorec"),
+  they are matched by verified email.
 
 The domain is **authorhunt.com**.
 
@@ -324,8 +318,8 @@ then Author Hunt says nothing about it: no line on the pricing page, no
 
 To do when the pass opens (summer 2027), recorded here so it isn't lost:
 
-- Add `pass` as a `comps.reason`. Because sign-in is shared, a pass member
-  is the same Clerk user here, so the comp is granted by user id.
+- Add `pass` as a `comps.reason`. Sign-in is not shared, so a pass member
+  is matched to their Author Hunt account by verified email.
 - Lorec tells Author Hunt when a membership starts or ends: a signed
   webhook from Lorec's billing code, or a daily read of a small signed
   Lorec endpoint. A member who is already paying for a membership has their Author Hunt

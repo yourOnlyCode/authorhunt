@@ -19,13 +19,11 @@ of the first launch!" (the owner's wording, exclamation mark included).
 opening.** The owner asked whether Clerk could hold the waitlist so that
 people have accounts on day one. Three ways were weighed:
 
-- *Clerk's own waitlist mode.* It is a setting on the whole Clerk
-  instance, and the instance is Lorec's: turning it on would put Lorec's
-  sign-ups behind a waitlist too. Not usable.
-- *Real sign-up now.* On a satellite domain, sign-up happens on the
-  primary, so a visitor would be sent to lorec.io to make an account for a
-  site that isn't open, and would become a Lorec user at once. Too much to
-  ask of someone who wanted to leave an address.
+- *Clerk's own waitlist mode,* or *real sign-up now.* Either asks a visitor
+  to make an account for a site that isn't open, which is more than
+  someone leaving an address wants. (When this was weighed sign-in was
+  going to be shared with Lorec, which ruled both out; sign-in is now
+  Author Hunt's own, and an email list is still the lighter ask.)
 - *An email now, an invitation at opening* (chosen). The page takes an
   address and whether the person is an author or a reader, into a
   `waitlist` table, with one confirming email. On January 8 each confirmed
@@ -55,8 +53,8 @@ outside is invited:
 
 - **Lorec's writers first.** Lorec already has public author pages
   (`lorec.io/author/<handle>`). "Bring your Lorec page" copies the portrait,
-  bio, links and books into a new Author Hunt page in one step. Sign-in is
-  shared, so it's the same account. Announce it in the Commons and by email.
+  bio, links and books into a new Author Hunt page in one step, matched by
+  verified email (the two sites have separate accounts). Announce it in the Commons and by email.
 - **The Writers Pass wait list second,** as an invitation like any other.
   The pass comp isn't offered or mentioned until the pass opens.
 - **Founding authors.** Pages made before the public launch carry "Founding

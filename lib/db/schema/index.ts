@@ -31,7 +31,7 @@ export type LaunchKind = "author" | "work";
 export type LaunchStatus = "scheduled" | "live" | "closed" | "pulled";
 export type LinkItem = { label: string; url: string };
 
-/** One signed-in person. The id is Clerk's, shared with Lorec. */
+/** One signed-in person. The id is the one Author Hunt's own Clerk application gives them. */
 export const users = pgTable("users", {
   id: text("id").primaryKey(),
   email: text("email").notNull(),

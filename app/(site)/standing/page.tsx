@@ -32,7 +32,7 @@ export default async function StandingPage({ searchParams }: { searchParams: Pro
         <div className="page-head"><h1>Your standing</h1><p><Link className="word" href={signInHref("/standing")}>Sign in</Link> to see whether your account and page are in good standing.</p></div>
         <div className="prose standing-body">
           <p>If your account was suspended or banned and you can&apos;t sign in, write to {mail} from the address the account uses. Say what you want looked at again, and why. A person reads it.</p>
-          <p>There is one appeal, in writing, within {APPEAL_DAYS} days of the decision. A ban here doesn&apos;t touch a Lorec account.</p>
+          <p>There is one appeal, in writing, within {APPEAL_DAYS} days of the decision.</p>
         </div>
       </main>
     );
@@ -79,7 +79,6 @@ export default async function StandingPage({ searchParams }: { searchParams: Pro
         {standing === "banned" && (
           <section className="prose">
             <p>A ban means the page is gone from the site and from search, its launches are off the board, and the account can&apos;t make another page. It was a person&apos;s decision on what was reported and what you answered.</p>
-            <p>It doesn&apos;t touch a Lorec account, which is a separate product with its own rules.</p>
           </section>
         )}
 

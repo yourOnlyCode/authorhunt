@@ -1,14 +1,15 @@
 /**
  * lib/auth/index.ts
  *
- * Who is looking at the page. In production that is Clerk (Lorec's instance,
- * with authorhunt.com as a satellite domain). In development with no Clerk
- * keys it is a cookie naming one of the seeded sample accounts, set from
- * /sign-in, so every signed-in feature can be tried with nothing set up.
+ * Who is looking at the page. In production that is Clerk, in Author Hunt's
+ * own Clerk application (not shared with Lorec: the owner's call, November
+ * 2026). In development with no Clerk keys it is a cookie naming one of the
+ * seeded sample accounts, set from /sign-in, so every signed-in feature can
+ * be tried with nothing set up.
  *
- * A users row is made on a person's first signed-in request here, never by the
- * Clerk webhook on user.created: the instance is shared, so most new Clerk
- * users are Lorec's and never visit (docs/product-structure.md, section 8).
+ * A users row is made on a person's first signed-in request here, and the
+ * Clerk webhook only updates or removes it, so there is one place that makes
+ * one (docs/product-structure.md, section 8).
  */
 
 import { cache } from "react";

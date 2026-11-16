@@ -1,6 +1,6 @@
 /**
- * Sign in. With Clerk configured this is Clerk's own form (on a satellite
- * domain it hands off to the primary and returns). In development with no
+ * Sign in. With Clerk configured this is Clerk's own form, in Author Hunt's
+ * own Clerk application. In development with no
  * Clerk keys it lists the seeded sample accounts.
  */
 

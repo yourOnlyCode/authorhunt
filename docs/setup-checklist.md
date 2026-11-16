@@ -55,32 +55,27 @@ treat the name as a pointer and follow that product's current guide.
       provider if the browser ever reads Supabase directly. The first
       build reads only through the server, so this can wait.
 
-## 3. Sign-in: Clerk (Lorec's instance, as a satellite)
+## 3. Sign-in: Clerk (Author Hunt's own application)
 
-Do this with Lorec's sign-in open in another tab and test Lorec after each
-step. A mistake here affects Lorec's users.
+Not shared with Lorec (the owner's call, November 16, 2026). Nothing here
+touches Lorec's Clerk.
 
-- [ ] **You.** Confirm Lorec's Clerk plan includes satellite domains.
-      Clerk's pricing page listed them on Pro at $10 a month each
-      (November 2026).
-- [ ] **You.** In Lorec's Clerk application: Domains, Satellites, add
-      `authorhunt.com`. Add the `clerk` CNAME it gives you to
-      authorhunt.com's DNS and wait for it to verify.
-- [ ] **You.** Add Author Hunt's URLs to the allowed redirect origins so
-      sign-in on lorec.io can send people back to authorhunt.com.
-- [ ] **You.** Decide what the sign-in page on lorec.io says to someone
-      arriving from Author Hunt. Today it says Lorec.
-- [ ] **Claude.** Satellite configuration in the app (the satellite flag,
-      the domain, the primary's sign-in and sign-up URLs), per Clerk's
-      satellite-domain guide.
-- [ ] **You.** In the same Clerk instance: Webhooks, add a **second
-      endpoint**, `https://authorhunt.com/api/clerk/webhook`, subscribed
-      to user updated and deleted. Copy its signing secret.
-- [ ] **Claude.** Read Lorec's own Clerk webhook handler and report what
-      it does with a user who signed up on Author Hunt. Fix in Lorec if
-      needed, in a Lorec PR.
-- [ ] **You.** Development: Clerk's development instance has its own keys
-      and doesn't need the DNS record. Use it for local work and previews.
+- [ ] **You.** In Clerk, create a **new application** named Author Hunt.
+      Choose how people sign in (email code, Google, and so on).
+- [ ] **You.** Create its production instance on `authorhunt.com` and add
+      the DNS records Clerk lists.
+- [ ] **You.** Copy the publishable key and the secret key into Vercel
+      (`NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY`, `CLERK_SECRET_KEY`).
+- [ ] **You.** Webhooks: add an endpoint,
+      `https://www.authorhunt.com/api/clerk/webhook`, subscribed to user
+      updated and deleted. Copy its signing secret (`CLERK_WEBHOOK_SECRET`).
+- [ ] **You.** Word the emails Clerk sends (verification, and the
+      **invitation** every waitlist address gets on opening day) so they
+      read as Author Hunt.
+- [ ] **Claude.** Turn Clerk on in a preview, then test: sign up, sign in,
+      sign out, the webhook updating and deleting a user.
+- [ ] **You.** Development: the application's development instance has its
+      own keys and needs no DNS. Use it for local work and previews.
 
 ## 4. Payments: Stripe (Lorec's account)
 
@@ -170,8 +165,7 @@ Names to create in Vercel. Values come from the steps above.
 | `NEXT_PUBLIC_APP_URL` | you | `https://authorhunt.com` |
 | `DATABASE_URL` | Supabase | the pooled connection string |
 | `NEXT_PUBLIC_SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY` | Supabase | service key is server-only |
-| `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY`, `CLERK_SECRET_KEY` | Clerk | **the same instance as Lorec** |
-| Clerk satellite settings | Clerk | names as in Clerk's satellite guide |
+| `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY`, `CLERK_SECRET_KEY` | Clerk | Author Hunt's own application |
 | `CLERK_WEBHOOK_SECRET` | Clerk | Author Hunt's endpoint's own secret |
 | `STRIPE_SECRET_KEY` | Stripe | the **restricted** key |
 | `STRIPE_WEBHOOK_SECRET` | Stripe | Author Hunt's endpoint's own secret |
@@ -194,7 +188,7 @@ Claude writes `.env.example` with these names and no values.
       costs, who owns uploads, the rules on asking for cheers, how a
       membership renews and is cancelled.
 - [ ] **You.** Privacy notice: what's public, what's emailed, how to
-      delete an account, and that sign-in is shared with Lorec.
+      delete an account.
 - [ ] **You.** A takedown address, published.
 - [ ] **You.** The name check (docs/launch.md): USPTO search for AUTHOR
       HUNT, AUTHORHUNT and BOOK HUNT, and a look at the cat mark beside

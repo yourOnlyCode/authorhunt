@@ -55,7 +55,7 @@ export default function About() {
         <p><b>Momentum halves every {HALF_LIFE_DAYS} days.</b> Points earned today are worth half as much in {HALF_LIFE_DAYS} days, and half of that {HALF_LIFE_DAYS} days later. An author who is active this month can pass a bigger name who has gone quiet. Like rank, Momentum can&apos;t be bought.</p>
 
         <h2>Who makes it</h2>
-        <p>Author Hunt is made by the people who make Lorec, a writing app. The two share a sign-in and nothing else: what you do here is kept here. The <Link className="word" href="/privacy">privacy page</Link> says exactly what that means.</p>
+        <p>Author Hunt is made by the people who make Lorec, a writing app. The two are separate: an account here is its own, and what you do here is kept here. The <Link className="word" href="/privacy">privacy page</Link> says what is kept.</p>
 
         <h2>The rules</h2>
         <p>They are short, and they are in the <Link className="word" href="/terms">terms</Link>: say how the work was written, don&apos;t ask for or trade cheers, mark what is Mature, and be civil.</p>

@@ -52,11 +52,16 @@ reason; change one only when the owner says so, and change this file with it.
 6. **The day is a date in `America/New_York`.** `launchDay()` in
    `lib/ranking/day.ts` is the only place that turns a time into a day.
    Never call `new Date().toDateString()` for it.
-7. **How a work was written is declared, and a false declaration is a ban.**
-   No page or book goes public without its AI declaration. A ban is a
-   person's decision on evidence, logged, never an AI detector's score.
-   *Why:* the owner's rule; and a detector that's wrong about one honest
-   author costs more trust than it buys.
+7. **No AI-written work. It is removed, and its author banned.** Author Hunt
+   does not accept work written by AI: books, stories, poems, serials,
+   magazines, journals. Before a page or work goes public its author
+   declares that a person wrote every passage (`lib/studio/rules.ts`:
+   "without AI", or "with AI as a tool" for research, outlining and the like,
+   never for the text). Work the community reports and that is found to be
+   AI-written is removed and the page banned. That finding is a person's
+   decision on evidence, logged, never an AI detector's score. *Why:* the
+   owner's rule, made stricter in November 2026; and a detector that's wrong
+   about one honest author costs more trust than it buys.
 8. **The Writers Pass isn't mentioned in this app** until it opens. The
    comp is a to-do recorded in docs/development.md, not a feature.
 

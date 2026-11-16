@@ -17,8 +17,8 @@ import { safeUrl, supportUrlAllowed } from "@/lib/seo/links";
 
 const AI_WORDS: Record<AiUse, string> = {
   none: "Without AI, as declared by the author.",
-  assisted: "With AI assistance, as declared by the author.",
-  generated: "By AI, as declared by the author.",
+  assisted: "By the author, with AI as a tool but not for the text, as declared by the author.",
+  generated: "Marked as written by AI, which Author Hunt does not accept.",
 };
 export function aiDeclaration(use: AiUse | null): string | null {
   return use ? AI_WORDS[use] : null;

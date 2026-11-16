@@ -39,7 +39,7 @@ const OUTCOME: Record<string, string> = {
   marked: "The missing mark or note has been added.",
   banned: "The page has been removed from Author Hunt.",
   not_confirmed: "A person looked at what was reported and at the author's answer, and undeclared AI use was not confirmed. Nothing was changed.",
-  corrected: "Undeclared AI use was confirmed. The declaration has been corrected, and this is on record as a first case.",
+  corrected: "AI tools were used around the writing and not declared, though the text is the author's own. The declaration has been corrected, and this is on record as a first case.",
 };
 
 async function close(admin: Viewer, t: ResolvedTarget, decision: string): Promise<number> {
@@ -168,7 +168,7 @@ async function aiDecide(admin: Viewer, t: ResolvedTarget, outcome: string, note:
   if (outcome === "corrected") {
     const history = await historyFor({ userId: t.ownerUserId, authorId: t.author.id });
     if (history.some((r) => r.action === "ai_case_confirmed")) throw new ActionError(400, "This author already has a confirmed case. A corrected declaration stands for a first case only.");
-    if (!(value in AI_USE_LABELS) || value === "none") throw new ActionError(400, "Choose the corrected declaration.");
+    if (value !== "assisted") throw new ActionError(400, "A corrected declaration can only be \"with AI as a tool\". Work whose text was written by AI is removed and the page banned.");
     await correctAiDeclaration(admin, markTarget(t), value, why);
     await logStep(admin, "ai_case_confirmed", t, `Confirmed; corrected to "${AI_USE_LABELS[value]}" and allowed to stand as a first case. ${why}`);
     await close(admin, t, "corrected");

@@ -44,16 +44,16 @@ export default function Terms() {
         <p>One person, one account. You are responsible for what is done with yours. You must be old enough to agree to these terms where you live, and at least 13. Work marked Mature is for adults only.</p>
         <p>An author is an account that has made a page. A page is one author&apos;s or one publication&apos;s. A pen name is fine. Using another living author&apos;s name, or passing yourself off as someone you are not, is not.</p>
 
-        <h2>3. How your work was written: the AI declaration</h2>
-        <p>Before a page can be made public, and before any work can be added, you choose one of three statements. It is shown on the page and readers can filter by it.</p>
+        <h2>3. No AI-written work</h2>
+        <p><b>Author Hunt does not accept work written by AI.</b> That covers every kind of work that can be launched here: books, short stories, poems, essays, serials, and issues of magazines and journals. &ldquo;Written by AI&rdquo; means that an AI model drafted, rewrote or translated the text, in whole or in part.</p>
+        <p>Before a page can be made public, and before any work can be added, you declare one of two things. It is shown on the page.</p>
         <dl>
-          <div><dt>Written without AI</dt><dd>No AI model drafted, rewrote or translated any passage of the text. Spelling and grammar checkers don&apos;t count as AI here.</dd></div>
-          <div><dt>Written with AI assistance</dt><dd>An AI model drafted, rewrote or translated passages of the text, and the work as a whole is yours.</dd></div>
-          <div><dt>Written by AI</dt><dd>The text was mostly produced by an AI model.</dd></div>
+          <div><dt>Written without AI</dt><dd>You wrote every passage and no AI tool had a part in it. Spelling and grammar checkers don&apos;t count as AI here.</dd></div>
+          <div><dt>Written by me, with AI as a tool</dt><dd>You wrote every passage. AI helped only around the writing, such as research, outlining, or suggestions you took or left one at a time. It drafted, rewrote or translated none of the text.</dd></div>
         </dl>
         <p>You may change a declaration later. Changes are recorded.</p>
-        <p><b>A false declaration ends in a ban.</b> If work is declared as written without AI, or with assistance, and that is found to be untrue, the page is banned, its launches are removed from the boards, and the account can&apos;t make another page.</p>
-        <p>That decision is made by a person, on evidence a person can point to: your own statements, drafts you can or can&apos;t show, a writing record, model boilerplate left in the text. <b>The score of an AI detector is never the ground for a decision.</b> Before anything is decided you are told what was reported and have seven days to answer. Every step is logged. You have one appeal, in writing, within thirty days of the decision.</p>
+        <p><b>Work found to be AI-written is removed, and its author&apos;s page is banned.</b> Anyone in the community can report work they believe was written by AI. If that is found to be so, the work and its launches are taken off Author Hunt, the page is banned, and the account can&apos;t make another.</p>
+        <p>That decision is made by a person, on evidence a person can point to: your own statements, drafts you can or can&apos;t show, a writing record, model boilerplate left in the text. <b>The score of an AI detector is never the ground for a decision.</b> Before anything is decided you are told what was reported and have seven days to answer. Every step is logged. You have one appeal, in writing, within thirty days.</p>
 
         <h2>4. What you upload</h2>
         <p>Your work stays yours. Text, covers, portraits and anything else you put on Author Hunt remain your property, or the property of whoever licensed them to you.</p>

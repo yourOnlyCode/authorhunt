@@ -36,7 +36,7 @@ The day runs midnight to midnight in America/New_York.
 ## What the facts mean
 
 - Author pages carry ProfilePage and Person (or Organization) JSON-LD, with sameAs listing the author's own site and profiles. Work pages carry Book (or CreativeWork, or PublicationIssue) JSON-LD with the author, ISBN and buy links.
-- "Written: without AI / with AI assistance / by AI" is the author's own declaration. It is required before a page or work goes public, and a false one ends in a ban decided by a person on evidence.
+- Author Hunt does not accept work written by AI. "Written: without AI" or "by the author, with AI as a tool" is the author's own declaration that a person wrote every passage. It is required before a page or work goes public. Work reported and found to be AI-written is removed and its author banned, on a decision made by a person on evidence.
 - "Mature" is the author's mark for work not meant for readers under 18. Content notes are shown to a reader only when asked for.
 - "First of the day" is the launch readers cheered most on its day. "Momentum" is an author's recent activity, halving every thirty days.
 - "Site verified" means the author's site links back to their page here.

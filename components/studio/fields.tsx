@@ -11,7 +11,7 @@
 
 import { useId, useState } from "react";
 import type { AiUse, LinkItem } from "@/lib/db/schema";
-import { AI_CHOICES } from "@/lib/studio/rules";
+import { AI_CHOICES, AI_NOT_ACCEPTED } from "@/lib/studio/rules";
 
 export function Field({ label, hint, children, htmlFor }: { label: string; hint?: React.ReactNode; children: React.ReactNode; htmlFor?: string }) {
   return (
@@ -71,6 +71,7 @@ export function AiChoice({ legend, value, onChange, hint }: { legend: string; va
     <fieldset className="studio-set studio-declare">
       <legend className="label">{legend}</legend>
       <p className="hint">{hint}</p>
+      <p className="notice warn" style={{ fontSize: 18 }}>{AI_NOT_ACCEPTED}</p>
       {AI_CHOICES.map((c) => (
         <label key={c.value} className="studio-radio">
           <input type="radio" name={name} checked={value === c.value} onChange={() => onChange(c.value)} />

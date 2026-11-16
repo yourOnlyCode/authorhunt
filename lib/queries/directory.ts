@@ -75,7 +75,8 @@ export type DirectoryFilters = {
   anyReferences?: string[];
 };
 
-export const AI_LABELS: Record<AiUse, string> = { none: "Without AI", assisted: "With AI assistance", generated: "By AI" };
+/** "generated" is named only so an old record can be labelled; Author Hunt does not accept AI-written work and the filter never offers it. */
+export const AI_LABELS: Record<AiUse, string> = { none: "Without AI", assisted: "By the author, with AI as a tool", generated: "By AI (not accepted)" };
 export const PAGE_SIZE = 24;
 
 /** The two conditions every public listing of pages starts from. */

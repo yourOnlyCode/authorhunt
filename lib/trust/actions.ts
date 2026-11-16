@@ -240,17 +240,19 @@ export async function addContentNote(admin: Viewer, workId: string, text: string
   await tell(owner.userId, `A content note was added to ${owner.title}`, `"${line}". A reader reported it as missing and a person agreed. You can reword it in the Studio.`);
 }
 
-export const AI_USE_LABELS: Record<AiUse, string> = { none: "Written without AI", assisted: "Written with AI assistance", generated: "Written by AI" };
+export const AI_USE_LABELS: Record<AiUse, string> = { none: "Written without AI", assisted: "Written by the author, with AI as a tool", generated: "Written by AI (not accepted)" };
 
 /**
- * The first-case path of an undeclared-AI finding: the declaration is put
- * right and allowed to stand. The log entry, with the old and new value, is
+ * The first-case path where the text is the author's own but AI tools were
+ * used around it and not declared: the declaration is put right and allowed
+ * to stand. Work whose text was written by AI is never corrected; it is
+ * removed and the page banned. The log entry, with the old and new value, is
  * the mark that it was changed.
  */
 export async function correctAiDeclaration(admin: Viewer, target: MarkTarget, value: AiUse, note: string): Promise<void> {
   assertAdmin(admin);
   const why = requireNote(note);
-  if (!(value in AI_USE_LABELS)) throw new ActionError(400, "Choose one of the three declarations.");
+  if (value !== "none" && value !== "assisted") throw new ActionError(400, "A declaration can only be corrected to one Author Hunt accepts. AI-written work is removed and its page banned.");
   const owner = await ownerOfMark(target);
   let before: AiUse | null;
   if (target.kind === "author") {

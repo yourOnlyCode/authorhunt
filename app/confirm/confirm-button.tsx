@@ -12,7 +12,7 @@ export function ConfirmButton({ token }: { token: string }) {
       setState(data.ok ? "done" : "missing");
     } catch { setState("idle"); }
   }
-  if (state === "done") return <><p className="done">Confirmed. You&apos;re on the list.</p><p>We&apos;ll write on January 8, when the first board opens.</p></>;
+  if (state === "done") return <div role="status"><p className="done">Confirmed. You&apos;re on the list.</p><p>We&apos;ll write on January 8, at noon Eastern, when the first board opens.</p></div>;
   if (state === "missing") return <p>That link isn&apos;t one we recognise. Join the list again from the front page.</p>;
-  return <div className="last" style={{ paddingBlock: 0 }}><button type="button" className="btn solid" onClick={confirm} disabled={state === "sending"}>Confirm my address</button></div>;
+  return <button type="button" className="btn solid" onClick={confirm} disabled={state === "sending"}>Confirm my address</button>;
 }

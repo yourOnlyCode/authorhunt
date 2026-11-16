@@ -43,7 +43,7 @@ export async function POST(req: Request) {
     if (!workId) return fail(400, "Say which work to launch.");
     work = (await db.select().from(works).where(and(eq(works.id, workId), eq(works.authorId, author.id))).limit(1))[0] ?? null;
     if (!work) return fail(404, "That work wasn't found.");
-    if (!work.aiUse) return fail(409, "Say how this was written first: the AI declaration on the work.");
+    if (work.aiUse !== "none" && work.aiUse !== "assisted") return fail(409, "Say how this was written first: the AI declaration on the work. Author Hunt does not accept work written by AI.");
     const [had] = await db.select({ id: launches.id }).from(launches).where(eq(launches.workId, work.id)).limit(1);
     if (had) return fail(409, "This has already been launched, or has a launch set. A work launches once.");
   } else {

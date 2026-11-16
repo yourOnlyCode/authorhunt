@@ -29,7 +29,7 @@ export function parseFilters(raw: RawParams): DirectoryFilters {
   return {
     kind: kind === "author" || kind === "publication" ? (kind as PageKind) : undefined,
     genre: slug(raw.genre), city: slug(raw.city), readersOf: slug(raw.readers), inspiredBy: slug(raw.inspired), platform: slug(raw.platform),
-    ai: ai === "none" || ai === "assisted" || ai === "generated" ? (ai as AiUse) : undefined,
+    ai: ai === "none" || ai === "assisted" ? (ai as AiUse) : undefined,
     launchedThisMonth: first(raw.month) === "1" || undefined,
     q: q || undefined,
   };

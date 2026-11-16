@@ -18,7 +18,7 @@ import type { Viewer } from "../auth";
 import { db } from "../db";
 import { authors, follows, images, launches, works, type Author, type Launch, type Work } from "../db/schema";
 import { addDays, formatDay, launchDay } from "../ranking/day";
-import { LAUNCH_WINDOW_DAYS } from "./rules";
+import { LAUNCH_WINDOW_DAYS, aiAccepted } from "./rules";
 
 type Limit = { name: string; max: number; windowSec: number };
 
@@ -48,7 +48,7 @@ export async function studioAuthor(req: Request, limit: Limit): Promise<{ viewer
 export function notPublicReason(author: Author): string | null {
   if (author.standing !== "good") return "Your page is under review, so this is paused until that's decided.";
   if (!author.publishedAt) return "Make your page public first.";
-  if (!author.aiUse) return "Say how your work is written first: the AI declaration on your page.";
+  if (!aiAccepted(author.aiUse)) return "Say how your work is written first: the AI declaration on your page. Author Hunt does not accept work written by AI.";
   return null;
 }
 

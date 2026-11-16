@@ -42,7 +42,7 @@ export default function About() {
         <h2>What a launch is</h2>
         <p>An author makes a page: who they are, what they write, who their work is for. They launch the page once, on a day they choose. After that, each work gets a launch of its own, on its own day.</p>
         <p>A launch is one day on the board. Before the day, it has a coming-soon page where a reader can ask to be told. On the day, it sits among that day&apos;s launches with its cover, a line about it, and the author&apos;s own note at the top of the comments. Afterwards it stays on that day&apos;s board for good, with the place it finished in.</p>
-        <p>Every page and every work says how it was written: without AI, with AI assistance, or by AI. Authors must say, and readers can filter on it.</p>
+        <p>Author Hunt does not accept work written by AI: books, stories, poems, magazines, journals, or anything else. Every author declares that a person wrote their work before it can go public. Work that readers report and that is found to be AI-written is removed, and its author&apos;s page is banned.</p>
 
         <h2>How the order is decided</h2>
         <p><b>Cheers decide the order.</b> A cheer is one account&apos;s support for one launch. It is free, each account has one per launch, and nobody can cheer for their own. The launch with the most support is first. Readers who join the conversation count a little as well, and a cheer from an account made days ago with nothing else to its name counts for less, so a batch of new sign-ups can&apos;t carry a launch.</p>

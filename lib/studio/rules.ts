@@ -2,7 +2,7 @@
  * lib/studio/rules.ts
  *
  * The fixed lists and small rules the studio's forms and its routes share:
- * the three AI declarations and what each means, the content notes, the cover
+ * the AI declaration's two accepted answers and what each means, the content notes, the cover
  * colours, and what a page needs before it can be made public. Pure, so the
  * browser's form and the server's check read the same list and can't drift.
  */
@@ -10,13 +10,24 @@
 import type { AiUse, WorkKind } from "../db/schema";
 
 /** The plain definitions the terms use (docs/development.md, The AI declaration). */
+/**
+ * Author Hunt does not accept work written by AI (the owner's rule, November 2026). So there are two
+ * answers an author can give, and both say a person wrote the text. "generated" stays in the AiUse type
+ * only so an old or corrected record can be named; it can't be chosen, and work marked with it can't be
+ * made public or launched.
+ */
+export const AI_NOT_ACCEPTED = "Author Hunt does not accept work written by AI: any book, story, poem, article or issue whose text a model drafted, rewrote or translated, in whole or in part. Work found to be AI-written is removed and its author's page is banned.";
 export const AI_CHOICES: { value: AiUse; label: string; means: string }[] = [
-  { value: "none", label: "Written without AI", means: "A person wrote every passage. Spelling and grammar checkers don't count as AI." },
-  { value: "assisted", label: "Written with AI assistance", means: "AI drafted, rewrote or translated passages of the text, and a person wrote the rest." },
-  { value: "generated", label: "Written by AI", means: "Most of the text was produced by a model." },
+  { value: "none", label: "Written without AI", means: "You wrote every passage, and no AI tool had a part in it. Spelling and grammar checkers don't count as AI." },
+  { value: "assisted", label: "Written by me, with AI as a tool", means: "You wrote every passage. AI helped only around the writing, such as research, outlining, or suggestions you took or left one at a time. It drafted, rewrote or translated none of the text." },
 ];
-export const AI_VALUES = ["none", "assisted", "generated"] as const;
+export const AI_VALUES = ["none", "assisted"] as const;
+/** Whether a declaration lets a page go public or a work launch. */
+export function aiAccepted(value: AiUse | null): boolean {
+  return value === "none" || value === "assisted";
+}
 export function aiLabel(value: AiUse | null): string {
+  if (value === "generated") return "Written by AI (not accepted)";
   return AI_CHOICES.find((c) => c.value === value)?.label ?? "Not declared yet";
 }
 
@@ -80,7 +91,7 @@ export function pageChecklist(page: PageFacts, workCount: number): ChecklistItem
     { key: "bio", label: "A few lines about you", done: page.bio.trim().length > 0 },
     { key: "genre", label: "At least one genre", done: page.genres.length > 0 },
     { key: "link_or_work", label: "A link or a work", done: Boolean(page.website) || page.links.length > 0 || workCount > 0 },
-    { key: "declaration", label: "How your work is written (the AI declaration)", done: page.aiUse !== null },
+    { key: "declaration", label: "How your work is written (the AI declaration)", done: aiAccepted(page.aiUse) },
   ];
 }
 export function missingFrom(list: ChecklistItem[]): string[] {

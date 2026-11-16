@@ -77,6 +77,10 @@ Only four services. Sign-in and payments are not needed yet.
 - [x] **Your view of the list:** visit `/?preview=<your secret>` once,
       then `/owner`. It shows how many joined and confirmed, by day and
       by link, and visits. Addresses themselves are in Supabase.
+- [x] November 16, later: the first view fits one screen, with a reader /
+      author switch above the headline that changes its first words, and an
+      FAQ below. Checked for contrast, colour blindness, keyboard and
+      screen-reader markup.
 - [x] A test that loads the splash, checks every other page is held back,
       signs up, and confirms through the emailed link
       (`npm run smoke:splash`, 26 checks).
@@ -180,8 +184,9 @@ take it down. Three layers stop that:
       sites' webhooks listening: Lorec's test account must be unchanged.
 - [ ] **You.** Repeat in live mode with a real $3.99 charge, then refund
       it. Check the receipt and statement say Author Hunt.
-- [ ] **You.** Terms and privacy: have the drafts reviewed. Settle what
-      counts as "using AI" (grammar tools, translation, AI covers).
+- [ ] **You.** Terms and privacy: have the drafts reviewed. The AI rule
+      is set (no AI-written work; docs/development.md). Still to settle:
+      AI-made covers.
 - [ ] **You.** Walk one report through the admin queue to a decision.
 - [ ] **You.** Invite the first authors privately (Lorec's writers first)
       with the preview link, to make pages and pick launch days.

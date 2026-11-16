@@ -471,34 +471,40 @@ Enough for launch, and no more.
 - **Covers and text** are the author's to upload; the terms say so, and a
   takedown address is published.
 
-### The AI declaration
+### No AI-written work
 
-- **Required, not optional.** A page can't be made public, and a book can't
-  be added, until the author has chosen one: *written without AI*, *written
-  with AI assistance*, or *written by AI*. The page shows it under
-  Particulars and readers can filter on it. Changing it later is allowed
-  and logged.
-- **The terms define the three,** in plain words, because the rule can't be
-  enforced without them. A starting point for the owner to settle: spelling
-  and grammar checkers don't count; AI that drafted, rewrote or translated
-  passages of the text is "assistance"; a text mostly produced by a model
-  is "by AI". Whether an AI-made **cover** has to be declared is a separate
-  line on the book, and needs its own answer.
-- **Enforcement is a person's decision on evidence.** A report, or an
-  admin's own doubt, opens a review. The page is suspended while it's
-  open, the author is told what was reported and can answer, and an admin
-  decides. Found undeclared: the page is banned, its launches are pulled,
-  and the account can't make another. One appeal, to a second admin where
-  there is one.
+The owner's rule, made stricter on November 16, 2026: **Author Hunt does
+not accept work written by AI.** Books, short stories, poems, essays,
+serials, and issues of magazines and journals. "Written by AI" means a
+model drafted, rewrote or translated the text, in whole or in part.
+
+- **Every author declares, and there are two answers** (`AI_CHOICES` in
+  `lib/studio/rules.ts`): *written without AI*, or *written by me, with AI
+  as a tool*. The second is for help around the writing only: research,
+  outlining, suggestions taken or left one at a time. Spelling and grammar
+  checkers don't count as AI. Both say a person wrote every passage. There
+  is no "written by AI" choice: such work can't be made public or launched.
+- A page can't be made public, and a work can't launch, without an accepted
+  declaration. The page shows it under Particulars. Changing it later is
+  allowed and logged.
+- **The community reports; a person decides.** Anyone can report work as
+  "Written by AI". The owner reviews it. The author is told what was
+  reported and has seven days to answer. Found to be AI-written: the work
+  and its launches are removed, the page is banned, and the account can't
+  make another. One appeal, in writing, within thirty days.
+- **One narrower outcome remains for a first case:** the text is the
+  author's own but AI tools were used around it and not declared. The
+  declaration is corrected to "with AI as a tool" and the page stays.
 - **A detector's score is never the evidence.** AI-text detectors wrongly
   flag human writing often enough, and more often for people writing in a
   second language, that a ban resting on one would be unjust and would not
   survive a public complaint. Evidence is what a person can point to: the
   author's own statements, drafts they can or can't show, a Lorec writing
   record, model boilerplate left in the text.
-- Every decision is written to an audit log: who, when, what was looked at.
-- Lorec's verified writing record, where an author has one, is shown beside
-  the declaration. It is the one positive proof on offer.
+- Every decision is written to `moderation_log`: who, when, what was
+  looked at.
+- **Still open:** whether a cover made with AI is allowed, and whether it
+  must be declared. The rule above is about the text.
 
 ### Images
 

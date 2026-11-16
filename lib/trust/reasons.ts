@@ -17,7 +17,7 @@ export const REASONS: { key: ReasonKey; label: string; for: ReportTarget[] | "an
   { key: "spam", label: "Spam or a scam", for: "any" },
   { key: "stolen", label: "Stolen or plagiarised work", for: ["work", "launch", "image"] },
   { key: "impersonation", label: "Not the real author", for: ["author", "launch"] },
-  { key: "undeclared_ai", label: "AI use that wasn't declared", for: ["author", "work", "launch"] },
+  { key: "undeclared_ai", label: "Written by AI", for: ["author", "work", "launch"] },
   { key: "missing_note", label: "A missing Mature mark or content note", for: ["author", "work", "launch"] },
   { key: "harassment", label: "Harassment or hate", for: ["comment", "author", "collection"] },
   { key: "cheer_trading", label: "Asking for or trading cheers", for: ["launch", "comment"] },

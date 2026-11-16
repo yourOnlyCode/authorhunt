@@ -137,7 +137,7 @@ collection. One form:
 | Spam or a scam | anything |
 | Stolen or plagiarised work | a book, an excerpt, a picture |
 | Not the real author; impersonation | a page |
-| **AI use that wasn't declared** | a page or a book |
+| **Written by AI** | a page or a book |
 | Missing Mature mark or content note | a page or a book |
 | Harassment or hate | a comment, a thread, a page |
 | Asking for or trading cheers | a launch, a comment |
@@ -173,12 +173,12 @@ Standing is one field, `authors.standing` and `users.standing`:
 | Suspend | Page and launches hidden, account can't post, while a report is decided | Serious reports under review |
 | Ban | Page gone from the site and from search, launches pulled, cheers given by the account discounted, the account and its email can't make another page | See below |
 
-**What gets a ban:** undeclared AI use, confirmed; plagiarism; impersonating
+**What gets a ban:** AI-written work, confirmed; plagiarism; impersonating
 another author; buying or trading cheers at scale; harassment after a
 warning; evading a ban.
 
-**The process for undeclared AI,** which is the rule the owner has set
-(AGENTS.md rule 7):
+**The process for work reported as written by AI.** Author Hunt does not
+accept AI-written work (AGENTS.md rule 7, made stricter November 16, 2026):
 
 1. A report, or the owner's own doubt, opens a case. The page is suspended
    only if the evidence is already strong; otherwise it stays up.
@@ -186,10 +186,12 @@ warning; evading a ban.
    drafts, notes, a writing record, an account of how the book was made.
 3. The owner decides, on what a person can point to. A detector's score may
    prompt a look and is never the ground for a decision.
-4. Not confirmed: closed, noted, the reporter told. Confirmed and the
-   author corrects the declaration at once and it's a first case: the
-   owner may let the corrected declaration stand, marked as changed.
-   Confirmed and denied, or repeated: banned.
+4. Not confirmed: closed, noted, the reporter told. Found to be
+   AI-written, in whole or in part: the work and its launches are removed
+   and the author's page is banned. One narrower outcome for a first case:
+   the text is the author's own but AI tools were used around it and not
+   declared; the declaration is corrected to "with AI as a tool" and the
+   page stays.
 5. One appeal, in writing, within thirty days.
 6. Every step is in `moderation_log`.
 

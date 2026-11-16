@@ -38,7 +38,7 @@ describe("report reasons", () => {
 
   it("refuse a reason that doesn't exist", () => {
     expect(reasonAllowed("launch", "looks_like_ai_to_a_detector")).toBe(false);
-    expect(reasonLabel("undeclared_ai")).toBe("AI use that wasn't declared");
+    expect(reasonLabel("undeclared_ai")).toBe("Written by AI");
   });
 });
 

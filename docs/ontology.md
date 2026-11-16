@@ -82,7 +82,7 @@ Launch states: `scheduled` → `live` → `closed`. A removed launch is
 
 | Term | In the UI | In code | What it is |
 |---|---|---|---|
-| AI declaration | Written: without AI / with AI assistance / by AI | `authors.ai_use`, `books.ai_use` | The author's required statement of how the work was written. Asked before a page or book can be made public. |
+| AI declaration | Written: without AI / by the author, with AI as a tool | `authors.ai_use`, `works.ai_use` (`none`, `assisted`; `generated` names a record that isn't accepted) | The author's required statement that a person wrote every passage. Author Hunt does not accept AI-written work. Asked before a page or work can be made public. |
 | Verified site | Site verified | `authors.site_verified_at` | The author's website links back to their page, so we know the page is theirs. |
 | Report | Report | `reports` | A reader's flag on a page, launch, book, comment or declaration. |
 | Suspension, ban | (the author is told) | `authors.standing` = `good`, `suspended`, `banned` | A page hidden pending review, or removed for good. An undeclared use of AI ends in a ban. |
@@ -140,6 +140,9 @@ Pro, Premium, upgrade, shelf (replaced by collection, November 2026).
 
 ## Changes
 
+- 2026-11-16. Author Hunt no longer accepts AI-written work. The AI
+  declaration has two accepted answers; the report reason reads "Written by
+  AI"; AI-written work is removed and its author banned.
 - 2026-11-15, the first build. In code, genres, reference authors and
   platforms are lookup tables keyed by slug, listed on a page or work in
   `text[]` columns (`genres`, `readers_of`, `inspired_by`, `platforms`);

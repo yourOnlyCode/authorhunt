@@ -133,12 +133,12 @@ export default async function CasePage({ params, searchParams }: { params: Promi
                       <fieldset className="admin-choices">
                         <legend className="label">Outcome</legend>
                         <label><input type="radio" name="outcome" value="not_confirmed" required /> Not confirmed. Closed and noted; the reporter and the author are told.</label>
-                        <label><input type="radio" name="outcome" value="corrected" disabled={!mayFind || earlierConfirmed} /> Confirmed, the author corrects the declaration, and it&apos;s a first case. The corrected declaration stands, with the change in the log.</label>
-                        <label><input type="radio" name="outcome" value="ban" disabled={!mayFind || own} /> Confirmed and denied, or repeated. Banned: the page is gone, launches pulled, the account closed to Author Hunt.</label>
+                        <label><input type="radio" name="outcome" value="corrected" disabled={!mayFind || earlierConfirmed} /> The text is the author&apos;s own, but AI tools were used around it and not declared, and it&apos;s a first case. The corrected declaration stands, with the change in the log.</label>
+                        <label><input type="radio" name="outcome" value="ban" disabled={!mayFind || own} /> The text was written by AI, in whole or in part; or a repeated case. The work is removed and the author banned: the page is gone, launches pulled, the account closed to Author Hunt.</label>
                       </fieldset>
                       <div className="field-row"><label htmlFor="ai-value">The corrected declaration</label>
                         <select className="select" id="ai-value" name="value" defaultValue="assisted">
-                          <option value="assisted">{AI_USE_LABELS.assisted}</option><option value="generated">{AI_USE_LABELS.generated}</option>
+                          <option value="assisted">{AI_USE_LABELS.assisted}</option>
                         </select><span className="hint">Used only for the second outcome.</span></div>
                       {standing === "suspended" && <label className="admin-check"><input type="checkbox" name="lift" value="1" defaultChecked /> Lift the suspension if the page stays</label>}
                       <Note id="ai-note" required hint="What the decision rests on: what a person can point to. A detector's score is not a ground. Kept in the log; never sent to anyone." />

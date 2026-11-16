@@ -8,6 +8,9 @@
  * server's own clock, and the browser then asks once more and allows for the
  * time the answer took, so a phone whose clock is wrong still shows the right
  * count. At zero the page loads the open site.
+ *
+ * A screen reader hears the count as one sentence that changes each minute,
+ * not four numbers ticking every second.
  */
 
 import { useEffect, useRef, useState } from "react";
@@ -49,10 +52,11 @@ export function Countdown({ opensAt, initialNow }: { opensAt: number; initialNow
   }, [left]);
 
   if (left <= 0) return <p className="open">Author Hunt is open.</p>;
-  const cells: [string, number, string?][] = [["Days", Math.floor(left / 86400)], ["Hours", Math.floor((left % 86400) / 3600)], ["Minutes", Math.floor((left % 3600) / 60)], ["Seconds", left % 60, "sec"]];
+  const d = Math.floor(left / 86400), h = Math.floor((left % 86400) / 3600), m = Math.floor((left % 3600) / 60);
+  const cells: [string, number, string?][] = [["Days", d], ["Hours", h], ["Minutes", m], ["Seconds", left % 60, "sec"]];
   return (
-    <div className="clock" role="timer" aria-label="Time until Author Hunt opens">
-      {cells.map(([label, value, cls]) => <div key={label} className={cls}><b suppressHydrationWarning>{two(value)}</b><span>{label}</span></div>)}
+    <div className="clock" role="timer" aria-label={`${d} days, ${h} hours and ${m} minutes until Author Hunt opens`} suppressHydrationWarning>
+      {cells.map(([label, value, cls]) => <div key={label} className={cls} aria-hidden="true"><b suppressHydrationWarning>{two(value)}</b><span>{label}</span></div>)}
     </div>
   );
 }

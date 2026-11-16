@@ -24,7 +24,7 @@ export default async function Desk() {
         <header><h2>Waiting</h2></header>
         <ul className="admin-counts">
           <li><Link href="/admin/reports"><b>{c.open_cases}</b><span>{c.open_cases === 1 ? "open case" : "open cases"}</span><small>{c.open_reports} open {c.open_reports === 1 ? "report" : "reports"} in all</small></Link></li>
-          <li><Link href="/admin/reports?reason=undeclared_ai"><b>{c.ai_cases}</b><span>about undeclared AI</span><small>Each follows the seven-day process</small></Link></li>
+          <li><Link href="/admin/reports?reason=undeclared_ai"><b>{c.ai_cases}</b><span>about AI-written work</span><small>Each follows the seven-day process</small></Link></li>
           <li><Link href="/admin/authors?standing=suspended"><b>{c.suspended}</b><span>{c.suspended === 1 ? "suspended page" : "suspended pages"}</span><small>{c.banned} banned</small></Link></li>
           <li><Link href="/admin/references"><b>{c.refs}</b><span>reference {c.refs === 1 ? "name" : "names"} awaiting approval</span><small>Usable now; no public page until approved</small></Link></li>
         </ul>

@@ -49,7 +49,9 @@ with the name before launch (docs/launch.md).
      page: the leading launch, the current place in the header, the
      letter. Never more than two or three in view.
 - **Colour:** ink, white, red `#D9361E` (text on white uses `#B92C16`),
-  highlighter `#FFE14D`. Covers bring the rest.
+  highlighter `#FFE14D`. Covers bring the rest. One blue, `#2F6FE8`, is
+  used on the splash page only, for the two headline words that change
+  with the reader / author switch: large text only, never body text.
 - **The header** has a mark, a search line, three places and two actions.
 - **The mark is the cat in glasses** (above). The up arrow belongs to the
   cheer only.

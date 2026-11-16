@@ -36,7 +36,11 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .side button { min-height: 44px; padding: 8px 22px; background: var(--page); border: 0; white-space: nowrap; transition: background-color 180ms ease, color 180ms ease; }
 .side button + button { border-left: 1.5px solid var(--ink); }
 .side button[aria-pressed="true"] { background: var(--ink); color: var(--page); }
-h1 { font: 300 clamp(34px, 5.5vw, 58px)/1.04 var(--display); letter-spacing: -0.01em; text-wrap: balance; }
+/* The headline never re-wraps when its first words change: one unbroken line on a wide screen, and exactly
+   two fixed lines on a narrow one, with the type sized so the longer wording always fits. */
+h1 { font: 300 min(5.4vw, 58px)/1.06 var(--display); letter-spacing: -0.01em; }
+h1 .l1, h1 .l2 { white-space: nowrap; }
+@media (max-width: 899px) { h1 { font-size: min(9.4vw, 50px); } h1 .l1, h1 .l2 { display: block; } }
 
 /* The two words that change: both phrases sit in the same spot; one dissolves out, the other resolves in,
    and the space they take glides between the two widths. All CSS on one attribute, so it can turn round mid-way. */
@@ -72,7 +76,7 @@ h1 { font: 300 clamp(34px, 5.5vw, 58px)/1.04 var(--display); letter-spacing: -0.
 .more { font-size: 18px; color: var(--muted); text-underline-offset: 4px; }
 @media (max-width: 460px) { .side button { padding-inline: 12px; font-size: 18px; } .field { flex-direction: column; gap: 8px; } .field input { border-right: 1.5px solid var(--ink); text-align: center; } .clock span { font-size: 12px; letter-spacing: 0.05em; } .side button { padding-inline: 14px; } }
 /* A short laptop screen: tighten, so the sign-up is still in view without scrolling. */
-@media (min-width: 900px) and (max-height: 700px) { body { font-size: 19px; } .logo { font-size: 26px; } .logo svg { width: 34px; height: 29px; } h1 { font-size: 46px; } .clock b { font-size: 42px; } .join { padding-block: 14px 12px; } .join h2 { font-size: 26px; } .fine { font-size: 16px; margin-top: 8px; } }
+@media (min-width: 900px) and (max-height: 700px) { body { font-size: 19px; } .logo { font-size: 26px; } .logo svg { width: 34px; height: 29px; } h1 { font-size: min(5.4vw, 46px); } .clock b { font-size: 42px; } .join { padding-block: 14px 12px; } .join h2 { font-size: 26px; } .fine { font-size: 16px; margin-top: 8px; } }
 
 /* Below the first view */
 .below { border-top: 1.5px solid var(--ink); padding-block: 52px 56px; }
@@ -113,7 +117,7 @@ footer .wrap { padding-block: 16px; }
     <button type="button" id="side-author" aria-pressed="false">I'm an author</button>
   </div>
   <h1>
-    <span class="sr" id="sr-words">Find your</span><span class="swap" id="swap" aria-hidden="true"><span class="ph reader" data-text="Find your"></span><span class="ph author" data-text="Be their"></span></span> next favourite author.
+    <span class="l1"><span class="sr" id="sr-words">Find your</span><span class="swap" id="swap" aria-hidden="true"><span class="ph reader" data-text="Find your"></span><span class="ph author" data-text="Be their"></span></span> next</span> <span class="l2">favourite author.</span>
   </h1>
   <p class="what"><span class="reader">A daily launch board for authors and their books. New work goes up each morning, readers cheer for what they love, and every day ends with a ranking.</span><span class="author" aria-hidden="true">A daily launch board for authors and their books. Launch your page and each book to readers who came looking for someone new. It's free.</span></p>
   <p class="sr" role="status" id="announce"></p>

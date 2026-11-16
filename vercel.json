@@ -1,7 +1,13 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "regions": ["iad1"],
+  "framework": "nextjs",
+  "regions": [
+    "iad1"
+  ],
   "crons": [
-    { "path": "/api/cron/waitlist", "schedule": "40 14 * * *" }
+    {
+      "path": "/api/cron/waitlist",
+      "schedule": "40 14 * * *"
+    }
   ]
 }

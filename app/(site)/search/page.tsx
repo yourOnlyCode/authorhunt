@@ -27,7 +27,7 @@ export async function generateMetadata({ searchParams }: Props): Promise<Metadat
   const q = read((await searchParams).q);
   return {
     title: q ? `Search: ${q}` : "Search",
-    description: "Search Author Hunt for authors, books, genres and cities.",
+    description: "Search Author Hunt for authors, their work, genres and cities.",
     alternates: { canonical: "/search" },
     robots: { index: false, follow: true },
   };

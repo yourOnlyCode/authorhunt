@@ -18,9 +18,9 @@ export default async function Image() {
   const waiting = opens !== null && beforeLaunch(new Date());
   const date = opens ? new Intl.DateTimeFormat("en-US", { month: "long", day: "numeric", year: "numeric", timeZone: "America/New_York" }).format(opens) : "";
   return ogCard({
-    kicker: waiting ? `Opening ${date}` : "New authors and books, launched daily",
+    kicker: waiting ? `Opening ${date}` : "New authors and new writing, launched daily",
     title: "Find your next favourite author",
-    line: waiting ? "Join the list and be part of the first launch." : "A daily launch board for authors and their books.",
+    line: waiting ? "Join the list and be part of the first launch." : "A daily launch board for authors and their writing.",
     foot: "authorhunt.com",
   });
 }

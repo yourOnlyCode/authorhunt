@@ -16,7 +16,7 @@ import { Track } from "@/components/analytics/track";
 export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Author Hunt opens January 8, 2027",
-  description: "A daily launch board for authors and their books. Join the list and be part of the first launch.",
+  description: "A daily launch board for authors and their writing, from flash fiction to novels. Join the list and be part of the first launch.",
   alternates: { canonical: "/" },
 };
 
@@ -29,11 +29,11 @@ const serverNow = () => new Date().getTime();
 const FAQ: { q: string; a: string }[] = [
   { q: "What happens when I join the list?", a: "You get one email asking you to confirm your address. On opening day you get one more: an invitation that makes your account in a single press. Nothing else is sent." },
   { q: "What do you keep about me?", a: "Your email address, whether you said you're an author or a reader, and which link brought you here. An address that is never confirmed is dropped. To be taken off the list, write to hello@authorhunt.com." },
-  { q: "Is it free?", a: "Reading is free, always. Launching is free too, for good: your page and every book. An optional membership, $3.99 a month, adds tools such as emailing your followers and fuller analytics. It never buys a higher place." },
-  { q: "Who can launch?", a: "Any author. Self-published or traditionally published, a first book or a twentieth. Short stories, serials, and issues of magazines and journals can launch as well as books." },
+  { q: "Is it free?", a: "Reading is free, always. Launching is free too, for good: your page and everything you write. An optional membership, $3.99 a month, adds tools such as emailing your followers and fuller analytics. It never buys a higher place." },
+  { q: "Who can launch?", a: "Any author, with any finished piece of writing: flash fiction, a poem, an essay, a short story, a magazine article, a journal piece, a novella, a novel. Self-published or traditionally published, a first piece or a twentieth book. Small counts." },
   { q: "How is the ranking decided?", a: "By readers. Each person can cheer a launch once, and never their own. For the first hours of a day the board is shuffled and shows no counts, so the earliest launch doesn't win on a head start." },
   { q: "Do you accept AI-written work?", a: "No. Author Hunt does not accept work written by AI: books, stories, poems, magazines, journals, or anything else. Every author declares that a person wrote their work. If the community reports work and it is found to be AI-written, it is removed and the author's page is banned." },
-  { q: "Do you sell the books?", a: "No. Each page links to wherever the author sells and writes: their own site, any bookshop, a newsletter. Author Hunt favours no store." },
+  { q: "Do you sell or host the writing?", a: "No. Each page links to wherever the author publishes and sells: their own site, a magazine, a newsletter, any bookshop. Author Hunt favours no store." },
 ];
 
 export default async function Splash({ searchParams }: { searchParams: Promise<{ src?: string }> }) {
@@ -50,7 +50,7 @@ export default async function Splash({ searchParams }: { searchParams: Promise<{
           <h2 id="launch-h">What a launch is</h2>
           <p className="lede">One day with your work in front of readers who came looking for something new.</p>
           <ol className="steps">
-            <li><h3>You pick a day</h3><p>Your book, or your author page, goes on that day&apos;s board beside everything else launching that morning.</p></li>
+            <li><h3>You pick a day</h3><p>A piece of your writing, short or long, or your author page, goes on that day&apos;s board beside everything else launching that morning.</p></li>
             <li><h3>Readers respond</h3><p>They cheer, comment and follow. Cheers decide the day&apos;s order, and no one can pay for a place.</p></li>
             <li><h3>You keep what you earn</h3><p>Followers you can reach again, a page with links to wherever you sell, and your rank for the day, for good.</p></li>
           </ol>

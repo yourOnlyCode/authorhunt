@@ -144,6 +144,12 @@ Calm, plain and specific.
   "For readers of Shirley Jackson".
 - No exclamation marks, no emoji, no growth-speak. The words people read
   are in [docs/ontology.md](docs/ontology.md); use those and no others.
+- **Author Hunt is for writing of every size, and the copy says so.** Say
+  "writing" or "work", not only "books": flash fiction, a poem, an essay, a
+  short story, a magazine article, a journal piece, a novella and a novel
+  all launch here, and the small ones are welcomed by name. Keep it to a
+  short list of two or three examples in any one sentence. *Why:* the
+  owner's direction on the brand, November 2026.
 - A number carries what it counts.
 - Prices are in US dollars and said once: "Free to launch. $3.99 a
   month or $32 a year for the member tools."

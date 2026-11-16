@@ -12,7 +12,7 @@ import { PRICE } from "@/lib/billing/access";
 import { QUIET_HOURS } from "@/lib/ranking/day";
 import { HALF_LIFE_DAYS } from "@/lib/ranking/points";
 
-const description = "Author Hunt is a daily launch board for authors and their books. What a launch is, and how cheers, and nothing else, decide each day's order.";
+const description = "Author Hunt is a daily launch board for authors and their writing, from flash fiction to novels. What a launch is, and how cheers, and nothing else, decide each day's order.";
 
 export const metadata: Metadata = {
   title: "About",
@@ -30,7 +30,7 @@ export default function About() {
     <main className="wrap legal">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }} />
       <header className="page-head">
-        <h1>A daily board for authors <span className="it">and their books</span></h1>
+        <h1>A daily board for authors <span className="it">and their writing</span></h1>
         <p>Author Hunt is where authors launch their work and readers find their next favourite author.</p>
       </header>
 

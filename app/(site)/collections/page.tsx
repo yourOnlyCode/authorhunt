@@ -17,7 +17,7 @@ import { ListJsonLd } from "@/components/discover/json-ld";
 export const dynamic = "force-dynamic";
 
 const TITLE = "Collections";
-const DESCRIPTION = "A collection is a list a reader keeps, of authors and books. Save what you want to come back to, and share a list when it's worth passing on.";
+const DESCRIPTION = "A collection is a list a reader keeps, of authors and their work. Save what you want to come back to, and share a list when it's worth passing on.";
 
 export async function generateMetadata(): Promise<Metadata> {
   return { title: TITLE, description: DESCRIPTION, alternates: { canonical: "/collections" }, openGraph: { title: TITLE, description: DESCRIPTION, url: "/collections" } };
@@ -52,7 +52,7 @@ export default async function CollectionsPage() {
         <section className="sec">
           <header><h2>Yours</h2><span>{mine.length} {mine.length === 1 ? "collection" : "collections"}</span></header>
           {mine.length === 0
-            ? <p className="empty">Nothing saved yet. Press Save on an author&apos;s page or a book and it lands in a collection called Saved.</p>
+            ? <p className="empty">Nothing saved yet. Press Save on an author&apos;s page or a piece of work and it lands in a collection called Saved.</p>
             : (
               <ul className="leaders">
                 {mine.map((c) => (

@@ -60,8 +60,8 @@ export const COVER_SWATCHES: { value: string; name: string }[] = [
 ];
 
 export const WORK_KINDS: { value: WorkKind; label: string; form: string }[] = [
-  { value: "book", label: "A book", form: "A novel" },
-  { value: "short", label: "A short work", form: "A short story" },
+  { value: "book", label: "A book (a novel, a novella, a collection)", form: "A novel" },
+  { value: "short", label: "A short work (flash fiction, a poem, an essay, a story, an article)", form: "A short story" },
   { value: "serial", label: "A serial", form: "A serial" },
   { value: "issue", label: "An issue", form: "Issue 1" },
 ];

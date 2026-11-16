@@ -36,8 +36,8 @@ export const metadata: Metadata = {
 export const dynamic = "force-dynamic";
 
 const ROWS: { what: string; free: string; member: string; last?: boolean }[] = [
-  { what: "Your page, your books, images and links", free: "Yes", member: "Yes" },
-  { what: "Launch your page, and launch every book", free: "Yes", member: "Yes" },
+  { what: "Your page, your work, images and links", free: "Yes", member: "Yes" },
+  { what: "Launch your page, and launch everything you write, short or long", free: "Yes", member: "Yes" },
   { what: "Cheers, comments and follows", free: "Yes", member: "Yes" },
   { what: "A place on the boards, in the directory, the filters and the Sunday letter", free: "Yes", member: "Yes" },
   { what: "Email your followers on launch day and for updates", free: "No", member: "Yes" },
@@ -81,7 +81,7 @@ export default async function Pricing() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }} />
       <header className="page-head">
         <h1>Free to launch. <span className="it">For good.</span></h1>
-        <p>Making a page, launching it and launching every book costs nothing and needs no membership. Readers never pay for anything. {MONTHLY} a month or {YEARLY} a year adds tools around a launch, and never a better place on the board.</p>
+        <p>Making a page, launching it and launching everything you write costs nothing and needs no membership. Readers never pay for anything. {MONTHLY} a month or {YEARLY} a year adds tools around a launch, and never a better place on the board.</p>
       </header>
 
       <section className="price-state" aria-label="Your membership">
@@ -138,7 +138,7 @@ export default async function Pricing() {
         <h2 className="sc">How it works</h2>
         <p><b>Rank can&apos;t be bought.</b> Cheers from readers decide the order of each day&apos;s board. A membership, the {TRIAL_DAYS} free days and a Support button never enter a score, and no row on a board is paid for.</p>
         <p><b>{TRIAL_DAYS} days of the member tools come free with a new page.</b> No card. They are there so you can try emailing your followers and the rest around your first launch.</p>
-        <p><b>When a membership ends, the tools switch off and nothing public disappears.</b> Your page, your books, your launches, their places and your followers stay. A Support link is kept and hidden until a membership resumes.</p>
+        <p><b>When a membership ends, the tools switch off and nothing public disappears.</b> Your page, your work, your launches, their places and your followers stay. A Support link is kept and hidden until a membership resumes.</p>
         <p><b>Support is your own link.</b> The button opens your Ko-fi, PayPal or similar in a new tab. Author Hunt handles no money between readers and authors and takes no part of a gift.</p>
         <p><b>Cancel whenever you like,</b> from this page. The tools stay on to the end of the month or year already paid for. Prices are in US dollars.</p>
         <p>The fuller wording is in the <Link className="word" href="/terms">terms</Link>.</p>

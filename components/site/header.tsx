@@ -24,7 +24,7 @@ export async function SiteHeader() {
         <Link className="logo" href="/"><CatMark />Author Hunt</Link>
         <form className="search" action="/search" role="search">
           <SearchIcon />
-          <input name="q" type="search" placeholder="Authors, books, cities" aria-label="Search" />
+          <input name="q" type="search" placeholder="Authors, titles, cities" aria-label="Search" />
         </form>
         <nav aria-label="Site">
           <Link href="/">Launches</Link>

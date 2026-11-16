@@ -89,8 +89,8 @@ export function SplashStage({ opensAt, initialNow, when, hour, src, logo }: { op
           <span className="l2">favourite author.</span>
         </h1>
         <p className="what">
-          <span className="reader" aria-hidden={side !== "reader"}>A daily launch board for authors and their books. New work goes up each morning, readers cheer for what they love, and every day ends with a ranking.</span>
-          <span className="author" aria-hidden={side !== "author"}>A daily launch board for authors and their books. Launch your page and each book to readers who came looking for someone new. It&apos;s free.</span>
+          <span className="reader" aria-hidden={side !== "reader"}>A daily launch board for authors and their writing, from a single poem to a whole novel. New work goes up each morning, readers cheer for what they love, and every day ends with a ranking.</span>
+          <span className="author" aria-hidden={side !== "author"}>A daily launch board for authors and their writing. Launch anything you&apos;ve finished, from flash fiction or an essay to a novel, to readers looking for someone new. It&apos;s free.</span>
         </p>
         <p className="sr" role="status">{said}</p>
         <Countdown opensAt={opensAt} initialNow={initialNow} />

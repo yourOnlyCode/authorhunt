@@ -122,7 +122,7 @@ export default async function StudioDesk() {
                 })}
               </tbody>
             </table>
-            {works.length === 0 && <p className="studio-empty">No works yet. Add a book, a short work, a serial or an issue, then launch each one on its own day.</p>}
+            {works.length === 0 && <p className="studio-empty">No works yet. Add anything you&apos;ve finished: a poem, an essay, a short story, an article, a novel, a serial or an issue. Then launch each one on its own day.</p>}
           </section>
         </div>
 

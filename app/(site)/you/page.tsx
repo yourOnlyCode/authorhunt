@@ -52,7 +52,7 @@ export default async function YouPage() {
 
   const places: { href: string; label: string; note: string }[] = [
     { href: "/for-you", label: "For you", note: following > 0 ? `Following ${following} ${following === 1 ? "author" : "authors"}` : "Launches and updates from authors you follow" },
-    { href: "/collections", label: "Collections", note: kept > 0 ? `${kept} ${kept === 1 ? "collection" : "collections"}` : "Authors and books you save" },
+    { href: "/collections", label: "Collections", note: kept > 0 ? `${kept} ${kept === 1 ? "collection" : "collections"}` : "Authors and work you save" },
     { href: "/notifications", label: "Notifications", note: unread > 0 ? `${unread} unread` : "Nothing new" },
     { href: "/settings", label: "Settings", note: "Your name, what you hear about, Mature work" },
     page

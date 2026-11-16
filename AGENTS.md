@@ -1,8 +1,9 @@
 # Author Hunt: notes for agents and contributors
 
-Author Hunt is a daily launch board for authors and their books, and a place
+Author Hunt is a daily launch board for authors and their writing, and a place
 readers come to find their next favourite author. Authors launch a page, then
-launch each book like a product. The community cheers, comments and follows,
+launch each piece of work like a product: a novel, and just as much a poem,
+an essay, flash fiction, a short story, an article or a novella. Small counts. The community cheers, comments and follows,
 and each day has a ranking. It lives at authorhunt.com, is a web app only,
 and is built on the same stack as Lorec (github.com/yourOnlyCode/lorec),
 with Lorec's sign-in and Lorec's Stripe account. It does not look like Lorec.

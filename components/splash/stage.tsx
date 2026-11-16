@@ -35,6 +35,7 @@ function Letters({ text }: { text: string }) {
 export function SplashStage({ opensAt, initialNow, when, hour, src, logo }: { opensAt: number; initialNow: number; when: string; hour: string; src?: string; logo: React.ReactNode }) {
   const [side, setSide] = useState<Side>("reader");
   const [said, setSaid] = useState("");
+  const [joined, setJoined] = useState(false);
   const touched = useRef(false);
   const swap = useRef<HTMLSpanElement>(null);
   const phrases = useRef<Record<Side, HTMLSpanElement | null>>({ reader: null, author: null });
@@ -94,7 +95,7 @@ export function SplashStage({ opensAt, initialNow, when, hour, src, logo }: { op
         </p>
         <p className="sr" role="status">{said}</p>
         <Countdown opensAt={opensAt} initialNow={initialNow} />
-        <section className="join" id="join" aria-labelledby="join-h"><WaitlistForm side={side} src={src} /></section>
+        <section className={`join ${joined ? "celebrate" : ""}`} id="join" aria-labelledby="join-h"><WaitlistForm side={side} src={src} onJoined={() => setJoined(true)} /></section>
         <a className="more" href="#launch" onClick={(e) => { e.preventDefault(); slowScrollTo("launch"); }}>What a launch is, and FAQ</a>
       </div>
     </div>

@@ -9,6 +9,7 @@ export async function sendWaitlistConfirm(input: { email: string; token: string;
     paragraphs: [
       "Thanks for joining Author Hunt's list. Confirm this address and we'll write once more: on Friday, January 8, 2027, at noon Eastern, when the first board opens.",
       "If this wasn't you, do nothing and the address is dropped.",
+      "If this landed in your junk folder, marking it \"not junk\" will bring the opening-day email to your inbox.",
     ],
     action: { label: "Confirm my address", url },
     footer: "Author Hunt, authorhunt.com. You're getting this because this address was entered on our waiting list.",

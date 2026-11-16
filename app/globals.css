@@ -238,7 +238,11 @@ footer .wrap { padding-block: 20px; display: flex; flex-wrap: wrap; justify-cont
 .splash .side { display: inline-grid; grid-template-columns: 1fr 1fr; border: 1.5px solid var(--ink); }
 .splash .side button { min-height: 44px; padding: 8px 22px; background: var(--page); border: 0; white-space: nowrap; transition: background-color 180ms ease, color 180ms ease; }
 .splash .side button + button { border-left: 1.5px solid var(--ink); }
-.splash .side button[aria-pressed="true"] { background: var(--ink); color: var(--page); }
+.splash .side button { position: relative; }
+/* The chosen side glows once, softly, each time it becomes the chosen one: on arrival, on a press, and when the
+   page shows the other side by itself. (A glow is the one soft effect on the site: the owner's call, November 2026.) */
+.splash .side button[aria-pressed="true"] { background: var(--ink); color: var(--page); z-index: 1; animation: side-glow 1500ms ease-in-out 1 both; }
+@keyframes side-glow { 0% { box-shadow: 0 0 0 0 rgb(47 111 232 / 0); } 38% { box-shadow: 0 0 22px 5px rgb(47 111 232 / 0.5); } 100% { box-shadow: 0 0 0 0 rgb(47 111 232 / 0); } }
 /* The headline never re-wraps when its first words change: one unbroken line on a wide screen, and exactly
    two fixed lines on a narrow one, with the type sized so the longer wording always fits. */
 .splash h1 { font: 300 min(5.4vw, 58px)/1.06 var(--display); letter-spacing: -0.01em; }
@@ -275,6 +279,24 @@ footer .wrap { padding-block: 20px; display: flex; flex-wrap: wrap; justify-cont
 .splash .field button { min-height: 46px; padding: 10px 22px; background: var(--ink); color: var(--page); border: 1.5px solid var(--ink); font-weight: 600; white-space: nowrap; transition: transform 120ms ease-out, box-shadow 120ms ease-out; }
 .splash .field button:hover { transform: translate(-2px, -2px); box-shadow: 4px 4px 0 var(--red); }
 .splash .fine { margin-top: 10px; font-size: 17px; color: var(--muted); }
+/* Joining: the field and the button draw together and fade, then the box settles and the words resolve in. */
+.splash .field input, .splash .field button { transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1), opacity 260ms ease, box-shadow 120ms ease-out; }
+.splash .field.leaving input { transform: translateX(36px); opacity: 0; }
+.splash .field.leaving button { transform: translateX(-36px) scale(0.96); opacity: 0; }
+.splash .join-body { position: relative; display: grid; align-content: center; }
+.splash .joined { animation: resolve-in 620ms cubic-bezier(0.22, 0.8, 0.24, 1) both; }
+.splash .joined p + p { margin: 8px auto 0; max-width: 30rem; }
+@keyframes resolve-in { from { opacity: 0; filter: blur(6px); transform: translateY(6px); } to { opacity: 1; filter: none; transform: none; } }
+.splash .join.celebrate { animation: join-glow 1400ms ease-out 1; }
+@keyframes join-glow { 0% { box-shadow: 0 0 0 0 rgb(217 54 30 / 0); } 30% { box-shadow: 0 0 26px 4px rgb(217 54 30 / 0.28); } 100% { box-shadow: 0 0 0 0 rgb(217 54 30 / 0); } }
+/* The paper squares: thrown from the middle of the box, turning as they go, then falling and fading. */
+.splash .confetti { position: absolute; left: 50%; top: 50%; width: 0; height: 0; pointer-events: none; z-index: 5; }
+.splash .confetti i { position: absolute; left: 0; top: 0; opacity: 0; animation: confetti 1500ms cubic-bezier(0.16, 0.7, 0.3, 1) forwards; }
+@keyframes confetti {
+  0% { opacity: 1; transform: translate(0, 0) rotate(0deg) scale(0.6); }
+  55% { opacity: 1; transform: translate(var(--dx), var(--dy)) rotate(calc(var(--rot) * 0.7)) scale(1); }
+  100% { opacity: 0; transform: translate(calc(var(--dx) * 1.12), calc(var(--dy) + 190px)) rotate(var(--rot)) scale(0.9); }
+}
 .splash .done { font: 300 28px/1.2 var(--display); }
 .splash .more { font-size: 18px; color: var(--muted); text-decoration: underline; text-underline-offset: 4px; }
 .splash .fine a, .splash .faq a { text-decoration: underline; text-underline-offset: 3px; }
@@ -303,7 +325,7 @@ footer .wrap { padding-block: 20px; display: flex; flex-wrap: wrap; justify-cont
 .splash .faq details[open] summary::after { content: "\2212"; }
 .splash .faq details p { padding: 0 2px 20px; color: var(--ink-2); max-width: 62ch; }
 .splash .faq details a { text-underline-offset: 3px; }
-@media (prefers-reduced-motion: reduce) { .splash .swap, .splash .swap .ch, .splash .what span, .splash .side button, .splash .field button { transition: none !important; }  .splash .swap .ch { filter: none; transform: none; }  html { scroll-behavior: auto; } }
+@media (prefers-reduced-motion: reduce) { .splash .side button[aria-pressed="true"], .splash .joined, .splash .join.celebrate { animation: none; } .splash .confetti { display: none; } .splash .swap, .splash .swap .ch, .splash .what span, .splash .side button, .splash .field button { transition: none !important; }  .splash .swap .ch { filter: none; transform: none; }  html { scroll-behavior: auto; } }
 /* Windows high-contrast mode replaces backgrounds, so the chosen side is marked with the system's own colours. */
 @media (forced-colors: active) { .splash .side button[aria-pressed="true"] { background: Highlight; color: HighlightText; forced-color-adjust: none; } .splash .swap { color: LinkText; } .splash .join::before, .splash .trim { display: none; } }
 

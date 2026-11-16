@@ -116,6 +116,15 @@ contrast, sharp, Victorian in its characteristics and never a costume.
 - **A portrait is a 4:5 rectangle** with a hairline border. A cover is 2:3
   with a hairline border. A book with no cover shows its title set in the
   display face.
+- **The splash page has three moments of its own** (the owner's calls,
+  November 2026), and they stay on the splash page: the chosen side of the
+  reader / author switch glows blue once each time it becomes the chosen
+  one; the headline's first words dissolve and resolve; and joining the
+  list throws a handful of square paper confetti in the brand's colours
+  while the message resolves in. Each is skipped under reduced motion, and
+  none moves anything else on the page. The app's splash
+  (`components/splash/`) is now ahead of `docs/mockups/splash.html` for
+  these; the code is the reference.
 - **Motion is a response to the reader:** hover and press only, under
   200ms, with a reduced-motion fallback. No scroll effects, nothing that
   moves unasked.

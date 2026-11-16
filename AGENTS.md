@@ -19,6 +19,7 @@ drift apart.
 | [docs/monetization.md](docs/monetization.md) | What's free, what a membership buys, Support, promoted rows. Decided November 2026. |
 | [docs/build-notes.md](docs/build-notes.md) | How to run it, and what the code already provides. Read before adding anything. |
 | [docs/setup-checklist.md](docs/setup-checklist.md) | Every account, key and DNS record to wire up, in order, with who does it. |
+| [docs/launch-plan.md](docs/launch-plan.md) | The owner's dated checklist: the splash now, opening on January 8, and what each service will cost. |
 | [docs/launch.md](docs/launch.md) | The Product Hunt launch, the cold start, and the name check. |
 | [docs/mockups/](docs/mockups/) | The approved look. Port from it; don't reinterpret it. |
 

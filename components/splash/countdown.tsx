@@ -56,7 +56,7 @@ export function Countdown({ opensAt, initialNow }: { opensAt: number; initialNow
   const cells: [string, number, string?][] = [["Days", d], ["Hours", h], ["Minutes", m], ["Seconds", left % 60, "sec"]];
   return (
     <div className="clock" role="timer" aria-label={`${d} days, ${h} hours and ${m} minutes until Author Hunt opens`} suppressHydrationWarning>
-      {cells.map(([label, value, cls]) => <div key={label} className={cls} aria-hidden="true"><b key={cls ? value : label} className={cls ? "tick" : undefined} suppressHydrationWarning>{two(value)}</b><span>{label}</span></div>)}
+      {cells.map(([label, value, cls]) => <div key={label} className={cls} aria-hidden="true"><b suppressHydrationWarning>{two(value)}</b><span>{label}</span></div>)}
     </div>
   );
 }

@@ -3,7 +3,7 @@
 /**
  * components/splash/confetti.tsx
  *
- * A handful of square paper pieces in the brand's colours, thrown up and out
+ * A handful of square paper pieces in the brand's colors, thrown up and out
  * from the middle of whatever holds them, turning, then falling and fading
  * (the keyframes are in app/globals.css). Used when someone joins the list
  * and when they confirm their address. Hidden under reduced motion.

@@ -271,9 +271,6 @@ footer .wrap { padding-block: 20px; display: flex; flex-wrap: wrap; justify-cont
 .splash .clock b { display: block; font: 300 clamp(34px, 5vw, 54px)/1 var(--display); font-variant-numeric: lining-nums tabular-nums; }
 .splash .clock span { display: block; margin-top: 4px; font-size: 14px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
 .splash .clock .sec b { color: var(--red-text); }
-/* Each new second arrives rather than being swapped in. */
-.splash .clock b.tick { animation: tick 380ms ease-out both; }
-@keyframes tick { from { opacity: 0.25; transform: translateY(-0.09em); } to { opacity: 1; transform: none; } }
 /* Arrival: the first view's pieces resolve in one after another, top to bottom, in about half a second. */
 .splash .first .wrap > * { animation: resolve-in 620ms cubic-bezier(0.22, 0.8, 0.24, 1) both; }
 .splash .first .wrap > :nth-child(1) { animation-delay: 0ms; } .splash .first .wrap > :nth-child(2) { animation-delay: 60ms; } .splash .first .wrap > :nth-child(3) { animation-delay: 120ms; }
@@ -294,18 +291,23 @@ footer .wrap { padding-block: 20px; display: flex; flex-wrap: wrap; justify-cont
 .splash .field button:hover { transform: translate(-2px, -2px); box-shadow: 4px 4px 0 var(--red); }
 .splash .fine { margin-top: 10px; font-size: 17px; color: var(--muted); }
 /* Joining: the field and the button draw together and fade, then the box settles and the words resolve in. */
-.splash .field input, .splash .field button { transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1), opacity 260ms ease, box-shadow 120ms ease-out; }
-.splash .field.leaving input { transform: translateX(36px); opacity: 0; }
-.splash .field.leaving button { transform: translateX(-36px) scale(0.96); opacity: 0; }
+/* Joining is one move: the whole form eases away the instant the button is pressed (the request runs
+   meanwhile), and the answer rises in its place. Only transform and opacity change, so nothing repaints. */
+.splash .join-form { transition: opacity 220ms ease-out, transform 260ms cubic-bezier(0.3, 0, 0.2, 1); }
+.splash .join-form.leaving { opacity: 0; transform: translateY(-8px) scale(0.985); pointer-events: none; }
 .splash .join-body { position: relative; display: grid; align-content: center; }
-.splash .joined { animation: resolve-in 620ms cubic-bezier(0.22, 0.8, 0.24, 1) both; }
+.splash .joined > * { animation: rise-in 460ms cubic-bezier(0.22, 0.8, 0.24, 1) both; }
+.splash .joined > :nth-child(2) { animation-delay: 70ms; } .splash .joined > :nth-child(3) { animation-delay: 140ms; }
+@keyframes rise-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
 .splash .joined p + p { margin: 8px auto 0; max-width: 30rem; }
 @keyframes resolve-in { from { opacity: 0; filter: blur(6px); transform: translateY(6px); } to { opacity: 1; filter: none; transform: none; } }
-.splash .join.celebrate { animation: join-glow 1400ms ease-out 1; }
-@keyframes join-glow { 0% { box-shadow: 0 0 0 0 rgb(217 54 30 / 0); } 30% { box-shadow: 0 0 26px 4px rgb(217 54 30 / 0.28); } 100% { box-shadow: 0 0 0 0 rgb(217 54 30 / 0); } }
+/* The glow is a fixed shadow on a layer whose opacity moves, which the compositor can do without repainting. */
+.splash .join::after { content: ""; position: absolute; inset: -1.5px; pointer-events: none; box-shadow: 0 0 26px 4px rgb(217 54 30 / 0.28); opacity: 0; }
+.splash .join.celebrate::after { animation: join-glow 1300ms ease-out 1; }
+@keyframes join-glow { 0% { opacity: 0; } 25% { opacity: 1; } 100% { opacity: 0; } }
 /* The paper squares: thrown from the middle of the box, turning as they go, then falling and fading. */
 .splash .confetti { position: absolute; left: 50%; top: 50%; width: 0; height: 0; pointer-events: none; z-index: 5; }
-.splash .confetti i { position: absolute; left: 0; top: 0; opacity: 0; animation: confetti 1500ms cubic-bezier(0.16, 0.7, 0.3, 1) forwards; }
+.splash .confetti i { position: absolute; left: 0; top: 0; opacity: 0; will-change: transform, opacity; animation: confetti 1500ms cubic-bezier(0.16, 0.7, 0.3, 1) forwards; }
 @keyframes confetti {
   0% { opacity: 1; transform: translate(0, 0) rotate(0deg) scale(0.6); }
   55% { opacity: 1; transform: translate(var(--dx), var(--dy)) rotate(calc(var(--rot) * 0.7)) scale(1); }
@@ -344,7 +346,7 @@ footer .wrap { padding-block: 20px; display: flex; flex-wrap: wrap; justify-cont
 .splash .faq details[open] summary::after { content: "\2212"; }
 .splash .faq details p { padding: 0 2px 20px; color: var(--ink-2); max-width: 62ch; }
 .splash .faq details a { text-underline-offset: 3px; }
-@media (prefers-reduced-motion: reduce) { .splash .side button[aria-pressed="true"], .splash .joined, .splash .join.celebrate, .splash .first .wrap > *, .splash .clock b.tick { animation: none; } .splash .faq details::details-content, .splash .faq summary::after { transition: none; } .splash .confetti { display: none; } .splash .swap, .splash .swap .ch, .splash .what span, .splash .side button, .splash .field button { transition: none !important; }  .splash .swap .ch { filter: none; transform: none; }  html { scroll-behavior: auto; } }
+@media (prefers-reduced-motion: reduce) { .splash .side button[aria-pressed="true"], .splash .joined > *, .splash .join.celebrate::after, .splash .first .wrap > * { animation: none; } .splash .join-form { transition: none; } .splash .faq details::details-content, .splash .faq summary::after { transition: none; } .splash .confetti { display: none; } .splash .swap, .splash .swap .ch, .splash .what span, .splash .side button, .splash .field button { transition: none !important; }  .splash .swap .ch { filter: none; transform: none; }  html { scroll-behavior: auto; } }
 /* Windows high-contrast mode replaces backgrounds, so the chosen side is marked with the system's own colours. */
 @media (forced-colors: active) { .splash .side button[aria-pressed="true"] { background: Highlight; color: HighlightText; forced-color-adjust: none; } .splash .swap { color: LinkText; } .splash .join::before, .splash .trim { display: none; } }
 

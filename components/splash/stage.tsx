@@ -22,6 +22,7 @@ import { useCallback, useEffect, useLayoutEffect, useRef, useState, type CSSProp
 import { Countdown } from "./countdown";
 import { LocalTime } from "./local-time";
 import { WaitlistForm } from "./waitlist-form";
+import { slowScrollTo } from "./slow-scroll";
 
 type Side = "reader" | "author";
 const WORDS: Record<Side, string> = { reader: "Find your", author: "Be their" };
@@ -94,7 +95,7 @@ export function SplashStage({ opensAt, initialNow, when, hour, src, logo }: { op
         <p className="sr" role="status">{said}</p>
         <Countdown opensAt={opensAt} initialNow={initialNow} />
         <section className="join" id="join" aria-labelledby="join-h"><WaitlistForm side={side} src={src} /></section>
-        <a className="more" href="#launch">What a launch is, and FAQ</a>
+        <a className="more" href="#launch" onClick={(e) => { e.preventDefault(); slowScrollTo("launch"); }}>What a launch is, and FAQ</a>
       </div>
     </div>
   );

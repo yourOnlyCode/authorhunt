@@ -284,6 +284,7 @@ footer .wrap { padding-block: 20px; display: flex; flex-wrap: wrap; justify-cont
 
 /* Below the first view */
 .splash .below { border-top: 1.5px solid var(--ink); padding-block: 52px 56px; }
+.splash #launch:focus { outline: none; }
 .splash .below h2 { font: 300 clamp(30px, 4.6vw, 42px)/1.05 var(--display); }
 .splash .below .lede { margin: 12px auto 0; max-width: 34rem; color: var(--ink-2); }
 .splash .steps { margin-top: 28px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; border-block: 1.5px solid var(--ink); text-align: left; }

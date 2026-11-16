@@ -236,6 +236,25 @@ footer .wrap { padding-block: 16px; }
     setTimeout(function () { if (!touched) setSide("reader", false); }, 4400);
   }
 
+  // The link to the rest of the page travels there over about a second instead of jumping.
+  document.querySelector(".more").addEventListener("click", function (e) {
+    var target = document.getElementById("launch");
+    e.preventDefault();
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) { target.scrollIntoView(); return; }
+    var from = window.scrollY, to = Math.min(target.getBoundingClientRect().top + from - 12, document.documentElement.scrollHeight - window.innerHeight);
+    var start = performance.now(), stopped = false;
+    function stop() { stopped = true; }
+    window.addEventListener("wheel", stop, { passive: true, once: true });
+    window.addEventListener("touchstart", stop, { passive: true, once: true });
+    (function step(now) {
+      if (stopped) return;
+      var t = Math.min(1, ((now || performance.now()) - start) / 1100);
+      var k = t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+      window.scrollTo(0, from + (to - from) * k);
+      if (t < 1) requestAnimationFrame(step);
+    })(start);
+  });
+
   document.getElementById("waitlist").addEventListener("submit", function (e) {
     e.preventDefault();
     document.getElementById("join-form").hidden = true;

@@ -6,6 +6,7 @@
  * something to show with nothing set up. With DATABASE_URL set it does nothing.
  */
 
+import "./env";
 import fs from "node:fs";
 import path from "node:path";
 

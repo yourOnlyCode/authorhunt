@@ -21,6 +21,7 @@
  * are deliberately slow.
  */
 
+import "./env";
 import { and, eq, isNotNull, isNull } from "drizzle-orm";
 import { createClerkClient } from "@clerk/nextjs/server";
 

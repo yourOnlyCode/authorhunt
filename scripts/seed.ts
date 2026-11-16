@@ -9,6 +9,7 @@
  * refuses to run against DATABASE_URL unless SEED_OK=1 is set on purpose.
  */
 
+import "./env";
 import { sql } from "drizzle-orm";
 import { db, usingLocalDb } from "../lib/db";
 import * as t from "../lib/db/schema";

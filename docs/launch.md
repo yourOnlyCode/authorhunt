@@ -74,7 +74,7 @@ outside is invited:
   A first comment from the maker that tells the story: Lorec builds tools
   for writers, and writers kept asking where to be found.
 - **Tagline candidates.** "Product Hunt for authors" is the clearest and
-  says who it's for in four words. "Find your next favourite author, daily"
+  says who it's for in four words. "Find your next favorite author, daily"
   speaks to readers. Lead with the first in the tagline and the second in
   the description.
 - **The day.** Launch at 12:01am Pacific. Have that day's Author Hunt board

@@ -67,7 +67,7 @@ export function SplashStage({ opensAt, initialNow, when, hour, src, logo }: { op
     touched.current = true;
     if (next === side) return;
     setSide(next);
-    setSaid(`${WORDS[next]} next favourite author. Joining as ${next === "reader" ? "a reader" : "an author"}.`);
+    setSaid(`${WORDS[next]} next favorite author. Joining as ${next === "reader" ? "a reader" : "an author"}.`);
   }
 
   return (
@@ -87,7 +87,7 @@ export function SplashStage({ opensAt, initialNow, when, hour, src, logo }: { op
               <span className="ph author" ref={(el) => { phrases.current.author = el; }}><Letters text={WORDS.author} /></span>
             </span>{" "}next
           </span>{" "}
-          <span className="l2">favourite author.</span>
+          <span className="l2">favorite author.</span>
         </h1>
         <p className="what">
           <span className="reader" aria-hidden={side !== "reader"}>A daily launch board for authors and their writing, from a single poem to a whole novel. New work goes up each morning, readers cheer for what they love, and every day ends with a ranking.</span>

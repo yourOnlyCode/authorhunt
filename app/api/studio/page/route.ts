@@ -98,7 +98,7 @@ export async function PUT(req: Request) {
   let supportUrl = existing?.supportUrl ?? null;
   const wantedSupport = d.supportUrl ? safeUrl(d.supportUrl) : null;
   if (member) {
-    if (d.supportUrl && (!wantedSupport || !supportUrlAllowed(d.supportUrl))) return fail(400, "A Support link has to be on a service we recognise: Ko-fi, Buy Me a Coffee, PayPal, Patreon, Venmo, Cash App, Liberapay, GitHub Sponsors or a Stripe payment link.");
+    if (d.supportUrl && (!wantedSupport || !supportUrlAllowed(d.supportUrl))) return fail(400, "A Support link has to be on a service we recognize: Ko-fi, Buy Me a Coffee, PayPal, Patreon, Venmo, Cash App, Liberapay, GitHub Sponsors or a Stripe payment link.");
     supportUrl = wantedSupport;
   } else if (wantedSupport && wantedSupport !== supportUrl) {
     return fail(403, "Showing a Support link is a member tool.");

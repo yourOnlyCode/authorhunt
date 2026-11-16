@@ -67,7 +67,7 @@ export default function Privacy() {
         <p>Each kind can be turned off in <Link className="word" href="/settings">your settings</Link>. Apart from decisions, nothing is sent late at night.</p>
 
         <h2>The waiting list before opening</h2>
-        <p>If you joined the list before Author Hunt opened, we kept your address, whether you said you were an author or a reader, and which link brought you. It is used for two emails: one asking you to confirm the address (with a single reminder if you didn&apos;t), and one on opening day inviting you to make your account. An address that is never confirmed is dropped. To be taken off the list, write to the address at the foot of this page.</p>
+        <p>If you joined the list before Author Hunt opened, we kept your address, whether you said you were an author or a reader, and which link brought you. It is used for two emails: one asking you to confirm the address (with a single reminder if you didn&apos;t), and one on opening day inviting you to make your account. If the same address is entered again, it is sent a short email saying where it stands, at most once an hour. An address that is never confirmed is dropped. To be taken off the list, write to the address at the foot of this page.</p>
 
         <h2>Signing in</h2>
         <p>Author Hunt has its own accounts. The sign-in service (Clerk) holds your email address, your name and picture, and how you sign in. Your page, cheers, follows, comments and collections are kept in Author Hunt&apos;s own database.</p>

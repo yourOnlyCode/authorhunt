@@ -40,7 +40,7 @@ export function cleanLinks(links: LinkItem[]): LinkItem[] {
 
 /**
  * The Support link, or null. Support is a member tool, so it shows only while
- * the author has the member tools, and only for a service we recognise. This
+ * the author has the member tools, and only for a service we recognize. This
  * gates a tool; it decides nothing about the page being public or ranked.
  */
 export async function supportLinkFor(author: Author, now: Date): Promise<string | null> {

@@ -11,7 +11,7 @@ import { beforeLaunch, launchAt } from "@/lib/env";
 export const dynamic = "force-dynamic";
 export const size = OG_SIZE;
 export const contentType = "image/png";
-export const alt = "Author Hunt: find your next favourite author";
+export const alt = "Author Hunt: find your next favorite author";
 
 export default async function Image() {
   const opens = launchAt();
@@ -19,7 +19,7 @@ export default async function Image() {
   const date = opens ? new Intl.DateTimeFormat("en-US", { month: "long", day: "numeric", year: "numeric", timeZone: "America/New_York" }).format(opens) : "";
   return ogCard({
     kicker: waiting ? `Opening ${date}` : "New authors and new writing, launched daily",
-    title: "Find your next favourite author",
+    title: "Find your next favorite author",
     line: waiting ? "Join the list and be part of the first launch." : "A daily launch board for authors and their writing.",
     foot: "authorhunt.com",
   });

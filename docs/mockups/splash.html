@@ -117,7 +117,7 @@ footer .wrap { padding-block: 16px; }
     <button type="button" id="side-author" aria-pressed="false">I'm an author</button>
   </div>
   <h1>
-    <span class="l1"><span class="sr" id="sr-words">Find your</span><span class="swap" id="swap" aria-hidden="true"><span class="ph reader" data-text="Find your"></span><span class="ph author" data-text="Be their"></span></span> next</span> <span class="l2">favourite author.</span>
+    <span class="l1"><span class="sr" id="sr-words">Find your</span><span class="swap" id="swap" aria-hidden="true"><span class="ph reader" data-text="Find your"></span><span class="ph author" data-text="Be their"></span></span> next</span> <span class="l2">favorite author.</span>
   </h1>
   <p class="what"><span class="reader">A daily launch board for authors and their writing, from a single poem to a whole novel. New work goes up each morning, readers cheer for what they love, and every day ends with a ranking.</span><span class="author" aria-hidden="true">A daily launch board for authors and their writing. Launch anything you've finished, from flash fiction or an essay to a novel, to readers looking for someone new. It's free.</span></p>
   <p class="sr" role="status" id="announce"></p>
@@ -220,7 +220,7 @@ footer .wrap { padding-block: 16px; }
     var words = side === "reader" ? "Find your" : "Be their";
     document.getElementById("sr-words").textContent = words;
     document.getElementById("joining-as").textContent = side === "reader" ? "a reader" : "an author";
-    if (announce) document.getElementById("announce").textContent = words + " next favourite author. Joining as " + (side === "reader" ? "a reader" : "an author") + ".";
+    if (announce) document.getElementById("announce").textContent = words + " next favorite author. Joining as " + (side === "reader" ? "a reader" : "an author") + ".";
     fit();
   }
   swap.style.transition = "none"; fit();

@@ -21,7 +21,7 @@ const text = Cormorant_Garamond({ subsets: ["latin"], weight: ["400", "500", "60
 
 export const metadata: Metadata = {
   metadataBase: new URL(appUrl),
-  title: { default: "Author Hunt: find your next favourite author", template: "%s · Author Hunt" },
+  title: { default: "Author Hunt: find your next favorite author", template: "%s · Author Hunt" },
   description: "A daily launch board for authors and their writing, from flash fiction to novels. New work goes up each morning, readers cheer for what they love, and every day ends with a ranking.",
   openGraph: { siteName: "Author Hunt", type: "website" },
 };

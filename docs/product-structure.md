@@ -135,7 +135,7 @@ collection. One form:
 | Reason | For |
 |---|---|
 | Spam or a scam | anything |
-| Stolen or plagiarised work | a book, an excerpt, a picture |
+| Stolen or plagiarized work | a book, an excerpt, a picture |
 | Not the real author; impersonation | a page |
 | **Written by AI** | a page or a book |
 | Missing Mature mark or content note | a page or a book |

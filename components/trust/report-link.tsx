@@ -13,7 +13,7 @@ import type { ReportTarget } from "@/lib/db/schema";
 
 export const REPORT_REASONS: { key: string; label: string; for: ReportTarget[] | "any" }[] = [
   { key: "spam", label: "Spam or a scam", for: "any" },
-  { key: "stolen", label: "Stolen or plagiarised work", for: ["work", "launch", "image"] },
+  { key: "stolen", label: "Stolen or plagiarized work", for: ["work", "launch", "image"] },
   { key: "impersonation", label: "Not the real author", for: ["author", "launch"] },
   { key: "undeclared_ai", label: "Written by AI", for: ["author", "work", "launch"] },
   { key: "missing_note", label: "A missing Mature mark or content note", for: ["author", "work", "launch"] },

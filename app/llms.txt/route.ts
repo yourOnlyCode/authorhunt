@@ -12,7 +12,7 @@ export const dynamic = "force-static";
 
 const TEXT = `# Author Hunt
 
-> A daily launch board for authors and their writing of any length (flash fiction, poems, essays, short stories, articles, novellas, novels, serials, magazine and journal issues), and a place readers come to find their next favourite author. Authors launch a page, then launch each work. Readers cheer, comment and follow, and each day ends with a ranking.
+> A daily launch board for authors and their writing of any length (flash fiction, poems, essays, short stories, articles, novellas, novels, serials, magazine and journal issues), and a place readers come to find their next favorite author. Authors launch a page, then launch each work. Readers cheer, comment and follow, and each day ends with a ranking.
 
 Reading is free and needs no account. Launching is free. Rank comes from readers' cheers and comments only: it cannot be bought, and a membership buys an author tools, never position.
 

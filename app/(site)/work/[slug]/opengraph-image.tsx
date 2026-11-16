@@ -20,6 +20,6 @@ export default async function Image({ params }: { params: Promise<{ slug: string
   const [row] = await db.select({ work: works, author: authors, status: launches.status }).from(works)
     .innerJoin(authors, eq(works.authorId, authors.id)).leftJoin(launches, eq(launches.workId, works.id)).where(eq(works.slug, slug)).limit(1);
   const open = row && row.author.standing === "good" && row.author.publishedAt && row.status !== "pulled" && !row.work.mature;
-  if (!row || !open) return ogCard({ kicker: "Author Hunt", title: "Find your next favourite author", foot: "authorhunt.com" });
+  if (!row || !open) return ogCard({ kicker: "Author Hunt", title: "Find your next favorite author", foot: "authorhunt.com" });
   return ogCard({ kicker: row.work.form, title: row.work.title, line: `by ${row.author.name}`, foot: `authorhunt.com/${row.author.handle}` });
 }

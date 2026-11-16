@@ -31,7 +31,7 @@ export default function About() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }} />
       <header className="page-head">
         <h1>A daily board for authors <span className="it">and their writing</span></h1>
-        <p>Author Hunt is where authors launch their work and readers find their next favourite author.</p>
+        <p>Author Hunt is where authors launch their work and readers find their next favorite author.</p>
       </header>
 
       <div className="prose">

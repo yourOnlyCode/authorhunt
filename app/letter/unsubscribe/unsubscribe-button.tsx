@@ -14,7 +14,7 @@ export function UnsubscribeButton({ token }: { token: string }) {
     } catch { setState("error"); }
   }
   if (state === "done") return <><p className="done" role="status">Unsubscribed.</p><p>The Sunday letter won&apos;t come to this address again. You can subscribe again from the front page whenever you like.</p></>;
-  if (state === "missing") return <p role="status">That link isn&apos;t one we recognise. Open the one at the foot of the latest letter.</p>;
+  if (state === "missing") return <p role="status">That link isn&apos;t one we recognize. Open the one at the foot of the latest letter.</p>;
   return (
     <div className="last" style={{ paddingBlock: 0 }}>
       <button type="button" className="btn solid" onClick={go} disabled={state === "sending"}>Unsubscribe</button>

@@ -67,7 +67,7 @@ export default function Terms() {
           <li>ask for cheers in exchange for anything: money, gifts, reviews, cheers in return;</li>
           <li>buy, sell or trade cheers, follows or comments;</li>
           <li>use more than one account, or automated accounts, to cheer;</li>
-          <li>organise groups whose purpose is to cheer for each other&apos;s launches.</li>
+          <li>organize groups whose purpose is to cheer for each other&apos;s launches.</li>
         </ul>
         <p>Cheers that break these rules are discounted. Doing it at scale is a reason for a ban.</p>
         <p><b>Rank can&apos;t be bought.</b> No membership, free period or Support link enters a score, and Author Hunt sells no place among launches.</p>

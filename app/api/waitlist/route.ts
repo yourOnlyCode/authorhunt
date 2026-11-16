@@ -4,7 +4,8 @@
  * Joining the pre-launch list (docs/launch.md). The rules are the Writers
  * Pass wait list's, which solved the same problems: a honeypot, a per-address
  * limit, and the same answer whether or not the address is already on the
- * list, so the list can't be probed.
+ * list, so the list can't be probed. An address entered again is told what
+ * it needs to know by email, within limits (lib/waitlist.ts).
  */
 
 import crypto from "node:crypto";
@@ -13,7 +14,8 @@ import { z } from "zod";
 import { byIp, json, readBody } from "@/lib/api";
 import { db } from "@/lib/db";
 import { waitlist } from "@/lib/db/schema";
-import { sendWaitlistConfirm } from "@/lib/emails/waitlist";
+import { sendWaitlistAlready, sendWaitlistConfirm } from "@/lib/emails/waitlist";
+import { resendFor } from "@/lib/waitlist";
 
 const Body = z.object({
   email: z.string().trim().toLowerCase().email("That doesn't look like an email address.").max(200),
@@ -36,6 +38,15 @@ export async function POST(req: Request) {
     const token = crypto.randomBytes(24).toString("base64url");
     await db.insert(waitlist).values({ email, kind, token, src: src ?? null }).onConflictDoNothing();
     await sendWaitlistConfirm({ email, token });
+    return json({ ok: true });
+  }
+  const now = new Date();
+  const again = resendFor(existing, now);
+  if (again !== "none") {
+    // Marked before sending, so two requests at once can't both send.
+    await db.update(waitlist).set({ remindedAt: now }).where(eq(waitlist.id, existing.id));
+    if (again === "confirm") await sendWaitlistConfirm({ email, token: existing.token, again: true });
+    else await sendWaitlistAlready({ email });
   }
   return json({ ok: true });
 }

@@ -13,25 +13,10 @@
  * it is skipped for a visitor who has asked for reduced motion.
  */
 
-import { useLayoutEffect, useRef, useState, type CSSProperties } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
+import { Confetti, throwConfetti, type Piece } from "./confetti";
 
 type Side = "reader" | "author";
-type Piece = { id: number; dx: number; dy: number; rot: number; color: string; w: number; h: number; delay: number };
-
-const COLORS = ["var(--red)", "var(--blue)", "var(--mark)", "var(--ink)"];
-
-/** The paper squares, thrown up and outward from the middle of the box. Made in the click's handler, never during render. */
-function throwConfetti(): Piece[] {
-  return Array.from({ length: 44 }, (_, id) => {
-    const angle = -Math.PI / 2 + (Math.random() - 0.5) * Math.PI * 1.25;
-    const reach = 120 + Math.random() * 230;
-    return {
-      id, dx: Math.round(Math.cos(angle) * reach), dy: Math.round(Math.sin(angle) * reach), rot: Math.round((Math.random() - 0.5) * 900),
-      color: COLORS[id % COLORS.length] as string, w: id % 3 === 0 ? 6 : 9, h: id % 3 === 0 ? 13 : 9, delay: Math.round(Math.random() * 140),
-    };
-  });
-}
-
 export function WaitlistForm({ side, src, onJoined }: { side: Side; src?: string; onJoined?: () => void }) {
   const [state, setState] = useState<"idle" | "sending" | "leaving" | "done">("idle");
   const [error, setError] = useState<string | null>(null);
@@ -79,6 +64,7 @@ export function WaitlistForm({ side, src, onJoined }: { side: Side; src?: string
         <div className="joined" role="status">
           <p className="done">You&apos;re on the list.</p>
           <p>Check your inbox for one email to confirm your address. If it isn&apos;t there in a minute, look in your junk folder. We&apos;ll write again on January 8.</p>
+          <p className="fine">Already joined? Nothing has changed, and we&apos;ve sent your link again if you still needed it.</p>
         </div>
       ) : (
         <div>
@@ -95,11 +81,7 @@ export function WaitlistForm({ side, src, onJoined }: { side: Side; src?: string
           <p className="fine">Free for readers, and free to launch. One email to confirm, one when we open. <a href="/privacy">What we keep</a>.</p>
         </div>
       )}
-      {pieces.length > 0 && (
-        <div className="confetti" aria-hidden="true">
-          {pieces.map((p) => <i key={p.id} style={{ "--dx": `${p.dx}px`, "--dy": `${p.dy}px`, "--rot": `${p.rot}deg`, background: p.color, width: p.w, height: p.h, animationDelay: `${p.delay}ms` } as CSSProperties} />)}
-        </div>
-      )}
+      <Confetti pieces={pieces} />
     </div>
   );
 }

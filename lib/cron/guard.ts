@@ -6,12 +6,18 @@
  */
 
 import { NextResponse } from "next/server";
+import { beforeLaunch } from "../env";
 import { cronAllowed } from "./pure";
 
-export async function runCron(req: Request, name: string, job: (now: Date) => Promise<Record<string, unknown>>): Promise<NextResponse> {
+/**
+ * Before the site opens only the waitlist's job has work to do. Every other job waits, so no
+ * launch goes live and no letter is sent while visitors can only see the splash page.
+ */
+export async function runCron(req: Request, name: string, job: (now: Date) => Promise<Record<string, unknown>>, opts: { beforeOpening?: boolean } = {}): Promise<NextResponse> {
   const allowed = cronAllowed({ authorization: req.headers.get("authorization"), secret: process.env.CRON_SECRET, nodeEnv: process.env.NODE_ENV });
   if (!allowed) return NextResponse.json({ error: "This route is for the scheduler." }, { status: 401 });
   const now = new Date();
+  if (beforeLaunch(now) && !opts.beforeOpening) return NextResponse.json({ ok: true, job: name, at: now.toISOString(), skipped: "Author Hunt isn't open yet." });
   try {
     const summary = await job(now);
     return NextResponse.json({ ok: true, job: name, at: now.toISOString(), ...summary });

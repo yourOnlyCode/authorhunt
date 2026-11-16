@@ -5,8 +5,10 @@ The first decides how the second goes.
 
 ## The date, and the splash page
 
-**Author Hunt opens on Friday, January 8, 2027** (the owner's call,
-November 2026). The first board's day begins at midnight Eastern.
+**Author Hunt opens at noon Eastern on Friday, January 8, 2027** (the
+owner's call, November 2026: a waking hour on both coasts). The first
+board is a half day, noon to midnight Eastern; every later day runs
+midnight to midnight.
 
 Until then authorhunt.com shows a splash page in place of the board
 (`docs/mockups/splash.html`): everything centred, a live countdown, a short

@@ -13,7 +13,7 @@ import { beforeLaunch, clerkEnabled } from "./lib/env";
 
 const PREVIEW_COOKIE = "ah_preview";
 /** What stays reachable before opening: the splash itself, the waitlist's routes, and the legal pages. */
-const OPEN_BEFORE_LAUNCH = [/^\/splash$/, /^\/confirm$/, /^\/api\/waitlist/, /^\/api\/cron\//, /^\/api\/clerk\//, /^\/api\/stripe\//, /^\/privacy$/, /^\/terms$/];
+const OPEN_BEFORE_LAUNCH = [/^\/splash$/, /^\/confirm$/, /^\/owner$/, /^\/opengraph-image/, /^\/api\/waitlist/, /^\/api\/time$/, /^\/api\/events$/, /^\/api\/cron\//, /^\/api\/clerk\//, /^\/api\/stripe\//, /^\/privacy$/, /^\/terms$/];
 
 function gate(req: NextRequest): NextResponse {
   const { pathname, searchParams } = req.nextUrl;

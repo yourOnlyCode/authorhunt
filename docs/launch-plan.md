@@ -16,19 +16,21 @@ Written November 16, 2026: 53 days before opening.
 Goal: authorhunt.com shows the countdown and takes sign-ups, and nothing
 done to the main app can break it.
 
-### 1.1 What "full sign-up" means here
+### 1.1 Decided (November 16)
 
-The splash takes an email and "I'm an author / I'm a reader", stores it,
-and sends one email to confirm the address. On January 8 each confirmed
-address gets an invitation that makes their account in one click. That is
-built and was tested locally.
-
-It does not make a real account today. Doing that before opening would
-send every visitor to a Lorec-branded sign-in page for a site that isn't
-open (see docs/launch.md). If you want real accounts from day one of the
-splash instead, say so: it means doing the Clerk step (2.3) first.
-
-- [ ] **You.** Confirm: email list now, accounts by invitation at opening.
+- [x] **The list is an email list, not accounts.** The splash takes an
+      email and "I'm an author / I'm a reader", stores it, and sends one
+      email to confirm the address. On opening day each confirmed address
+      gets an invitation that makes their account in one click. This is
+      also the cheaper way: the splash needs no Clerk at all, so Clerk's
+      paid plan (about $35 a month) can wait until sign-in is being wired
+      up in late November.
+- [x] **The site opens at noon Eastern on Friday, January 8, 2027** (9am
+      Pacific), not midnight. `LAUNCH_AT=2027-01-08T17:00:00Z`. The page
+      shows the hour in each visitor's own time zone as well.
+- Opening day's board is a half day: launches go live at noon and the day
+  still closes at midnight Eastern. Every later day runs midnight to
+  midnight.
 
 ### 1.2 Accounts and wiring the splash needs
 
@@ -56,29 +58,28 @@ Only four services. Sign-in and payments are not needed yet.
       `NEXT_PUBLIC_APP_URL=https://authorhunt.com`, `DATABASE_URL`,
       `RESEND_API_KEY`, `EMAIL_FROM`, `UPSTASH_REDIS_REST_URL`,
       `UPSTASH_REDIS_REST_TOKEN`, `CRON_SECRET` (long and random),
-      `LAUNCH_AT=2027-01-08T05:00:00Z`, `PREVIEW_SECRET` (long and random).
+      `LAUNCH_AT=2027-01-08T17:00:00Z`, `PREVIEW_SECRET` (long and random).
 - [ ] **You.** Do **not** set `AUTH_DEV`, and do not set any Clerk or
       Stripe variable yet.
 
-### 1.3 Code still to do for the splash (Claude)
+### 1.3 Code for the splash (Claude): done November 16
 
-- [ ] Countdown that doesn't trust the visitor's clock: it currently ticks
-      from the device's time, so a phone set wrong shows the wrong count.
-      Use the server's time as the reference.
-- [ ] At zero, the page reloads itself into the open site.
-- [ ] A share image for the home address, so a link to authorhunt.com in a
-      post shows the name, the date and the cat, not a blank card.
-- [ ] A link to the privacy page under the sign-up form, and a short
-      privacy section for the list (two emails, how to be removed).
-- [ ] Count visits and sign-ups on the splash, so you can see how it's
-      doing (the site's own cookieless events, or Vercel Analytics).
-- [ ] Make the scheduled jobs safe before opening: only the waitlist
-      reminder should run; the day, letter and notification jobs do
-      nothing until `LAUNCH_AT`.
-- [ ] A way for you to see the list before sign-in exists: a count on a
-      page behind the preview secret, plus the table in Supabase.
-- [ ] A test that loads the splash, signs up and confirms, run
-      automatically on every change (see 1.4).
+- [x] The countdown takes its time from the server, so a device whose
+      clock is wrong still shows the right count. Checked with a
+      simulated phone set five hours fast.
+- [x] At zero, the page loads the open site.
+- [x] A share image for authorhunt.com with the opening date.
+- [x] A "What we keep" link under the form to the privacy page, which has
+      a section on the list.
+- [x] Visits are counted on the splash (no cookies).
+- [x] Before opening, every scheduled job holds off except the waitlist's
+      one reminder.
+- [x] **Your view of the list:** visit `/?preview=<your secret>` once,
+      then `/owner`. It shows how many joined and confirmed, by day and
+      by link, and visits. Addresses themselves are in Supabase.
+- [x] A test that loads the splash, checks every other page is held back,
+      signs up, and confirms through the emailed link
+      (`npm run smoke:splash`, 26 checks).
 
 ### 1.4 So the main app can't break the splash
 
@@ -90,8 +91,8 @@ take it down. Three layers stop that:
       purpose.** authorhunt.com serves `production`. Work lands on `main`,
       which Vercel builds as a preview at its own address. `production` is
       moved forward only when you say so, after the checks pass.
-- [ ] **Claude.** **Checks on every change** (GitHub Actions): typecheck,
-      lint, tests, a production build, and the splash test from 1.3.
+- [x] **Claude.** **Checks on every change** (`.github/workflows/ci.yml`):
+      typecheck, lint, tests, a production build, and the splash test.
       A change that breaks the splash can't be promoted.
 - [ ] **You.** **A separate database for previews.** A second Supabase
       project (or branch) for `main`'s previews, so testing never touches
@@ -118,10 +119,6 @@ take it down. Three layers stop that:
       the preview card.
 - [ ] **You.** Run the name check (docs/launch.md): USPTO search for
       AUTHOR HUNT, AUTHORHUNT, BOOK HUNT, before the name is public.
-- [ ] **You.** Decide the hour. `LAUNCH_AT` is midnight Eastern, when the
-      first board's day begins. If you'd rather open at a waking hour (say
-      8am Eastern), the count should end then; the first board still runs
-      to midnight.
 
 **Target: splash live by Monday, November 23.**
 
@@ -216,8 +213,9 @@ take it down. Three layers stop that:
 
 **January 8: open.**
 
-- [ ] **Claude.** At `LAUNCH_AT` the gate lifts by itself. Check the
-      board, sign-in and one cheer within minutes.
+- [ ] **Claude.** At noon Eastern the gate lifts by itself. Run the day
+      job by hand at once so the day's launches are live in the first
+      minute, then check the board, sign-in and one cheer.
 - [ ] **Claude.** Run the waitlist invitations in batches.
 - [ ] **You.** Submit the sitemap in Search Console.
 - [ ] **You.** Be at the reports queue and the inbox for the day.

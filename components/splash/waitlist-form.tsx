@@ -44,7 +44,7 @@ export function WaitlistForm({ src }: { src?: string }) {
         <input className="visually-hidden" name="website" tabIndex={-1} autoComplete="off" aria-hidden="true" />
       </form>
       {error && <p className="error-text" role="alert" style={{ marginTop: 12 }}>{error}</p>}
-      <p className="fine">Free for readers, and free to launch. One email to confirm, one when we open.</p>
+      <p className="fine">Free for readers, and free to launch. One email to confirm, one when we open. <a href="/privacy" style={{ textDecoration: "underline", textUnderlineOffset: 3 }}>What we keep</a>.</p>
     </div>
   );
 }

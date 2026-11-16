@@ -209,7 +209,7 @@ Clerk or Stripe.
 
 - [ ] **Claude.** Build the splash from `docs/mockups/splash.html`, the
       `waitlist` table, the form route and the confirming email.
-- [ ] **You.** `LAUNCH_AT=2027-01-08T05:00:00Z` in Vercel (midnight Eastern).
+- [ ] **You.** `LAUNCH_AT=2027-01-08T17:00:00Z` in Vercel (noon Eastern).
 - [ ] **You.** Do **not** turn on Clerk's waitlist mode: it would apply to
       Lorec's sign-ups.
 - [ ] **You.** A short privacy line for the list (what's kept, that it's

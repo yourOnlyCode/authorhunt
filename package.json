@@ -12,7 +12,8 @@
     "predev": "tsx scripts/dev-db.ts",
     "db:seed": "tsx scripts/seed.ts",
     "db:reset": "rm -rf .data && tsx scripts/dev-db.ts",
-    "db:migrate": "tsx scripts/migrate.ts"
+    "db:migrate": "tsx scripts/migrate.ts",
+    "smoke:splash": "node scripts/smoke-splash.mjs"
   },
   "dependencies": {
     "@clerk/nextjs": "^7.10.0",

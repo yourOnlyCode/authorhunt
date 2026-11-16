@@ -7,7 +7,7 @@ export async function sendWaitlistConfirm(input: { email: string; token: string;
   const mail = layout({
     heading: input.reminder ? "Still want a place on the list?" : "Confirm your place on the list",
     paragraphs: [
-      "Thanks for joining Author Hunt's list. Confirm this address and we'll write once more: on Friday, January 8, 2027, when the first board opens.",
+      "Thanks for joining Author Hunt's list. Confirm this address and we'll write once more: on Friday, January 8, 2027, at noon Eastern, when the first board opens.",
       "If this wasn't you, do nothing and the address is dropped.",
     ],
     action: { label: "Confirm my address", url },

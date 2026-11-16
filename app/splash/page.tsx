@@ -11,6 +11,8 @@ import { launchAt } from "@/lib/env";
 import { CatMark } from "@/components/ui/icons";
 import { Countdown } from "@/components/splash/countdown";
 import { WaitlistForm } from "@/components/splash/waitlist-form";
+import { LocalTime } from "@/components/splash/local-time";
+import { Track } from "@/components/analytics/track";
 
 export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
@@ -19,8 +21,8 @@ export const metadata: Metadata = {
   alternates: { canonical: "/" },
 };
 
-/** Midnight Eastern on January 8, 2027, when the first board's day begins. */
-const DEFAULT_OPENING = Date.UTC(2027, 0, 8, 5, 0, 0);
+/** Noon Eastern on January 8, 2027 (the owner's call: a waking hour on both coasts). LAUNCH_AT overrides it. */
+const DEFAULT_OPENING = Date.UTC(2027, 0, 8, 17, 0, 0);
 
 /** The server's clock, read once per request for the countdown's first frame. */
 const serverNow = () => new Date().getTime();
@@ -29,12 +31,14 @@ export default async function Splash({ searchParams }: { searchParams: Promise<{
   const { src } = await searchParams;
   const opens = launchAt()?.getTime() ?? DEFAULT_OPENING;
   const when = new Intl.DateTimeFormat("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric", timeZone: "America/New_York" }).format(new Date(opens));
+  const hour = new Intl.DateTimeFormat("en-US", { hour: "numeric", minute: "2-digit", timeZone: "America/New_York" }).format(new Date(opens)).replace(":00", "").replace("12 PM", "noon").replace("12 AM", "midnight");
   return (
     <div className="splash">
       <div className="wrap">
         <header className="top"><span className="logo" style={{ fontSize: 34 }}><CatMark />Author Hunt</span></header>
         <section className="hero">
           <p className="when"><span className="hl">Opening {when}</span></p>
+          <p className="hour">At {hour} Eastern.<LocalTime at={opens} /></p>
           <h1>Find your next favourite author.</h1>
           <p className="what">Author Hunt is a daily launch board for authors and their books. New work goes up each morning, readers cheer for what they love, and every day ends with a ranking.</p>
         </section>
@@ -50,6 +54,7 @@ export default async function Splash({ searchParams }: { searchParams: Promise<{
           </ol>
         </section>
         <div className="last"><a href="#join">Join the list</a></div>
+        <Track />
       </div>
       <div className="trim" aria-hidden="true" />
       <footer><div className="wrap" style={{ justifyContent: "center" }}>Ornament: William Morris, Marigold, 1875. Art Institute of Chicago, public domain.</div></footer>

@@ -12,5 +12,5 @@ export const dynamic = "force-dynamic";
 export const maxDuration = 300;
 
 export function GET(req: Request) {
-  return runCron(req, "waitlist", (now) => remindWaitlist(now));
+  return runCron(req, "waitlist", (now) => remindWaitlist(now), { beforeOpening: true });
 }

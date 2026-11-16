@@ -1,0 +1,35 @@
+# The checks every change must pass before it can be promoted to production
+# (docs/launch-plan.md, 1.4): types, lint, tests, a production build, and the
+# splash page end to end. Needs no secrets: it runs on a throwaway local database.
+name: checks
+
+on:
+  push:
+    branches: [main, production]
+  pull_request:
+
+concurrency:
+  group: checks-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm run lint
+      - run: npm test
+      - name: Build
+        run: npm run build
+        env:
+          ALLOW_LOCAL_DB: "1"
+          LOCAL_DB_DIR: .data/pg-ci-build
+      - name: The splash page, end to end
+        run: npm run smoke:splash

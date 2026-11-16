@@ -65,7 +65,7 @@ LOCAL_DB_DIR=.data/pg-x NEXT_DIST_DIR=.next-x npx next dev -p 3201
 | Reports, cases, standing | `lib/trust`, `app/api/reports`, `app/api/admin`, `app/(site)/admin`, `app/(site)/standing` |
 | Legal and about (drafts) | `app/(site)/terms`, `privacy`, `about` |
 
-`npm run build` lists every route.
+`npm run build` lists every route. `npm run smoke:splash` (after a build) proves the splash page end to end; CI runs it on every change. `/owner` is the owner's view of the waiting list, opened with the preview secret.
 
 ## Known gaps (November 2026)
 

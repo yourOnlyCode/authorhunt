@@ -46,11 +46,17 @@ function connect(): { db: Db; local: PGlite | null } {
   return { db: drizzleLite(local, { schema }) as unknown as Db, local };
 }
 
-// Next's dev server reloads modules; one connection must survive that.
+// Next's dev server reloads modules; one connection must survive that. It is made on first
+// use, not on import, so a build (which imports every route) never opens the database.
 const held = globalThis as unknown as { __ahDb?: ReturnType<typeof connect> };
-const conn = held.__ahDb ?? (held.__ahDb = connect());
+const conn = () => held.__ahDb ?? (held.__ahDb = connect());
 
-export const db = conn.db;
-export const localDb = conn.local;
-export const usingLocalDb = conn.local !== null;
+export const db = new Proxy({} as Db, {
+  get(_target, prop) {
+    const real = conn().db as unknown as Record<string | symbol, unknown>;
+    const value = real[prop];
+    return typeof value === "function" ? (value as (...args: unknown[]) => unknown).bind(real) : value;
+  },
+});
+export const usingLocalDb = !process.env.DATABASE_URL;
 export { schema };

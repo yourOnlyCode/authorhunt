@@ -124,6 +124,20 @@ take it down. Three layers stop that:
 - [ ] **You.** Run the name check (docs/launch.md): USPTO search for
       AUTHOR HUNT, AUTHORHUNT, BOOK HUNT, before the name is public.
 
+### 1.6 Scheduled jobs while on Vercel's free plan
+
+Vercel's Hobby plan refuses a deploy whose scheduled jobs run more than
+once a day (the first deploy failed on this, November 16). Until opening
+only the waitlist's reminder has work to do, and it runs once a day, so
+`vercel.json` now lists that job alone and the deploy goes through.
+
+- [ ] **You + Claude, before the dress rehearsal in late December:** move
+      Vercel to Pro, then put the hourly jobs back in `vercel.json`:
+      `/api/cron/day` at `0 * * * *`, `/api/cron/notifications` at
+      `10 * * * *`, `/api/cron/momentum` at `20 * * * *`, and
+      `/api/cron/letter` at `15 * * * 0`. Without them no launch goes
+      live, no day closes and no email is sent after opening.
+
 **Target: splash live by Monday, November 23.**
 
 ---

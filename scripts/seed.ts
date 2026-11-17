@@ -17,10 +17,9 @@ import { addDays, launchDay } from "../lib/ranking/day";
 import { momentum } from "../lib/ranking/points";
 import { launchScore } from "../lib/ranking/score";
 import { slugify } from "../lib/slug";
+import { genreRows, platformRows } from "../lib/catalog";
 
-const GENRES = ["Fantasy", "Science fiction", "Horror", "Mystery", "Cozy mystery", "Thriller", "Romance", "Historical fiction", "Literary", "Poetry", "Memoir", "Essays", "Young adult", "Children's", "Nonfiction", "Short stories"];
 const REFERENCES = ["Ursula K. Le Guin", "Susanna Clarke", "Shirley Jackson", "Becky Chambers", "Octavia E. Butler", "Richard Osman", "Mary Oliver", "Italo Calvino", "Tove Jansson", "Tana French", "Kazuo Ishiguro", "Joan Didion", "N. K. Jemisin", "Daphne du Maurier"];
-const PLATFORMS: [string, string, boolean][] = [["amazon-kdp", "Amazon KDP", false], ["ingramspark", "IngramSpark", false], ["lulu", "Lulu", false], ["draft2digital", "Draft2Digital", false], ["kobo-writing-life", "Kobo Writing Life", false], ["wattpad", "Wattpad", false], ["royal-road", "Royal Road", false], ["substack", "Substack", false], ["own-site", "The author's own site", false], ["traditional", "A publisher", false], ["lorec", "Lorec", true]];
 
 type SeedAuthor = { handle: string; name: string; tagline: string; bio: string; city: string; region?: string; country: string; genres: string[]; readersOf: string[]; inspiredBy: string[]; mature?: boolean; kind?: t.PageKind; works: SeedWork[]; pageLaunch?: number; member?: boolean };
 type SeedWork = { title: string; tagline: string; description: string; kind?: t.WorkKind; form?: string; color: string; genres: string[]; platforms: string[]; day: number | null; cheers: number; pages?: number; notes?: string[]; noteText?: string; excerpt?: string; mature?: boolean };
@@ -95,9 +94,9 @@ export async function seed() {
   const today = launchDay(now);
   await clear();
 
-  await db.insert(t.genres).values(GENRES.map((name) => ({ slug: slugify(name), name })));
+  await db.insert(t.genres).values(genreRows());
   await db.insert(t.referenceAuthors).values(REFERENCES.map((name) => ({ slug: slugify(name), name, approved: true })));
-  await db.insert(t.platforms).values(PLATFORMS.map(([slug, name, hidden]) => ({ slug, name, hidden })));
+  await db.insert(t.platforms).values(platformRows());
 
   // The accounts /sign-in offers in development.
   const old = new Date(now.getTime() - 200 * 86_400_000);

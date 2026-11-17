@@ -14,7 +14,7 @@ export default async function NewWork() {
     <main className="wrap studio studio-narrow">
       <div className="page-head">
         <h1>Add a work</h1>
-        <p>Anything you&apos;ve finished, short or long: flash fiction, a poem, an essay, an article, a short story, a novella, a novel, a serial, an issue. Adding it puts it on your page; launching it on a day of its own comes after, and both are free.</p>
+        <p>Anything you&apos;ve finished, short or long: flash fiction, a poem, an essay, an article, a short story, fan fiction, a novella, a novel, a serial, an issue. Adding it puts it on your page; launching it on a day of its own comes after, and both are free.</p>
       </div>
       <WorkForm id={null} slug={null} launchState="none" initial={{ ...EMPTY_WORK, genres: author.genres.slice(0, 3), mature: author.mature }} genres={choices.genres} platforms={choices.platforms} />
     </main>

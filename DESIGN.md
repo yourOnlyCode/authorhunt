@@ -155,7 +155,7 @@ Calm, plain and specific.
   are in [docs/ontology.md](docs/ontology.md); use those and no others.
 - **Author Hunt is for writing of every size, and the copy says so.** Say
   "writing" or "work", not only "books": flash fiction, a poem, an essay, a
-  short story, a magazine article, a journal piece, a novella and a novel
+  short story, a magazine article, a journal piece, fan fiction, a novella and a novel
   all launch here, and the small ones are welcomed by name. Keep it to a
   short list of two or three examples in any one sentence. *Why:* the
   owner's direction on the brand, November 2026.

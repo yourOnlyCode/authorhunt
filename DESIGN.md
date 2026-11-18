@@ -169,6 +169,10 @@ contrast, sharp, Victorian in its characteristics and never a costume.
     box, the board, fields, the docked bar) stay white, like paper on a
     desk.
   - The wave is drawn behind the content, so it never covers a word.
+  - **The join box's wallpaper takes the colour the page isn't** (the
+    owner's call, November 18, 2026): the warm red on the reader's blue
+    paper, blue on the author's blush, easing between them as the side
+    changes. The ornament is drawn as a mask so its colour can change.
   - Presses can overlap: each starts its own wash, and the most recent is
     on top. (Two pale papers alternating can't strobe.) Under reduced
     motion the paper simply changes.

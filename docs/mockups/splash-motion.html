@@ -63,7 +63,10 @@ h1 .l { display: block; white-space: nowrap; }
 .clock span { display: block; margin-top: 4px; font-size: 14px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
 .clock .sec b { color: var(--red-text); }
 .join { position: relative; width: min(100%, 640px); border: 1.5px solid var(--ink); padding: 18px clamp(16px, 4vw, 32px) 16px; background: var(--page); }
-.join::before { content: ""; position: absolute; inset: 0; background: var(--marigold) center / 420px auto; opacity: 0.13; pointer-events: none; }
+/* The join box's wallpaper takes the colour the page isn't: warm on the reader's blue paper, blue on the
+   author's blush. The ornament is used as a mask, so its colour can change and ease between the two. */
+.join::before { content: ""; position: absolute; inset: 0; background-color: var(--red); -webkit-mask: var(--marigold) center / 420px auto; mask: var(--marigold) center / 420px auto; opacity: 0.15; pointer-events: none; transition: background-color 700ms ease 150ms; }
+[data-side="author"] .join::before { background-color: var(--blue); opacity: 0.2; }
 .join > * { position: relative; }
 .join h2 { font: 300 clamp(24px, 3.4vw, 32px)/1.1 var(--display); }
 .as { margin-top: 2px; font-size: 18px; color: var(--ink-2); } .as b { font-weight: 700; }
@@ -183,7 +186,7 @@ footer.foot { padding-block: 22px 28px; font-size: 17px; color: var(--muted); }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .cat, .cat .pupil, .swap span, .what span, .dock, .steps button, .row { transition: none !important; }
-  .cat.blink .lid, .cat.blink .pupil, .row .cheer.pop svg, .row .cheer.pop .num b { animation: none !important; } .confetti, .pour { display: none !important; } body { transition: none; }
+  .cat.blink .lid, .cat.blink .pupil, .row .cheer.pop svg, .row .cheer.pop .num b { animation: none !important; } .confetti, .pour { display: none !important; } body, .join::before { transition: none; }
 }
 </style>
 

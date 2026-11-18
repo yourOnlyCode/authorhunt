@@ -29,8 +29,9 @@ export const viewport: Viewport = { themeColor: "#FFFFFF", colorScheme: "light" 
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   // The face variables sit on <html>, because the tokens that use them are defined on :root.
-  const page = <html lang="en" className={`${display.variable} ${text.variable}`}><body>{children}</body></html>;
-  if (!clerkEnabled) return page;
+  // Clerk's provider goes inside <body> for the current SDK (@clerk/nextjs 7), not around <html>.
+  const html = (body: React.ReactNode) => <html lang="en" className={`${display.variable} ${text.variable}`}><body>{body}</body></html>;
+  if (!clerkEnabled) return html(children);
   const { ClerkProvider } = await import("@clerk/nextjs");
-  return <ClerkProvider>{page}</ClerkProvider>;
+  return html(<ClerkProvider>{children}</ClerkProvider>);
 }

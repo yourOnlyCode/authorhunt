@@ -17,12 +17,23 @@
   --dock-h: 62px;
   /* The page takes the chosen side's colour and keeps it: a pale tint, so ink and every accent still read. */
   --paper-reader: #E6EEFE; --paper-author: #FDE8E2;
+  --block-red: #C42E18; --block-blue: #2459C9;
 }
 *, *::before, *::after { box-sizing: border-box; border-radius: 0; }
 html { scroll-behavior: smooth; scroll-padding-top: calc(var(--dock-h) + 12px); }
 body { background: var(--paper, var(--paper-reader)); color: var(--ink); font: 500 20px/1.45 var(--text); -webkit-font-smoothing: antialiased; text-align: center; }
 body.grain { background-image: var(--grain); }
-.top { background: transparent; }
+.top { background: var(--page); position: relative; }
+/* The wall: Morris's marigold papers the whole page, in the side's own colour on its pale paper. It is strong
+   at the edges and quiet in the middle, where the words are, so type always has clear ground to sit on. */
+#page::before { content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none; background-color: var(--blue); opacity: 0.34; transition: background-color 700ms ease 150ms;
+  -webkit-mask-image: var(--marigold), radial-gradient(ellipse 62% 64% at 50% 46%, rgba(0,0,0,0.16) 0 42%, #000 100%); mask-image: var(--marigold), radial-gradient(ellipse 62% 64% at 50% 46%, rgba(0,0,0,0.16) 0 42%, #000 100%);
+  -webkit-mask-size: 520px auto, 100% 100%; mask-size: 520px auto, 100% 100%; -webkit-mask-position: center top, center; mask-position: center top, center; -webkit-mask-repeat: repeat, no-repeat; mask-repeat: repeat, no-repeat;
+  -webkit-mask-composite: source-in; mask-composite: intersect; }
+#page[data-side="author"]::before { background-color: var(--red); }
+@media (max-width: 720px) { #page::before { opacity: 0.2; } }
+/* Below the first view the page is plain paper again, so the example and the FAQ read without a pattern behind them. */
+section.day, .faq, footer.foot { background: var(--paper, var(--paper-reader)); position: relative; transition: background-color 700ms ease 150ms; }
 h1, h2, h3, p, ul, ol { margin: 0; padding: 0; } ul, ol { list-style: none; }
 a { color: inherit; } button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
 :focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
@@ -54,22 +65,25 @@ h1 .l { display: block; white-space: nowrap; }
 .swap { display: inline-grid; color: var(--blue); }
 .swap span { grid-area: 1 / 1; opacity: 0; transition: opacity 320ms ease, transform 420ms var(--ease); transform: translateY(0.08em); }
 [data-side="reader"] .swap .r, [data-side="author"] .swap .a { opacity: 1; transform: none; }
-.what { display: grid; max-width: 44rem; color: var(--ink-2); }
+.what { display: grid; max-width: 44rem; color: var(--ink); }
 .what span { grid-area: 1 / 1; opacity: 0; transition: opacity 240ms ease; }
 [data-side="reader"] .what .r, [data-side="author"] .what .a { opacity: 1; }
 .clock { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); width: min(100%, 560px); border-block: 1.5px solid var(--ink); }
 .clock div { padding-block: 10px 8px; border-left: 1px solid var(--hair); } .clock div:first-child { border-left: 0; }
 .clock b { display: block; font: 300 clamp(34px, 5vw, 54px)/1 var(--display); font-variant-numeric: lining-nums tabular-nums; }
-.clock span { display: block; margin-top: 4px; font-size: 14px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+.clock span { display: block; margin-top: 4px; font-size: 14px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-2); }
 .clock .sec b { color: var(--red-text); }
-.join { position: relative; width: min(100%, 640px); border: 1.5px solid var(--ink); padding: 18px clamp(16px, 4vw, 32px) 16px; background: var(--page); }
-/* The join box's wallpaper takes the colour the page isn't: warm on the reader's blue paper, blue on the
-   author's blush. The ornament is used as a mask, so its colour can change and ease between the two. */
-.join::before { content: ""; position: absolute; inset: 0; background-color: var(--red); -webkit-mask: var(--marigold) center / 420px auto; mask: var(--marigold) center / 420px auto; opacity: 0.15; pointer-events: none; transition: background-color 700ms ease 150ms; }
-[data-side="author"] .join::before { background-color: var(--blue); opacity: 0.2; }
+/* The join box is a block of solid colour, the one the page isn't: red on the reader's blue wall, blue on the
+   author's blush. Darker cuts of the brand's red and blue, so white type on them passes contrast. */
+.join { position: relative; width: min(100%, 640px); border: 1.5px solid var(--ink); padding: 20px clamp(16px, 4vw, 32px) 18px; background: var(--block-red); color: #fff; box-shadow: 8px 8px 0 var(--ink); transition: background-color 700ms ease 150ms; }
+[data-side="author"] .join { background: var(--block-blue); }
 .join > * { position: relative; }
 .join h2 { font: 300 clamp(24px, 3.4vw, 32px)/1.1 var(--display); }
 .as { margin-top: 2px; font-size: 18px; color: var(--ink-2); } .as b { font-weight: 700; }
+.join .as, .join .fine, .join .done { color: #fff; }
+.join .field input { border-right: 1.5px solid var(--ink); }
+.join .field button { background: var(--mark); color: var(--ink); }
+.join .field button:hover { box-shadow: 4px 4px 0 var(--ink); }
 .field { margin: 12px auto 0; max-width: 460px; display: flex; }
 .field input { flex: 1; min-width: 0; min-height: 46px; padding: 10px 14px; border: 1.5px solid var(--ink); border-right: 0; background: var(--page); font: inherit; color: var(--ink); }
 .field input::placeholder { color: #6B6B6B; opacity: 1; }
@@ -77,7 +91,7 @@ h1 .l { display: block; white-space: nowrap; }
 .field button:hover, .dock button.go:hover { transform: translate(-2px, -2px); box-shadow: 4px 4px 0 var(--red); }
 .fine { margin-top: 10px; font-size: 17px; color: var(--muted); }
 .done { font: 300 clamp(24px, 3.4vw, 32px)/1.1 var(--display); }
-.more { font-size: 18px; color: var(--muted); text-underline-offset: 4px; }
+.more { font-size: 18px; color: var(--ink); text-underline-offset: 4px; }
 
 /* The highlighter: a stroke that draws itself under a phrase. It lives in the text, so it survives wrapping. */
 mark { color: inherit; background: linear-gradient(transparent 56%, var(--mark) 56%, var(--mark) 93%, transparent 93%) 0 0 / 100% 100% no-repeat; -webkit-box-decoration-break: clone; box-decoration-break: clone; padding-inline: 0.1em; }
@@ -186,7 +200,7 @@ footer.foot { padding-block: 22px 28px; font-size: 17px; color: var(--muted); }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .cat, .cat .pupil, .swap span, .what span, .dock, .steps button, .row { transition: none !important; }
-  .cat.blink .lid, .cat.blink .pupil, .row .cheer.pop svg, .row .cheer.pop .num b { animation: none !important; } .confetti, .pour { display: none !important; } body, .join::before { transition: none; }
+  .cat.blink .lid, .cat.blink .pupil, .row .cheer.pop svg, .row .cheer.pop .num b { animation: none !important; } .confetti, .pour { display: none !important; } body, .join, #page::before, section.day, .faq, footer.foot { transition: none; }
 }
 </style>
 

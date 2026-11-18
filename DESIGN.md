@@ -169,10 +169,16 @@ contrast, sharp, Victorian in its characteristics and never a costume.
     box, the board, fields, the docked bar) stay white, like paper on a
     desk.
   - The wave is drawn behind the content, so it never covers a word.
-  - **The join box's wallpaper takes the colour the page isn't** (the
-    owner's call, November 18, 2026): the warm red on the reader's blue
-    paper, blue on the author's blush, easing between them as the side
-    changes. The ornament is drawn as a mask so its colour can change.
+  - **The wall and the block** (an experiment the owner asked for,
+    November 18, 2026; mockup only until approved). Morris's marigold
+    papers the splash's first view, in the side's own colour on its pale
+    paper: strong at the edges, quiet in the middle where the words are.
+    The join box is a block of solid colour, the one the wall isn't (red
+    on the reader's blue wall, blue on the author's blush), on a hard ink
+    shadow, with white type and a yellow button. The blocks use darker
+    cuts of the brand colours (`--block-red` #C42E18, `--block-blue`
+    #2459C9) so white type on them passes contrast. Below the first view
+    the page is plain paper again.
   - Presses can overlap: each starts its own wash, and the most recent is
     on top. (Two pale papers alternating can't strobe.) Under reduced
     motion the paper simply changes.

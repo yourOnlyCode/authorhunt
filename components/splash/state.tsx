@@ -117,7 +117,7 @@ export function SplashProvider({ src, start = "author", children }: { src?: stri
   const value = useMemo<Splash>(() => ({ side, choose, said, email, setEmail, status, error, join, look: setGaze, still }), [side, choose, said, email, status, error, join, still]);
   return (
     <Ctx.Provider value={value}>
-      <div className="splash" ref={root} data-side={side} data-joined={status === "done" ? "" : undefined} style={{ "--px": px, "--py": py } as React.CSSProperties}>{children}</div>
+      <div className="splash" ref={root} data-rev="2" data-side={side} data-joined={status === "done" ? "" : undefined} style={{ "--px": px, "--py": py } as React.CSSProperties}>{children}</div>
     </Ctx.Provider>
   );
 }

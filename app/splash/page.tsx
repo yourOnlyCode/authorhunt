@@ -26,6 +26,16 @@ const DEFAULT_OPENING = Date.UTC(2027, 0, 8, 17, 0, 0);
 /** The server's clock, read once per request for the countdown's first frame. */
 const serverNow = () => new Date().getTime();
 
+/** The case for authors: why a launch here is worth their day. Each line is something the product does (AGENTS.md's rules). */
+const WHY: { h: string; p: string }[] = [
+  { h: "A day that's yours", p: "One day, your work on the board." },
+  { h: "Readers come looking", p: "They open the board to find someone new." },
+  { h: "Small counts", p: "A poem gets the same row as a novel." },
+  { h: "A fair order", p: "Cheers decide. No one pays for a place." },
+  { h: "It lasts", p: "Your rank and your followers stay." },
+  { h: "It's free", p: "Your page and every launch, for good." },
+];
+
 const FAQ: { q: string; a: string }[] = [
   { q: "What happens when I join the list?", a: "You get one email asking you to confirm your address. On opening day you get one more: an invitation that makes your account in a single press. Nothing else is sent." },
   { q: "What do you keep about me?", a: "Your email address, whether you said you're an author or a reader, and which link brought you here. An address that is never confirmed is dropped. To be taken off the list, write to hello@authorhunt.com." },
@@ -54,6 +64,12 @@ export default async function Splash({ searchParams }: { searchParams: Promise<{
             <li><h3>Readers respond</h3><p>They cheer, comment and follow. Cheers decide the day&apos;s order, and no one can pay for a place.</p></li>
             <li><h3>You keep what you earn</h3><p>Followers you can reach again, a page with links to wherever you sell, and your rank for the day, for good.</p></li>
           </ol>
+        </section>
+        <section id="why" aria-labelledby="why-h">
+          <h2 id="why-h">Why launch here</h2>
+          <ul className="steps why">
+            {WHY.map((w) => <li key={w.h}><h3>{w.h}</h3><p>{w.p}</p></li>)}
+          </ul>
         </section>
         <section className="faq" id="faq" aria-labelledby="faq-h">
           <h2 id="faq-h">FAQ</h2>

@@ -27,17 +27,9 @@
 :root[data-pal="library"] { --blue: #1F5A43; --red: #8E2A35; --red-text: #8E2A35; --paper-reader: #E3EEE7; --paper-author: #F5E2E3; --block-blue: #1F5A43; --block-red: #8E2A35; --mark: #FFE14D; }
 *, *::before, *::after { box-sizing: border-box; border-radius: 0; }
 html { scroll-behavior: smooth; scroll-padding-top: calc(var(--dock-h) + 12px); }
-body { background: var(--paper, var(--paper-reader)); color: var(--ink); font: 500 20px/1.45 var(--text); -webkit-font-smoothing: antialiased; text-align: center; }
+body { background: var(--page); color: var(--ink); font: 500 20px/1.45 var(--text); -webkit-font-smoothing: antialiased; text-align: center; }
 body.grain { background-image: var(--grain); }
 .top { background: var(--page); position: relative; }
-/* The wall: Morris's marigold papers the whole page, in the side's own colour on its pale paper. It is strong
-   at the edges and quiet in the middle, where the words are, so type always has clear ground to sit on. */
-#page::before { content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none; background-color: var(--blue); opacity: 0.34; transition: background-color 700ms ease 150ms;
-  -webkit-mask-image: var(--marigold), radial-gradient(ellipse 62% 64% at 50% 46%, rgba(0,0,0,0.16) 0 42%, #000 100%); mask-image: var(--marigold), radial-gradient(ellipse 62% 64% at 50% 46%, rgba(0,0,0,0.16) 0 42%, #000 100%);
-  -webkit-mask-size: 520px auto, 100% 100%; mask-size: 520px auto, 100% 100%; -webkit-mask-position: center top, center; mask-position: center top, center; -webkit-mask-repeat: repeat, no-repeat; mask-repeat: repeat, no-repeat;
-  -webkit-mask-composite: source-in; mask-composite: intersect; }
-#page[data-side="author"]::before { background-color: var(--red); }
-@media (max-width: 720px) { #page::before { opacity: 0.2; } }
 /* Below the first view the page is white again, so the example and the FAQ read on a plain page. */
 section.day, .faq { background: var(--page); position: relative; }
 h1, h2, h3, p, ul, ol { margin: 0; padding: 0; } ul, ol { list-style: none; }
@@ -68,8 +60,8 @@ a { color: inherit; } button { font: inherit; color: inherit; background: none; 
 .side button[aria-pressed="true"] { background: var(--ink); color: var(--page); }
 h1 { font: 300 clamp(40px, 7.4vw, 84px)/1.02 var(--display); letter-spacing: -0.01em; }
 h1 .l { display: block; white-space: nowrap; }
-.swap { display: inline-grid; color: var(--red-text); transition: color 700ms ease 150ms; }
-[data-side="author"] .swap { color: var(--blue); }
+.swap { display: inline-grid; color: var(--blue); transition: color 500ms ease; }
+[data-side="author"] .swap { color: var(--red-text); }
 .swap span { grid-area: 1 / 1; opacity: 0; transition: opacity 320ms ease, transform 420ms var(--ease); transform: translateY(0.08em); }
 [data-side="reader"] .swap .r, [data-side="author"] .swap .a { opacity: 1; transform: none; }
 .what { display: grid; max-width: 44rem; color: var(--ink); }
@@ -80,17 +72,19 @@ h1 .l { display: block; white-space: nowrap; }
 .clock b { display: block; font: 300 clamp(34px, 5vw, 54px)/1 var(--display); font-variant-numeric: lining-nums tabular-nums; }
 .clock span { display: block; margin-top: 4px; font-size: 14px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-2); }
 .clock .sec b { color: var(--red-text); }
-/* The join box is a block of solid colour, the one the page isn't: red on the reader's blue wall, blue on the
-   author's blush. Darker cuts of the brand's red and blue, so white type on them passes contrast. */
-.join { position: relative; width: min(100%, 640px); border: 1.5px solid var(--ink); padding: 20px clamp(16px, 4vw, 32px) 18px; background: var(--block-red); color: #fff; box-shadow: 8px 8px 0 var(--ink); transition: background-color 700ms ease 150ms; }
-[data-side="author"] .join { background: var(--block-blue); }
-.join > * { position: relative; }
+/* The join box: a white box papered with the marigold, on a hard ink shadow. Each side has a colour (blue for a
+   reader, red for an author), and choosing a side washes that colour through the wallpaper from the top, where
+   the switch is. The page's one colour move happens inside the box that asks for the address. */
+.join { position: relative; width: min(100%, 640px); border: 1.5px solid var(--ink); padding: 20px clamp(16px, 4vw, 32px) 18px; background: var(--page); box-shadow: 8px 8px 0 var(--ink); overflow: hidden; }
+.join::before, .join::after { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0.2; -webkit-mask: var(--marigold) center / 420px auto; mask: var(--marigold) center / 420px auto; }
+.join::before { background-color: var(--blue); transition: opacity 300ms ease; }
+[data-side="author"] .join::before { opacity: 0; transition: opacity 300ms ease 600ms; } /* so the red never sits over the blue once it has arrived */
+.join::after { background-color: var(--red); clip-path: circle(0% at 50% 0%); transition: clip-path 900ms cubic-bezier(0.3, 0, 0.2, 1); }
+[data-side="author"] .join::after { clip-path: circle(150% at 50% 0%); }
+.join > * { position: relative; z-index: 1; }
 .join h2 { font: 300 clamp(24px, 3.4vw, 32px)/1.1 var(--display); }
 .as { margin-top: 2px; font-size: 18px; color: var(--ink-2); } .as b { font-weight: 700; }
-.join .as, .join .fine, .join .done { color: #fff; }
-.join .field input { border-right: 1.5px solid var(--ink); }
-.join .field button { background: var(--mark); color: var(--ink); }
-.join .field button:hover { box-shadow: 4px 4px 0 var(--ink); }
+.join .fine { color: var(--ink-2); }
 .field { margin: 12px auto 0; max-width: 460px; display: flex; }
 .field input { flex: 1; min-width: 0; min-height: 46px; padding: 10px 14px; border: 1.5px solid var(--ink); border-right: 0; background: var(--page); font: inherit; color: var(--ink); }
 .field input::placeholder { color: #6B6B6B; opacity: 1; }
@@ -180,6 +174,43 @@ section.day { padding-block: clamp(56px, 9vw, 104px); border-top: 1.5px solid va
 .motion .boxed::after { clip-path: inset(0 100% 0 0); transition: clip-path 620ms cubic-bezier(0.3, 0, 0.2, 1) 900ms; } .motion .panel.in .boxed::after { clip-path: inset(0); }
 
 /* FAQ and foot */
+/* Why launch here: six reasons, each shown before it is told. Every tile is a small piece of the app drawn in
+   the page's own parts (a board row, a cheer, a date, a mark), a heading and one short line. */
+.why { padding-block: clamp(48px, 8vw, 88px); background: var(--page); position: relative; }
+.why h2 { font: 300 clamp(32px, 5vw, 52px)/1.05 var(--display); text-wrap: balance; }
+.why ul { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: 28px; border-block: 1.5px solid var(--ink); }
+.why li { padding: 22px 16px 24px; border-left: 1px solid var(--hair); border-top: 1px solid var(--hair); min-width: 0; }
+.why li:nth-child(3n + 1) { border-left: 0; } .why li:nth-child(-n + 3) { border-top: 0; }
+.why h3 { font: 300 26px/1.1 var(--display); margin-top: 14px; }
+.why li p { margin: 4px auto 0; color: var(--ink-2); max-width: 22ch; line-height: 1.3; }
+@media (max-width: 760px) { .why ul { grid-template-columns: repeat(2, minmax(0, 1fr)); } .why li, .why li:nth-child(-n + 3) { border-top: 1px solid var(--hair); } .why li:nth-child(3n + 1) { border-left: 1px solid var(--hair); } .why li:nth-child(2n + 1) { border-left: 0; } .why li:nth-child(-n + 2) { border-top: 0; } .why h3 { font-size: 22px; } }
+.vis { height: 104px; display: grid; place-items: center; text-align: left; }
+/* a small board row, as in the app */
+.mini { display: grid; grid-template-columns: auto 22px minmax(0, 1fr) auto; align-items: center; gap: 8px; width: min(100%, 210px); padding: 7px 9px; border: 1.5px solid var(--ink); background: var(--page); font-size: 15px; line-height: 1.1; }
+.mini + .mini { margin-top: -1.5px; }
+@media (max-width: 760px) { .mini { grid-template-columns: 18px minmax(0, 1fr) auto; gap: 6px; padding: 6px 7px; } .mini .rk, .mini .tt small { display: none; } .mini .cv { width: 18px; height: 26px; } .mini .cv.s { height: 18px; } .mini .tt { font-size: 15px; } }
+.mini .rk { font: 300 20px/1 var(--display); font-variant-numeric: lining-nums; color: var(--muted); }
+.mini .cv { width: 22px; height: 32px; border: 1px solid var(--ink); background: var(--blue); }
+.mini .cv.b { background: var(--red); } .mini .cv.s { height: 22px; }
+.mini .tt { font: 300 17px/1.1 var(--display); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } .mini .tt small { display: block; font: 500 13px/1.2 var(--text); color: var(--muted); }
+.cheerbox { display: grid; justify-items: center; padding: 3px 6px; border: 1.5px solid var(--ink); font-weight: 700; font-size: 14px; font-variant-numeric: lining-nums; line-height: 1.1; }
+.cheerbox svg { width: 11px; height: 8px; fill: var(--red); }
+.mini.you { box-shadow: 5px 5px 0 var(--ink); }
+/* a calendar leaf */
+.leaf { width: 74px; border: 1.5px solid var(--ink); background: var(--page); text-align: center; box-shadow: 5px 5px 0 var(--ink); }
+.leaf b { display: block; background: var(--red); color: #fff; font: 600 12px/1 var(--text); letter-spacing: 0.14em; padding: 5px 0 4px; }
+.leaf span { display: block; font: 300 44px/1.1 var(--display); font-variant-numeric: lining-nums; }
+/* a cheer, large, and a coin that buys nothing */
+.fair { display: flex; align-items: center; gap: 18px; }
+.fair .cheerbox { padding: 8px 14px; font-size: 22px; box-shadow: 5px 5px 0 var(--ink); } .fair .cheerbox svg { width: 18px; height: 13px; }
+.coin { position: relative; width: 46px; height: 46px; border: 1.5px solid var(--muted); border-radius: 50%; display: grid; place-items: center; font: 300 26px/1 var(--display); color: var(--muted); }
+.coin::after { content: ""; position: absolute; left: -6px; right: -6px; top: 50%; height: 2.5px; background: var(--red); transform: rotate(-38deg); }
+/* what stays: a mark and a count */
+.keeps { display: grid; justify-items: center; gap: 8px; text-align: center; }
+.keeps .badge { padding: 5px 12px; border: 1.5px solid var(--ink); font-size: 13px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; background: var(--mark); }
+.keeps .fol { font-size: 17px; } .keeps .fol b { font: 300 26px/1 var(--display); font-variant-numeric: lining-nums; }
+/* the price */
+.price { font: 300 68px/1 var(--display); font-variant-numeric: lining-nums; }
 .faq { padding-block: clamp(48px, 8vw, 88px); }
 .faq .list { max-width: 720px; margin: 22px auto 0; text-align: left; border-top: 1.5px solid var(--ink); }
 .faq details { border-bottom: 1px solid var(--hair); }
@@ -193,16 +224,14 @@ section.day { padding-block: clamp(56px, 9vw, 104px); border-top: 1.5px solid va
 /* The pattern's ground is colour and its leaves are open, so the papered wall behind shows through them and
    the two patterns mix. It began as an accident and stays on purpose (the owner's call). */
 .band, footer.foot { position: relative; }
-.band::before, footer.foot::before { content: ""; position: absolute; inset: 0; background-color: var(--red); -webkit-mask: var(--marigold) center top / 300px auto; mask: var(--marigold) center top / 300px auto; }
+footer.foot { background-color: var(--paper-reader); }
+footer.foot::after { content: ""; position: absolute; inset: 0; background-color: var(--blue); opacity: 0.55; -webkit-mask: var(--marigold) 130px 60px / 420px auto; mask: var(--marigold) 130px 60px / 420px auto; }
+.band::before, footer.foot::before { z-index: 1; content: ""; position: absolute; inset: 0; background-color: var(--red); -webkit-mask: var(--marigold) center top / 300px auto; mask: var(--marigold) center top / 300px auto; }
 .band { height: 22px; border-top: 1.5px solid var(--ink); }
-footer.foot .wrap { position: relative; }
+footer.foot .wrap { position: relative; z-index: 2; }
 footer.foot { border-top: 1.5px solid var(--ink); padding-block: 26px calc(30px + env(safe-area-inset-bottom, 0px)); font-size: 17px; }
 footer.foot .plate { display: inline-block; padding: 7px 18px; background: var(--page); color: var(--ink); border: 1.5px solid var(--ink); box-shadow: 4px 4px 0 var(--ink); }
 
-/* The pour: pressing a side sends that side's paper out from the button in one wash of one colour, and the
-   page keeps it. Presses can overlap: each starts its own wash, the newest on top. It is drawn behind
-   everything, so no text or box is ever covered: white boxes stay white, ink stays ink. */
-.pour { position: fixed; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
 /* Confetti: square paper in the brand's colours. */
 .confetti { position: absolute; left: 50%; top: 50%; width: 0; height: 0; pointer-events: none; z-index: 5; }
 .confetti i { position: absolute; left: 0; top: 0; opacity: 0; will-change: transform, opacity; animation: confetti 1500ms cubic-bezier(0.16, 0.7, 0.3, 1) forwards; }
@@ -215,11 +244,10 @@ footer.foot .plate { display: inline-block; padding: 7px 18px; background: var(-
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .cat, .cat .pupil, .swap span, .what span, .dock, .steps button, .row { transition: none !important; }
-  .cat.blink .lid, .cat.blink .pupil, .row .cheer.pop svg, .row .cheer.pop .num b { animation: none !important; } .confetti, .pour { display: none !important; } body, .join, #page::before { transition: none; }
+  .cat.blink .lid, .cat.blink .pupil, .row .cheer.pop svg, .row .cheer.pop .num b { animation: none !important; } .confetti { display: none !important; } .join::after, .swap { transition: none !important; }
 }
 </style>
 
-<canvas class="pour" id="pour" aria-hidden="true" hidden></canvas>
 <div id="page" data-side="reader">
 
 <div class="dock" id="dock" inert>
@@ -283,6 +311,26 @@ footer.foot .plate { display: inline-block; padding: 7px 18px; background: var(-
   <p class="sr">An example: four pieces launch in the morning. Through the day readers cheer, and a piece of flash fiction climbs from fourth place to first. At midnight the day closes and it is First of the day.</p>
 </div></section>
 
+<div class="band" aria-hidden="true"></div>
+<section class="why" id="why"><div class="wrap">
+  <p class="sc">For authors</p>
+  <h2>Why launch here</h2>
+  <ul>
+    <li><div class="vis" aria-hidden="true"><div class="leaf"><b>JAN</b><span>8</span></div></div>
+      <h3>A day that&rsquo;s yours</h3><p>One day, your work on the board.</p></li>
+    <li><div class="vis" aria-hidden="true"><div><div class="mini you"><span class="rk">1</span><span class="cv"></span><span class="tt">Your title<small>by you</small></span><span class="cheerbox"><svg viewBox="0 0 14 10"><path d="M7 0l7 10H0z"/></svg>61</span></div></div></div>
+      <h3>Readers come looking</h3><p>They open the board to find someone new.</p></li>
+    <li><div class="vis" aria-hidden="true"><div><div class="mini"><span class="rk">1</span><span class="cv b s"></span><span class="tt">A poem</span><span class="cheerbox"><svg viewBox="0 0 14 10"><path d="M7 0l7 10H0z"/></svg>44</span></div><div class="mini"><span class="rk">2</span><span class="cv"></span><span class="tt">A novel</span><span class="cheerbox"><svg viewBox="0 0 14 10"><path d="M7 0l7 10H0z"/></svg>38</span></div></div></div>
+      <h3>Small counts</h3><p>A poem gets the same row as a novel.</p></li>
+    <li><div class="vis" aria-hidden="true"><div class="fair"><span class="cheerbox"><svg viewBox="0 0 14 10"><path d="M7 0l7 10H0z"/></svg>61</span><span class="coin">$</span></div></div>
+      <h3>A fair order</h3><p>Cheers decide. No one pays for a place.</p></li>
+    <li><div class="vis" aria-hidden="true"><div class="keeps"><span class="badge">First of the day</span><span class="fol"><b>128</b> followers</span></div></div>
+      <h3>It lasts</h3><p>Your rank and your followers stay.</p></li>
+    <li><div class="vis" aria-hidden="true"><span class="price"><mark>$0</mark></span></div>
+      <h3>It&rsquo;s free</h3><p>Your page and every launch, for good.</p></li>
+  </ul>
+</div></section>
+
 <section class="panel red"><div class="wrap">
   <p class="big" data-rise>Launching is <span class="under">free.</span> For good.</p>
   <p class="small">A page, a launch, every piece you finish. No plan needed.</p>
@@ -309,7 +357,7 @@ footer.foot .plate { display: inline-block; padding: 7px 18px; background: var(-
 <footer class="foot"><div class="wrap"><span class="plate">Author Hunt &middot; a mockup of the splash with motion</span></div></footer>
 </div>
 
-<div class="mock"><span>Mockup</span><button type="button" id="pal">Colours: now</button><button type="button" id="grain" aria-pressed="false">Paper grain: off</button></div>
+<div class="mock"><span>Mockup</span><button type="button" id="pal">Colours: indigo &amp; madder</button><button type="button" id="grain" aria-pressed="false">Paper grain: off</button></div>
 
 <script>
 (() => {
@@ -318,42 +366,6 @@ footer.foot .plate { display: inline-block; padding: 7px 18px; background: var(-
   if (!still) document.documentElement.classList.add("motion");
   const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 
-  // ---- the pour: each press starts a wash of that side's paper from the button; the newest is drawn on top ----
-  const pourEl = document.getElementById("pour"), pen = pourEl.getContext("2d");
-  const SPREAD = 1150; // ms for a wash to run its full course, which ends well past the page's edges
-  const ease = (u) => 1 - Math.pow(1 - Math.min(Math.max(u, 0), 1), 1.8);
-  const PAPER = { reader: "reader", author: "author" }; // a wash is named by its side; colours come from the tokens
-  const css = (name) => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
-  const BAND = 240; // px over which the edge fades back into the paper
-  let washes = [], drawing = false;
-  function settle(side) { document.body.style.setProperty("--paper", `var(--paper-${side})`); }
-  function pour(from, paper) {
-    if (still || !from) { settle(paper); return; }
-    const b = from.getBoundingClientRect(), x = b.left + b.width / 2, y = b.top + b.height / 2;
-    const w = innerWidth, h = innerHeight;
-    if (pourEl.width !== w || pourEl.height !== h) { pourEl.width = w; pourEl.height = h; }
-    // The wash aims well beyond the farthest corner, so its rim leaves the page at speed and its slowing-down
-    // happens out of sight. It is finished only once the whole fading rim has passed that corner.
-    const far = Math.hypot(Math.max(x, w - x), Math.max(y, h - y));
-    washes.push({ x, y, side: paper, paper: css("--paper-" + paper), edge: css(paper === "reader" ? "--blue" : "--red"), start: performance.now(), far, R: (far + BAND) * 1.35 });
-    pourEl.hidden = false;
-    if (!drawing) { drawing = true; requestAnimationFrame(draw); }
-  }
-  function draw(now) {
-    // A wash that has covered the page becomes the page, along with everything under it.
-    let done = -1;
-    washes.forEach((v, i) => { if (v.R * ease((now - v.start) / SPREAD) - BAND >= v.far + 2) done = i; });
-    if (done >= 0) { settle(washes[done].side); washes = washes.slice(done + 1); }
-    pen.clearRect(0, 0, pourEl.width, pourEl.height);
-    for (const v of washes) {
-      // One wash: the paper, deepening smoothly into the bold colour at its leading edge.
-      const rad = v.R * ease((now - v.start) / SPREAD); if (rad < 1) continue;
-      const g = pen.createRadialGradient(v.x, v.y, 0, v.x, v.y, rad), from = Math.max(0, 1 - BAND / rad);
-      g.addColorStop(0, v.paper); g.addColorStop(from, v.paper); g.addColorStop(1, v.edge);
-      pen.fillStyle = g; pen.beginPath(); pen.arc(v.x, v.y, rad, 0, 7); pen.fill();
-    }
-    if (washes.length) requestAnimationFrame(draw); else { drawing = false; pourEl.hidden = true; }
-  }
   function confetti(host, count = 40) {
     if (still) return;
     const box = document.createElement("div"); box.className = "confetti"; const colors = ["var(--red)", "var(--blue)", "var(--mark)", "var(--ink)"];
@@ -379,7 +391,7 @@ footer.foot .plate { display: inline-block; padding: 7px 18px; background: var(-
     }
     glance();
   }
-  $$("[data-pick]").forEach((b) => b.addEventListener("click", () => { const changed = state.side !== b.dataset.pick; state.side = b.dataset.pick; touched = true; paint(); blink(); if (changed) pour(b, PAPER[state.side]); }));
+  $$("[data-pick]").forEach((b) => b.addEventListener("click", () => { const changed = state.side !== b.dataset.pick; state.side = b.dataset.pick; touched = true; paint(); blink(); }));
   emails.forEach((i) => i.addEventListener("input", () => { state.email = i.value; emails.forEach((o) => { if (o !== i) o.value = i.value; }); glance(i); }));
   $$("[data-join]").forEach((f) => f.addEventListener("submit", (e) => { e.preventDefault(); state.joined = true; paint(); blink(); setTimeout(() => dockShow(false), 2600); }));
 
@@ -411,7 +423,7 @@ footer.foot .plate { display: inline-block; padding: 7px 18px; background: var(-
 
   // The headline shows both sides once on arrival, unless the visitor has already chosen.
   let touched = false;
-  if (!still) { const show = (side) => { if (touched) return; state.side = side; paint(); pour(document.querySelector(`[data-pick="${side}"]`), PAPER[side]); }; setTimeout(() => show("author"), 2200); setTimeout(() => show("reader"), 4600); }
+  if (!still) { const show = (side) => { if (touched) return; state.side = side; paint(); }; setTimeout(() => show("author"), 2200); setTimeout(() => show("reader"), 4600); }
 
   // A live countdown that simply changes.
   const open = Date.UTC(2027, 0, 8, 17, 0, 0), two = (n) => String(n).padStart(2, "0");
@@ -493,8 +505,8 @@ footer.foot .plate { display: inline-block; padding: 7px 18px; background: var(-
   const seen = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("in"); seen.unobserve(e.target); } }), { threshold: 0.45 });
   $$(".panel, .day .lede").forEach((el) => seen.observe(el));
 
-  const PALS = [["", "now"], ["dye", "indigo & madder"], ["poster", "cobalt & raspberry"], ["library", "bottle & oxblood"]];
-  let pal = 0; const palBtn = document.getElementById("pal");
+  const PALS = [["dye", "indigo & madder"], ["poster", "cobalt & raspberry"], ["library", "bottle & oxblood"], ["", "the first red & blue"]];
+  let pal = 0; const palBtn = document.getElementById("pal"); document.documentElement.dataset.pal = PALS[0][0]; // indigo and madder: the owner's pick
   palBtn.addEventListener("click", () => { pal = (pal + 1) % PALS.length; document.documentElement.dataset.pal = PALS[pal][0]; palBtn.textContent = "Colours: " + PALS[pal][1]; });
   const g = document.getElementById("grain");
   g.addEventListener("click", () => { const on = document.body.classList.toggle("grain"); g.textContent = "Paper grain: " + (on ? "on" : "off"); g.setAttribute("aria-pressed", String(on)); });

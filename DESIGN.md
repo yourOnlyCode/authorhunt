@@ -154,8 +154,8 @@ contrast, sharp, Victorian in its characteristics and never a costume.
   layer, and never swaps while its field has focus. *Why:* the owner's
   requirement, November 18, 2026: the form is available whatever is
   playing.
-- **The pour, and the splash's paper** (the owner's idea, November 18,
-  2026). The splash page takes the colour of the chosen side and keeps it:
+- **The pour, and the splash's paper** (tried November 18, 2026, and
+  undone the same day: see "Undone" below; kept here as the record). The splash page takes the colour of the chosen side and keeps it:
   a pale blue paper for a reader, a pale blush for an author
   (`--paper-reader`, `--paper-author`). Pressing a side sends that paper
   out from the button in one wash of one colour, and the page keeps it.
@@ -169,28 +169,25 @@ contrast, sharp, Victorian in its characteristics and never a costume.
     box, the board, fields, the docked bar) stay white, like paper on a
     desk.
   - The wave is drawn behind the content, so it never covers a word.
-  - **The wall and the block** (an experiment the owner asked for,
-    November 18, 2026; mockup only until approved). Morris's marigold
-    papers the splash's first view, in the side's own colour on its pale
-    paper: strong at the edges, quiet in the middle where the words are.
-    The join box is a block of solid colour, the one the wall isn't (red
-    on the reader's blue wall, blue on the author's blush), on a hard ink
-    shadow, with white type and a yellow button. The blocks use darker
-    cuts of the brand colours (`--block-red` #C42E18, `--block-blue`
-    #2459C9) so white type on them passes contrast. Below the first view
-    the page is white: the example launch and the FAQ sit on a plain white
-    page (the owner's call). The foot is the marigold in red, running to
-    the bottom of the page, with its words on a white plate with an ink
-    rule, so nothing is ever read off the pattern.
-  - **The foot's pattern is see-through** (the owner's call: it began as
-    an accident). The marigold's ground is colour and its leaves are left
-    open, so the papered wall behind shows through them and the two
-    patterns mix. The same band, 22px tall, divides the white sections.
-  - **The colours are under review.** The mockup's switch compares the
-    current red and blue with three pairs of similar depth (indigo and
-    madder, cobalt and raspberry, bottle and oxblood). In every one the
-    headline's coloured words take the colour the wall isn't, like the
-    block. Nothing here is decided until the owner picks.
+  - **Undone, November 18, 2026:** the page keeping a colour, and the
+    marigold as the page's wallpaper. The owner tried both and found the
+    changing background wasn't a gain. The splash is a white page again.
+  - **What stays from the experiment:** the marigold lives inside the join
+    box, which sits on a hard ink shadow. Each side has a colour (indigo
+    for a reader, madder for an author); choosing a side washes that
+    colour through the box's wallpaper from the top, where the switch is,
+    and the headline's coloured words take it too. The page's one colour
+    move happens inside the box that asks for the address. The example
+    launch and the FAQ sit on white. The foot is the marigold in madder
+    with a second, offset marigold in indigo showing through its leaves
+    (the owner liked that mix when it first happened by accident), and
+    its words sit on a white plate with an ink rule.
+  - **Indigo and madder** (the owner's pick, November 18, 2026): indigo
+    #2B3F8C and madder #B23A2E (text #9C2F25), the dyes Morris printed
+    with, replace the first blue #2F6FE8 and red #D9361E, which read as a
+    web link blue against an orange. Both are a similar depth, so neither
+    shouts. In the mockup only so far; the app's tokens change when the
+    splash is built from it.
   - Presses can overlap: each starts its own wash, and the most recent is
     on top. (Two pale papers alternating can't strobe.) Under reduced
     motion the paper simply changes.

@@ -14,6 +14,25 @@ generated artwork. Change the words in that file and run
 | `d-opens-*` | The first board opens January 8. | square, portrait, story |
 | `e-people-*` | Written by people. | square, portrait, story |
 
+## Panes that show the app
+
+For the second, third and later frames of a carousel, so a writer sees the
+thing before clicking. Each is a photograph of a real page of the app at
+phone width (`shots.mjs` takes them), showing the sample authors from
+`npm run db:seed`, and each says "The app, with sample titles."
+
+| File | Says | Shows |
+|---|---|---|
+| `p1-board-*` | Every morning, a new board. | The day's board, with its filter by type |
+| `p2-launch-*` | Each piece gets a page of its own. | A launch page: cover, First of the day, Get the book |
+| `p3-author-*` | Your page stays. | An author page, with followers and Support |
+| `p4-add-*` | Add it. Pick a day. Launch. | The Studio's "Add a work" form |
+
+**A carousel that works as a set:** one of the five ideas first (A or B),
+then `p1`, `p2`, `p3`, `p4`, then `d-opens` to close on the date. Six
+frames. Use the square or the portrait files for all six: a carousel wants
+one shape throughout.
+
 Square is 1080 x 1080 (feeds), portrait is 1080 x 1350 (feeds, the most
 room on a phone), story is 1080 x 1920 (stories and reels; its top and
 bottom are pattern only, where the apps put their own buttons).
@@ -57,6 +76,37 @@ are drafts: put them in your own voice before they run.
 - Text: Author Hunt does not accept AI-written work. Every author declares that a person wrote theirs. A launch board for real writers opens January 8.
 - Headline: No AI-written work
 - Button: Sign up
+
+## Words for a carousel
+
+One text above the whole carousel, and a short headline under each frame.
+The frames already carry their own big line, so the headline under a frame
+adds a fact instead of repeating it.
+
+Text above (pick one, and test them against each other):
+
+1. You finished something. Give it a launch day. Author Hunt is a daily board where writers launch their work, a poem as much as a novel, and readers cheer for what they love. Swipe to see inside. Opens January 8, free to launch.
+2. Most writing gets posted once and sinks. On Author Hunt each piece gets a day on the board, a page of its own, and readers who came looking for something new. Have a look inside.
+3. No ads in the ranking, no paid placement, no AI-written work. A launch board for writers opens January 8. Here is what it looks like.
+
+Headline under each frame:
+
+| Frame | Headline | Description |
+|---|---|---|
+| A or B (first) | A launch day for your writing | Free to launch |
+| `p1-board` | A new board every morning | Ranked by readers' cheers |
+| `p2-launch` | A page for every piece | With a link to wherever you sell |
+| `p3-author` | An author page that lasts | Followers hear about your next launch |
+| `p4-add` | Launching takes a few minutes | Free, for every piece |
+| `d-opens` (last) | Be on the first board | Opens January 8 at noon Eastern |
+
+Button on every frame: Sign up.
+
+What makes these read well, so the same holds when you rewrite them:
+- The first sentence is about the writer, not about Author Hunt.
+- One idea in each text; the next idea is the next frame.
+- A plain fact ends each one: the date, or that it is free.
+- Nothing is promised that the product doesn't do: no "get discovered", no reader numbers we don't have yet.
 
 ## Where to run them
 

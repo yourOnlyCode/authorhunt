@@ -70,6 +70,19 @@ const ADS = {
   },
 };
 
+/**
+ * The panes that show the app itself, for the second, third and later frames of a carousel: a photograph of a
+ * real page (shots.mjs takes them, at phone width, with the seed's sample authors), a few words above it and a
+ * line below. They say the titles are samples.
+ */
+const shot = async (name) => `<figure class="shot"><img alt="" src="data:image/png;base64,${(await readFile(path.join(here, "shots", name + ".png"))).toString("base64")}"><figcaption>The app, with sample titles.</figcaption></figure>`;
+Object.assign(ADS, {
+  "p1-board": { tone: "white pane", head: `Every morning,<br>a <span class="blue">new board.</span>`, vis: await shot("board"), line: "Readers open it to see what launched today." },
+  "p2-launch": { tone: "white pane", head: `Each piece gets<br><span class="red">a page of its own.</span>`, vis: await shot("work"), line: "Cheers, comments, and where to get it." },
+  "p3-author": { tone: "white pane", head: `Your page <span class="mk">stays.</span>`, vis: await shot("author"), line: "Followers hear about your next launch." },
+  "p4-add": { tone: "white pane", head: `Add it. Pick a day.<br><span class="blue">Launch.</span>`, vis: await shot("add"), line: "Free, for every piece you finish." },
+});
+
 const page = (ad, shape) => `<!doctype html><html><head><meta charset="utf-8">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&display=block">
 <style>
@@ -102,6 +115,13 @@ body.blue .line { color: #fff; }
 body.blue .foot b { background: var(--mark); color: var(--ink); }
 .cat { width: 70px; height: 59px; fill: none; stroke: var(--red); stroke-width: 1.7; stroke-linejoin: miter; overflow: visible; } .cat .f { fill: var(--red); stroke: none; }
 body.blue .cat { stroke: #fff; } body.blue .cat .f { fill: #fff; }
+/* a photograph of the app, framed like everything else here: an ink rule and a hard shadow */
+body.pane main { gap: 34px; padding-block: 24px; } body.pane h1 { font-size: 80px; } body.pane .line { font-size: 40px; }
+.shot { width: 640px; } .shot img { display: block; width: 100%; height: 520px; object-fit: cover; object-position: top; border: 3px solid var(--ink); box-shadow: 14px 14px 0 var(--ink); }
+.shot figcaption { margin-top: 26px; font-size: 26px; color: var(--muted); }
+body.pane.portrait .shot img { height: 700px; } body.pane.story .shot img { height: 760px; }
+body.pane.square main { zoom: 0.9; } body.pane.portrait main { zoom: 0.96; gap: 30px; } body.pane.story main { zoom: 0.98; gap: 40px; }
+body.pane .line { max-width: 22em; }
 /* pieces of the app */
 .board { width: 780px; border: 3px solid var(--ink); background: var(--page); box-shadow: 14px 14px 0 var(--ink); text-align: left; }
 .row { display: grid; grid-template-columns: 1.4ch 62px 1fr auto; align-items: center; gap: 26px; padding: 22px 28px; border-bottom: 2px solid var(--hair); }

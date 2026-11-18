@@ -189,6 +189,15 @@ Morris credit and the full FAQ.
   yellow Join button. It is the only full-width colour on the page.
   *Why:* three colour panels were tried and cut because they repeated the
   tiles.
+- **After joining, pass it on.** Under "You're on the list", one line
+  asking the visitor to send the page to a writer they know, the link as
+  plain text (`?src=friend`, so the owner's list counts word of mouth), and
+  two buttons: the phone's own Share where there is one, and Copy the
+  link. No buttons for particular networks, and nothing sent for them.
+- **The list's size shows once it is worth saying:** from 100 confirmed
+  addresses, a line under the join form ("310+ writers and readers are on
+  the list"), rounded down to the ten so it never claims someone who isn't
+  there (`listLine`, lib/waitlist.ts). Confirmed addresses only.
 - **Bands and the foot** are the marigold in madder on white, solid. The
   foot's words sit on a white plate with an ink rule and a hard shadow.
 - **Every size:** nothing wider than a 320px screen, the join form in the

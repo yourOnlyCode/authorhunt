@@ -30,3 +30,17 @@ export function resendFor(row: WaitlistRow, now: Date): Resend {
   if (row.confirmedAt) return since >= ALREADY_EVERY ? "already" : "none";
   return since >= CONFIRM_AGAIN_EVERY ? "confirm" : "none";
 }
+
+/** The list's size is shown only once it is worth saying (the owner's call, November 2026): a small number reads as empty. */
+export const SHOW_COUNT_FROM = 100;
+
+/**
+ * The line under the join form, or null while the list is small. It counts confirmed addresses only, so a
+ * typo or an address nobody owns never adds to it, and it rounds down to the ten, so it never claims a
+ * person who isn't there and doesn't tick up one by one.
+ */
+export function listLine(confirmed: number): string | null {
+  if (confirmed < SHOW_COUNT_FROM) return null;
+  const shown = Math.floor(confirmed / 10) * 10;
+  return `${shown.toLocaleString("en-US")}+ writers and readers are on the list.`;
+}

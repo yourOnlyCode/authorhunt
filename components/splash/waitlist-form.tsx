@@ -14,14 +14,16 @@
  * answer rises in where the form was (the box keeps its height, so nothing
  * on the page moves) as paper squares in the brand's colors burst and fall.
  * If the request fails, the form eases back with the reason. All of it is
- * skipped under reduced motion.
+ * skipped under reduced motion. Under the answer, an invitation to pass the
+ * page on (share.tsx), so the box grows downward once someone has joined.
  */
 
 import { useLayoutEffect, useRef, useState } from "react";
 import { Confetti, throwConfetti, type Piece } from "./confetti";
 import { gazeProps, useSplash } from "./state";
+import { ShareAsk } from "./share";
 
-export function WaitlistForm() {
+export function WaitlistForm({ count }: { count: string | null }) {
   const { side, email, setEmail, status, error, join, look, still } = useSplash();
   const [pieces, setPieces] = useState<Piece[]>([]);
   const body = useRef<HTMLDivElement>(null);
@@ -44,13 +46,14 @@ export function WaitlistForm() {
 
   return (
     <div className="join-body" ref={body}>
-      {status === "done" ? (
+      {status === "done" ? (<>
         <div className="joined" role="status">
           <p className="done">You&apos;re on the list.</p>
           <p>Check your inbox for one email to confirm your address. If it isn&apos;t there in a minute, look in your junk folder. We&apos;ll write again on January 8.</p>
           <p className="fine">Already joined? Nothing has changed, and we&apos;ve sent your link again if you still needed it.</p>
         </div>
-      ) : (
+        <ShareAsk side={side} />
+      </>) : (
         <div className={`join-form ${status === "leaving" ? "leaving" : ""}`} aria-busy={status === "leaving"}>
           <h2 id="join-h">Be part of the first launch!</h2>
           <p className="as">Joining as <b>{side === "reader" ? "a reader" : "an author"}</b>.</p>
@@ -63,6 +66,7 @@ export function WaitlistForm() {
           </form>
           {error && <p className="error-text" role="alert" style={{ marginTop: 10 }}>{error}</p>}
           <p className="fine">Free for readers, and free to launch. One email to confirm, one when we open. <a href="/privacy">What we keep</a>.</p>
+          {count && <p className="count">{count}</p>}
         </div>
       )}
       <Confetti pieces={pieces} />

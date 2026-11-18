@@ -19,6 +19,8 @@ import { SplashProvider } from "@/components/splash/state";
 import { Dock } from "@/components/splash/dock";
 import { Why } from "@/components/splash/why";
 import { ExampleDay } from "@/components/splash/example-day";
+import { confirmedOnList } from "@/lib/queries/waitlist-count";
+import { listLine } from "@/lib/waitlist";
 import { Track } from "@/components/analytics/track";
 
 export const dynamic = "force-dynamic";
@@ -56,10 +58,11 @@ export default async function Splash({ searchParams }: { searchParams: Promise<{
   const weekday = new Intl.DateTimeFormat("en-US", { weekday: "long", timeZone: "America/New_York" }).format(at);
   const hour = new Intl.DateTimeFormat("en-US", { hour: "numeric", minute: "2-digit", timeZone: "America/New_York" }).format(at).replace(":00", "").replace("12 PM", "noon").replace("12 AM", "midnight");
   const logo = <span className="logo"><CatMark />Author Hunt</span>;
+  const count = listLine(await confirmedOnList());
   return (
     <SplashProvider src={src?.slice(0, 80)}>
       <Dock logo={logo} />
-      <SplashStage opensAt={opens} initialNow={serverNow()} when={when} hour={hour} logo={logo} />
+      <SplashStage opensAt={opens} initialNow={serverNow()} when={when} hour={hour} logo={logo} count={count} />
       <div className="band" aria-hidden="true" />
       <Why />
       <div className="band" aria-hidden="true" />

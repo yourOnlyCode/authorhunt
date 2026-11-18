@@ -230,7 +230,8 @@ footer .wrap { padding-block: 20px; display: flex; flex-wrap: wrap; justify-cont
 
 /* ── The splash page (before opening), ported from docs/mockups/splash.html. On a laptop the whole first
    view fits without scrolling; what a launch is and the FAQ sit below. Everything centred. ── */
-.splash { text-align: center; font-size: 20px; line-height: 1.45; }
+/* overflow-x: clip, so confetti flying past the edge of a phone screen never makes the page scroll sideways. (clip, not hidden: it makes no scroll box, so the docked bar still sticks.) */
+.splash { text-align: center; font-size: 20px; line-height: 1.45; overflow-x: clip; }
 .splash .wrap { max-width: 940px; }
 .splash :focus-visible { outline: 3px solid var(--blue); outline-offset: 3px; }
 .splash .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
@@ -435,6 +436,17 @@ html:has(.splash) { scroll-padding-top: 76px; }
 .splash .proof .stop { font: italic 300 30px/0.6 var(--display); color: var(--red-text); margin-left: 1px; }
 @media (max-width: 760px) { .splash .chips { gap: 8px; font-size: 12.5px; } .splash .mini { grid-template-columns: 18px minmax(0, 1fr) auto; gap: 6px; padding: 6px 7px; width: min(100%, 150px); } .splash .mini .rk, .splash .mini .tt small { display: none; } .splash .mini .cv { width: 18px; height: 26px; } .splash .mini .cv.s { height: 18px; } .splash .mini .tt { font-size: 14px; } .splash .mini.wide { width: 100%; } .splash .mini.wide .tt small { display: block; } .splash .mini.wide .tt { font-size: 15px; } .splash .mini.wide .tags { font-size: 11.5px; } .splash .proof { font-size: 16px; } .splash .proof .ins { font-size: 19px; } }
 
+/* After joining: pass it on. A ruled-off strip inside the box, the link as text, and two plain buttons. */
+.splash .pass-on { margin: 16px auto 0; padding-top: 14px; border-top: 1px solid var(--hair); max-width: 30rem; }
+.splash .pass-ask { font: 300 22px/1.25 var(--display); }
+.splash .pass-link { margin-top: 8px; } .splash .pass-link span { display: inline-block; padding: 4px 10px; border: 1.5px solid var(--ink); background: var(--page); font-size: 18px; user-select: all; overflow-wrap: anywhere; }
+.splash .pass-do { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin-top: 10px; }
+.splash .pass-do button { min-height: 44px; padding: 8px 18px; border: 1.5px solid var(--ink); background: var(--ink); color: var(--page); font-weight: 600; transition: transform 120ms ease-out, box-shadow 120ms ease-out; }
+.splash .pass-do button + button { background: var(--page); color: var(--ink); }
+.splash .pass-do button:hover { transform: translate(-2px, -2px); box-shadow: 4px 4px 0 var(--red); }
+.splash .pass-said { min-height: 1.4em; margin-top: 6px; font-size: 16px; color: var(--muted); }
+/* the size of the list, once it is worth saying */
+.splash .count { margin-top: 8px; font-size: 17px; color: var(--ink); } .splash .count::before { content: ""; display: inline-block; width: 8px; height: 8px; margin-right: 8px; background: var(--red); vertical-align: 2px; }
 /* One day on the board: the example launch. Its Play button sits above it; the three stages lead it. */
 .splash .example { width: min(100%, 680px); margin: 22px auto 0; text-align: left; }
 .splash .player { display: flex; justify-content: space-between; align-items: center; gap: 16px; font-size: 18px; color: var(--muted); }

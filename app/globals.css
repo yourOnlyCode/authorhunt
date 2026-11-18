@@ -228,6 +228,65 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 footer { border-top: 1px solid var(--ink); color: var(--muted); font-size: 17px; }
 footer .wrap { padding-block: 20px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px 24px; }
 
+/* The author's note on a launch page: what they say to readers, first, with an ink rule down its side. */
+.author-note { margin-bottom: 28px; padding: 4px 0 4px 20px; border-left: 3px solid var(--ink); }
+.author-note .sc { color: var(--muted); margin-bottom: 8px; }
+.author-note p + p { margin-top: 10px; }
+.author-note .signed { font: italic 300 22px/1.2 var(--display); }
+
+/* The founding author's mark, beside a name (components/ui/icons.tsx). */
+.founding-mark { display: inline-block; width: 0.82em; height: 0.82em; margin-left: 0.32em; vertical-align: -0.04em; fill: none; stroke: var(--red); stroke-width: 1.6; stroke-linejoin: miter; }
+.founding-mark .f { fill: var(--red); stroke: none; }
+
+/* ── Set up your first launch (/start): four steps, one screen each. It wears the Studio's form parts. ── */
+.start { max-width: 760px; padding-block: 28px 72px; }
+.start-head .sc { color: var(--muted); }
+.start-steps { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin-top: 12px; }
+.start-steps button { display: block; width: 100%; min-height: 44px; text-align: left; color: var(--muted); }
+.start-steps button:disabled { cursor: default; }
+.start-steps button i { display: block; height: 4px; margin-bottom: 8px; background: var(--hair); }
+.start-steps li.on button i, .start-steps li.past button i { background: var(--ink); }
+.start-steps button .n { font: 300 20px/1 var(--display); margin-right: 8px; font-variant-numeric: lining-nums; }
+.start-steps button b { font: 300 20px/1.15 var(--display); }
+.start-steps li.on button, .start-steps li.past button { color: var(--ink); } .start-steps li.on button b { color: var(--red-text); }
+.start-step { margin-top: 34px; }
+.start-step h1 { font: 300 clamp(36px, 6vw, 56px)/1.04 var(--display); letter-spacing: -0.01em; }
+.start-lede { margin-top: 10px; max-width: 40rem; color: var(--ink-2); }
+.start-step .studio-form { display: grid; gap: 22px; margin-top: 28px; }
+.start-pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; align-items: start; }
+.start-length { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 10px; max-width: 320px; }
+.start-swatches { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px; }
+.start-swatches label { position: relative; cursor: pointer; } .start-swatches input { position: absolute; opacity: 0; inset: 0; }
+.start-swatches span { display: block; width: 44px; height: 62px; border: 1.5px solid var(--ink); }
+.start-swatches input:checked + span { box-shadow: 4px 4px 0 var(--ink); transform: translate(-2px, -2px); } .start-swatches input:focus-visible + span { outline: 2px solid var(--ink); outline-offset: 3px; }
+/* the days: a calendar of opening weeks, each saying how full it is */
+.start-days { display: grid; grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); gap: 8px; margin-top: 10px; }
+.start-days label { position: relative; display: grid; gap: 1px; padding: 10px 12px; border: 1.5px solid var(--ink); background: var(--page); cursor: pointer; transition: transform 120ms ease-out, box-shadow 120ms ease-out; }
+.start-days input { position: absolute; opacity: 0; inset: 0; }
+.start-days .wd { font-size: 13px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+.start-days .dn { font: 300 24px/1.1 var(--display); font-variant-numeric: lining-nums; }
+.start-days .ct { font-size: 15px; color: var(--muted); line-height: 1.2; }
+.start-days label:hover { transform: translate(-2px, -2px); box-shadow: 4px 4px 0 var(--ink); }
+.start-days label.on { background: var(--ink); color: var(--page); } .start-days label.on .wd, .start-days label.on .ct { color: var(--page); }
+.start-days label:has(input:focus-visible) { outline: 2px solid var(--ink); outline-offset: 3px; }
+.start-days:disabled, fieldset:disabled .start-days label { cursor: default; opacity: 0.7; }
+.start-next { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 12px 20px; margin-top: 30px; padding-top: 18px; border-top: 1.5px solid var(--ink); }
+.start-next > :first-child { flex: 1 1 260px; margin: 0; text-align: left; }
+.start-next .word { min-height: 44px; }
+/* the last look */
+.start-review { display: grid; gap: 18px; margin-top: 26px; }
+.start-review article { padding: 18px 20px 20px; border: 1.5px solid var(--ink); background: var(--page); }
+.start-review article > header { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+.start-review h2 { font-size: 14px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 10px; }
+.start-review .t { font: 300 28px/1.1 var(--display); } .start-review .by { color: var(--muted); }
+.start-review .facts { margin-top: 6px; font-size: 17px; color: var(--muted); }
+.start-row { display: grid; grid-template-columns: 84px minmax(0, 1fr); gap: 18px; align-items: start; }
+.start-cover { display: grid; place-items: end start; width: 84px; aspect-ratio: 2 / 3; padding: 6px; border: 1px solid var(--ink); box-shadow: 5px 5px 0 var(--ink); color: var(--cv-ink); font: 300 13px/1.1 var(--display); overflow: hidden; }
+.start-cover img { width: calc(100% + 12px); height: calc(100% + 12px); margin: -6px; object-fit: cover; max-width: none; }
+.start-see { margin-top: 14px; }
+.start-founding { background: #FFF6C2 !important; } .start-founding h2 .founding-mark { margin: 0 0.5em 0 0; width: 1.2em; height: 1.2em; vertical-align: -0.2em; }
+@media (max-width: 620px) { .start-steps button b { font-size: 15px; } .start-steps button .n { display: block; } .start-pair { grid-template-columns: minmax(0, 1fr); } .start-next > :first-child { flex-basis: 100%; } }
+
 /* ── The splash page (before opening), ported from docs/mockups/splash.html. On a laptop the whole first
    view fits without scrolling; what a launch is and the FAQ sit below. Everything centred. ── */
 /* overflow-x: clip, so confetti flying past the edge of a phone screen never makes the page scroll sideways. (clip, not hidden: it makes no scroll box, so the docked bar still sticks.) */
@@ -445,6 +504,11 @@ html:has(.splash) { scroll-padding-top: 76px; }
 .splash .pass-do button + button { background: var(--page); color: var(--ink); }
 .splash .pass-do button:hover { transform: translate(-2px, -2px); box-shadow: 4px 4px 0 var(--red); }
 .splash .pass-said { min-height: 1.4em; margin-top: 6px; font-size: 16px; color: var(--muted); }
+/* For authors, once early access is on: go and set up a first launch. Under the form, and again after joining. */
+.splash .early-link { margin-top: 8px; font-size: 18px; } .splash .early-link a { text-decoration: underline; text-underline-offset: 3px; font-weight: 600; }
+.splash .early { margin: 16px auto 0; padding-top: 14px; border-top: 1px solid var(--hair); max-width: 30rem; }
+.splash .early-ask { font: 300 22px/1.25 var(--display); }
+.splash .early-go { display: inline-flex; align-items: center; min-height: 46px; margin-top: 10px; padding: 10px 22px; background: var(--red); color: #fff; border: 1.5px solid var(--ink); font-weight: 600; text-decoration: none; box-shadow: 5px 5px 0 var(--ink); }
 /* the size of the list, once it is worth saying */
 .splash .count { margin-top: 8px; font-size: 17px; color: var(--ink); } .splash .count::before { content: ""; display: inline-block; width: 8px; height: 8px; margin-right: 8px; background: var(--red); vertical-align: 2px; }
 /* One day on the board: the example launch. Its Play button sits above it; the three stages lead it. */

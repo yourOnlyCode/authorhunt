@@ -6,6 +6,7 @@
  * Moving one to today makes it live now, with what going live brings.
  */
 
+import { launchAt } from "@/lib/env";
 import { and, eq } from "drizzle-orm";
 import { z } from "zod";
 import { fail, json, readBody } from "@/lib/api";
@@ -31,18 +32,18 @@ export async function PATCH(req: Request, ctx: Ctx) {
   const found = await find(req, ctx);
   if ("response" in found) return found.response;
   const { author, launch } = found;
-  const body = await readBody(req, z.object({ day: z.string() }));
+  const body = await readBody(req, z.object({ day: z.string(), note: z.string().trim().max(2000, "Keep the note under 2,000 characters.").optional() }));
   if ("response" in body) return body.response;
   const now = new Date();
   const { day } = body.data;
   const blocked = notPublicReason(author);
   if (blocked) return fail(409, blocked);
-  const wrongDay = dayProblem(day, now);
+  const wrongDay = dayProblem(day, now, launchAt());
   if (wrongDay) return fail(400, wrongDay);
   if (await dayTaken(author.id, day, launch.id)) return fail(409, "You already have a launch on that day. One a day; choose another.");
   const status = day === launchDay(now) ? "live" as const : "scheduled" as const;
   // The status is checked again in the update, so a launch the day's job has just made live isn't moved.
-  const [saved] = await db.update(launches).set({ launchDay: day, status }).where(and(eq(launches.id, launch.id), eq(launches.status, "scheduled"))).returning();
+  const [saved] = await db.update(launches).set({ launchDay: day, status, ...(body.data.note === undefined ? {} : { note: body.data.note }) }).where(and(eq(launches.id, launch.id), eq(launches.status, "scheduled"))).returning();
   if (!saved) return fail(409, "This launch has already gone live, so it stays on its day.");
   if (status === "live") {
     const [work] = saved.workId ? await db.select().from(works).where(eq(works.id, saved.workId)).limit(1) : [];

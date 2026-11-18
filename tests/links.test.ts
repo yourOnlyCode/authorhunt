@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { relFor, safeUrl, supportUrlAllowed } from "@/lib/seo/links";
+import { isGivingLink } from "@/lib/seo/links";
 import { slugify, validHandle } from "@/lib/slug";
 
 describe("outbound links", () => {
@@ -43,5 +44,14 @@ describe("slugs and handles", () => {
     expect(validHandle("api")).toBe(false);
     expect(validHandle("-maren")).toBe(false);
     expect(validHandle("Ma")).toBe(false);
+  });
+});
+
+describe("a link that is a way to give money", () => {
+  it("is recognised on the services people use for it", () => {
+    for (const url of ["https://ko-fi.com/maren", "https://www.paypal.me/maren", "patreon.com/maren", "https://buymeacoffee.com/x", "https://github.com/sponsors/maren", "https://cash.app/$maren"]) expect(isGivingLink(url)).toBe(true);
+  });
+  it("is not a bookshop, a newsletter, a profile or an ordinary site", () => {
+    for (const url of ["https://bookshop.org/a/1/9780000000000", "https://maren.substack.com", "https://github.com/maren", "https://example.com/donate", "https://archiveofourown.org/users/maren", "not a link"]) expect(isGivingLink(url)).toBe(false);
   });
 });

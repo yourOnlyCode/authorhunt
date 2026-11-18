@@ -23,7 +23,7 @@ export default async function StudioPage() {
     db.select().from(genres).orderBy(genres.name),
     db.select().from(referenceAuthors).orderBy(referenceAuthors.name),
     author ? db.select({ id: works.id }).from(works).where(eq(works.authorId, author.id)).limit(1) : Promise.resolve([]),
-    // A new page starts its thirty days of member tools when it's made.
+    // A new page starts with the member tools (two months, with no card).
     author ? isMember(author) : Promise.resolve(true),
   ]);
   const nameOf = new Map(referenceRows.map((r) => [r.slug, r.name]));

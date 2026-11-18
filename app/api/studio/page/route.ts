@@ -13,13 +13,14 @@ import { and, eq, inArray, ne } from "drizzle-orm";
 import { z } from "zod";
 import { awardPoints } from "@/lib/actions/points";
 import { fail, json } from "@/lib/api";
-import { FREE_LINK_LIMIT, trialEnd } from "@/lib/billing/access";
+import { FREE_LINK_LIMIT, isFounding, trialEnd } from "@/lib/billing/access";
+import { launchAt } from "@/lib/env";
 import { isMember } from "@/lib/billing/server";
 import { db } from "@/lib/db";
 import { authors, genres, moderationLog, referenceAuthors, works, type Author, type LinkItem } from "@/lib/db/schema";
 import { removeImages } from "@/lib/images/store";
 import { forgetLookups } from "@/lib/queries/lookups";
-import { safeUrl, supportUrlAllowed } from "@/lib/seo/links";
+import { isGivingLink, safeUrl, supportUrlAllowed } from "@/lib/seo/links";
 import { slugify, validHandle } from "@/lib/slug";
 import { AI_VALUES, LIMITS, missingFrom, pageChecklist } from "@/lib/studio/rules";
 import { ownImages, readInput, studioViewer } from "@/lib/studio/server";
@@ -82,17 +83,21 @@ export async function PUT(req: Request) {
 
   const website = d.website ? safeUrl(d.website) : null;
   if (d.website && !website) return fail(400, "That website address couldn't be read.");
+  // A way to give money is the Support link, a member tool: it can't be put in as a website or an ordinary link.
+  const GIVING = "is a way to give money, so it goes in the Support link (a member tool), not here. Links for buying a work go on that work.";
+  if (website && isGivingLink(website)) return fail(400, `Your website ${GIVING}`);
 
   const links: LinkItem[] = [];
   for (const l of d.links) {
     if (!l.label && !l.url) continue;
     const url = safeUrl(l.url);
     if (!url) return fail(400, `The link "${l.label || l.url}" needs a full web address.`);
+    if (isGivingLink(url)) return fail(400, `The link "${l.label || l.url}" ${GIVING}`);
     links.push({ label: l.label || new URL(url).hostname.replace(/^www\./, ""), url });
   }
 
   // Member tools, decided on the server. A free page keeps what it already shows and is never blocked from saving the rest.
-  const member = existing ? await isMember(existing, now) : true; // a new page starts its thirty days now
+  const member = existing ? await isMember(existing, now) : true; // a new page starts with the member tools
   const linkLimit = member ? LIMITS.memberLinks : Math.max(FREE_LINK_LIMIT, existing?.links.length ?? 0);
   if (links.length > linkLimit) return fail(403, `A page has ${FREE_LINK_LIMIT} links without a membership. More than that is a member tool.`);
   let supportUrl = existing?.supportUrl ?? null;
@@ -141,7 +146,7 @@ export async function PUT(req: Request) {
   try {
     const rows = existing
       ? await db.update(authors).set(values).where(eq(authors.id, existing.id)).returning()
-      : await db.insert(authors).values({ ...values, userId: viewer.id, trialEndsAt: trialEnd(now) }).returning();
+      : await db.insert(authors).values({ ...values, userId: viewer.id, trialEndsAt: trialEnd(now, launchAt()), founding: isFounding(now, launchAt()) }).returning();
     saved = rows[0]!;
   } catch (e) {
     // Two people asking for one handle at the same moment: the unique index decides.

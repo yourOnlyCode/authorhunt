@@ -1,15 +1,27 @@
 import { describe, expect, it } from "vitest";
-import { authorAccess, hasMemberTools, PRICE, trialEnd } from "@/lib/billing/access";
+import { authorAccess, hasMemberTools, isFounding, PRICE, trialEnd } from "@/lib/billing/access";
 
 const now = new Date("2026-11-13T12:00:00Z");
 const later = new Date("2026-12-01T00:00:00Z");
 const earlier = new Date("2026-11-01T00:00:00Z");
 
 describe("member tools", () => {
-  it("are on during the thirty-day trial and off after it", () => {
+  it("are on during the two-month trial and off after it", () => {
     expect(authorAccess({ trialEndsAt: later, subscription: null, comp: null }, now)).toBe("trial");
     expect(authorAccess({ trialEndsAt: earlier, subscription: null, comp: null }, now)).toBe("free");
-    expect(trialEnd(new Date("2026-11-01T00:00:00Z")).toISOString()).toBe("2026-12-01T00:00:00.000Z");
+    expect(trialEnd(new Date("2026-11-01T00:00:00Z")).toISOString()).toBe("2026-12-31T00:00:00.000Z");
+  });
+  it("starts a trial at opening for a page made before it, so none is spent waiting", () => {
+    const opens = new Date("2027-01-08T17:00:00Z");
+    expect(trialEnd(new Date("2026-11-20T00:00:00Z"), opens).toISOString()).toBe("2027-03-09T17:00:00.000Z");
+    expect(trialEnd(new Date("2027-02-01T00:00:00Z"), opens).toISOString()).toBe("2027-04-02T00:00:00.000Z");
+    expect(trialEnd(new Date("2027-02-01T00:00:00Z"), null).toISOString()).toBe("2027-04-02T00:00:00.000Z");
+  });
+  it("calls a page made before opening a founding author's, and no page after", () => {
+    const opens = new Date("2027-01-08T17:00:00Z");
+    expect(isFounding(new Date("2026-12-01T00:00:00Z"), opens)).toBe(true);
+    expect(isFounding(new Date("2027-01-09T00:00:00Z"), opens)).toBe(false);
+    expect(isFounding(new Date("2026-12-01T00:00:00Z"), null)).toBe(false);
   });
   it("are on for an active subscription", () => {
     expect(authorAccess({ trialEndsAt: earlier, subscription: { status: "active", currentPeriodEnd: later }, comp: null }, now)).toBe("member");

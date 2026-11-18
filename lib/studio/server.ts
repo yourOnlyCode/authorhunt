@@ -17,8 +17,7 @@ import { fail, signedIn } from "../api";
 import type { Viewer } from "../auth";
 import { db } from "../db";
 import { authors, follows, images, launches, works, type Author, type Launch, type Work } from "../db/schema";
-import { addDays, formatDay, launchDay } from "../ranking/day";
-import { LAUNCH_WINDOW_DAYS, aiAccepted } from "./rules";
+import { aiAccepted } from "./rules";
 
 type Limit = { name: string; max: number; windowSec: number };
 
@@ -69,16 +68,7 @@ export async function tellFollowers(author: Author, input: { kind: NotificationK
   return rows.length;
 }
 
-export const DAY_PATTERN = /^\d{4}-\d{2}-\d{2}$/;
-
-/** Whether a day can take a launch: a real date, today or later in New York, and not too far off. */
-export function dayProblem(day: string, now: Date): string | null {
-  if (!DAY_PATTERN.test(day) || addDays(day, 0) !== day) return "That isn't a date.";
-  const today = launchDay(now);
-  if (day < today) return "That day has passed. Days run midnight to midnight, New York time.";
-  if (day > addDays(today, LAUNCH_WINDOW_DAYS)) return `A launch can be set up to ${LAUNCH_WINDOW_DAYS} days ahead.`;
-  return null;
-}
+export { DAY_PATTERN, EARLY_DAYS, dayProblem, earlyDays } from "./days";
 
 /** Whether the author already has a launch on that day (one a day), leaving out the one being moved. */
 export async function dayTaken(authorId: string, day: string, exceptId?: string): Promise<boolean> {
@@ -113,9 +103,7 @@ export async function worksOf(authorId: string): Promise<Work[]> {
   return db.select().from(works).where(eq(works.authorId, authorId)).orderBy(works.createdAt);
 }
 
-export function dayWords(day: string): string {
-  return formatDay(day, { weekday: "long", month: "long", day: "numeric", year: "numeric" });
-}
+export { dayWords } from "./days";
 
 /**
  * readBody from lib/api.ts, for a schema with defaults: this one answers with

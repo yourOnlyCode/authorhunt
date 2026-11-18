@@ -101,6 +101,8 @@ export const works = pgTable("works", {
   gallery: jsonb("gallery").$type<{ url: string; caption: string }[]>().notNull().default([]),
   pubDate: date("pub_date"),
   pages: integer("pages"),
+  /** Length in words, for work that isn't counted in pages: a poem, an essay, a story. Either, both or neither. */
+  words: integer("words"),
   isbn: text("isbn"),
   buyLinks: jsonb("buy_links").$type<LinkItem[]>().notNull().default([]),
   genres: slugs("genres"),
@@ -129,6 +131,8 @@ export const launches = pgTable("launches", {
   commentCount: integer("comment_count").notNull().default(0),
   score: doublePrecision("score").notNull().default(0),
   rankDay: integer("rank_day"),
+  /** The author's note: what they say to readers about this launch. Shown first on the launch page. */
+  note: text("note").notNull().default(""),
   createdAt: createdAt(),
 }, (t) => [
   index("launches_day_score_idx").on(t.launchDay, t.score),

@@ -144,6 +144,35 @@ only the waitlist's reminder has work to do, and it runs once a day, so
 
 ---
 
+## Part 1.5. Early access: authors set up their first launch before opening
+
+Built and switched off. Before opening, an author can make an account, set
+up their page and first launch at `/start`, choose a day from January 8
+on, and see their launch page as readers will. They become founding
+authors, and their two months of member tools run from opening day.
+Readers stay on the email list. Nothing they make is visible to anyone
+else until the first board.
+
+Turning it on, in order:
+
+- [ ] **You.** Set up Clerk (Author Hunt's own application, production
+      instance on authorhunt.com) and put its keys in Vercel. This is real
+      sign-in, so it comes first. (It was planned for late November; it is
+      now the first step here.)
+- [ ] **You.** Turn on Vercel Blob and add its token in Vercel. Portraits
+      and covers can't be saved without it.
+- [ ] **You.** Run `npm run db:migrate` against production. Two migrations
+      are waiting: the genres and platforms, and a work's word count with a
+      launch's author note. Without the genres there is nothing to choose
+      at step 1.
+- [ ] **Claude.** With those in place, go through `/start` on production
+      with a real account, start to finish.
+- [ ] **You.** Set `EARLY_ACCESS=1` in Vercel and redeploy. The splash then
+      offers "Set up your first launch" to the author's side.
+- [ ] **Claude.** An email to authors already on the list, inviting them in.
+- [ ] Before the trial's end (March 9, 2027): Stripe live, and reminder
+      emails a week and a day before an author's tools switch off.
+
 ## Part 2. From splash to open on January 8
 
 ### 2.1 Every technology to wire and test

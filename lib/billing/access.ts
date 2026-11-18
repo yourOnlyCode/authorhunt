@@ -12,7 +12,8 @@
 export type Access = "trial" | "member" | "comp" | "free";
 
 export const PRICE = { monthly: 3.99, yearly: 32 } as const;
-export const TRIAL_DAYS = 30;
+/** Two months of the member tools, with no card (the owner's call, November 2026; it was thirty days). */
+export const TRIAL_DAYS = 60;
 export const FREE_LINK_LIMIT = 5;
 
 export type AccessFacts = {
@@ -37,6 +38,17 @@ export function hasMemberTools(access: Access): boolean {
   return access !== "free";
 }
 
-export function trialEnd(createdAt: Date): Date {
-  return new Date(createdAt.getTime() + TRIAL_DAYS * 86_400_000);
+/**
+ * When a new page's free tools end. A page made before the site opens gets its two months from opening day,
+ * not from the day it was made: tools are no use with no board to launch on, so none of the trial is spent
+ * waiting. Pass the opening time, or null once the site is open.
+ */
+export function trialEnd(createdAt: Date, opensAt: Date | null = null): Date {
+  const from = opensAt && createdAt < opensAt ? opensAt : createdAt;
+  return new Date(from.getTime() + TRIAL_DAYS * 86_400_000);
+}
+
+/** A page made before the site opens is a founding author's (docs/launch.md), for good. */
+export function isFounding(createdAt: Date, opensAt: Date | null): boolean {
+  return opensAt !== null && createdAt < opensAt;
 }

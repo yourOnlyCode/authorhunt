@@ -15,6 +15,7 @@ import { z } from "zod";
 import { fail, json, readBody } from "@/lib/api";
 import { db } from "@/lib/db";
 import { launches, works, type Launch, type Work } from "@/lib/db/schema";
+import { launchAt } from "@/lib/env";
 import { launchDay } from "@/lib/ranking/day";
 import { dayProblem, dayTaken, notPublicReason, studioAuthor, wentLive } from "@/lib/studio/server";
 
@@ -22,6 +23,8 @@ const Body = z.object({
   kind: z.enum(["author", "work"]),
   workId: z.string().uuid().optional(),
   day: z.string(),
+  /** The author's note for this launch. */
+  note: z.string().trim().max(2000, "Keep the note under 2,000 characters.").default(""),
 });
 
 export async function POST(req: Request) {
@@ -31,11 +34,12 @@ export async function POST(req: Request) {
   const body = await readBody(req, Body);
   if ("response" in body) return body.response;
   const { kind, workId, day } = body.data;
+  const note = body.data.note ?? "";
   const now = new Date();
 
   const blocked = notPublicReason(author);
   if (blocked) return fail(409, blocked);
-  const wrongDay = dayProblem(day, now);
+  const wrongDay = dayProblem(day, now, launchAt());
   if (wrongDay) return fail(400, wrongDay);
 
   let work: Work | null = null;
@@ -55,7 +59,7 @@ export async function POST(req: Request) {
   const status = day === launchDay(now) ? "live" as const : "scheduled" as const;
   let launch: Launch;
   try {
-    launch = (await db.insert(launches).values({ kind, authorId: author.id, workId: work?.id ?? null, launchDay: day, status }).returning())[0]!;
+    launch = (await db.insert(launches).values({ kind, authorId: author.id, workId: work?.id ?? null, launchDay: day, status, note }).returning())[0]!;
   } catch {
     // The unique index on the work is the last word if two requests arrive together.
     return fail(409, "This has already been launched, or has a launch set.");

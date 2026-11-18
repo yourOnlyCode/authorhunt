@@ -23,8 +23,10 @@ import { Confetti, throwConfetti, type Piece } from "./confetti";
 import { gazeProps, useSplash } from "./state";
 import { ShareAsk } from "./share";
 
-export function WaitlistForm({ count }: { count: string | null }) {
+export function WaitlistForm({ count, early }: { count: string | null; early: boolean }) {
   const { side, email, setEmail, status, error, join, look, still } = useSplash();
+  // Setting up a launch before opening is for authors only, and only once early access is switched on.
+  const setUp = early && side === "author";
   const [pieces, setPieces] = useState<Piece[]>([]);
   const body = useRef<HTMLDivElement>(null);
   const before = useRef<number | null>(null);
@@ -52,6 +54,12 @@ export function WaitlistForm({ count }: { count: string | null }) {
           <p>Check your inbox for one email to confirm your address. If it isn&apos;t there in a minute, look in your junk folder. We&apos;ll write again on January 8.</p>
           <p className="fine">Already joined? Nothing has changed, and we&apos;ve sent your link again if you still needed it.</p>
         </div>
+        {setUp && (
+          <div className="early">
+            <p className="early-ask">Don&apos;t wait for January. Set up your first launch now, pick its day, and be a founding author.</p>
+            <p><a className="early-go" href="/sign-up?next=/start">Set up your first launch</a></p>
+          </div>
+        )}
         <ShareAsk side={side} />
       </>) : (
         <div className={`join-form ${status === "leaving" ? "leaving" : ""}`} aria-busy={status === "leaving"}>
@@ -67,6 +75,7 @@ export function WaitlistForm({ count }: { count: string | null }) {
           {error && <p className="error-text" role="alert" style={{ marginTop: 10 }}>{error}</p>}
           <p className="fine">Free for readers, and free to launch. One email to confirm, one when we open. <a href="/privacy">What we keep</a>.</p>
           {count && <p className="count">{count}</p>}
+          {setUp && <p className="early-link">Ready now? <a href="/sign-up?next=/start">Set up your first launch</a> and pick its day.</p>}
         </div>
       )}
       <Confetti pieces={pieces} />

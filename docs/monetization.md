@@ -52,8 +52,13 @@ The strongest of these is the first row. An author's followers on Author
 Hunt are an audience; emailing them is the thing an author will pay $3.99 for,
 and it costs little to send.
 
-Thirty days free still makes sense, as a trial of the member tools rather
-than a countdown to a wall. No card is taken.
+Two months free (the owner's call, November 18, 2026; it was thirty days),
+as a trial of the member tools rather than a countdown to a wall. No card
+is taken, it starts by itself, and there is nothing to opt into. A page
+made before the site opens gets its two months from opening day, so none
+is spent waiting for a board. When it ends with no card on file the tools
+switch off and the Support link is hidden; nothing public disappears
+(`trialEnd`, `lib/billing/access.ts`).
 
 ### Other shapes considered
 

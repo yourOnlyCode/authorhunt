@@ -38,6 +38,22 @@ export function supportUrlAllowed(raw: string): boolean {
   return SUPPORT_HOSTS.some((h) => host === h || host.endsWith(`.${h}`));
 }
 
+/**
+ * Whether a link is somewhere to send money to the author, rather than somewhere to read, buy or follow their
+ * work. A page's website and its ordinary links can't be one: a way to give is the Support link, a member tool
+ * (AGENTS.md rule 3), and it would otherwise be free to anyone who called it "my site". A link to buy the work
+ * itself is a different thing and belongs to the work.
+ */
+const GIVING_HOSTS = ["ko-fi.com", "buymeacoffee.com", "paypal.me", "paypal.com", "patreon.com", "venmo.com", "cash.app", "buy.stripe.com", "donate.stripe.com", "liberapay.com", "gofundme.com", "tipeee.com", "throne.com"];
+export function isGivingLink(raw: string): boolean {
+  const url = safeUrl(raw);
+  if (!url) return false;
+  const at = new URL(url);
+  const host = at.hostname.replace(/^www\./, "");
+  if (host === "github.com") return at.pathname.startsWith("/sponsors");
+  return GIVING_HOSTS.some((h) => host === h || host.endsWith(`.${h}`));
+}
+
 export function hostOf(url: string): string {
   try { return new URL(url).hostname.replace(/^www\./, ""); } catch { return url; }
 }

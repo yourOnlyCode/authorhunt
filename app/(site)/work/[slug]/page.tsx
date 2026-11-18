@@ -16,6 +16,8 @@ import { cache } from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { hiddenBeforeOpening } from "@/lib/early";
+import { FoundingMark } from "@/components/ui/icons";
 import { and, eq } from "drizzle-orm";
 import { getViewer } from "@/lib/auth";
 import { db } from "@/lib/db";
@@ -95,6 +97,7 @@ export default async function WorkPage({ params, searchParams }: Props) {
   const isOwner = viewer?.id === author.userId;
   if (author.standing !== "good") notFound();
   if (!isPublic(row) && !isOwner) notFound();
+  if (await hiddenBeforeOpening(isOwner)) notFound();
 
   const now = new Date();
   const signedIn = Boolean(viewer);
@@ -146,7 +149,7 @@ export default async function WorkPage({ params, searchParams }: Props) {
   const written = aiDeclaration(work.aiUse ?? author.aiUse);
   const place = placeOf(author);
   const color = colorFor(author.handle);
-  const out = [work.pubDate ? formatDay(work.pubDate, LONG_DAY) : null, work.pages ? `${work.pages} pages` : null].filter(Boolean).join(" · ");
+  const out = [work.pubDate ? formatDay(work.pubDate, LONG_DAY) : null, work.pages ? `${work.pages} pages` : null, work.words ? `${work.words.toLocaleString("en-US")} words` : null].filter(Boolean).join(" · ");
   const commentCount = launch?.commentCount ?? 0;
   const firstName = author.name.split(" ")[0] ?? author.name;
   // "A publisher" and "The author's own site" read as part of the sentence, not as names.
@@ -188,7 +191,7 @@ export default async function WorkPage({ params, searchParams }: Props) {
           {work.tagline && <p className="tag">{work.tagline}</p>}
           <div className="byline">
             <Portrait url={author.portraitUrl} color={color} label={author.name} />
-            <span>by <Link className="word" href={`/author/${author.handle}`}>{author.name}</Link> &ensp;<FollowButton authorId={author.id} following={state.following} signedIn={signedIn} variant="word" isSelf={isOwner} /></span>
+            <span>by <Link className="word" href={`/author/${author.handle}`}>{author.name}</Link>{author.founding && <FoundingMark />} &ensp;<FollowButton authorId={author.id} following={state.following} signedIn={signedIn} variant="word" isSelf={isOwner} /></span>
           </div>
           <div className="go">
             {buy[0] && <OutLink className="btn solid" href={buy[0].url} rel={relFor("buy", facts)} authorId={author.id}>{`Get the ${NOUN[work.kind]}`}</OutLink>}
@@ -217,6 +220,14 @@ export default async function WorkPage({ params, searchParams }: Props) {
 
       <div className="split">
         <main className="lbody">
+          {launch?.note && (
+            // The author's note for this launch, shown first, in their name (docs/product-structure.md, section 2).
+            <section className="author-note" aria-label={`A note from ${author.name}`}>
+              <p className="sc">From the author</p>
+              {paragraphs(launch.note).map((p, i) => <p key={i}>{p}</p>)}
+              <p className="signed">{author.name}{author.founding && <FoundingMark />}</p>
+            </section>
+          )}
           <section id="about">
             {description.length > 0
               ? description.map((p, i) => <p className="lead" key={i}>{p}</p>)

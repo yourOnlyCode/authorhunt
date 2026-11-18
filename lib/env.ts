@@ -24,6 +24,15 @@ export function launchAt(): Date | null {
   const d = new Date(raw);
   return Number.isNaN(d.getTime()) ? null : d;
 }
+/**
+ * Whether authors can set up their page and first launch before the site opens (EARLY_ACCESS=1). It needs real
+ * sign-in, so it is switched on by hand once Clerk is set up. It opens the setup, the Studio and an author's own
+ * pages to them alone; everything public stays the splash until opening.
+ */
+export const earlyAccess = process.env.EARLY_ACCESS === "1";
+export function earlyOpen(now: Date): boolean {
+  return earlyAccess && beforeLaunch(now);
+}
 export function beforeLaunch(now: Date): boolean {
   const at = launchAt();
   return at !== null && now < at;

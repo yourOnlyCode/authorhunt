@@ -140,6 +140,16 @@ Pro, Premium, upgrade, shelf (replaced by collection, November 2026).
 
 ## Changes
 
+- 2026-11-18. **Early access** (`EARLY_ACCESS=1`): before opening, an
+  author can make their page and set their first launch at `/start`, "Set
+  up your first launch". **Founding author** is now given in code
+  (`authors.founding`, true for a page made before opening) and shown as a
+  mark beside the name (`FoundingMark`). A work has a length in words
+  (`works.words`) as well as pages. A launch has **the author's note**
+  (`launches.note`), shown first on the launch page under "From the
+  author". The trial of the member tools is two months, from opening day
+  for a page made before it. A way to give money can't be a page's website
+  or an ordinary link (`isGivingLink`): that is the Support link.
 - 2026-11-17. Fan fiction is a genre ("Fan fiction", `fan-fiction`), and
   Archive of Our Own and FanFiction.Net are platforms. The genre and
   platform lists now live in `lib/catalog.ts` and reach production by

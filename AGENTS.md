@@ -141,6 +141,13 @@ own (pass `now` in), so the tests are cheap and there is no excuse.
   `lib/auth` makes one on a person's first signed-in request.
 - Admin pages check `isAdminUser` (`ADMIN_EMAILS`) on the server and 404 for
   anyone else.
+- **Early access** (`EARLY_ACCESS=1`, before opening only): `proxy.ts` also
+  lets through `/start` (set up your first launch), sign-in, the Studio and
+  its routes, and the addresses of launch and author pages. Those two pages
+  call `hiddenBeforeOpening` (`lib/early.ts`) and are not found for anyone
+  but their own author until the site opens. A new public page that an
+  early author could reach must make the same call. Readers stay on the
+  waiting list; the setup is offered on the splash to the author's side only.
 
 ## Billing
 

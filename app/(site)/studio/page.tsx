@@ -145,7 +145,7 @@ export default async function StudioDesk() {
             <p className="studio-access">Member tools: {accessWords(access, author.trialEndsAt)}.</p>
             <small>
               {access === "free" ? <>Launching stays free. ${PRICE.monthly} a month or ${PRICE.yearly} a year adds emailing your followers, the coming-soon list, full analytics, a Support link and the full share kit. <Link className="word" href="/pricing">See member tools</Link></>
-                : access === "trial" ? <>Thirty days of the member tools, with no card. When it ends they switch off and nothing public changes. <Link className="word" href="/pricing">See member tools</Link></>
+                : access === "trial" ? <>Two months of the member tools, with no card. When it ends they switch off and nothing public changes. <Link className="word" href="/pricing">See member tools</Link></>
                 : "Emailing your followers, the coming-soon list, full analytics, a Support link and the full share kit."}
             </small>
           </section>

@@ -11,10 +11,23 @@ import { and, eq, isNull, sql } from "drizzle-orm";
 import { db } from "@/lib/db";
 import { notifications } from "@/lib/db/schema";
 import { getViewer } from "@/lib/auth";
+import { earlyChrome } from "@/lib/early";
 import { CatMark, SearchIcon } from "../ui/icons";
 
 export async function SiteHeader() {
   const viewer = await getViewer();
+  // Before opening, an early author has a setup and a Studio and nothing else: the site's places aren't open yet.
+  if (await earlyChrome()) {
+    return (
+      <header className="bar">
+        <div className="wrap">
+          <Link className="logo" href="/"><CatMark />Author Hunt</Link>
+          <nav aria-label="Site">{viewer && <><Link href="/start">Your first launch</Link><Link href="/studio">Studio</Link></>}</nav>
+          <div className="end">{viewer ? <span className="sc">Opens January 8</span> : <Link className="signin word" href="/sign-in?next=/start">Sign in</Link>}</div>
+        </div>
+      </header>
+    );
+  }
   const unread = viewer
     ? (await db.select({ n: sql<number>`count(*)::int` }).from(notifications).where(and(eq(notifications.userId, viewer.id), isNull(notifications.readAt))))[0]?.n ?? 0
     : 0;

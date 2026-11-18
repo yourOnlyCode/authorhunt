@@ -17,6 +17,7 @@ import { cache } from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { hiddenBeforeOpening } from "@/lib/early";
 import { and, desc, eq, inArray } from "drizzle-orm";
 import { getViewer } from "@/lib/auth";
 import { db } from "@/lib/db";
@@ -37,7 +38,7 @@ import { CommentText } from "@/components/comments/text";
 import { FollowButton } from "@/components/social/follow-button";
 import { SaveButton } from "@/components/social/save-button";
 import { ReportLink } from "@/components/trust/report-link";
-import { SayIcon } from "@/components/ui/icons";
+import { FoundingMark, SayIcon } from "@/components/ui/icons";
 import { Cover, Portrait } from "@/components/ui/picture";
 
 type Props = { params: Promise<{ handle: string }> };
@@ -88,6 +89,7 @@ export default async function AuthorPage({ params }: Props) {
     );
   }
   if (!author.publishedAt && !isOwner) notFound();
+  if (await hiddenBeforeOpening(isOwner)) notFound();
 
   const now = new Date();
   const signedIn = Boolean(viewer);
@@ -179,7 +181,7 @@ export default async function AuthorPage({ params }: Props) {
         <Portrait className="tall" url={author.portraitUrl} color={color} label={author.name} />
         <div>
           {kicker && <span className="sc">{kicker}</span>}
-          <h1>{author.name}{author.mature && <span className="flag">Mature</span>}</h1>
+          <h1>{author.name}{author.founding && <FoundingMark />}{author.mature && <span className="flag">Mature</span>}</h1>
           {author.tagline && <p className="tag">{author.tagline}</p>}
           <div className="go">
             <FollowButton authorId={author.id} following={state.following} signedIn={signedIn} isSelf={isOwner} />

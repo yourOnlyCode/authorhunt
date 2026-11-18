@@ -12,7 +12,7 @@
  */
 
 import type { Metadata } from "next";
-import { launchAt } from "@/lib/env";
+import { earlyAccess, launchAt } from "@/lib/env";
 import { CatMark } from "@/components/ui/icons";
 import { SplashStage } from "@/components/splash/stage";
 import { SplashProvider } from "@/components/splash/state";
@@ -63,7 +63,7 @@ export default async function Splash({ searchParams }: { searchParams: Promise<{
   return (
     <SplashProvider src={src?.slice(0, 80)} start={as === "reader" ? "reader" : "author"}>
       <Dock logo={logo} />
-      <SplashStage opensAt={opens} initialNow={serverNow()} when={when} hour={hour} logo={logo} count={count} />
+      <SplashStage opensAt={opens} initialNow={serverNow()} when={when} hour={hour} logo={logo} count={count} early={earlyAccess} />
       <div className="band" aria-hidden="true" />
       <Why />
       <div className="band" aria-hidden="true" />

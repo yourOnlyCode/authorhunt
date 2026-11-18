@@ -29,6 +29,7 @@ export const WorkBody = z.object({
   gallery: z.array(z.object({ url: z.string(), caption: line(140).default("") })).max(LIMITS.gallery, `Up to ${LIMITS.gallery} pictures.`).default([]),
   pubDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "The publication date isn't a date.").nullable().default(null),
   pages: z.number().int().min(1).max(20000).nullable().default(null),
+  words: z.number().int().min(1).max(5_000_000).nullable().default(null),
   isbn: line(20).default(""),
   buyLinks: z.array(z.object({ label: line(40), url: line(300) })).max(LIMITS.buyLinks).default([]),
   genres: z.array(z.string()).max(LIMITS.genres, `Choose up to ${LIMITS.genres} genres.`).default([]),
@@ -80,7 +81,7 @@ export async function workValues(d: WorkInput, userId: string, existing: Work | 
 
   return { values: {
     kind: d.kind, form: d.form || "A book", title: d.title, tagline: d.tagline, description: d.description, excerpt: d.excerpt,
-    coverUrl: d.coverUrl, coverColor: d.coverColor, gallery: d.gallery, pubDate: d.pubDate, pages: d.pages, isbn: isbn || null,
+    coverUrl: d.coverUrl, coverColor: d.coverColor, gallery: d.gallery, pubDate: d.pubDate, pages: d.pages, words: d.words, isbn: isbn || null,
     buyLinks, genres: genreSlugs, platforms: platformSlugs, aiUse, mature: d.mature, contentNotes, contentNoteText: d.contentNoteText,
   } };
 }

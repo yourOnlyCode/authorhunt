@@ -37,7 +37,7 @@ function Letters({ text }: { text: string }) {
   return <>{text.split("").map((ch, i) => <span key={i} className="ch" style={{ "--i": i } as CSSProperties}>{ch}</span>)}</>;
 }
 
-export function SplashStage({ opensAt, initialNow, when, hour, logo, count }: { opensAt: number; initialNow: number; when: string; hour: string; logo: React.ReactNode; count: string | null }) {
+export function SplashStage({ opensAt, initialNow, when, hour, logo, count, early }: { opensAt: number; initialNow: number; when: string; hour: string; logo: React.ReactNode; count: string | null; early: boolean }) {
   const { side, choose, said, status } = useSplash();
   const joined = status === "done";
   const swap = useRef<HTMLSpanElement>(null);
@@ -83,7 +83,7 @@ export function SplashStage({ opensAt, initialNow, when, hour, logo, count }: { 
         </p>
         <p className="sr" role="status">{said}</p>
         <Countdown opensAt={opensAt} initialNow={initialNow} />
-        <section className={`join ${joined ? "celebrate" : ""}`} id="join" aria-labelledby="join-h"><span className="paper" aria-hidden="true" /><WaitlistForm count={count} /></section>
+        <section className={`join ${joined ? "celebrate" : ""}`} id="join" aria-labelledby="join-h"><span className="paper" aria-hidden="true" /><WaitlistForm count={count} early={early} /></section>
         <a className="more" href="#why" onClick={(e) => { e.preventDefault(); slowScrollTo("why"); }}>{side === "reader" ? "Why read here" : "Why launch here"} <span aria-hidden="true">&darr;</span></a>
       </div>
     </div>

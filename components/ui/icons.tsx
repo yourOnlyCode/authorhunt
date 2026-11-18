@@ -27,3 +27,19 @@ export function CatMark() {
     </svg>
   );
 }
+
+/**
+ * The founding author's mark: an eight-pointed seal, two squares turned on each other, in the brand's red. It
+ * sits beside the name of an author who made their page before the site opened (docs/launch.md), for good.
+ * Square corners like everything else here; a seal, not a badge.
+ */
+export function FoundingMark({ label = "Founding author" }: { label?: string }) {
+  return (
+    <svg className="founding-mark" viewBox="0 0 20 20" role="img" aria-label={label}>
+      <title>{label}</title>
+      <path d="M4.2 4.2h11.600v11.600H4.200z" />
+      <path d="M10 1.800l8.200 8.200-8.200 8.200L1.800 10z" />
+      <path className="f" d="M8 8h4v4H8z" />
+    </svg>
+  );
+}

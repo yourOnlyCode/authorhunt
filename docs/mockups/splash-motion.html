@@ -32,8 +32,8 @@ body.grain { background-image: var(--grain); }
   -webkit-mask-composite: source-in; mask-composite: intersect; }
 #page[data-side="author"]::before { background-color: var(--red); }
 @media (max-width: 720px) { #page::before { opacity: 0.2; } }
-/* Below the first view the page is plain paper again, so the example and the FAQ read without a pattern behind them. */
-section.day, .faq, footer.foot { background: var(--paper, var(--paper-reader)); position: relative; transition: background-color 700ms ease 150ms; }
+/* Below the first view the page is white again, so the example and the FAQ read on a plain page. */
+section.day, .faq { background: var(--page); position: relative; }
 h1, h2, h3, p, ul, ol { margin: 0; padding: 0; } ul, ol { list-style: none; }
 a { color: inherit; } button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
 :focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
@@ -181,8 +181,10 @@ section.day { padding-block: clamp(56px, 9vw, 104px); border-top: 1.5px solid va
 .faq summary::after { content: "+"; font: 300 28px/1 var(--display); }
 .faq details[open] summary::after { content: "–"; }
 .faq details p { padding: 0 4px 16px; color: var(--ink-2); max-width: 62ch; }
-.trim { height: 16px; background: var(--marigold) center / 300px auto; border-top: 1.5px solid var(--ink); }
-footer.foot { padding-block: 22px 28px; font-size: 17px; color: var(--muted); }
+/* The foot: the marigold runs to the bottom of the page, and the words sit on a white plate with an ink
+   rule, like a bookplate, so they never have to be read off the pattern. */
+footer.foot { position: relative; background: var(--marigold) center top / 300px auto; border-top: 1.5px solid var(--ink); padding-block: 26px calc(30px + env(safe-area-inset-bottom, 0px)); font-size: 17px; }
+footer.foot .plate { display: inline-block; padding: 7px 18px; background: var(--page); color: var(--ink); border: 1.5px solid var(--ink); box-shadow: 4px 4px 0 var(--ink); }
 
 /* The pour: pressing a side sends that side's paper out from the button in one wash of one colour, and the
    page keeps it. Presses can overlap: each starts its own wash, the newest on top. It is drawn behind
@@ -200,7 +202,7 @@ footer.foot { padding-block: 22px 28px; font-size: 17px; color: var(--muted); }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .cat, .cat .pupil, .swap span, .what span, .dock, .steps button, .row { transition: none !important; }
-  .cat.blink .lid, .cat.blink .pupil, .row .cheer.pop svg, .row .cheer.pop .num b { animation: none !important; } .confetti, .pour { display: none !important; } body, .join, #page::before, section.day, .faq, footer.foot { transition: none; }
+  .cat.blink .lid, .cat.blink .pupil, .row .cheer.pop svg, .row .cheer.pop .num b { animation: none !important; } .confetti, .pour { display: none !important; } body, .join, #page::before { transition: none; }
 }
 </style>
 
@@ -289,8 +291,7 @@ footer.foot { padding-block: 22px 28px; font-size: 17px; color: var(--muted); }
   </div>
 </div></section>
 </main>
-<div class="trim"></div>
-<footer class="foot"><div class="wrap">Author Hunt &middot; a mockup of the splash with motion</div></footer>
+<footer class="foot"><div class="wrap"><span class="plate">Author Hunt &middot; a mockup of the splash with motion</span></div></footer>
 </div>
 
 <div class="mock"><span>Mockup</span><button type="button" id="grain" aria-pressed="false">Paper grain: off</button></div>

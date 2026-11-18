@@ -178,7 +178,10 @@ contrast, sharp, Victorian in its characteristics and never a costume.
     shadow, with white type and a yellow button. The blocks use darker
     cuts of the brand colours (`--block-red` #C42E18, `--block-blue`
     #2459C9) so white type on them passes contrast. Below the first view
-    the page is plain paper again.
+    the page is white: the example launch and the FAQ sit on a plain white
+    page (the owner's call). The foot is the marigold in red, running to
+    the bottom of the page, with its words on a white plate with an ink
+    rule, so nothing is ever read off the pattern.
   - Presses can overlap: each starts its own wash, and the most recent is
     on top. (Two pale papers alternating can't strobe.) Under reduced
     motion the paper simply changes.

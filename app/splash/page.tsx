@@ -31,7 +31,7 @@ const WHY: { h: string; p: string }[] = [
   { h: "A day that's yours", p: "One day, your work on the board." },
   { h: "Readers come looking", p: "They open the board to find someone new." },
   { h: "Small counts", p: "Every piece gets a row, and every type its own ranking." },
-  { h: "A fair order", p: "Cheers decide. No one pays for a place." },
+  { h: "A fair order", p: "Decided by readers and writers alike. No one pays for a place." },
   { h: "It lasts", p: "Your rank and your followers stay." },
   { h: "It's free", p: "Your page and every launch, for good." },
 ];

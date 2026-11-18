@@ -541,12 +541,12 @@ html:has(.splash) { scroll-padding-top: 76px; }
 .splash .player .play:hover { transform: translate(-2px, -2px); box-shadow: 4px 4px 0 var(--red); }
 .splash .player .play svg { width: 10px; height: 12px; fill: currentColor; }
 .splash .player .pause { min-height: 44px; padding-inline: 6px; text-decoration: underline; text-underline-offset: 4px; color: var(--ink); }
-.splash .stages { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin: 16px 0 14px; }
+.splash .stages { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin: 16px 0 14px; }
 .splash .stages button { display: block; width: 100%; min-height: 44px; text-align: left; padding: 0 2px; color: var(--muted); transition: color 300ms ease; }
 .splash .stages button i { display: block; height: 4px; margin-bottom: 10px; background: var(--hair); position: relative; overflow: hidden; }
 .splash .stages button i::after { content: ""; position: absolute; inset: 0; background: var(--ink); transform-origin: left; transform: scaleX(var(--p, 0)); }
-.splash .stages button b { display: block; font: 300 clamp(24px, 3.6vw, 34px)/1.1 var(--display); }
-.splash .stages button span { display: block; margin-top: 2px; font-size: 18px; line-height: 1.25; }
+.splash .stages button b { display: block; font: 300 clamp(22px, 3vw, 30px)/1.1 var(--display); }
+.splash .stages button span { display: block; margin-top: 2px; font-size: 17px; line-height: 1.25; }
 .splash .stages li.on button, .splash .stages li.past button { color: var(--ink); } .splash .stages li.on button b { color: var(--red-text); }
 .splash .board { position: relative; border: 1.5px solid var(--ink); background: var(--page); }
 .splash .board header { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 10px 16px; border-bottom: 1.5px solid var(--ink); }
@@ -566,7 +566,20 @@ html:has(.splash) { scroll-padding-top: 76px; }
 @keyframes example-roll { from { transform: translateY(100%); opacity: 0.4; } to { transform: none; opacity: 1; } }
 .splash .row .first-of { display: none; white-space: nowrap; font-size: 15px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; }
 .splash .board.closed .row.lead .first-of { display: inline; } .splash .board.closed .row.lead .by .who { display: none; }
-@media (max-width: 560px) { .splash .player { flex-direction: column; align-items: flex-start; gap: 6px; } .splash .stages button span { font-size: 16px; } .splash .row { grid-template-columns: 2ch 38px minmax(0, 1fr) auto; gap: 10px; padding-inline: 12px; } .splash .row .cover { width: 38px; } .splash .row .t { font-size: 20px; } .splash .board .when { font-size: 24px; } }
+@media (max-width: 560px) { .splash .stages { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 10px; } .splash .mail { width: 94%; } .splash .mail li { grid-template-columns: 1fr; gap: 0; } .splash .player { flex-direction: column; align-items: flex-start; gap: 6px; } .splash .stages button span { font-size: 16px; } .splash .row { grid-template-columns: 2ch 38px minmax(0, 1fr) auto; gap: 10px; padding-inline: 12px; } .splash .row .cover { width: 38px; } .splash .row .t { font-size: 20px; } .splash .board .when { font-size: 24px; } }
+
+/* The Sunday letter: a sheet that rises out from under the board when the week's best is sent. It keeps its
+   place in the page whether or not it is showing, so nothing below it moves. */
+.splash .mail { position: relative; width: 86%; margin: -14px 0 0 auto; padding: 14px 18px 16px; border: 1.5px solid var(--ink); background: #FFF6C2; box-shadow: 8px 8px 0 var(--ink); opacity: 0; transform: translateY(-18px) rotate(0deg); transition: opacity 420ms ease, transform 620ms cubic-bezier(0.22, 0.8, 0.24, 1); }
+.splash .example.mailed .mail { opacity: 1; transform: translateY(0) rotate(-1.2deg); }
+.splash .mail-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding-bottom: 8px; border-bottom: 1.5px solid var(--ink); }
+.splash .mail-head .to { font-size: 16px; color: var(--ink-2); font-style: italic; }
+.splash .mail-title { margin-top: 10px; font: 300 26px/1.1 var(--display); }
+.splash .mail ol { margin-top: 6px; counter-reset: mail; }
+.splash .mail li { display: grid; grid-template-columns: auto 1fr; gap: 10px; align-items: baseline; padding-block: 4px; counter-increment: mail; font-size: 18px; }
+.splash .mail li b { font: 300 20px/1.2 var(--display); } .splash .mail li b::before { content: counter(mail) ". "; color: var(--red-text); }
+.splash .mail li span { color: var(--muted); font-size: 16px; }
+@media (prefers-reduced-motion: reduce) { .splash .mail { transition: none; } }
 
 /* The closing panel: when the first board opens. The only full-width colour on the page. */
 .splash .closing { background: var(--blue); color: #fff; padding-block: clamp(64px, 11vw, 128px); }

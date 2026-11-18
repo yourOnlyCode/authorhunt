@@ -181,11 +181,15 @@ Morris credit and the full FAQ.
   parts. Then the example launch, framed as "How you discover" or "What a
   launch is". Why comes before how. "Written by people" is a line of a
   draft with a writer's corrections on it.
-- **The example launch** is one day on the board in three named stages
-  (Morning, All day, Midnight) that lead it, fill as they play and can be
+- **The example launch** is one day on the board in four named stages
+  (Morning, All day, Midnight, Sunday) that lead it, fill as they play and can be
   pressed. Its Play button sits above it; "Example launch. The titles are
   samples." sits beside the button, outside the board. First of the day
-  gets confetti. It sits in its own section, after the tiles. A split
+  gets confetti. The last stage is Sunday: the week's best is emailed
+  to readers and writers, shown as a sheet of the Sunday letter rising
+  from under the board. *Why:* the owner's point that a launch here is
+  sent to people, not only listed. It says Sunday because that is what
+  the product sends. It sits in its own section, after the tiles. A split
   first view (the example beside the form, the count in the header, a
   replay control under the board) is explored in the mockup behind its
   "First view" switch, and is not built: the owner chose to keep the

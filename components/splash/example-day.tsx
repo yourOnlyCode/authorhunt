@@ -5,12 +5,16 @@
  *
  * One day on the board, played as an example: four sample pieces go up in
  * the morning, cheers arrive through the day, a piece of flash fiction
- * climbs from fourth to first, and at midnight the day closes with it
- * marked First of the day. It shows what a launch is instead of describing it.
+ * climbs from fourth to first, at midnight the day closes with it marked
+ * First of the day, and on Sunday the week's best goes out by email. That
+ * last stage is the point of the whole thing for an author (the owner's
+ * call, November 2026): a launch isn't only a place on a board, it is sent
+ * to people. What it shows is the Sunday letter (docs/product-structure.md),
+ * so it says Sunday, and promises nothing the product doesn't do. It shows what a launch is instead of describing it.
  *
  * Rules it keeps (DESIGN.md, "Motion"): it plays once, when it comes into
  * view, and never loops. It runs about ten seconds, so it has Play and Pause
- * above it and three stages that can be pressed. The server renders the
+ * above it and four stages that can be pressed. The server renders the
  * finished day, so it is complete with no JavaScript and under reduced
  * motion, where it never plays by itself. It stops when the tab is hidden.
  *
@@ -32,13 +36,14 @@ const WORKS: Work[] = [
   { id: "tide", title: "What the Tide Keeps", by: "A poem", who: "Jun Abara", color: "#7A2533", counts: [[0, 0], [1500, 24], [3000, 33], [4500, 41], [5600, 44]] },
   { id: "small", title: "Small Hours", by: "Flash fiction", who: "Dele Whitcombe", color: "#B5791A", counts: [[0, 0], [1500, 12], [2600, 31], [3800, 43], [4800, 55], [5600, 61]] },
 ];
-const MORNING = 2600, DAY = 5600, NIGHT = 2400, TOTAL = MORNING + DAY + NIGHT;
-const STARTS = [0, MORNING, MORNING + DAY], LENGTHS = [MORNING, DAY, NIGHT];
+const MORNING = 2600, DAY = 5600, NIGHT = 2400, LETTER = 3000, TOTAL = MORNING + DAY + NIGHT + LETTER;
+const STARTS = [0, MORNING, MORNING + DAY, MORNING + DAY + NIGHT], LENGTHS = [MORNING, DAY, NIGHT, LETTER];
 const HOURS = ["9:00 a.m.", "10:00 a.m.", "11:00 a.m.", "Noon", "1:00 p.m.", "2:00 p.m.", "3:00 p.m.", "4:00 p.m.", "5:00 p.m.", "6:00 p.m.", "7:00 p.m.", "8:00 p.m.", "9:00 p.m.", "10:00 p.m.", "11:00 p.m."];
 const STAGES: { name: string; author: string; reader: string }[] = [
   { name: "Morning", author: "New work goes up.", reader: "New work goes up." },
   { name: "All day", author: "Readers cheer for what they love.", reader: "You cheer for what you love." },
   { name: "Midnight", author: "The day closes. The ranking stands.", reader: "The day closes. Its best stands." },
+  { name: "Sunday", author: "The week's best is emailed to readers and writers.", reader: "The week's best arrives in your inbox." },
 ];
 
 function countAt(k: [number, number][], t: number): number {
@@ -58,6 +63,7 @@ export function ExampleDay() {
   useEffect(() => {
     const el = root.current;
     if (!el) return;
+    const host: HTMLDivElement = el; // for the functions below, which TypeScript can't see the check above from
     const q = <T extends HTMLElement>(sel: string) => el.querySelector<T>(sel)!;
     const board = q<HTMLElement>(".board"), rowsEl = q<HTMLElement>(".rows"), when = q<HTMLElement>(".when");
     const again = q<HTMLButtonElement>(".play"), againText = q<HTMLElement>(".play span"), pause = q<HTMLButtonElement>(".pause");
@@ -81,12 +87,14 @@ export function ExampleDay() {
     }
 
     function render(animate: boolean) {
-      const phase = t < MORNING ? 0 : t < MORNING + DAY ? 1 : 2, dayT = Math.min(Math.max(t - MORNING, 0), DAY);
+      const phase = t < STARTS[1]! ? 0 : t < STARTS[2]! ? 1 : t < STARTS[3]! ? 2 : 3, dayT = Math.min(Math.max(t - MORNING, 0), DAY);
       stages.forEach((li, k) => {
         li.classList.toggle("on", k === phase); li.classList.toggle("past", k < phase);
         li.style.setProperty("--p", String(Math.min(Math.max((t - STARTS[k]!) / LENGTHS[k]!, 0), 1)));
       });
-      when.textContent = phase === 0 ? "8:00 a.m." : phase === 2 ? "Midnight" : HOURS[Math.min(HOURS.length - 1, Math.floor((dayT / DAY) * HOURS.length))]!;
+      when.textContent = phase === 0 ? "8:00 a.m." : phase === 2 ? "Midnight" : phase === 3 ? "Sunday" : HOURS[Math.min(HOURS.length - 1, Math.floor((dayT / DAY) * HOURS.length))]!;
+      // Sunday: the letter goes out, with this launch at the top of it.
+      host.classList.toggle("mailed", t >= STARTS[3]! + 250);
       const closed = t >= MORNING + DAY + 500;
       if (animate && closed && !board.classList.contains("closed")) timers.push(setTimeout(() => { const lead = rowsEl.firstElementChild; if (lead) confetti(lead as HTMLElement); }, 60));
       board.classList.toggle("closed", closed);
@@ -170,7 +178,7 @@ export function ExampleDay() {
   }, []);
 
   return (
-    <div className="example" ref={root}>
+    <div className="example mailed" ref={root}>
       <p className="player">
         <span className="ctl">
           <button type="button" className="play"><svg viewBox="0 0 10 12" aria-hidden="true"><path d="M0 0l10 6-10 6z" /></svg><span>Play again</span></button>
@@ -180,7 +188,7 @@ export function ExampleDay() {
       </p>
       <ol className="stages">
         {STAGES.map((s, k) => (
-          <li key={s.name} className={k === 2 ? "on" : "past"} style={{ "--p": 1 } as React.CSSProperties}>
+          <li key={s.name} className={k === STAGES.length - 1 ? "on" : "past"} style={{ "--p": 1 } as React.CSSProperties}>
             <button type="button"><i /><b>{s.name}</b><span className="for-author">{s.author}</span><span className="for-reader">{s.reader}</span></button>
           </li>
         ))}
@@ -198,7 +206,13 @@ export function ExampleDay() {
           ))}
         </div>
       </div>
-      <p className="sr">An example: four pieces launch in the morning. Through the day readers cheer, and a piece of flash fiction climbs from fourth place to first. At midnight the day closes and it is First of the day.</p>
+      {/* The Sunday letter: the week's top launches, sent to everyone who reads it. It rises out from under the board. */}
+      <div className="mail" aria-hidden="true">
+        <p className="mail-head"><span className="sc">The Sunday letter</span><span className="to">To readers and writers</span></p>
+        <p className="mail-title">This week&apos;s top launches</p>
+        <ol>{FINAL.slice(0, 3).map((d) => <li key={d.id}><b>{d.title}</b><span>{d.by}, by {d.who}</span></li>)}</ol>
+      </div>
+      <p className="sr">An example: four pieces launch in the morning. Through the day readers cheer, and a piece of flash fiction climbs from fourth place to first. At midnight the day closes and it is First of the day. On Sunday the week&apos;s top launches, with it first, are emailed to readers and writers.</p>
     </div>
   );
 }

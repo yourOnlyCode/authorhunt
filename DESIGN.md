@@ -48,10 +48,8 @@ with the name before launch (docs/launch.md).
   3. *A reader's highlighter.* A flat yellow stroke under a few words a
      page: the leading launch, the current place in the header, the
      letter. Never more than two or three in view.
-- **Colour:** ink, white, red `#B23A2E` (text on white uses `#9C2F25`),
-  highlighter `#FFD84D`. Covers bring the rest. One blue, `#2B3F8C`, is
-  used on the splash page only, for the two headline words that change
-  with the reader / author switch: large text only, never body text.
+- **Colour:** ink, white, madder and indigo, and a highlighter (see
+  "Colour is indigo and madder" below). Covers bring the rest.
 - **The header** has a mark, a search line, three places and two actions.
 - **The mark is the cat in glasses** (above). The up arrow belongs to the
   cheer only.
@@ -116,97 +114,87 @@ contrast, sharp, Victorian in its characteristics and never a costume.
 - **A portrait is a 4:5 rectangle** with a hairline border. A cover is 2:3
   with a hairline border. A book with no cover shows its title set in the
   display face.
-- **The splash page has moments of its own** (the owner's calls,
-  November 2026), and they stay on the splash page: the chosen side of the
-  reader / author switch glows blue once each time it becomes the chosen
-  one; the headline's first words dissolve and resolve; and joining the
-  list throws a handful of square paper confetti in the brand's colours
-  while the message resolves in. Each is skipped under reduced motion, and
-  none moves anything else on the page. The app's splash
-  (`components/splash/`) is now ahead of `docs/mockups/splash.html` for
-  these; the code is the reference.
-- **Motion shows the reader something, once, and then rests** (the
-  owner's call, November 18, 2026; before this, motion was hover and press
-  only and nothing moved unasked). The rules:
+- **Colour is indigo and madder** (the owner's pick, November 18, 2026):
+  indigo `#2B3F8C` (`--blue`) and madder `#B23A2E` (`--red`; text on white
+  uses `--red-text` `#9C2F25`), with a highlighter `#FFD84D` (`--mark`).
+  They are the dyes Morris printed with, and both are a similar depth, so
+  neither shouts. *Why:* the first pair (a web link blue against an
+  orange-red) fought each other and went pastel when lightened. The
+  marigold is drawn as a CSS mask in `--red`, never as a picture, so it
+  prints in madder everywhere and can take a side's colour.
+
+### Motion
+
+- **Motion shows the reader something, once, and then rests** (the owner's
+  call, November 18, 2026; before this, motion was hover and press only).
   - Hover and press stay under 200ms.
-  - A larger moment may play **once, when it comes into view**: words
-    rising into place, a highlighter stroke drawing itself, the sample day
-    on the splash. It never loops. Most end within five seconds; one that
-    needs longer to be understood (the example launch takes about ten,
-    because five was too quick to follow) has "Pause" beside it and steps
-    the reader can press, and offers "Play again" when it ends. *Why:* a
-    loop pulls the eye for as long as it's on screen (the ticking
-    countdown was removed for this), and anything that plays for more than
-    five seconds must be pausable.
+  - A larger moment may play once, when it comes into view: words rising
+    into place, a highlighter stroke drawing itself, the example launch.
+    It never loops. Most end within five seconds; one that needs longer
+    (the example launch takes about ten) has a Play button and Pause
+    beside it and stages the reader can press. *Why:* a loop pulls the
+    eye for as long as it's on screen (a ticking countdown was removed
+    for this), and anything that plays for more than five seconds must be
+    pausable.
   - One thing moves at a time, and nothing moves beside a form someone is
     filling in.
   - The page scrolls the way the reader's device scrolls. No scroll
     hijacking, pinning, parallax or smooth-scroll library.
   - Everything is readable with no animation at all: content starts
     visible, and reduced motion shows the finished state.
-  - Only transform, opacity and clip-path move. No animation library where
-    CSS and the browser's own animation API will do
-    (docs/mockups/splash-motion.html has the vocabulary).
-- **The join form is always in reach on the splash.** While the join box
-  is on screen it is the only form; when it scrolls out of view the same
-  form docks to the top of the page (one state: side, address, joined).
-  The bar has no close button, never pulses, sits above every animated
-  layer, and never swaps while its field has focus. *Why:* the owner's
-  requirement, November 18, 2026: the form is available whatever is
-  playing.
-- **The pour, and the splash's paper** (tried November 18, 2026, and
-  undone the same day: see "Undone" below; kept here as the record). The splash page takes the colour of the chosen side and keeps it:
-  a pale blue paper for a reader, a pale blush for an author
-  (`--paper-reader`, `--paper-author`). Pressing a side sends that paper
-  out from the button in one wash of one colour, and the page keeps it.
-  The wash's leading edge is the side's full colour, fading smoothly back
-  into the paper behind it: one wash that deepens at its rim, not a bold
-  band followed by a second colour, and no white behind it. About a second, in one motion. Joining doesn't pour.
-  - **Nothing on the page may wash out.** The paper is a tint, not the
-    full colour, so ink, the red, the blue and the highlighter all keep
-    their contrast on it; a full red or blue page would swallow the red
-    cat, the blue headline words and the small grey text. Boxes (the join
-    box, the board, fields, the docked bar) stay white, like paper on a
-    desk.
-  - The wave is drawn behind the content, so it never covers a word.
-  - **Undone, November 18, 2026:** the page keeping a colour, and the
-    marigold as the page's wallpaper. The owner tried both and found the
-    changing background wasn't a gain. The splash is a white page again.
-  - **What stays from the experiment:** the marigold lives inside the join
-    box, which sits on a hard ink shadow. Each side has a colour (indigo
-    for a reader, madder for an author); choosing a side washes that
-    colour through the box's wallpaper from the top, where the switch is,
-    and the headline's coloured words take it too. The page's one colour
-    move happens inside the box that asks for the address. The example
-    launch and the FAQ sit on white. The foot is the marigold in madder on
-    white, solid, with nothing behind it showing through (the owner's
-    call, after the see-through mix read as confusing on a white page),
-    and its words sit on a white plate with an ink rule.
-  - **Each side gets its own case, shown before it is told.** Under the
-    first view: "Why read here" for a reader, "Why launch here" for an
-    author, as six tiles, each a small piece of the app drawn in the
-    page's own parts (a board row, a cheer, a date, the filters) with a
-    heading and one short line. No paragraphs. Then the example day,
-    framed as "How you discover" or "What a launch is". Why comes before
-    how.
-  - **Indigo and madder** (the owner's pick, November 18, 2026): indigo
-    #2B3F8C and madder #B23A2E (text #9C2F25), the dyes Morris printed
-    with, replace the first blue #2F6FE8 and red #D9361E, which read as a
-    web link blue against an orange. Both are a similar depth, so neither
-    shouts. They are the app's tokens now (`--blue`, `--red`,
-    `--red-text` in app/globals.css), with a slightly warmer highlighter
-    (#FFD84D). The marigold is drawn as a mask in `--red`, never as a
-    picture, so it prints in madder everywhere.
-  - Presses can overlap: each starts its own wash, and the most recent is
-    on top. (Two pale papers alternating can't strobe.) Under reduced
-    motion the paper simply changes.
-  - This is the splash's own. The app stays a white page.
-- **Confetti marks two things:** joining the list, and the example
-  launch's first of the day being declared.
-- **Colour fields belong to the splash's scroll only.** Below the first
-  view, a promise may take a full-width panel in one brand colour (red,
-  highlighter yellow, blue), one sentence each. The first view, and every
-  page of the app, stay a white page.
+  - Only transform, opacity, clip-path and background-size move. No
+    animation library where CSS and the browser's own animation API do.
+- **Show it before you tell it.** Where a page would explain the product
+  in a paragraph, it draws a small piece of the app instead (a board row,
+  a cheer, a date, the filters) with a heading and one short line. *Why:*
+  the owner found the written version too wordy, and a visitor should see
+  what they will get.
+
+### The splash page
+
+The white page, in indigo and madder. `docs/mockups/splash-motion.html` is
+the reference for everything below; the live splash (`components/splash/`)
+is the reference for what it already does, and none of that is dropped:
+the opening date with the visitor's own time, the headline's per-letter
+dissolve, the countdown that simply changes, the privacy link, the
+junk-folder line, confetti on joining, the repeat-address emails, the
+Morris credit and the full FAQ.
+
+- **The join form is always in reach.** While the join box is on screen it
+  is the only form; when it scrolls out of view the same form docks to the
+  top of the page (one state: side, address, joined). The bar has no close
+  button, never pulses, sits above everything, and never leaves while its
+  field has focus. *Why:* the owner's requirement.
+- **Each side has a colour:** indigo for a reader, madder for an author.
+  The headline's coloured words take it, and it washes through the
+  marigold inside the join box from the top, where the switch is. That is
+  the page's one colour move, and it happens inside the box that asks for
+  the address. The box is white, papered with the marigold, on a hard ink
+  shadow.
+- **Each side gets its own case:** "Why read here" for a reader, "Why
+  launch here" for an author, six tiles each, drawn from the app's own
+  parts. Then the example launch, framed as "How you discover" or "What a
+  launch is". Why comes before how. "Written by people" is a line of a
+  draft with a writer's corrections on it.
+- **The example launch** is one day on the board in three named stages
+  (Morning, All day, Midnight) that lead it, fill as they play and can be
+  pressed. Its Play button sits above it; "Example launch. The titles are
+  samples." sits beside the button, outside the board. First of the day
+  gets confetti. On a wide screen (1100px and up) it may sit in the first
+  view beside the form, and then it waits for the headline to finish.
+- **One closing panel in indigo** says when the first board opens, with a
+  yellow Join button. It is the only full-width colour on the page.
+  *Why:* three colour panels were tried and cut because they repeated the
+  tiles.
+- **Bands and the foot** are the marigold in madder on white, solid. The
+  foot's words sit on a white plate with an ink rule and a hard shadow.
+- **Every size:** nothing wider than a 320px screen, the join form in the
+  first view from 390px up, and every tap target at least 44px tall.
+- **Tried and undone, so they aren't tried again** (all November 18, 2026):
+  a wash of colour across the whole page, the page keeping a side's tint,
+  the marigold as the page's wallpaper, a see-through foot, and paper
+  grain. The owner found the changing background was not a gain, and a
+  white page reads best.
 
 ## The three directions
 

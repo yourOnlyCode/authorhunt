@@ -40,7 +40,7 @@ a { color: inherit; } button { font: inherit; color: inherit; background: none; 
 .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 
 /* The mark: the cat, with pupils that glance. */
-.logo { display: inline-flex; align-items: baseline; gap: 10px; font: italic 300 30px/1 var(--display); white-space: nowrap; text-decoration: none; }
+.logo { min-height: 44px; display: inline-flex; align-items: center; gap: 10px; font: italic 300 30px/1 var(--display); white-space: nowrap; text-decoration: none; }
 .cat { width: 38px; height: 32px; align-self: center; fill: none; stroke: var(--red); stroke-width: 1.7; stroke-linejoin: miter; stroke-linecap: square; overflow: visible; transform-origin: 50% 90%; transition: transform 420ms var(--ease); }
 .cat .n, .cat .pupil { fill: var(--red); stroke: none; }
 .cat .pupil { transform: translate(calc(var(--px, 0) * 1px), calc(var(--py, 0) * 1px)); transition: transform 260ms var(--ease); }
@@ -58,7 +58,8 @@ a { color: inherit; } button { font: inherit; color: inherit; background: none; 
 .side button { min-height: 44px; padding: 8px 22px; background: var(--page); white-space: nowrap; transition: background-color 180ms ease, color 180ms ease; }
 .side button + button { border-left: 1.5px solid var(--ink); }
 .side button[aria-pressed="true"] { background: var(--ink); color: var(--page); }
-h1 { font: 300 clamp(40px, 7.4vw, 84px)/1.02 var(--display); letter-spacing: -0.01em; }
+h1 { font: 300 clamp(30px, 10.3vw, 84px)/1.02 var(--display); letter-spacing: -0.01em; }
+@media (min-width: 560px) { h1 { font-size: clamp(54px, 7.4vw, 84px); } }
 h1 .l { display: block; white-space: nowrap; }
 .swap { display: inline-grid; color: var(--blue); transition: color 500ms ease; }
 [data-side="author"] .swap { color: var(--red-text); }
@@ -92,7 +93,7 @@ h1 .l { display: block; white-space: nowrap; }
 .field button:hover, .dock button.go:hover { transform: translate(-2px, -2px); box-shadow: 4px 4px 0 var(--red); }
 .fine { margin-top: 10px; font-size: 17px; color: var(--muted); }
 .done { font: 300 clamp(24px, 3.4vw, 32px)/1.1 var(--display); }
-.more { font-size: 18px; color: var(--ink); text-underline-offset: 4px; }
+.more { display: inline-flex; align-items: center; min-height: 44px; font-size: 18px; color: var(--ink); text-underline-offset: 4px; }
 
 /* The highlighter: a stroke that draws itself under a phrase. It lives in the text, so it survives wrapping. */
 mark { color: inherit; background: linear-gradient(transparent 56%, var(--mark) 56%, var(--mark) 93%, transparent 93%) 0 0 / 100% 100% no-repeat; -webkit-box-decoration-break: clone; box-decoration-break: clone; padding-inline: 0.1em; }
@@ -111,6 +112,18 @@ mark { color: inherit; background: linear-gradient(transparent 56%, var(--mark) 
 .dock .done { font-size: 22px; margin-left: auto; }
 @media (max-width: 720px) { .dock .as, .dock .logo .name { display: none; } .dock .wrap { gap: 10px; } .dock form { flex: 1; } }
 
+/* The example in the first view (wide screens only): the words and the form on the left, a day on the board
+   playing on the right. Below that width it stays in its own section further down. */
+#page[data-hero-on="1"] .first .wrap { max-width: 1240px; grid-template-columns: minmax(0, 1fr) minmax(0, 480px); column-gap: clamp(32px, 4vw, 64px); align-items: center; }
+#page[data-hero-on="1"] .first .wrap > * { grid-column: 1; }
+#page[data-hero-on="1"] .first .wrap > #demo { grid-column: 2; grid-row: 1 / span 6; width: 100%; text-align: left; }
+#page[data-hero-on="1"] #day, #page[data-hero-on="1"] #day-band { display: none; }
+#page[data-hero-on="1"] #demo .player { margin-top: 0; }
+#page[data-hero-on="1"] #demo .steps button b { font-size: 24px; } #page[data-hero-on="1"] #demo .steps button span { font-size: 15px; }
+#page[data-hero-on="1"] #demo .row { padding-block: 9px; } #page[data-hero-on="1"] #demo .row .t { font-size: 21px; }
+#page[data-hero-on="1"] #demo .board { box-shadow: 8px 8px 0 var(--ink); margin-top: 0; }
+#page[data-hero-on="1"] h1 { font-size: clamp(40px, 5.2vw, 72px); }
+@media (max-height: 800px) { #page[data-hero-on="1"] #demo .steps button span { display: none; } #page[data-hero-on="1"] #demo .row { padding-block: 6px; } #page[data-hero-on="1"] #demo .steps { margin-bottom: 10px; } #page[data-hero-on="1"] #demo .row .cover { width: 38px; } }
 /* A sample day */
 section.day { padding-block: clamp(56px, 9vw, 104px); border-top: 1.5px solid var(--ink); }
 .day h2, .faq h2 { font: 300 clamp(32px, 5vw, 52px)/1.05 var(--display); text-wrap: balance; }
@@ -139,10 +152,10 @@ section.day { padding-block: clamp(56px, 9vw, 104px); border-top: 1.5px solid va
 .board.closed .row.lead .by .who { display: none; }
 .player { display: flex; justify-content: space-between; align-items: center; gap: 16px; width: min(100%, 680px); margin: 22px auto 0; font-size: 18px; color: var(--muted); text-align: left; }
 .player .ctl { display: flex; align-items: center; gap: 16px; white-space: nowrap; }
-.player .play { display: inline-flex; align-items: center; gap: 9px; padding: 8px 16px; border: 1.5px solid var(--ink); background: var(--ink); color: var(--page); font-weight: 600; transition: transform 120ms ease-out, box-shadow 120ms ease-out; }
+.player .play { display: inline-flex; align-items: center; gap: 9px; min-height: 44px; padding: 8px 16px; border: 1.5px solid var(--ink); background: var(--ink); color: var(--page); font-weight: 600; transition: transform 120ms ease-out, box-shadow 120ms ease-out; }
 .player .play:hover { transform: translate(-2px, -2px); box-shadow: 4px 4px 0 var(--red); }
 .player .play svg { width: 10px; height: 12px; fill: currentColor; }
-.player #pause { text-decoration: underline; text-underline-offset: 4px; color: var(--ink); }
+.player #pause { min-height: 44px; padding-inline: 6px; text-decoration: underline; text-underline-offset: 4px; color: var(--ink); }
 @media (max-width: 560px) { .player { flex-direction: column; align-items: flex-start; gap: 6px; } }
 .steps { margin-top: 16px !important; }
 .under-board { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; width: min(100%, 680px); margin: 10px auto 0; font-size: 18px; color: var(--muted); text-align: left; }
@@ -165,6 +178,8 @@ section.day { padding-block: clamp(56px, 9vw, 104px); border-top: 1.5px solid va
 /* Three promises, one colour each. The words rise in once, when the panel comes into view. */
 .panel { padding-block: clamp(72px, 15vw, 168px); }
 .panel p.big { font: 300 clamp(40px, 8.4vw, 104px)/1 var(--display); letter-spacing: -0.015em; text-wrap: balance; max-width: 15ch; margin-inline: auto; }
+.btn-on-colour { display: inline-flex; align-items: center; min-height: 48px; margin-top: 22px; padding: 10px 26px; background: var(--mark); color: var(--ink); border: 1.5px solid var(--ink); font-weight: 600; text-decoration: none; box-shadow: 5px 5px 0 var(--ink); }
+.panel.closing { padding-block: clamp(64px, 11vw, 128px); }
 .panel p.small { margin: 18px auto 0; max-width: 34rem; font-size: 22px; }
 .panel.red { background: var(--red); color: #fff; } .panel.yellow { background: var(--mark); color: var(--ink); } .panel.blue { background: var(--blue); color: #fff; }
 .panel .w { display: inline-block; overflow: hidden; vertical-align: bottom; padding: 0.06em 0.12em 0.14em; margin: -0.06em -0.12em -0.14em; }
@@ -205,17 +220,6 @@ section.day { padding-block: clamp(56px, 9vw, 104px); border-top: 1.5px solid va
 .mini.wide .tags { margin-top: 4px; color: var(--ink); font-size: 12.5px; line-height: 1.45; white-space: normal; }
 .mini.wide .tags u { text-underline-offset: 3px; }
 @media (max-width: 760px) { .mini.wide { width: 100%; } .mini.wide .tt small { display: block; } .mini.wide .tt { font-size: 15px; } .mini.wide .tags { font-size: 11.5px; } .proof { font-size: 16px !important; } .proof .ins { font-size: 19px !important; } .vis { padding-bottom: 6px; } }
-/* three ways to say "a person wrote this"; the mock's switch picks one */
-[data-people="a"] .people-b, [data-people="a"] .people-c, [data-people="b"] .people-a, [data-people="b"] .people-c, [data-people="c"] .people-a, [data-people="c"] .people-b { display: none; }
-/* a nib finishing a signature */
-.nib { width: min(100%, 210px); height: auto; overflow: visible; }
-.nib .ink { stroke: var(--red); stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
-.nib .pen path, .nib .pen circle { stroke: var(--ink); stroke-width: 1.7; stroke-linejoin: miter; fill: var(--page); }
-/* a thumbprint in the margin of a page */
-.thumb { width: min(100%, 160px); height: auto; overflow: visible; }
-.thumb .leaf-page { stroke: var(--ink); stroke-width: 1.5; fill: var(--page); }
-.thumb .rule { stroke: var(--hair); stroke-width: 2.5; }
-.thumb .print ellipse { stroke: var(--red); stroke-width: 1.7; stroke-linecap: round; opacity: 0.85; }
 /* a line of a draft with a writer's corrections on it: a word struck and a better one written above, a comma
    made a full stop. A person changed their mind here. */
 .proof { position: relative; margin: 14px 0 0; font: 500 21px/1 var(--text); color: var(--ink); white-space: nowrap; }
@@ -365,7 +369,7 @@ footer.foot .plate { display: inline-block; padding: 7px 18px; background: var(-
         <h3>Find your kind</h3><p>By genre, by city, or by authors you love.</p></li>
       <li><div class="vis" aria-hidden="true"><div class="fair"><span class="cheerbox"><svg viewBox="0 0 14 10"><path d="M7 0l7 10H0z"/></svg>62</span><span class="coin">$</span></div></div>
         <h3>Your cheer decides</h3><p>One cheer each. No one buys a place.</p></li>
-      <li><div class="vis" aria-hidden="true"><p class="proof people-a">It was a <span class="del">dark<i class="ins">quiet</i></span> night<span class="del">,</span><i class="stop">.</i></p><svg class="nib people-b" viewBox="0 0 220 96" fill="none"><path class="ink" d="M10 62c14-30 26-34 30-22s-10 30-4 30 16-34 26-34-2 30 6 30 12-22 20-22 0 20 8 20 14-26 26-28"/><path class="ink" d="M24 80c40-6 84-8 124-6"/><g class="pen" transform="translate(148 30) rotate(38)"><path d="M0 0l9-20h14l9 20-16 26z"/><path d="M16 26V8"/><circle cx="16" cy="6" r="2.4"/><path d="M9-20h14v-16H9z"/></g></svg><svg class="thumb people-c" viewBox="0 0 150 96" fill="none"><path class="leaf-page" d="M40 6h86l18 18v66H40z"/><path class="leaf-page" d="M126 6v18h18"/><path class="rule" d="M52 30h56M52 42h78M52 54h78M52 66h44"/><g class="print" transform="translate(74 30) scale(0.92)"><ellipse cx="34" cy="40" rx="4" ry="5" stroke-dasharray="30 3 18 4" transform="rotate(-12 34 40)"/><ellipse cx="34" cy="40" rx="8" ry="10" stroke-dasharray="22 4 40 3" transform="rotate(-9 34 40)"/><ellipse cx="34" cy="40" rx="12" ry="15" stroke-dasharray="50 4 26 3 30 4" transform="rotate(-6 34 40)"/><ellipse cx="34" cy="40" rx="16" ry="20" stroke-dasharray="34 3 60 4 20 3" transform="rotate(-3 34 40)"/><ellipse cx="34" cy="40" rx="20" ry="25" stroke-dasharray="70 4 44 3" transform="rotate(0 34 40)"/><ellipse cx="34" cy="40" rx="24" ry="30" stroke-dasharray="40 3 90 4 30 3" transform="rotate(3 34 40)"/><ellipse cx="34" cy="40" rx="28" ry="35" stroke-dasharray="110 4 60 3" transform="rotate(6 34 40)"/></g></svg></div>
+      <li><div class="vis" aria-hidden="true"><p class="proof">It was a <span class="del">dark<i class="ins">quiet</i></span> night<span class="del">,</span><i class="stop">.</i></p></div>
         <h3>Written by people</h3><p>No AI-written work, ever.</p></li>
       <li><div class="vis" aria-hidden="true"><span class="price"><mark>$0</mark></span></div>
         <h3>Free to read</h3><p>Every page, with no account and no wall.</p></li>
@@ -373,12 +377,13 @@ footer.foot .plate { display: inline-block; padding: 7px 18px; background: var(-
   </div>
 </div></section>
 
-<div class="band" aria-hidden="true"></div>
+<div class="band" id="day-band" aria-hidden="true"></div>
 <section class="day" id="day"><div class="wrap">
   <p class="sc for-author">What a launch is</p><p class="sc for-reader">How you discover</p>
   <h2>One day on the board</h2>
   <p class="lede for-author">Every launch gets one day. Here is how a day goes. <mark class="draw">Small counts.</mark></p>
   <p class="lede for-reader in">Open the board, cheer for what you love, and see what the day chose. <mark class="draw">Small counts.</mark></p>
+  <div id="demo">
   <p class="player"><span class="ctl"><button type="button" class="play" id="again"><svg viewBox="0 0 10 12" aria-hidden="true"><path d="M0 0l10 6-10 6z"/></svg><span id="again-t">Play again</span></button><button type="button" id="pause" hidden>Pause</button></span><span class="note">Example launch. The titles are samples.</span></p>
   <ol class="steps" id="steps">
     <li><button type="button" data-step="0"><i></i><b>Morning</b><span>New work goes up.</span></button></li>
@@ -389,20 +394,8 @@ footer.foot .plate { display: inline-block; padding: 7px 18px; background: var(-
     <header><span class="sc">Today&rsquo;s launches</span><span class="when" id="when">Midnight</span></header>
     <div class="rows" id="rows"></div>
   </div>
+  </div>
   <p class="sr">An example: four pieces launch in the morning. Through the day readers cheer, and a piece of flash fiction climbs from fourth place to first. At midnight the day closes and it is First of the day.</p>
-</div></section>
-
-<section class="panel red"><div class="wrap">
-  <p class="big" data-rise>Launching is <span class="under">free.</span> For good.</p>
-  <p class="small">A page, a launch, every piece you finish. No plan needed.</p>
-</div></section>
-<section class="panel yellow"><div class="wrap">
-  <p class="big" data-rise>Rank can&rsquo;t be <span class="strike">bought.</span></p>
-  <p class="small">Cheers decide each day&rsquo;s order, and nothing else does.</p>
-</div></section>
-<section class="panel blue"><div class="wrap">
-  <p class="big" data-rise>Written by <span class="boxed">people.</span></p>
-  <p class="small">No AI-written work. It is removed, and its author banned.</p>
 </div></section>
 
 <div class="band" aria-hidden="true"></div>
@@ -414,11 +407,16 @@ footer.foot .plate { display: inline-block; padding: 7px 18px; background: var(-
     <details><summary>When does it open?</summary><p>Friday, January 8, 2027, at noon Eastern.</p></details>
   </div>
 </div></section>
+<section class="panel blue closing"><div class="wrap">
+  <p class="big" data-rise>The first board opens <span class="boxed">January 8.</span></p>
+  <p class="small">Friday, at noon Eastern. Join the list and we&rsquo;ll write once, when it does.</p>
+  <p><a class="btn-on-colour" href="#top">Join the list</a></p>
+</div></section>
 </main>
 <footer class="foot"><div class="wrap"><span class="plate">Author Hunt &middot; a mockup of the splash with motion</span></div></footer>
 </div>
 
-<div class="mock"><span>Mockup</span><button type="button" id="people">People tile: corrections</button><button type="button" id="pal">Colours: indigo &amp; madder</button><button type="button" id="grain" aria-pressed="false">Paper grain: off</button></div>
+<div class="mock"><span>Mockup</span><button type="button" id="hero">First view: with the example</button><button type="button" id="pal">Colours: indigo &amp; madder</button><button type="button" id="grain" aria-pressed="false">Paper grain: off</button></div>
 
 <script>
 (() => {
@@ -552,7 +550,7 @@ footer.foot .plate { display: inline-block; padding: 7px 18px; background: var(-
   pause.addEventListener("click", () => { playing = !playing; if (playing) { last = performance.now(); requestAnimationFrame(frame); } controls(); });
   steps.forEach((li, k) => li.querySelector("button").addEventListener("click", () => playFrom(STARTS[k])));
   render(false); controls(); // complete at rest: the finished day, until it plays
-  if (!still) { const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) { io.disconnect(); playFrom(0); } }, { threshold: 0.6 }); io.observe(board); }
+  if (!still) setTimeout(() => { const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) { io.disconnect(); playFrom(0); } }, { threshold: 0.6 }); io.observe(board); }, matchMedia("(min-width: 1100px)").matches ? 5600 : 0);
   document.addEventListener("visibilitychange", () => { if (document.hidden && playing) { playing = false; controls(); } });
 
   // ---- words that rise, once, when their panel arrives; and highlighter strokes that draw ----
@@ -569,9 +567,18 @@ footer.foot .plate { display: inline-block; padding: 7px 18px; background: var(-
   const PALS = [["dye", "indigo & madder"], ["poster", "cobalt & raspberry"], ["library", "bottle & oxblood"], ["", "the first red & blue"]];
   let pal = 0; const palBtn = document.getElementById("pal"); document.documentElement.dataset.pal = PALS[0][0]; // indigo and madder: the owner's pick
   palBtn.addEventListener("click", () => { pal = (pal + 1) % PALS.length; document.documentElement.dataset.pal = PALS[pal][0]; palBtn.textContent = "Colours: " + PALS[pal][1]; });
-  const PEOPLE = [["a", "corrections"], ["b", "pen nib"], ["c", "thumbprint"]];
-  let who = 0; const peopleBtn = document.getElementById("people"); document.documentElement.dataset.people = "a";
-  peopleBtn.addEventListener("click", () => { who = (who + 1) % PEOPLE.length; document.documentElement.dataset.people = PEOPLE[who][0]; peopleBtn.textContent = "People tile: " + PEOPLE[who][1]; });
+  // The mock's switch: the example beside the form in the first view (wide screens), or in its own section below.
+  const demo = document.getElementById("demo"), heroBtn = document.getElementById("hero"), wide = matchMedia("(min-width: 1100px)");
+  let hero = true;
+  function placeDemo() {
+    const on = hero && wide.matches;
+    page.dataset.heroOn = on ? "1" : "0";
+    if (on) document.querySelector(".first .wrap").append(demo); else document.querySelector("#day .wrap").insertBefore(demo, document.querySelector("#day .wrap > .sr"));
+    heroBtn.textContent = "First view: " + (hero ? "with the example" : "form only");
+  }
+  heroBtn.addEventListener("click", () => { hero = !hero; placeDemo(); });
+  wide.addEventListener("change", placeDemo);
+  placeDemo();
   const g = document.getElementById("grain");
   g.addEventListener("click", () => { const on = document.body.classList.toggle("grain"); g.textContent = "Paper grain: " + (on ? "on" : "off"); g.setAttribute("aria-pressed", String(on)); });
   paint();

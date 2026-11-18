@@ -250,8 +250,8 @@ footer .wrap { padding-block: 20px; display: flex; flex-wrap: wrap; justify-cont
 .splash .side button { min-height: 44px; padding: 8px 22px; background: var(--page); border: 0; white-space: nowrap; transition: background-color 180ms ease, color 180ms ease; }
 .splash .side button + button { border-left: 1.5px solid var(--ink); }
 .splash .side button { position: relative; }
-/* The chosen side glows once, softly, each time it becomes the chosen one: on arrival, on a press, and when the
-   page shows the other side by itself. (A glow is the one soft effect on the site: the owner's call, November 2026.) */
+/* The chosen side glows once, softly, each time it becomes the chosen one: on arrival and on a press.
+   (A glow is the one soft effect on the site: the owner's call, November 2026.) */
 .splash .side button[aria-pressed="true"] { background: var(--ink); color: var(--page); z-index: 1; animation: side-glow 1500ms ease-in-out 1 both; }
 @keyframes side-glow { 0% { box-shadow: 0 0 0 0 rgb(43 63 140 / 0); } 38% { box-shadow: 0 0 22px 5px rgb(43 63 140 / 0.5); } 100% { box-shadow: 0 0 0 0 rgb(43 63 140 / 0); } }
 /* The headline never re-wraps when its first words change: one unbroken line on a wide screen, and exactly

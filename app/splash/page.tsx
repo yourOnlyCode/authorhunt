@@ -50,8 +50,8 @@ const FAQ: { q: string; a: string }[] = [
   { q: "Do you sell or host the writing?", a: "No. Each page links to wherever the author publishes and sells: their own site, a magazine, a newsletter, any bookshop. Author Hunt favours no store." },
 ];
 
-export default async function Splash({ searchParams }: { searchParams: Promise<{ src?: string }> }) {
-  const { src } = await searchParams;
+export default async function Splash({ searchParams }: { searchParams: Promise<{ src?: string; as?: string }> }) {
+  const { src, as } = await searchParams;
   const opens = launchAt()?.getTime() ?? DEFAULT_OPENING;
   const at = new Date(opens);
   const when = new Intl.DateTimeFormat("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric", timeZone: "America/New_York" }).format(at);
@@ -61,7 +61,7 @@ export default async function Splash({ searchParams }: { searchParams: Promise<{
   const logo = <span className="logo"><CatMark />Author Hunt</span>;
   const count = listLine(await confirmedOnList());
   return (
-    <SplashProvider src={src?.slice(0, 80)}>
+    <SplashProvider src={src?.slice(0, 80)} start={as === "reader" ? "reader" : "author"}>
       <Dock logo={logo} />
       <SplashStage opensAt={opens} initialNow={serverNow()} when={when} hour={hour} logo={logo} count={count} />
       <div className="band" aria-hidden="true" />

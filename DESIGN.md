@@ -165,6 +165,11 @@ Morris credit and the full FAQ.
   top of the page (one state: side, address, joined). The bar has no close
   button, never pulses, sits above everything, and never leaves while its
   field has focus. *Why:* the owner's requirement.
+- **The page opens on the author's side and stays there** until the
+  visitor chooses (the owner's call, November 2026: the first ads are for
+  writers, and a headline that changed by itself on arrival confused more
+  than it showed). `?as=reader` opens it on the reader's side, for ads
+  aimed at readers.
 - **Each side has a colour:** indigo for a reader, madder for an author.
   The headline's coloured words take it, and it washes through the
   marigold inside the join box from the top, where the switch is. That is

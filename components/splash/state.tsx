@@ -26,10 +26,8 @@ export type JoinStatus = "idle" | "leaving" | "done";
 
 type Splash = {
   side: Side;
-  /** A person chose a side (as opposed to the page showing both on arrival). */
+  /** A person chose a side. */
   choose: (side: Side) => void;
-  /** The page showing the other side by itself; ignored once a person has chosen. */
-  show: (side: Side) => void;
   said: string;
   email: string;
   setEmail: (value: string) => void;
@@ -61,25 +59,26 @@ function useStill() {
 const WORDS: Record<Side, string> = { reader: "Find your", author: "Be their" };
 const FAILED = "That didn't go through. Try again in a moment.";
 
-export function SplashProvider({ src, children }: { src?: string; children: React.ReactNode }) {
-  const [side, setSide] = useState<Side>("reader");
+/**
+ * The page opens on the author's side (the owner's call, November 2026: the first ads are for writers), and stays
+ * there until the visitor chooses. `?as=reader` opens it on the reader's side, for ads aimed at readers.
+ */
+export function SplashProvider({ src, start = "author", children }: { src?: string; start?: Side; children: React.ReactNode }) {
+  const [side, setSide] = useState<Side>(start);
   const [said, setSaid] = useState("");
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<JoinStatus>("idle");
   const [error, setError] = useState<string | null>(null);
   const still = useStill();
   const [gaze, setGaze] = useState<number | null>(null);
-  const touched = useRef(false);
   const root = useRef<HTMLDivElement>(null);
 
   const choose = useCallback((next: Side) => {
-    touched.current = true;
     setSide((now) => {
       if (now !== next) setSaid(`${WORDS[next]} next favorite author. Joining as ${next === "reader" ? "a reader" : "an author"}.`);
       return next;
     });
   }, []);
-  const show = useCallback((next: Side) => { if (!touched.current) setSide(next); }, []);
 
   // Motion is opt-in from here, so a page without JavaScript, or a visitor who asked for less, sees everything at rest.
   useEffect(() => {
@@ -115,7 +114,7 @@ export function SplashProvider({ src, children }: { src?: string; children: Reac
   const px = still ? 0 : gaze === null ? (side === "reader" ? -1.4 : 1.4) : -1.5 + gaze * 3;
   const py = still || gaze === null ? 0 : 1.3;
 
-  const value = useMemo<Splash>(() => ({ side, choose, show, said, email, setEmail, status, error, join, look: setGaze, still }), [side, choose, show, said, email, status, error, join, still]);
+  const value = useMemo<Splash>(() => ({ side, choose, said, email, setEmail, status, error, join, look: setGaze, still }), [side, choose, said, email, status, error, join, still]);
   return (
     <Ctx.Provider value={value}>
       <div className="splash" ref={root} data-side={side} data-joined={status === "done" ? "" : undefined} style={{ "--px": px, "--py": py } as React.CSSProperties}>{children}</div>

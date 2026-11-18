@@ -38,7 +38,7 @@ function Letters({ text }: { text: string }) {
 }
 
 export function SplashStage({ opensAt, initialNow, when, hour, logo, count }: { opensAt: number; initialNow: number; when: string; hour: string; logo: React.ReactNode; count: string | null }) {
-  const { side, choose, show, said, status, still } = useSplash();
+  const { side, choose, said, status } = useSplash();
   const joined = status === "done";
   const swap = useRef<HTMLSpanElement>(null);
   const phrases = useRef<Record<Side, HTMLSpanElement | null>>({ reader: null, author: null });
@@ -57,14 +57,6 @@ export function SplashStage({ opensAt, initialNow, when, hour, logo, count }: { 
     return () => window.removeEventListener("resize", again);
   }, [side, fit]);
 
-  // Shown once, unprompted and unannounced, and over within five seconds: nobody has to guess the words change.
-  // Not if they've already pressed something, and not for a visitor who has asked for reduced motion.
-  useEffect(() => {
-    if (still) return;
-    const a = setTimeout(() => show("author"), 2000);
-    const b = setTimeout(() => show("reader"), 4400);
-    return () => { clearTimeout(a); clearTimeout(b); };
-  }, [still, show]);
 
   return (
     <div className="first" id="top" data-side={side}>

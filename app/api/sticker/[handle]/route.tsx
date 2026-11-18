@@ -30,9 +30,9 @@ export async function GET(req: Request, { params }: { params: Promise<{ handle: 
   return new ImageResponse(
     (
       <div style={{ width: "100%", height: "100%", display: "flex", background: "#FFFFFF", border: "2px solid #111111", color: "#111111", fontFamily: OG_FONT_FAMILY, flexDirection: "column", alignItems: "center", justifyContent: "center", padding: tall ? 44 : 36, textAlign: "center" }}>
-        <div style={{ width: tall ? 40 : 28, height: tall ? 40 : 28, background: "#D9361E", display: "flex" }} />
+        <div style={{ width: tall ? 40 : 28, height: tall ? 40 : 28, background: "#B23A2E", display: "flex" }} />
         <div style={{ display: "flex", marginTop: tall ? 44 : 22, fontSize: tall ? 40 : 34, letterSpacing: 3, textTransform: "uppercase" }}>Find me on Author Hunt</div>
-        <div style={{ display: "flex", marginTop: tall ? 40 : 20, fontSize: linkSize, lineHeight: 1.1, borderBottom: "4px solid #D9361E", paddingBottom: 8 }}>{link}</div>
+        <div style={{ display: "flex", marginTop: tall ? 40 : 20, fontSize: linkSize, lineHeight: 1.1, borderBottom: "4px solid #B23A2E", paddingBottom: 8 }}>{link}</div>
       </div>
     ),
     { ...shape, fonts: await ogFonts(), headers: { "cache-control": "public, max-age=3600, s-maxage=86400" } },

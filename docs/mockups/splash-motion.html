@@ -184,11 +184,17 @@ section.day { padding-block: clamp(56px, 9vw, 104px); border-top: 1.5px solid va
 .why h3 { font: 300 26px/1.1 var(--display); margin-top: 14px; }
 .why li p { margin: 4px auto 0; color: var(--ink-2); max-width: 22ch; line-height: 1.3; }
 @media (max-width: 760px) { .why ul { grid-template-columns: repeat(2, minmax(0, 1fr)); } .why li, .why li:nth-child(-n + 3) { border-top: 1px solid var(--hair); } .why li:nth-child(3n + 1) { border-left: 1px solid var(--hair); } .why li:nth-child(2n + 1) { border-left: 0; } .why li:nth-child(-n + 2) { border-top: 0; } .why h3 { font-size: 22px; } }
+[data-side="reader"] .for-author, [data-side="author"] .for-reader { display: none !important; }
+/* the board's filters, as words: the chosen one is underlined in ink */
+.chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 2px 12px; margin: 0 0 8px; font-size: 14px; line-height: 1.3; color: var(--muted); }
+.chips .on { color: var(--ink); font-weight: 700; text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 4px; }
+.chips.tall { flex-direction: column; align-items: center; gap: 6px; font-size: 17px; margin: 0; }
+.keeps .badge.plain { background: var(--page); }
 .vis { height: 104px; display: grid; place-items: center; text-align: left; }
 /* a small board row, as in the app */
 .mini { display: grid; grid-template-columns: auto 22px minmax(0, 1fr) auto; align-items: center; gap: 8px; width: min(100%, 210px); padding: 7px 9px; border: 1.5px solid var(--ink); background: var(--page); font-size: 15px; line-height: 1.1; }
 .mini + .mini { margin-top: -1.5px; }
-@media (max-width: 760px) { .mini { grid-template-columns: 18px minmax(0, 1fr) auto; gap: 6px; padding: 6px 7px; } .mini .rk, .mini .tt small { display: none; } .mini .cv { width: 18px; height: 26px; } .mini .cv.s { height: 18px; } .mini .tt { font-size: 15px; } }
+@media (max-width: 760px) { .mini { grid-template-columns: 18px minmax(0, 1fr) auto; gap: 6px; padding: 6px 7px; } .mini .rk, .mini .tt small { display: none; } .mini .cv { width: 18px; height: 26px; } .mini .cv.s { height: 18px; } .mini .tt { font-size: 14px; } .mini { width: min(100%, 150px); } }
 .mini .rk { font: 300 20px/1 var(--display); font-variant-numeric: lining-nums; color: var(--muted); }
 .mini .cv { width: 22px; height: 32px; border: 1px solid var(--ink); background: var(--blue); }
 .mini .cv.b { background: var(--red); } .mini .cv.s { height: 22px; }
@@ -224,8 +230,8 @@ section.day { padding-block: clamp(56px, 9vw, 104px); border-top: 1.5px solid va
 /* The pattern's ground is colour and its leaves are open, so the papered wall behind shows through them and
    the two patterns mix. It began as an accident and stays on purpose (the owner's call). */
 .band, footer.foot { position: relative; }
-footer.foot { background-color: var(--paper-reader); }
-footer.foot::after { content: ""; position: absolute; inset: 0; background-color: var(--blue); opacity: 0.55; -webkit-mask: var(--marigold) 130px 60px / 420px auto; mask: var(--marigold) 130px 60px / 420px auto; }
+/* The foot and the bands are madder on white, and solid: nothing behind them shows through (the owner's call). */
+.band, footer.foot { background-color: var(--page); }
 .band::before, footer.foot::before { z-index: 1; content: ""; position: absolute; inset: 0; background-color: var(--red); -webkit-mask: var(--marigold) center top / 300px auto; mask: var(--marigold) center top / 300px auto; }
 .band { height: 22px; border-top: 1.5px solid var(--ink); }
 footer.foot .wrap { position: relative; z-index: 2; }
@@ -290,18 +296,59 @@ footer.foot .plate { display: inline-block; padding: 7px 18px; background: var(-
     </div>
     <div data-done hidden><p class="done">You&rsquo;re on the list.</p><p class="fine">This is a mockup, so nothing was sent.</p></div>
   </section>
-  <a class="more" href="#day">What a launch is &darr;</a>
+  <a class="more for-author" href="#why">Why launch here &darr;</a><a class="more for-reader" href="#why">Why read here &darr;</a>
+</div></section>
+
+<div class="band" aria-hidden="true"></div>
+<section class="why" id="why"><div class="wrap">
+  <div class="for-author">
+    <p class="sc">For authors</p>
+    <h2>Why launch here</h2>
+    <ul>
+      <li><div class="vis" aria-hidden="true"><div class="leaf"><b>JAN</b><span>8</span></div></div>
+        <h3>A day that&rsquo;s yours</h3><p>One day, your work on the board.</p></li>
+      <li><div class="vis" aria-hidden="true"><div><div class="mini you"><span class="rk">1</span><span class="cv"></span><span class="tt">Your title<small>by you</small></span><span class="cheerbox"><svg viewBox="0 0 14 10"><path d="M7 0l7 10H0z"/></svg>61</span></div></div></div>
+        <h3>Readers come looking</h3><p>They open the board to find someone new.</p></li>
+      <li><div class="vis" aria-hidden="true"><div><p class="chips"><span>Everything</span><span>Books</span><span class="on">Short works</span></p><div class="mini"><span class="rk">1</span><span class="cv b s"></span><span class="tt">A poem</span><span class="cheerbox"><svg viewBox="0 0 14 10"><path d="M7 0l7 10H0z"/></svg>44</span></div></div></div>
+        <h3>Small counts</h3><p>Every piece gets a row, and every type its own ranking.</p></li>
+      <li><div class="vis" aria-hidden="true"><div class="fair"><span class="cheerbox"><svg viewBox="0 0 14 10"><path d="M7 0l7 10H0z"/></svg>61</span><span class="coin">$</span></div></div>
+        <h3>A fair order</h3><p>Cheers decide. No one pays for a place.</p></li>
+      <li><div class="vis" aria-hidden="true"><div class="keeps"><span class="badge">First of the day</span><span class="fol"><b>128</b> followers</span></div></div>
+        <h3>It lasts</h3><p>Your rank and your followers stay.</p></li>
+      <li><div class="vis" aria-hidden="true"><span class="price"><mark>$0</mark></span></div>
+        <h3>It&rsquo;s free</h3><p>Your page and every launch, for good.</p></li>
+    </ul>
+  </div>
+  <div class="for-reader">
+    <p class="sc">For readers</p>
+    <h2>Why read here</h2>
+    <ul>
+      <li><div class="vis" aria-hidden="true"><div class="leaf"><b>TODAY</b><span>8</span></div></div>
+        <h3>New every morning</h3><p>A fresh board of new writing, every day.</p></li>
+      <li><div class="vis" aria-hidden="true"><div><p class="chips"><span>Everything</span><span>Books</span><span class="on">Short works</span></p><div class="mini"><span class="rk">1</span><span class="cv b s"></span><span class="tt">A poem</span><span class="cheerbox"><svg viewBox="0 0 14 10"><path d="M7 0l7 10H0z"/></svg>44</span></div></div></div>
+        <h3>Every size</h3><p>Poems to novels, each type with its own ranking.</p></li>
+      <li><div class="vis" aria-hidden="true"><p class="chips tall"><span class="on">Fantasy</span><span>Raleigh</span><span>For readers of Le Guin</span></p></div>
+        <h3>Find your kind</h3><p>By genre, by city, or by authors you love.</p></li>
+      <li><div class="vis" aria-hidden="true"><div class="fair"><span class="cheerbox"><svg viewBox="0 0 14 10"><path d="M7 0l7 10H0z"/></svg>62</span><span class="coin">$</span></div></div>
+        <h3>Your cheer decides</h3><p>One cheer each. No one buys a place.</p></li>
+      <li><div class="vis" aria-hidden="true"><div class="keeps"><span class="badge plain">Written without AI</span><span class="fol">declared by every author</span></div></div>
+        <h3>Written by people</h3><p>No AI-written work, ever.</p></li>
+      <li><div class="vis" aria-hidden="true"><span class="price"><mark>$0</mark></span></div>
+        <h3>Free to read</h3><p>Every page, with no account and no wall.</p></li>
+    </ul>
+  </div>
 </div></section>
 
 <div class="band" aria-hidden="true"></div>
 <section class="day" id="day"><div class="wrap">
-  <p class="sc">What a launch is</p>
+  <p class="sc for-author">What a launch is</p><p class="sc for-reader">How you discover</p>
   <h2>One day on the board</h2>
-  <p class="lede">Every launch gets one day. Here is how a day goes. <mark class="draw">Small counts.</mark></p>
+  <p class="lede for-author">Every launch gets one day. Here is how a day goes. <mark class="draw">Small counts.</mark></p>
+  <p class="lede for-reader in">Open the board, cheer for what you love, and see what the day chose. <mark class="draw">Small counts.</mark></p>
   <ol class="steps" id="steps">
     <li><button type="button" data-step="0"><i></i><b>Morning</b><span>New work goes up.</span></button></li>
-    <li><button type="button" data-step="1"><i></i><b>All day</b><span>Readers cheer for what they love.</span></button></li>
-    <li><button type="button" data-step="2"><i></i><b>Midnight</b><span>The day closes. The ranking stands.</span></button></li>
+    <li><button type="button" data-step="1"><i></i><b>All day</b><span class="for-author">Readers cheer for what they love.</span><span class="for-reader">You cheer for what you love.</span></button></li>
+    <li><button type="button" data-step="2"><i></i><b>Midnight</b><span class="for-author">The day closes. The ranking stands.</span><span class="for-reader">The day closes. Its best stands.</span></button></li>
   </ol>
   <div class="board" id="board" aria-hidden="true">
     <header><span class="sc">Today&rsquo;s launches</span><span class="when" id="when">Midnight</span></header>
@@ -309,26 +356,6 @@ footer.foot .plate { display: inline-block; padding: 7px 18px; background: var(-
   </div>
   <p class="under-board"><span>Example launch. The titles are samples.</span><span class="ctl"><button type="button" id="pause" hidden>Pause</button><button type="button" id="again">Play again</button></span></p>
   <p class="sr">An example: four pieces launch in the morning. Through the day readers cheer, and a piece of flash fiction climbs from fourth place to first. At midnight the day closes and it is First of the day.</p>
-</div></section>
-
-<div class="band" aria-hidden="true"></div>
-<section class="why" id="why"><div class="wrap">
-  <p class="sc">For authors</p>
-  <h2>Why launch here</h2>
-  <ul>
-    <li><div class="vis" aria-hidden="true"><div class="leaf"><b>JAN</b><span>8</span></div></div>
-      <h3>A day that&rsquo;s yours</h3><p>One day, your work on the board.</p></li>
-    <li><div class="vis" aria-hidden="true"><div><div class="mini you"><span class="rk">1</span><span class="cv"></span><span class="tt">Your title<small>by you</small></span><span class="cheerbox"><svg viewBox="0 0 14 10"><path d="M7 0l7 10H0z"/></svg>61</span></div></div></div>
-      <h3>Readers come looking</h3><p>They open the board to find someone new.</p></li>
-    <li><div class="vis" aria-hidden="true"><div><div class="mini"><span class="rk">1</span><span class="cv b s"></span><span class="tt">A poem</span><span class="cheerbox"><svg viewBox="0 0 14 10"><path d="M7 0l7 10H0z"/></svg>44</span></div><div class="mini"><span class="rk">2</span><span class="cv"></span><span class="tt">A novel</span><span class="cheerbox"><svg viewBox="0 0 14 10"><path d="M7 0l7 10H0z"/></svg>38</span></div></div></div>
-      <h3>Small counts</h3><p>A poem gets the same row as a novel.</p></li>
-    <li><div class="vis" aria-hidden="true"><div class="fair"><span class="cheerbox"><svg viewBox="0 0 14 10"><path d="M7 0l7 10H0z"/></svg>61</span><span class="coin">$</span></div></div>
-      <h3>A fair order</h3><p>Cheers decide. No one pays for a place.</p></li>
-    <li><div class="vis" aria-hidden="true"><div class="keeps"><span class="badge">First of the day</span><span class="fol"><b>128</b> followers</span></div></div>
-      <h3>It lasts</h3><p>Your rank and your followers stay.</p></li>
-    <li><div class="vis" aria-hidden="true"><span class="price"><mark>$0</mark></span></div>
-      <h3>It&rsquo;s free</h3><p>Your page and every launch, for good.</p></li>
-  </ul>
 </div></section>
 
 <section class="panel red"><div class="wrap">

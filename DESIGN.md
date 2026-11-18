@@ -48,8 +48,8 @@ with the name before launch (docs/launch.md).
   3. *A reader's highlighter.* A flat yellow stroke under a few words a
      page: the leading launch, the current place in the header, the
      letter. Never more than two or three in view.
-- **Colour:** ink, white, red `#D9361E` (text on white uses `#B92C16`),
-  highlighter `#FFE14D`. Covers bring the rest. One blue, `#2F6FE8`, is
+- **Colour:** ink, white, red `#B23A2E` (text on white uses `#9C2F25`),
+  highlighter `#FFD84D`. Covers bring the rest. One blue, `#2B3F8C`, is
   used on the splash page only, for the two headline words that change
   with the reader / author switch: large text only, never body text.
 - **The header** has a mark, a search line, three places and two actions.
@@ -178,16 +178,25 @@ contrast, sharp, Victorian in its characteristics and never a costume.
     colour through the box's wallpaper from the top, where the switch is,
     and the headline's coloured words take it too. The page's one colour
     move happens inside the box that asks for the address. The example
-    launch and the FAQ sit on white. The foot is the marigold in madder
-    with a second, offset marigold in indigo showing through its leaves
-    (the owner liked that mix when it first happened by accident), and
-    its words sit on a white plate with an ink rule.
+    launch and the FAQ sit on white. The foot is the marigold in madder on
+    white, solid, with nothing behind it showing through (the owner's
+    call, after the see-through mix read as confusing on a white page),
+    and its words sit on a white plate with an ink rule.
+  - **Each side gets its own case, shown before it is told.** Under the
+    first view: "Why read here" for a reader, "Why launch here" for an
+    author, as six tiles, each a small piece of the app drawn in the
+    page's own parts (a board row, a cheer, a date, the filters) with a
+    heading and one short line. No paragraphs. Then the example day,
+    framed as "How you discover" or "What a launch is". Why comes before
+    how.
   - **Indigo and madder** (the owner's pick, November 18, 2026): indigo
     #2B3F8C and madder #B23A2E (text #9C2F25), the dyes Morris printed
     with, replace the first blue #2F6FE8 and red #D9361E, which read as a
     web link blue against an orange. Both are a similar depth, so neither
-    shouts. In the mockup only so far; the app's tokens change when the
-    splash is built from it.
+    shouts. They are the app's tokens now (`--blue`, `--red`,
+    `--red-text` in app/globals.css), with a slightly warmer highlighter
+    (#FFD84D). The marigold is drawn as a mask in `--red`, never as a
+    picture, so it prints in madder everywhere.
   - Presses can overlap: each starts its own wash, and the most recent is
     on top. (Two pale papers alternating can't strobe.) Under reduced
     motion the paper simply changes.

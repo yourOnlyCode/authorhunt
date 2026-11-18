@@ -12,7 +12,7 @@ import { OG_FONT_FAMILY, ogFonts } from "@/lib/og-fonts";
 
 export const OG_SIZE = { width: 1200, height: 630 };
 const INK = "#111111";
-const RED = "#D9361E";
+const RED = "#B23A2E";
 
 type Card = { kicker: string; title: string; line?: string; foot: string };
 
@@ -33,7 +33,7 @@ export async function ogCard({ kicker, title, line, foot }: Card): Promise<Image
           </div>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", borderTop: `3px solid ${INK}`, paddingTop: 22, fontSize: 28 }}>
             <div style={{ display: "flex" }}>Author Hunt</div>
-            <div style={{ display: "flex", color: "#B92C16" }}>{foot}</div>
+            <div style={{ display: "flex", color: "#9C2F25" }}>{foot}</div>
           </div>
         </div>
       </div>

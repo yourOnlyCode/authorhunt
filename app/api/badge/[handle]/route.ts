@@ -22,7 +22,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{ handle:
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="240" height="56" viewBox="0 0 240 56" role="img" aria-label="${first ? "First of the day on Author Hunt" : "Featured on Author Hunt"}">
   <title>${first ? "First of the day on Author Hunt" : "Featured on Author Hunt"}</title>
   <rect x="1" y="1" width="238" height="54" fill="#FFFFFF" stroke="#111111" stroke-width="2"/>
-  <rect x="16" y="16" width="24" height="24" fill="#D9361E"/>
+  <rect x="16" y="16" width="24" height="24" fill="#B23A2E"/>
   <rect x="22" y="22" width="12" height="12" fill="#FFFFFF"/>
   <text x="54" y="23" font-family="Georgia, 'Times New Roman', serif" font-size="10" font-weight="700" letter-spacing="1.6" fill="#111111">${top}</text>
   <text x="54" y="43" font-family="Georgia, 'Times New Roman', serif" font-size="21" font-style="italic" fill="#111111">Author Hunt</text>

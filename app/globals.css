@@ -16,12 +16,13 @@
 :root {
   color-scheme: light;
   --page: #FFFFFF; --ink: #111111; --ink-2: #333333; --muted: #5C5C5C; --hair: #D4D4D4; --tint: #F5F4F0;
-  --red: #D9361E; --red-text: #B92C16; --mark: #FFE14D; --blue: #2F6FE8;
+  --red: #B23A2E; --red-text: #9C2F25; --mark: #FFD84D; --blue: #2B3F8C;
   --cv-1: #1F3A5C; --cv-2: #7A2533; --cv-3: #24503B; --cv-4: #4A3A78; --cv-5: #B5791A; --cv-6: #26262C; --cv-7: #C24A2A; --cv-ink: #FBF7EC;
   /* The two faces. Change these two lines (and the font links above) to try another pairing. */
   --display: var(--font-display), "Iowan Old Style", Georgia, serif;
   --text: var(--font-text), Garamond, Georgia, "Times New Roman", serif;
-  /* William Morris, Marigold (1875), Art Institute of Chicago, public domain. One colour, cut from the scan. */
+  /* William Morris, Marigold (1875), Art Institute of Chicago, public domain. One colour, cut from the scan.
+     It is used as a mask, never as a picture, so it prints in whatever --red is (madder) and can take another colour. */
   --marigold: url("/ornament/marigold.webp");
 }
 *, *::before, *::after { box-sizing: border-box; border-radius: 0; }
@@ -71,10 +72,11 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 
 /* The letter banner, where Product Hunt puts its promo */
 .letter { position: relative; border-bottom: 1.5px solid var(--ink); background: var(--page); }
-.letter::before, .card::before { content: ""; position: absolute; inset: 0; background: var(--marigold) center / 420px auto; opacity: 0.13; pointer-events: none; }
+.letter::before, .card::before { content: ""; position: absolute; inset: 0; background-color: var(--red); -webkit-mask: var(--marigold) center / 420px auto; mask: var(--marigold) center / 420px auto; opacity: 0.16; pointer-events: none; }
 .letter .wrap { position: relative; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 24px; padding-block: 26px; }
 .letter .wrap > span:first-child { font-size: 19px; }
-.trim { height: 16px; background: var(--marigold) center / 300px auto; border-top: 1.5px solid var(--ink); }
+.trim { position: relative; height: 16px; background: var(--page); border-top: 1.5px solid var(--ink); }
+.trim::before { content: ""; position: absolute; inset: 0; background-color: var(--red); -webkit-mask: var(--marigold) center / 300px auto; mask: var(--marigold) center / 300px auto; }
 .letter form { display: flex; gap: 0; flex: 0 1 380px; min-width: 0; }
 .letter input { flex: 1; min-width: 0; padding: 8px 12px; border: 1.5px solid var(--ink); border-right: 0; background: var(--page); font: inherit; color: var(--ink); }
 .letter button { padding: 8px 16px; background: var(--ink); color: var(--page); border: 1.5px solid var(--ink); font-weight: 500; white-space: nowrap; }
@@ -248,7 +250,7 @@ footer .wrap { padding-block: 20px; display: flex; flex-wrap: wrap; justify-cont
 /* The chosen side glows once, softly, each time it becomes the chosen one: on arrival, on a press, and when the
    page shows the other side by itself. (A glow is the one soft effect on the site: the owner's call, November 2026.) */
 .splash .side button[aria-pressed="true"] { background: var(--ink); color: var(--page); z-index: 1; animation: side-glow 1500ms ease-in-out 1 both; }
-@keyframes side-glow { 0% { box-shadow: 0 0 0 0 rgb(47 111 232 / 0); } 38% { box-shadow: 0 0 22px 5px rgb(47 111 232 / 0.5); } 100% { box-shadow: 0 0 0 0 rgb(47 111 232 / 0); } }
+@keyframes side-glow { 0% { box-shadow: 0 0 0 0 rgb(43 63 140 / 0); } 38% { box-shadow: 0 0 22px 5px rgb(43 63 140 / 0.5); } 100% { box-shadow: 0 0 0 0 rgb(43 63 140 / 0); } }
 /* The headline never re-wraps when its first words change: one unbroken line on a wide screen, and exactly
    two fixed lines on a narrow one, with the type sized so the longer wording always fits. */
 .splash h1 { font: 300 min(5.4vw, 58px)/1.06 var(--display); letter-spacing: -0.01em; }
@@ -279,7 +281,7 @@ footer .wrap { padding-block: 20px; display: flex; flex-wrap: wrap; justify-cont
 .splash .open { padding-block: 18px; border-block: 1.5px solid var(--ink); font: 300 36px/1.1 var(--display); width: min(100%, 560px); }
 
 .splash .join { position: relative; width: min(100%, 640px); border: 1.5px solid var(--ink); padding: 18px clamp(16px, 4vw, 32px) 16px; }
-.splash .join::before { content: ""; position: absolute; inset: 0; background: var(--marigold) center / 420px auto; opacity: 0.13; pointer-events: none; }
+.splash .join::before { content: ""; position: absolute; inset: 0; background-color: var(--red); -webkit-mask: var(--marigold) center / 420px auto; mask: var(--marigold) center / 420px auto; opacity: 0.16; pointer-events: none; }
 .splash .join > * { position: relative; }
 .splash .join h2 { font: 300 clamp(24px, 3.4vw, 32px)/1.1 var(--display); }
 .splash .join .as { margin-top: 2px; font-size: 18px; color: var(--ink-2); }
@@ -302,7 +304,7 @@ footer .wrap { padding-block: 20px; display: flex; flex-wrap: wrap; justify-cont
 .splash .joined p + p { margin: 8px auto 0; max-width: 30rem; }
 @keyframes resolve-in { from { opacity: 0; filter: blur(6px); transform: translateY(6px); } to { opacity: 1; filter: none; transform: none; } }
 /* The glow is a fixed shadow on a layer whose opacity moves, which the compositor can do without repainting. */
-.splash .join::after { content: ""; position: absolute; inset: -1.5px; pointer-events: none; box-shadow: 0 0 26px 4px rgb(217 54 30 / 0.28); opacity: 0; }
+.splash .join::after { content: ""; position: absolute; inset: -1.5px; pointer-events: none; box-shadow: 0 0 26px 4px rgb(178 58 46 / 0.28); opacity: 0; }
 .splash .join.celebrate::after { animation: join-glow 1300ms ease-out 1; }
 @keyframes join-glow { 0% { opacity: 0; } 25% { opacity: 1; } 100% { opacity: 0; } }
 /* The paper squares: thrown from the middle of the box, turning as they go, then falling and fading. */

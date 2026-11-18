@@ -36,7 +36,7 @@ export function layout(input: { heading: string; paragraphs: string[]; action?: 
   const body = input.paragraphs.map((p) => `<p style="margin:0 0 14px">${esc(p)}</p>`).join("");
   const action = input.action ? `<p style="margin:22px 0"><a href="${esc(input.action.url)}" style="display:inline-block;background:#111;color:#fff;padding:11px 20px;text-decoration:none">${esc(input.action.label)}</a></p>` : "";
   const footer = input.footer ?? "Author Hunt, authorhunt.com";
-  const html = `<div style="font-family:Georgia,'Times New Roman',serif;font-size:17px;line-height:1.55;color:#111;max-width:520px;margin:0 auto;padding:28px 20px"><p style="font-size:22px;font-style:italic;margin:0 0 20px;color:#B92C16">Author Hunt</p><h1 style="font-size:26px;font-weight:normal;line-height:1.15;margin:0 0 16px">${esc(input.heading)}</h1>${body}${action}<p style="border-top:1px solid #111;margin:26px 0 0;padding-top:12px;font-size:13px;color:#5C5C5C">${esc(footer)}</p></div>`;
+  const html = `<div style="font-family:Georgia,'Times New Roman',serif;font-size:17px;line-height:1.55;color:#111;max-width:520px;margin:0 auto;padding:28px 20px"><p style="font-size:22px;font-style:italic;margin:0 0 20px;color:#9C2F25">Author Hunt</p><h1 style="font-size:26px;font-weight:normal;line-height:1.15;margin:0 0 16px">${esc(input.heading)}</h1>${body}${action}<p style="border-top:1px solid #111;margin:26px 0 0;padding-top:12px;font-size:13px;color:#5C5C5C">${esc(footer)}</p></div>`;
   const text = [input.heading, "", ...input.paragraphs, ...(input.action ? ["", `${input.action.label}: ${input.action.url}`] : []), "", footer].join("\n");
   return { html, text };
 }

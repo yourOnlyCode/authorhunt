@@ -1,6 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="-3 -6 44 44" fill="none" stroke="#D9361E" stroke-width="2.4" stroke-linejoin="miter">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-3 -6 44 44" fill="none" stroke="#B23A2E" stroke-width="2.4" stroke-linejoin="miter">
   <path d="M5 3l8 6.5c3.5-1 8.500-1 12 0L33 3l-1 15c-.7 7-6.500 11-13 11S6.700 25 6 18z"/>
   <circle cx="13.3" cy="17" r="4.3"/><circle cx="24.7" cy="17" r="4.3"/>
   <path d="M17.600 17h2.800M9 17H6.300M29 17h2.700M1 21.500l4.300-.8M1.500 25.500l4.300-1.800M37 21.500l-4.300-.8M36.500 25.500l-4.300-1.800"/>
-  <path fill="#D9361E" stroke="none" d="M17.700 23h2.600L19 24.700z"/>
+  <path fill="#B23A2E" stroke="none" d="M17.700 23h2.600L19 24.700z"/>
 </svg>

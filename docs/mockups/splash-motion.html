@@ -19,6 +19,12 @@
   --paper-reader: #E6EEFE; --paper-author: #FDE8E2;
   --block-red: #C42E18; --block-blue: #2459C9;
 }
+/* Palettes to compare (the mock's switch sets data-pal). Each is two colours of similar depth, their two pale
+   papers, and a highlighter. Contrast was computed for each: ink on either paper is 15:1 or better, small grey
+   text 5.3:1 or better, the headline's coloured words 4.7:1 or better, white on either block 6.2:1 or better. */
+:root[data-pal="dye"] { --blue: #2B3F8C; --red: #B23A2E; --red-text: #9C2F25; --paper-reader: #E7EAF4; --paper-author: #F6E5DF; --block-blue: #2B3F8C; --block-red: #A8342A; --mark: #FFD84D; }
+:root[data-pal="poster"] { --blue: #1E43D8; --red: #C2255C; --red-text: #A81E4F; --paper-reader: #E4E9FC; --paper-author: #FBDEE9; --block-blue: #1E43D8; --block-red: #B8215A; --mark: #FFD23F; }
+:root[data-pal="library"] { --blue: #1F5A43; --red: #8E2A35; --red-text: #8E2A35; --paper-reader: #E3EEE7; --paper-author: #F5E2E3; --block-blue: #1F5A43; --block-red: #8E2A35; --mark: #FFE14D; }
 *, *::before, *::after { box-sizing: border-box; border-radius: 0; }
 html { scroll-behavior: smooth; scroll-padding-top: calc(var(--dock-h) + 12px); }
 body { background: var(--paper, var(--paper-reader)); color: var(--ink); font: 500 20px/1.45 var(--text); -webkit-font-smoothing: antialiased; text-align: center; }
@@ -62,7 +68,8 @@ a { color: inherit; } button { font: inherit; color: inherit; background: none; 
 .side button[aria-pressed="true"] { background: var(--ink); color: var(--page); }
 h1 { font: 300 clamp(40px, 7.4vw, 84px)/1.02 var(--display); letter-spacing: -0.01em; }
 h1 .l { display: block; white-space: nowrap; }
-.swap { display: inline-grid; color: var(--blue); }
+.swap { display: inline-grid; color: var(--red-text); transition: color 700ms ease 150ms; }
+[data-side="author"] .swap { color: var(--blue); }
 .swap span { grid-area: 1 / 1; opacity: 0; transition: opacity 320ms ease, transform 420ms var(--ease); transform: translateY(0.08em); }
 [data-side="reader"] .swap .r, [data-side="author"] .swap .a { opacity: 1; transform: none; }
 .what { display: grid; max-width: 44rem; color: var(--ink); }
@@ -183,7 +190,13 @@ section.day { padding-block: clamp(56px, 9vw, 104px); border-top: 1.5px solid va
 .faq details p { padding: 0 4px 16px; color: var(--ink-2); max-width: 62ch; }
 /* The foot: the marigold runs to the bottom of the page, and the words sit on a white plate with an ink
    rule, like a bookplate, so they never have to be read off the pattern. */
-footer.foot { position: relative; background: var(--marigold) center top / 300px auto; border-top: 1.5px solid var(--ink); padding-block: 26px calc(30px + env(safe-area-inset-bottom, 0px)); font-size: 17px; }
+/* The pattern's ground is colour and its leaves are open, so the papered wall behind shows through them and
+   the two patterns mix. It began as an accident and stays on purpose (the owner's call). */
+.band, footer.foot { position: relative; }
+.band::before, footer.foot::before { content: ""; position: absolute; inset: 0; background-color: var(--red); -webkit-mask: var(--marigold) center top / 300px auto; mask: var(--marigold) center top / 300px auto; }
+.band { height: 22px; border-top: 1.5px solid var(--ink); }
+footer.foot .wrap { position: relative; }
+footer.foot { border-top: 1.5px solid var(--ink); padding-block: 26px calc(30px + env(safe-area-inset-bottom, 0px)); font-size: 17px; }
 footer.foot .plate { display: inline-block; padding: 7px 18px; background: var(--page); color: var(--ink); border: 1.5px solid var(--ink); box-shadow: 4px 4px 0 var(--ink); }
 
 /* The pour: pressing a side sends that side's paper out from the button in one wash of one colour, and the
@@ -252,6 +265,7 @@ footer.foot .plate { display: inline-block; padding: 7px 18px; background: var(-
   <a class="more" href="#day">What a launch is &darr;</a>
 </div></section>
 
+<div class="band" aria-hidden="true"></div>
 <section class="day" id="day"><div class="wrap">
   <p class="sc">What a launch is</p>
   <h2>One day on the board</h2>
@@ -282,6 +296,7 @@ footer.foot .plate { display: inline-block; padding: 7px 18px; background: var(-
   <p class="small">No AI-written work. It is removed, and its author banned.</p>
 </div></section>
 
+<div class="band" aria-hidden="true"></div>
 <section class="faq"><div class="wrap">
   <h2>FAQ</h2>
   <div class="list">
@@ -294,7 +309,7 @@ footer.foot .plate { display: inline-block; padding: 7px 18px; background: var(-
 <footer class="foot"><div class="wrap"><span class="plate">Author Hunt &middot; a mockup of the splash with motion</span></div></footer>
 </div>
 
-<div class="mock"><span>Mockup</span><button type="button" id="grain" aria-pressed="false">Paper grain: off</button></div>
+<div class="mock"><span>Mockup</span><button type="button" id="pal">Colours: now</button><button type="button" id="grain" aria-pressed="false">Paper grain: off</button></div>
 
 <script>
 (() => {
@@ -307,11 +322,11 @@ footer.foot .plate { display: inline-block; padding: 7px 18px; background: var(-
   const pourEl = document.getElementById("pour"), pen = pourEl.getContext("2d");
   const SPREAD = 1150; // ms for a wash to run its full course, which ends well past the page's edges
   const ease = (u) => 1 - Math.pow(1 - Math.min(Math.max(u, 0), 1), 1.8);
-  const PAPER = { reader: "#E6EEFE", author: "#FDE8E2" };
-  const EDGE = { "#E6EEFE": "#2F6FE8", "#FDE8E2": "#D9361E" }; // the bold colour at a wash's leading edge
+  const PAPER = { reader: "reader", author: "author" }; // a wash is named by its side; colours come from the tokens
+  const css = (name) => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
   const BAND = 240; // px over which the edge fades back into the paper
   let washes = [], drawing = false;
-  function settle(paper) { document.body.style.setProperty("--paper", paper); }
+  function settle(side) { document.body.style.setProperty("--paper", `var(--paper-${side})`); }
   function pour(from, paper) {
     if (still || !from) { settle(paper); return; }
     const b = from.getBoundingClientRect(), x = b.left + b.width / 2, y = b.top + b.height / 2;
@@ -320,7 +335,7 @@ footer.foot .plate { display: inline-block; padding: 7px 18px; background: var(-
     // The wash aims well beyond the farthest corner, so its rim leaves the page at speed and its slowing-down
     // happens out of sight. It is finished only once the whole fading rim has passed that corner.
     const far = Math.hypot(Math.max(x, w - x), Math.max(y, h - y));
-    washes.push({ x, y, paper, start: performance.now(), far, R: (far + BAND) * 1.35 });
+    washes.push({ x, y, side: paper, paper: css("--paper-" + paper), edge: css(paper === "reader" ? "--blue" : "--red"), start: performance.now(), far, R: (far + BAND) * 1.35 });
     pourEl.hidden = false;
     if (!drawing) { drawing = true; requestAnimationFrame(draw); }
   }
@@ -328,13 +343,13 @@ footer.foot .plate { display: inline-block; padding: 7px 18px; background: var(-
     // A wash that has covered the page becomes the page, along with everything under it.
     let done = -1;
     washes.forEach((v, i) => { if (v.R * ease((now - v.start) / SPREAD) - BAND >= v.far + 2) done = i; });
-    if (done >= 0) { settle(washes[done].paper); washes = washes.slice(done + 1); }
+    if (done >= 0) { settle(washes[done].side); washes = washes.slice(done + 1); }
     pen.clearRect(0, 0, pourEl.width, pourEl.height);
     for (const v of washes) {
       // One wash: the paper, deepening smoothly into the bold colour at its leading edge.
       const rad = v.R * ease((now - v.start) / SPREAD); if (rad < 1) continue;
       const g = pen.createRadialGradient(v.x, v.y, 0, v.x, v.y, rad), from = Math.max(0, 1 - BAND / rad);
-      g.addColorStop(0, v.paper); g.addColorStop(from, v.paper); g.addColorStop(1, EDGE[v.paper]);
+      g.addColorStop(0, v.paper); g.addColorStop(from, v.paper); g.addColorStop(1, v.edge);
       pen.fillStyle = g; pen.beginPath(); pen.arc(v.x, v.y, rad, 0, 7); pen.fill();
     }
     if (washes.length) requestAnimationFrame(draw); else { drawing = false; pourEl.hidden = true; }
@@ -478,6 +493,9 @@ footer.foot .plate { display: inline-block; padding: 7px 18px; background: var(-
   const seen = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("in"); seen.unobserve(e.target); } }), { threshold: 0.45 });
   $$(".panel, .day .lede").forEach((el) => seen.observe(el));
 
+  const PALS = [["", "now"], ["dye", "indigo & madder"], ["poster", "cobalt & raspberry"], ["library", "bottle & oxblood"]];
+  let pal = 0; const palBtn = document.getElementById("pal");
+  palBtn.addEventListener("click", () => { pal = (pal + 1) % PALS.length; document.documentElement.dataset.pal = PALS[pal][0]; palBtn.textContent = "Colours: " + PALS[pal][1]; });
   const g = document.getElementById("grain");
   g.addEventListener("click", () => { const on = document.body.classList.toggle("grain"); g.textContent = "Paper grain: " + (on ? "on" : "off"); g.setAttribute("aria-pressed", String(on)); });
   paint();

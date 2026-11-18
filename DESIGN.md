@@ -182,6 +182,15 @@ contrast, sharp, Victorian in its characteristics and never a costume.
     page (the owner's call). The foot is the marigold in red, running to
     the bottom of the page, with its words on a white plate with an ink
     rule, so nothing is ever read off the pattern.
+  - **The foot's pattern is see-through** (the owner's call: it began as
+    an accident). The marigold's ground is colour and its leaves are left
+    open, so the papered wall behind shows through them and the two
+    patterns mix. The same band, 22px tall, divides the white sections.
+  - **The colours are under review.** The mockup's switch compares the
+    current red and blue with three pairs of similar depth (indigo and
+    madder, cobalt and raspberry, bottle and oxblood). In every one the
+    headline's coloured words take the colour the wall isn't, like the
+    block. Nothing here is decided until the owner picks.
   - Presses can overlap: each starts its own wash, and the most recent is
     on top. (Two pale papers alternating can't strobe.) Under reduced
     motion the paper simply changes.

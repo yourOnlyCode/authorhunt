@@ -167,9 +167,9 @@ section.day { padding-block: clamp(56px, 9vw, 104px); border-top: 1.5px solid va
 .trim { height: 16px; background: var(--marigold) center / 300px auto; border-top: 1.5px solid var(--ink); }
 footer.foot { padding-block: 22px 28px; font-size: 17px; color: var(--muted); }
 
-/* The pour: pressing a side sends one wave of that side's colour out from the button. Its leading edge is the
-   full colour; what it leaves behind is that colour's pale paper, and the page keeps it. The wave is drawn
-   behind everything, so no text or box is ever covered: white boxes stay white, ink stays ink. */
+/* The pour: pressing a side sends that side's paper out from the button in one wash of one colour, and the
+   page keeps it. Presses can overlap: each starts its own wash, the newest on top. It is drawn behind
+   everything, so no text or box is ever covered: white boxes stay white, ink stays ink. */
 .pour { position: fixed; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
 /* Confetti: square paper in the brand's colours. */
 .confetti { position: absolute; left: 50%; top: 50%; width: 0; height: 0; pointer-events: none; z-index: 5; }
@@ -285,29 +285,31 @@ footer.foot { padding-block: 22px 28px; font-size: 17px; color: var(--muted); }
   if (!still) document.documentElement.classList.add("motion");
   const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 
-  // ---- the pour: a ring of the side's colour travels out from the pressed button and leaves its paper behind ----
-  const pourEl = document.getElementById("pour"), pen = pourEl.getContext("2d"); let pouring = false, queued = null;
-  const SPREAD = 900, LAG = 280; // ms for an edge to cross the page; how wide the band of full colour is, in time
+  // ---- the pour: each press starts a wash of that side's paper from the button; the newest is drawn on top ----
+  const pourEl = document.getElementById("pour"), pen = pourEl.getContext("2d");
+  const SPREAD = 900; // ms for a wash to cross the page
   const ease = (u) => 1 - Math.pow(1 - Math.min(Math.max(u, 0), 1), 1.8);
   const PAPER = { reader: "#E6EEFE", author: "#FDE8E2" };
+  let washes = [], drawing = false;
   function settle(paper) { document.body.style.setProperty("--paper", paper); }
-  function pour(from, color, paper) {
+  function pour(from, paper) {
     if (still || !from) { settle(paper); return; }
-    if (pouring) { queued = paper; return; } // one at a time, so quick presses can never strobe
     const b = from.getBoundingClientRect(), x = b.left + b.width / 2, y = b.top + b.height / 2;
-    const w = innerWidth, h = innerHeight, R = Math.hypot(Math.max(x, w - x), Math.max(y, h - y)) + 4;
-    pourEl.width = w; pourEl.height = h; pourEl.hidden = false; pouring = true;
-    const start = performance.now();
-    (function draw(now) {
-      const t = now - start, outer = R * ease(t / SPREAD), inner = R * ease((t - LAG) / SPREAD);
-      pen.clearRect(0, 0, w, h);
-      pen.fillStyle = paper; pen.beginPath(); pen.arc(x, y, inner, 0, 7); pen.fill();
-      pen.fillStyle = color; pen.beginPath(); pen.arc(x, y, outer, 0, 7); pen.arc(x, y, inner, 0, 7, true); pen.fill("evenodd");
-      if (inner < R) requestAnimationFrame(draw);
-      else { settle(paper); pourEl.hidden = true; pouring = false; if (queued) { const q = queued; queued = null; if (q !== paper) settle(q); } }
-    })(start);
+    const w = innerWidth, h = innerHeight;
+    if (pourEl.width !== w || pourEl.height !== h) { pourEl.width = w; pourEl.height = h; }
+    washes.push({ x, y, paper, start: performance.now(), R: Math.hypot(Math.max(x, w - x), Math.max(y, h - y)) + 4 });
+    pourEl.hidden = false;
+    if (!drawing) { drawing = true; requestAnimationFrame(draw); }
   }
-  const POUR = { reader: "#2F6FE8", author: "#D9361E", join: "#FFE14D" };
+  function draw(now) {
+    // A wash that has covered the page becomes the page, along with everything under it.
+    let done = -1;
+    washes.forEach((v, i) => { if (now - v.start >= SPREAD) done = i; });
+    if (done >= 0) { settle(washes[done].paper); washes = washes.slice(done + 1); }
+    pen.clearRect(0, 0, pourEl.width, pourEl.height);
+    for (const v of washes) { pen.fillStyle = v.paper; pen.beginPath(); pen.arc(v.x, v.y, v.R * ease((now - v.start) / SPREAD), 0, 7); pen.fill(); }
+    if (washes.length) requestAnimationFrame(draw); else { drawing = false; pourEl.hidden = true; }
+  }
   function confetti(host, count = 40) {
     if (still) return;
     const box = document.createElement("div"); box.className = "confetti"; const colors = ["var(--red)", "var(--blue)", "var(--mark)", "var(--ink)"];
@@ -333,9 +335,9 @@ footer.foot { padding-block: 22px 28px; font-size: 17px; color: var(--muted); }
     }
     glance();
   }
-  $$("[data-pick]").forEach((b) => b.addEventListener("click", () => { const changed = state.side !== b.dataset.pick; state.side = b.dataset.pick; touched = true; paint(); blink(); if (changed) pour(b, POUR[state.side], PAPER[state.side]); }));
+  $$("[data-pick]").forEach((b) => b.addEventListener("click", () => { const changed = state.side !== b.dataset.pick; state.side = b.dataset.pick; touched = true; paint(); blink(); if (changed) pour(b, PAPER[state.side]); }));
   emails.forEach((i) => i.addEventListener("input", () => { state.email = i.value; emails.forEach((o) => { if (o !== i) o.value = i.value; }); glance(i); }));
-  $$("[data-join]").forEach((f) => f.addEventListener("submit", (e) => { e.preventDefault(); pour(f.querySelector("button"), POUR.join, PAPER[state.side]); state.joined = true; paint(); blink(); setTimeout(() => dockShow(false), 2600); }));
+  $$("[data-join]").forEach((f) => f.addEventListener("submit", (e) => { e.preventDefault(); state.joined = true; paint(); blink(); setTimeout(() => dockShow(false), 2600); }));
 
   // The dock shows only while the real join box is off screen, and never swaps while a field has focus.
   const dock = document.getElementById("dock");
@@ -365,7 +367,7 @@ footer.foot { padding-block: 22px 28px; font-size: 17px; color: var(--muted); }
 
   // The headline shows both sides once on arrival, unless the visitor has already chosen.
   let touched = false;
-  if (!still) { const show = (side) => { if (touched) return; state.side = side; paint(); pour(document.querySelector(`[data-pick="${side}"]`), POUR[side], PAPER[side]); }; setTimeout(() => show("author"), 2200); setTimeout(() => show("reader"), 4600); }
+  if (!still) { const show = (side) => { if (touched) return; state.side = side; paint(); pour(document.querySelector(`[data-pick="${side}"]`), PAPER[side]); }; setTimeout(() => show("author"), 2200); setTimeout(() => show("reader"), 4600); }
 
   // A live countdown that simply changes.
   const open = Date.UTC(2027, 0, 8, 17, 0, 0), two = (n) => String(n).padStart(2, "0");

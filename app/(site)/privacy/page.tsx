@@ -31,7 +31,7 @@ export default function Privacy() {
       <div className="prose">
         <h2>The short version</h2>
         <ul>
-          <li>Reading Author Hunt needs no account and sets no tracking cookies.</li>
+          <li>Reading Author Hunt needs no account. Its own pages set no tracking cookies; the only exception is Meta&apos;s, on the sign-up page before opening, below.</li>
           <li>What an author puts on a page is public. What a reader cheers for and says is public. What a reader saves is private unless they share it.</li>
           <li>Your email address is never shown on the site and never sold.</li>
           <li>You can turn off any email yourself, and have your account deleted by asking.</li>
@@ -75,7 +75,11 @@ export default function Privacy() {
 
         <h2>Page analytics, without cookies</h2>
         <p>Author Hunt counts page views and presses on outbound links itself, so authors can see how their pages are doing. A count records the page, the day, the site you came from and the link pressed. It records no name, no account, no IP address and no identifier that follows you from page to page, and it sets no cookie. That is why there is no cookie banner.</p>
-        <p>The only cookies are the ones that keep you signed in, and one that remembers you have seen the site before it opened, if you were given a preview link.</p>
+        <p>Author Hunt&apos;s own cookies are the ones that keep you signed in, and one that remembers you have seen the site before it opened, if you were given a preview link.</p>
+
+        <h2>Meta&apos;s pixel, on the sign-up pages only</h2>
+        <p>Before opening, Author Hunt advertises its waiting list on Facebook and Instagram. To know which ads bring people to the list, the front page and the page that confirms your address load Meta&apos;s pixel. It tells Meta that the page was visited, that someone joined the list, and that someone confirmed an address. It sends no email address, no name and nothing you typed. Meta sets its own cookie to do this, and what Meta does with it is in Meta&apos;s own privacy policy.</p>
+        <p>It is not loaded on any other page, and it is not loaded at all if your browser sends Global Privacy Control or Do Not Track. Blocking Meta&apos;s scripts or cookies in your browser stops it too, and the sign-up works the same either way.</p>
         <p>To stop misuse, requests are rate limited by IP address for a few minutes at a time. Those addresses aren&apos;t kept.</p>
 
         <h2>Payments</h2>

@@ -156,6 +156,27 @@ Do every step in **test mode** first, then repeat in live mode.
 - [ ] **You.** Decide on page analytics: Lorec's own `site_events`
       approach ported here (no cookies, no consent banner) or Vercel's.
 
+## 9a. Ads: Meta's pixel
+
+The waitlist ads on Facebook and Instagram are measured with Meta's pixel
+(id 1609685179509267, in `components/analytics/meta-pixel.tsx`). It loads on
+the splash and the confirm page only, sends PageView, Lead (joined the list)
+and CompleteRegistration (confirmed), and carries nothing about the person.
+It doesn't load for a browser that sends Global Privacy Control or Do Not
+Track. The privacy page says all of this.
+
+- [ ] **You.** In Meta's Events Manager, check that Lead and
+      CompleteRegistration arrive after a real sign-up on authorhunt.com, and
+      set the ads to optimise for CompleteRegistration (a confirmed address)
+      once enough have come in, Lead until then.
+- [ ] **You.** Verify the domain authorhunt.com in Meta's Business
+      settings, so the events count for your ads.
+- [ ] To change the pixel, set `NEXT_PUBLIC_META_PIXEL_ID` in Vercel; set it
+      to `off` to remove it without a deploy of new code.
+- [ ] **Before ads reach the EU or UK:** those visitors must be asked before
+      the pixel loads. Until there is a consent prompt, keep the ads aimed at
+      the United States and Canada.
+
 ## 10. Environment variables
 
 Names to create in Vercel. Values come from the steps above.

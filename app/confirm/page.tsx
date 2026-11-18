@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { CatMark } from "@/components/ui/icons";
 import { ConfirmButton } from "./confirm-button";
+import { MetaPixel } from "@/components/analytics/meta-pixel";
 
 export const metadata: Metadata = { title: "Confirm your address", robots: { index: false } };
 
@@ -20,6 +21,7 @@ export default async function Confirm({ searchParams }: { searchParams: Promise<
           </section>
         </div>
       </div>
+      <MetaPixel />
     </div>
   );
 }

@@ -114,7 +114,8 @@ mark { color: inherit; background: linear-gradient(transparent 56%, var(--mark) 
 
 /* The example in the first view (wide screens only): the words and the form on the left, a day on the board
    playing on the right. Below that width it stays in its own section further down. */
-#page[data-hero-on="1"] .first .wrap { max-width: 1240px; grid-template-columns: minmax(0, 1fr) minmax(0, 480px); column-gap: clamp(32px, 4vw, 64px); align-items: center; }
+#page[data-hero-on="1"] .first .wrap { max-width: 1240px; grid-template-columns: minmax(0, 1fr) minmax(0, min(480px, 42%)); column-gap: clamp(22px, 4vw, 64px); align-items: center; }
+@media (max-width: 1099px) { #page[data-hero-on="1"] h1 { font-size: clamp(34px, 4.6vw, 50px) !important; } #page[data-hero-on="1"] .clock b { font-size: 34px; } #page[data-hero-on="1"] #demo .player .note { display: none; } #page[data-hero-on="1"] #demo .row { grid-template-columns: 2ch 34px minmax(0, 1fr) auto; gap: 10px; padding-inline: 12px; } #page[data-hero-on="1"] #demo .row .cover { width: 34px; } #page[data-hero-on="1"] #demo .row .t { font-size: 18px; } #page[data-hero-on="1"] #demo .steps button b { font-size: 20px; } #page[data-hero-on="1"] #demo .steps button span { display: none; } }
 #page[data-hero-on="1"] .first .wrap > * { grid-column: 1; }
 #page[data-hero-on="1"] .first .wrap > #demo { grid-column: 2; grid-row: 1 / span 6; width: 100%; text-align: left; }
 #page[data-hero-on="1"] #day, #page[data-hero-on="1"] #day-band { display: none; }
@@ -550,7 +551,7 @@ footer.foot .plate { display: inline-block; padding: 7px 18px; background: var(-
   pause.addEventListener("click", () => { playing = !playing; if (playing) { last = performance.now(); requestAnimationFrame(frame); } controls(); });
   steps.forEach((li, k) => li.querySelector("button").addEventListener("click", () => playFrom(STARTS[k])));
   render(false); controls(); // complete at rest: the finished day, until it plays
-  if (!still) setTimeout(() => { const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) { io.disconnect(); playFrom(0); } }, { threshold: 0.6 }); io.observe(board); }, matchMedia("(min-width: 1100px)").matches ? 5600 : 0);
+  if (!still) setTimeout(() => { const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) { io.disconnect(); playFrom(0); } }, { threshold: 0.6 }); io.observe(board); }, matchMedia("(min-width: 860px)").matches ? 5600 : 0);
   document.addEventListener("visibilitychange", () => { if (document.hidden && playing) { playing = false; controls(); } });
 
   // ---- words that rise, once, when their panel arrives; and highlighter strokes that draw ----
@@ -568,13 +569,13 @@ footer.foot .plate { display: inline-block; padding: 7px 18px; background: var(-
   let pal = 0; const palBtn = document.getElementById("pal"); document.documentElement.dataset.pal = PALS[0][0]; // indigo and madder: the owner's pick
   palBtn.addEventListener("click", () => { pal = (pal + 1) % PALS.length; document.documentElement.dataset.pal = PALS[pal][0]; palBtn.textContent = "Colours: " + PALS[pal][1]; });
   // The mock's switch: the example beside the form in the first view (wide screens), or in its own section below.
-  const demo = document.getElementById("demo"), heroBtn = document.getElementById("hero"), wide = matchMedia("(min-width: 1100px)");
+  const demo = document.getElementById("demo"), heroBtn = document.getElementById("hero"), wide = matchMedia("(min-width: 860px)");
   let hero = true;
   function placeDemo() {
     const on = hero && wide.matches;
     page.dataset.heroOn = on ? "1" : "0";
     if (on) document.querySelector(".first .wrap").append(demo); else document.querySelector("#day .wrap").insertBefore(demo, document.querySelector("#day .wrap > .sr"));
-    heroBtn.textContent = "First view: " + (hero ? "with the example" : "form only");
+    heroBtn.textContent = "First view: " + (hero ? (wide.matches ? "with the example" : "with the example (this window is too narrow to show it)") : "form only");
   }
   heroBtn.addEventListener("click", () => { hero = !hero; placeDemo(); });
   wide.addEventListener("change", placeDemo);

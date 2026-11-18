@@ -180,7 +180,7 @@ Morris credit and the full FAQ.
   (Morning, All day, Midnight) that lead it, fill as they play and can be
   pressed. Its Play button sits above it; "Example launch. The titles are
   samples." sits beside the button, outside the board. First of the day
-  gets confetti. On a wide screen (1100px and up) it may sit in the first
+  gets confetti. On a wide screen (860px and up) it may sit in the first
   view beside the form, and then it waits for the headline to finish.
 - **One closing panel in indigo** says when the first board opens, with a
   yellow Join button. It is the only full-width colour on the page.

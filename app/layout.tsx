@@ -47,6 +47,15 @@ const CLERK_LOOK = {
   },
 };
 
+/**
+ * The words on Clerk's forms that name the site. Clerk otherwise takes the name from its own settings, which
+ * spelled it "authorhunt"; set here, it is right whatever those say.
+ */
+const CLERK_WORDS = {
+  signIn: { start: { title: "Sign in to Author Hunt", titleCombined: "Sign in to Author Hunt" } },
+  signUp: { start: { title: "Make your Author Hunt account", titleCombined: "Make your Author Hunt account" } },
+};
+
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   // The face variables sit on <html>, because the tokens that use them are defined on :root.
   // Clerk's provider goes inside <body> for the current SDK (@clerk/nextjs 7), not around <html>.
@@ -56,5 +65,5 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const clerkOrigin = clerkFrontendOrigin(process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY);
   if (clerkOrigin) preconnect(clerkOrigin, { crossOrigin: "anonymous" });
   const { ClerkProvider } = await import("@clerk/nextjs");
-  return html(<ClerkProvider appearance={CLERK_LOOK}>{children}</ClerkProvider>);
+  return html(<ClerkProvider appearance={CLERK_LOOK} localization={CLERK_WORDS}>{children}</ClerkProvider>);
 }

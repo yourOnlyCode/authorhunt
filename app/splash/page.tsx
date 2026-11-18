@@ -3,7 +3,11 @@
  *
  * What authorhunt.com shows until it opens (docs/launch.md). On a laptop the
  * whole first view fits without scrolling: who you are, the headline, the
- * count and the sign-up. What a launch is and the FAQ sit below. proxy.ts
+ * count and the sign-up. Below it, each side gets its own case (why.tsx),
+ * then one day on the board played as an example, the FAQ, and a closing
+ * panel that says when the first board opens. The join form docks to the
+ * top once its box is out of view. DESIGN.md, "The splash page", has the
+ * rules; docs/mockups/splash-motion.html is the approved look. proxy.ts
  * sends every page here while LAUNCH_AT is in the future.
  */
 
@@ -11,6 +15,10 @@ import type { Metadata } from "next";
 import { launchAt } from "@/lib/env";
 import { CatMark } from "@/components/ui/icons";
 import { SplashStage } from "@/components/splash/stage";
+import { SplashProvider } from "@/components/splash/state";
+import { Dock } from "@/components/splash/dock";
+import { Why } from "@/components/splash/why";
+import { ExampleDay } from "@/components/splash/example-day";
 import { Track } from "@/components/analytics/track";
 
 export const dynamic = "force-dynamic";
@@ -26,15 +34,8 @@ const DEFAULT_OPENING = Date.UTC(2027, 0, 8, 17, 0, 0);
 /** The server's clock, read once per request for the countdown's first frame. */
 const serverNow = () => new Date().getTime();
 
-/** The case for authors: why a launch here is worth their day. Each line is something the product does (AGENTS.md's rules). */
-const WHY: { h: string; p: string }[] = [
-  { h: "A day that's yours", p: "One day, your work on the board." },
-  { h: "Readers come looking", p: "They open the board to find someone new." },
-  { h: "Small counts", p: "Every piece gets a row, and every type its own ranking." },
-  { h: "A fair order", p: "Decided by readers and writers alike. No one pays for a place." },
-  { h: "It lasts", p: "Your rank and your followers stay." },
-  { h: "It's free", p: "Your page and every launch, for good." },
-];
+/** The closing panel's words, which rise into place one at a time when it comes into view. */
+const CLOSING = ["The", "first", "board", "opens"];
 
 const FAQ: { q: string; a: string }[] = [
   { q: "What happens when I join the list?", a: "You get one email asking you to confirm your address. On opening day you get one more: an invitation that makes your account in a single press. Nothing else is sent." },
@@ -51,34 +52,42 @@ export default async function Splash({ searchParams }: { searchParams: Promise<{
   const opens = launchAt()?.getTime() ?? DEFAULT_OPENING;
   const at = new Date(opens);
   const when = new Intl.DateTimeFormat("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric", timeZone: "America/New_York" }).format(at);
+  const day = new Intl.DateTimeFormat("en-US", { month: "long", day: "numeric", timeZone: "America/New_York" }).format(at);
+  const weekday = new Intl.DateTimeFormat("en-US", { weekday: "long", timeZone: "America/New_York" }).format(at);
   const hour = new Intl.DateTimeFormat("en-US", { hour: "numeric", minute: "2-digit", timeZone: "America/New_York" }).format(at).replace(":00", "").replace("12 PM", "noon").replace("12 AM", "midnight");
+  const logo = <span className="logo"><CatMark />Author Hunt</span>;
   return (
-    <div className="splash">
-      <SplashStage opensAt={opens} initialNow={serverNow()} when={when} hour={hour} src={src?.slice(0, 80)} logo={<span className="logo"><CatMark />Author Hunt</span>} />
+    <SplashProvider src={src?.slice(0, 80)}>
+      <Dock logo={logo} />
+      <SplashStage opensAt={opens} initialNow={serverNow()} when={when} hour={hour} logo={logo} />
+      <div className="band" aria-hidden="true" />
+      <Why />
+      <div className="band" aria-hidden="true" />
+      <section className="day" id="launch" aria-labelledby="launch-h">
+        <div className="wrap">
+          <p className="sc for-author">What a launch is</p><p className="sc for-reader">How you discover</p>
+          <h2 id="launch-h">One day on the board</h2>
+          <p className="lede for-author" data-reveal>Every launch gets one day. Here is how a day goes. <mark className="draw">Small counts.</mark></p>
+          <p className="lede for-reader" data-reveal>Open the board, cheer for what you love, and see what the day chose. <mark className="draw">Small counts.</mark></p>
+          <ExampleDay />
+        </div>
+      </section>
+      <div className="band" aria-hidden="true" />
       <div className="below"><div className="wrap">
-        <section id="launch" aria-labelledby="launch-h">
-          <h2 id="launch-h">What a launch is</h2>
-          <p className="lede">One day with your work in front of readers who came looking for something new.</p>
-          <ol className="steps">
-            <li><h3>You pick a day</h3><p>A piece of your writing, short or long, or your author page, goes on that day&apos;s board beside everything else launching that morning.</p></li>
-            <li><h3>Readers respond</h3><p>They cheer, comment and follow. Cheers decide the day&apos;s order, and no one can pay for a place.</p></li>
-            <li><h3>You keep what you earn</h3><p>Followers you can reach again, a page with links to wherever you sell, and your rank for the day, for good.</p></li>
-          </ol>
-        </section>
-        <section id="why" aria-labelledby="why-h">
-          <h2 id="why-h">Why launch here</h2>
-          <ul className="steps why">
-            {WHY.map((w) => <li key={w.h}><h3>{w.h}</h3><p>{w.p}</p></li>)}
-          </ul>
-        </section>
         <section className="faq" id="faq" aria-labelledby="faq-h">
           <h2 id="faq-h">FAQ</h2>
           {FAQ.map((item) => <details key={item.q}><summary>{item.q}</summary><p>{item.a}</p></details>)}
         </section>
       </div></div>
-      <div className="trim" aria-hidden="true" />
-      <footer><div className="wrap" style={{ justifyContent: "center" }}>Ornament: William Morris, Marigold, 1875. Art Institute of Chicago, public domain.</div></footer>
+      <section className="closing" aria-labelledby="closing-h" data-reveal>
+        <div className="wrap">
+          <h2 id="closing-h" className="big">{CLOSING.map((w, i) => <span key={w}><span className="w" style={{ "--i": i } as React.CSSProperties}><span>{w}</span></span>{" "}</span>)}<span className="w" style={{ "--i": CLOSING.length } as React.CSSProperties}><span className="boxed">{day}.</span></span></h2>
+          <p className="small">{weekday}, at {hour} Eastern. Join the list and we&apos;ll write once, when it does.</p>
+          <p><a className="btn-on-colour" href="#top">Join the list</a></p>
+        </div>
+      </section>
+      <footer className="foot"><div className="wrap"><span className="plate">Ornament: William Morris, Marigold, 1875. Art Institute of Chicago, public domain.</span></div></footer>
       <Track />
-    </div>
+    </SplashProvider>
   );
 }

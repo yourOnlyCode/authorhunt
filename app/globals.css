@@ -55,11 +55,13 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 .logo svg { width: 38px; height: 32px; align-self: center; fill: none; stroke: var(--red); stroke-width: 1.7; stroke-linejoin: miter; stroke-linecap: square; overflow: visible; }
 .logo svg .n { fill: var(--red); stroke: none; }
 /* The cat blinks: closed-eye arcs show for an instant every few seconds, and once when the logo is hovered. */
+.logo svg .pupil { fill: var(--red); stroke: none; animation: unsee 7s linear infinite 2.5s; }
 .logo svg .lid { opacity: 0; animation: blink 7s linear infinite 2.5s; }
 .logo:hover svg .lid { animation: blink-now 420ms linear 1; }
 @keyframes blink { 0%, 96.4% { opacity: 0; } 97%, 99% { opacity: 1; } 100% { opacity: 0; } }
 @keyframes blink-now { 0%, 25% { opacity: 0; } 30%, 70% { opacity: 1; } 75%, 100% { opacity: 0; } }
-@media (prefers-reduced-motion: reduce) { .logo svg .lid, .logo:hover svg .lid { animation: none; } }
+@keyframes unsee { 0%, 96.4% { opacity: 1; } 97%, 99% { opacity: 0; } 100% { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .logo svg .lid, .logo:hover svg .lid, .logo svg .pupil { animation: none; } }
 .bar .search { flex: 1 1 200px; max-width: 300px; min-width: 0; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid var(--ink); padding-block: 5px; }
 .bar .search svg { width: 15px; height: 15px; fill: none; stroke: var(--ink); stroke-width: 1.6; flex: none; }
 .bar .search input { border: 0; outline: 0; background: none; font: inherit; font-style: italic; color: var(--ink); width: 100%; min-width: 0; }
@@ -259,7 +261,8 @@ footer .wrap { padding-block: 20px; display: flex; flex-wrap: wrap; justify-cont
 
 /* The two words that change: both phrases sit in the same spot; one dissolves out, the other resolves in,
    and the space they take glides between the two widths. All CSS on one attribute, so it can turn round mid-way. */
-.splash .swap { display: inline-grid; vertical-align: baseline; color: var(--blue); cursor: pointer; transition: width 520ms cubic-bezier(0.22, 0.8, 0.24, 1); clip-path: inset(-0.4em 0 -0.4em 0); }
+.splash [data-side="author"] .swap { color: var(--red-text); }
+.splash .swap { display: inline-grid; vertical-align: baseline; color: var(--blue); cursor: pointer; transition: width 520ms cubic-bezier(0.22, 0.8, 0.24, 1), color 500ms ease; clip-path: inset(-0.4em 0 -0.4em 0); }
 .splash .swap .ph { grid-area: 1 / 1; white-space: nowrap; justify-self: start; }
 .splash .swap .ch { display: inline-block; white-space: pre; opacity: 0; filter: blur(5px); transform: translateY(0.07em); transition: opacity 220ms ease, filter 220ms ease, transform 220ms ease; will-change: opacity, filter, transform; }
 .splash [data-side="reader"] .ph.reader .ch, .splash [data-side="author"] .ph.author .ch { opacity: 1; filter: none; transform: none; transition: opacity 440ms ease, filter 440ms ease, transform 440ms cubic-bezier(0.22, 0.8, 0.24, 1); transition-delay: calc(170ms + var(--i) * 22ms); }
@@ -280,8 +283,15 @@ footer .wrap { padding-block: 20px; display: flex; flex-wrap: wrap; justify-cont
 .splash .first .wrap > :nth-child(n+8) { animation-delay: 380ms; }
 .splash .open { padding-block: 18px; border-block: 1.5px solid var(--ink); font: 300 36px/1.1 var(--display); width: min(100%, 560px); }
 
-.splash .join { position: relative; width: min(100%, 640px); border: 1.5px solid var(--ink); padding: 18px clamp(16px, 4vw, 32px) 16px; }
-.splash .join::before { content: ""; position: absolute; inset: 0; background-color: var(--red); -webkit-mask: var(--marigold) center / 420px auto; mask: var(--marigold) center / 420px auto; opacity: 0.16; pointer-events: none; }
+/* The join box: white, papered with the marigold, on a hard ink shadow. Each side has a colour (indigo for a
+   reader, madder for an author), and choosing a side washes that colour through the paper from the top, where
+   the switch is. It is the page's one colour move, and it happens inside the box that asks for the address. */
+.splash .join { position: relative; width: min(100%, 640px); border: 1.5px solid var(--ink); padding: 18px clamp(16px, 4vw, 32px) 16px; background: var(--page); box-shadow: 8px 8px 0 var(--ink); margin-bottom: 8px; }
+.splash .join::before, .splash .join > .paper { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0.2; -webkit-mask: var(--marigold) center / 420px auto; mask: var(--marigold) center / 420px auto; }
+.splash .join::before { background-color: var(--blue); transition: opacity 300ms ease; }
+.splash .join > .paper { background-color: var(--red); clip-path: circle(0% at 50% 0%); transition: clip-path 900ms cubic-bezier(0.3, 0, 0.2, 1); }
+.splash [data-side="author"] .join > .paper { clip-path: circle(150% at 50% 0%); }
+.splash [data-side="author"] .join::before { opacity: 0; transition: opacity 300ms ease 600ms; } /* so the madder never sits over the indigo once it has arrived */
 .splash .join > * { position: relative; }
 .splash .join h2 { font: 300 clamp(24px, 3.4vw, 32px)/1.1 var(--display); }
 .splash .join .as { margin-top: 2px; font-size: 18px; color: var(--ink-2); }
@@ -316,28 +326,18 @@ footer .wrap { padding-block: 20px; display: flex; flex-wrap: wrap; justify-cont
   100% { opacity: 0; transform: translate(calc(var(--dx) * 1.12), calc(var(--dy) + 190px)) rotate(var(--rot)) scale(0.9); }
 }
 .splash .done { font: 300 28px/1.2 var(--display); }
-.splash .more { font-size: 18px; color: var(--muted); text-decoration: underline; text-underline-offset: 4px; }
+.splash .more { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; font-size: 18px; color: var(--ink); text-decoration: underline; text-underline-offset: 4px; }
 .splash .fine a, .splash .faq a { text-decoration: underline; text-underline-offset: 3px; }
 @media (max-width: 460px) { .splash .side button { padding-inline: 12px; font-size: 18px; }  .splash .field { flex-direction: column; gap: 8px; }  .splash .field input { border-right: 1.5px solid var(--ink); text-align: center; }  .splash .clock span { font-size: 12px; letter-spacing: 0.05em; }  .splash .side button { padding-inline: 14px; } }
 /* A short laptop screen: tighten, so the sign-up is still in view without scrolling. */
 @media (min-width: 900px) and (max-height: 700px) { .splash { font-size: 19px; }  .splash .logo { font-size: 26px; }  .splash .logo svg { width: 34px; height: 29px; }  .splash h1 { font-size: min(5.4vw, 46px); }  .splash .clock b { font-size: 42px; }  .splash .join { padding-block: 14px 12px; }  .splash .join h2 { font-size: 26px; }  .splash .fine { font-size: 16px; margin-top: 8px; } }
 
 /* Below the first view */
-.splash .below { border-top: 1.5px solid var(--ink); padding-block: 52px 56px; }
+.splash .below { padding-block: clamp(48px, 8vw, 80px); }
 .splash #launch:focus { outline: none; }
 .splash .below h2 { font: 300 clamp(30px, 4.6vw, 42px)/1.05 var(--display); }
 .splash .below .lede { margin: 12px auto 0; max-width: 34rem; color: var(--ink-2); }
-.splash .steps { margin-top: 28px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; border-block: 1.5px solid var(--ink); text-align: left; }
-.splash .steps li { padding: 22px 22px 24px; border-left: 1px solid var(--hair); }
-.splash .steps li:first-child { border-left: 0; }
-.splash .steps h3 { font: 700 17px/1.2 var(--text); letter-spacing: 0.1em; text-transform: uppercase; }
-.splash .steps p { margin-top: 8px; color: var(--ink-2); }
-@media (max-width: 760px) { .splash .steps { grid-template-columns: minmax(0, 1fr); text-align: center; }  .splash .steps li { border-left: 0; border-top: 1px solid var(--hair); }  .splash .steps li:first-child { border-top: 0; } }
-.splash .faq { margin: 56px auto 0; max-width: 720px; text-align: left; }
-.splash #why { margin-top: 56px; }
-/* Why launch here: six reasons in the steps' ruled grid, two rows of three. */
-.splash .steps.why li:nth-child(n+4) { border-top: 1px solid var(--hair); }
-.splash .steps.why li:nth-child(4) { border-left: 0; }
+.splash .faq { margin: 0 auto; max-width: 720px; text-align: left; }
 .splash .faq h2 { text-align: center; margin-bottom: 20px; }
 .splash .faq details { border-top: 1px solid var(--ink); }
 .splash .faq details:last-of-type { border-bottom: 1px solid var(--ink); }
@@ -352,6 +352,139 @@ footer .wrap { padding-block: 20px; display: flex; flex-wrap: wrap; justify-cont
 .splash .faq details[open] summary::after { content: "\2212"; }
 .splash .faq details p { padding: 0 2px 20px; color: var(--ink-2); max-width: 62ch; }
 .splash .faq details a { text-underline-offset: 3px; }
+/* ── The splash below the first view, ported from docs/mockups/splash-motion.html (DESIGN.md, "The splash page").
+   A white page in indigo and madder: each side's case as six drawn tiles, one day on the board played as an
+   example, the FAQ, and one closing panel. ── */
+html:has(.splash) { scroll-padding-top: 76px; }
+.splash[data-side="reader"] .for-author, .splash[data-side="author"] .for-reader { display: none !important; }
+.splash .sc { font-size: 14px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; }
+
+/* The highlighter: a stroke that draws itself under a phrase. It lives in the text, so it survives wrapping. */
+.splash mark { color: inherit; background: linear-gradient(transparent 56%, var(--mark) 56%, var(--mark) 93%, transparent 93%) 0 0 / 100% 100% no-repeat; -webkit-box-decoration-break: clone; box-decoration-break: clone; padding-inline: 0.1em; }
+.splash.motion mark.draw { background-size: 0% 100%; transition: background-size 800ms cubic-bezier(0.3, 0, 0.2, 1) 250ms; }
+.splash.motion .in mark.draw { background-size: 100% 100%; }
+
+/* The cat leans and glances toward the chosen side, and looks down at an address being typed. */
+.splash .logo svg { transform-origin: 50% 90%; transition: transform 420ms cubic-bezier(0.22, 0.8, 0.24, 1); }
+.splash[data-side="reader"] .logo svg { transform: rotate(-3deg); } .splash[data-side="author"] .logo svg { transform: rotate(3deg); }
+.splash .logo svg .pupil { transform: translate(calc(var(--px, 0) * 1px), calc(var(--py, 0) * 1px)); transition: transform 260ms cubic-bezier(0.22, 0.8, 0.24, 1); }
+
+/* The docked form: the same form, at the top, whenever the join box is out of view. */
+.splash .dock { position: fixed; inset: 0 0 auto; z-index: 50; background: var(--page); border-bottom: 1.5px solid var(--ink); padding-top: env(safe-area-inset-top, 0px); transform: translateY(-105%); visibility: hidden; transition: transform 260ms cubic-bezier(0.22, 0.8, 0.24, 1), visibility 0s 260ms; text-align: left; }
+.splash .dock.on { transform: none; visibility: visible; transition: transform 260ms cubic-bezier(0.22, 0.8, 0.24, 1); }
+.splash .dock .wrap { display: flex; align-items: center; gap: 14px; min-height: 62px; padding-block: 8px; max-width: 1120px; }
+.splash .dock .dock-home { display: inline-flex; align-items: center; min-height: 44px; text-decoration: none; } .splash .dock .logo { font-size: 24px; } .splash .dock .logo svg { width: 32px; height: 27px; }
+.splash .dock .as { margin: 0 auto 0 4px; font-size: 17px; white-space: nowrap; color: var(--ink-2); } .splash .dock .as b { font-weight: 700; }
+.splash .dock form { display: flex; flex: 0 1 430px; min-width: 0; }
+.splash .dock input[type="email"] { flex: 1; min-width: 0; min-height: 44px; padding: 8px 12px; border: 1.5px solid var(--ink); border-right: 0; background: var(--page); font: inherit; font-size: 18px; color: var(--ink); }
+.splash .dock input::placeholder { color: #6B6B6B; opacity: 1; }
+.splash .dock button { min-height: 44px; padding: 8px 18px; background: var(--ink); color: var(--page); border: 1.5px solid var(--ink); font-weight: 600; white-space: nowrap; transition: transform 120ms ease-out, box-shadow 120ms ease-out; }
+.splash .dock button:hover { transform: translate(-2px, -2px); box-shadow: 4px 4px 0 var(--red); }
+.splash .dock .done { font-size: 22px; margin-left: auto; }
+.splash .dock .error-text { font-size: 16px; }
+@media (max-width: 720px) { .splash .dock .logo { font-size: 0; gap: 0; } .splash .dock .as { display: none; } .splash .dock .wrap { gap: 10px; } .splash .dock form { flex: 1; } }
+
+/* Bands and the foot: the marigold in madder on white, solid, with nothing behind it showing through. */
+.splash .band, .splash footer.foot { position: relative; background-color: var(--page); }
+.splash .band::before, .splash footer.foot::before { content: ""; position: absolute; inset: 0; background-color: var(--red); -webkit-mask: var(--marigold) center top / 300px auto; mask: var(--marigold) center top / 300px auto; }
+.splash .band { height: 22px; border-top: 1.5px solid var(--ink); }
+.splash footer.foot { border-top: 1.5px solid var(--ink); padding-block: 26px calc(30px + env(safe-area-inset-bottom, 0px)); font-size: 17px; color: var(--ink); }
+.splash footer.foot .wrap { position: relative; display: block; padding-block: 0; }
+.splash footer.foot .plate { display: inline-block; padding: 7px 18px; background: var(--page); border: 1.5px solid var(--ink); box-shadow: 4px 4px 0 var(--ink); }
+
+/* Why read here / Why launch here: six reasons, each shown before it is told. */
+.splash .why, .splash .day { padding-block: clamp(48px, 8vw, 88px); }
+.splash .why h2, .splash .day h2 { font: 300 clamp(32px, 5vw, 52px)/1.05 var(--display); text-wrap: balance; }
+.splash .day .lede { max-width: 36rem; margin: 10px auto 0; color: var(--ink-2); }
+.splash .tiles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: 28px; border-block: 1.5px solid var(--ink); }
+.splash .tiles li { padding: 22px 16px 24px; border-left: 1px solid var(--hair); border-top: 1px solid var(--hair); min-width: 0; }
+.splash .tiles li:nth-child(3n + 1) { border-left: 0; } .splash .tiles li:nth-child(-n + 3) { border-top: 0; }
+.splash .tiles h3 { font: 300 26px/1.1 var(--display); margin-top: 14px; }
+.splash .tiles li p { margin: 4px auto 0; color: var(--ink-2); max-width: 22ch; line-height: 1.3; }
+.splash .vis { min-height: 132px; display: grid; place-items: center; text-align: left; }
+@media (max-width: 760px) { .splash .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); } .splash .tiles li, .splash .tiles li:nth-child(-n + 3) { border-top: 1px solid var(--hair); } .splash .tiles li:nth-child(3n + 1) { border-left: 1px solid var(--hair); } .splash .tiles li:nth-child(2n + 1) { border-left: 0; } .splash .tiles li:nth-child(-n + 2) { border-top: 0; } .splash .tiles h3 { font-size: 22px; } .splash .tiles li { padding-inline: 10px; } .splash .vis { padding-bottom: 6px; } }
+/* the tiles' pictures: small pieces of the app */
+.splash .mini { display: grid; grid-template-columns: auto 22px minmax(0, 1fr) auto; align-items: center; gap: 8px; width: min(100%, 210px); padding: 7px 9px; border: 1.5px solid var(--ink); background: var(--page); font-size: 15px; line-height: 1.1; }
+.splash .mini + .mini { margin-top: -1.5px; }
+.splash .mini .rk { font: 300 20px/1 var(--display); font-variant-numeric: lining-nums; color: var(--muted); }
+.splash .mini .cv { width: 22px; height: 32px; border: 1px solid var(--ink); background: var(--blue); } .splash .mini .cv.b { background: var(--red); } .splash .mini .cv.s { height: 22px; }
+.splash .mini .tt { font: 300 17px/1.1 var(--display); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } .splash .mini .tt small { display: block; font: 500 13px/1.2 var(--text); color: var(--muted); }
+.splash .mini.you { box-shadow: 5px 5px 0 var(--ink); }
+.splash .mini.wide { width: min(100%, 270px); align-items: start; } .splash .mini.wide .tt { white-space: normal; overflow: visible; }
+.splash .mini.wide .tags { margin-top: 4px; color: var(--ink); font-size: 12.5px; line-height: 1.45; white-space: normal; } .splash .mini.wide .tags u { text-underline-offset: 3px; }
+.splash .cheerbox { display: grid; justify-items: center; padding: 3px 6px; border: 1.5px solid var(--ink); font-weight: 700; font-size: 14px; font-variant-numeric: lining-nums; line-height: 1.1; background: var(--page); }
+.splash .cheerbox svg { width: 11px; height: 8px; fill: var(--red); }
+.splash .chips { display: flex; flex-wrap: nowrap; white-space: nowrap; justify-content: center; gap: 12px; margin: 0 0 8px; font-size: 14px; line-height: 1.3; color: var(--muted); }
+.splash .chips .on { color: var(--ink); font-weight: 700; text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 4px; }
+.splash .leaf { width: 74px; border: 1.5px solid var(--ink); background: var(--page); text-align: center; box-shadow: 5px 5px 0 var(--ink); }
+.splash .leaf b { display: block; background: var(--red); color: #fff; font: 600 12px/1 var(--text); letter-spacing: 0.14em; padding: 5px 0 4px; }
+.splash .leaf span { display: block; font: 300 44px/1.1 var(--display); font-variant-numeric: lining-nums; }
+.splash .fair { display: flex; align-items: center; gap: 18px; }
+.splash .fair .cheerbox { padding: 8px 14px; font-size: 22px; box-shadow: 5px 5px 0 var(--ink); } .splash .fair .cheerbox svg { width: 18px; height: 13px; }
+.splash .coin { position: relative; width: 46px; height: 46px; border: 1.5px solid var(--muted); border-radius: 50%; display: grid; place-items: center; font: 300 26px/1 var(--display); color: var(--muted); } /* a coin is round: the one curve on the page */
+.splash .coin::after { content: ""; position: absolute; left: -6px; right: -6px; top: 50%; height: 2.5px; background: var(--red); transform: rotate(-38deg); }
+.splash .keeps { display: grid; justify-items: center; gap: 8px; text-align: center; }
+.splash .keeps .badge { padding: 5px 12px; border: 1.5px solid var(--ink); font-size: 13px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; background: var(--mark); }
+.splash .keeps .fol { font-size: 17px; } .splash .keeps .fol b { font: 300 26px/1 var(--display); font-variant-numeric: lining-nums; }
+.splash .price { font: 300 68px/1 var(--display); font-variant-numeric: lining-nums; }
+/* a line of a draft with a writer's corrections on it: a person changed their mind here */
+.splash .proof { position: relative; margin: 14px 0 0; font: 500 21px/1 var(--text); color: var(--ink); white-space: nowrap; max-width: none; }
+.splash .proof .del { position: relative; text-decoration: line-through; text-decoration-color: var(--red); text-decoration-thickness: 2px; }
+.splash .proof .ins { position: absolute; left: 50%; bottom: 1.05em; transform: translateX(-50%) rotate(-4deg); font: italic 300 24px/1 var(--display); color: var(--red-text); }
+.splash .proof .ins::after { content: ""; position: absolute; left: 50%; top: 100%; width: 9px; height: 9px; margin: 1px 0 0 -5px; border-left: 2px solid var(--red); border-top: 2px solid var(--red); transform: rotate(45deg) skew(8deg, 8deg); }
+.splash .proof .stop { font: italic 300 30px/0.6 var(--display); color: var(--red-text); margin-left: 1px; }
+@media (max-width: 760px) { .splash .chips { gap: 8px; font-size: 12.5px; } .splash .mini { grid-template-columns: 18px minmax(0, 1fr) auto; gap: 6px; padding: 6px 7px; width: min(100%, 150px); } .splash .mini .rk, .splash .mini .tt small { display: none; } .splash .mini .cv { width: 18px; height: 26px; } .splash .mini .cv.s { height: 18px; } .splash .mini .tt { font-size: 14px; } .splash .mini.wide { width: 100%; } .splash .mini.wide .tt small { display: block; } .splash .mini.wide .tt { font-size: 15px; } .splash .mini.wide .tags { font-size: 11.5px; } .splash .proof { font-size: 16px; } .splash .proof .ins { font-size: 19px; } }
+
+/* One day on the board: the example launch. Its Play button sits above it; the three stages lead it. */
+.splash .example { width: min(100%, 680px); margin: 22px auto 0; text-align: left; }
+.splash .player { display: flex; justify-content: space-between; align-items: center; gap: 16px; font-size: 18px; color: var(--muted); }
+.splash .player .ctl { display: flex; align-items: center; gap: 16px; white-space: nowrap; }
+.splash .player .play { display: inline-flex; align-items: center; gap: 9px; min-height: 44px; padding: 8px 16px; border: 1.5px solid var(--ink); background: var(--ink); color: var(--page); font-weight: 600; transition: transform 120ms ease-out, box-shadow 120ms ease-out; }
+.splash .player .play:hover { transform: translate(-2px, -2px); box-shadow: 4px 4px 0 var(--red); }
+.splash .player .play svg { width: 10px; height: 12px; fill: currentColor; }
+.splash .player .pause { min-height: 44px; padding-inline: 6px; text-decoration: underline; text-underline-offset: 4px; color: var(--ink); }
+.splash .stages { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin: 16px 0 14px; }
+.splash .stages button { display: block; width: 100%; min-height: 44px; text-align: left; padding: 0 2px; color: var(--muted); transition: color 300ms ease; }
+.splash .stages button i { display: block; height: 4px; margin-bottom: 10px; background: var(--hair); position: relative; overflow: hidden; }
+.splash .stages button i::after { content: ""; position: absolute; inset: 0; background: var(--ink); transform-origin: left; transform: scaleX(var(--p, 0)); }
+.splash .stages button b { display: block; font: 300 clamp(24px, 3.6vw, 34px)/1.1 var(--display); }
+.splash .stages button span { display: block; margin-top: 2px; font-size: 18px; line-height: 1.25; }
+.splash .stages li.on button, .splash .stages li.past button { color: var(--ink); } .splash .stages li.on button b { color: var(--red-text); }
+.splash .board { position: relative; border: 1.5px solid var(--ink); background: var(--page); }
+.splash .board header { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 10px 16px; border-bottom: 1.5px solid var(--ink); }
+.splash .board .when { font: 300 28px/1 var(--display); font-variant-numeric: lining-nums tabular-nums; min-width: 6.5ch; text-align: right; }
+.splash .rows { position: relative; }
+.splash .row { position: relative; display: grid; grid-template-columns: 2.2ch 46px minmax(0, 1fr) auto; align-items: center; gap: 14px; padding: 12px 16px; background: var(--page); border-bottom: 1px solid var(--hair); transition: background-color 500ms ease; }
+.splash .row:last-child { border-bottom: 0; } .splash .row.wait { visibility: hidden; }
+.splash .row.moved { background: #FFF6C2; transition-duration: 0ms; }
+.splash .row .rank { font: 300 30px/1 var(--display); font-variant-numeric: lining-nums tabular-nums; color: var(--muted); } .splash .row.lead .rank { color: var(--red-text); }
+.splash .row .cover { width: 46px; aspect-ratio: 2 / 3; border: 1px solid var(--ink); display: grid; place-items: center; font: italic 300 20px/1 var(--display); color: var(--cv-ink); }
+.splash .row .t { font: 300 24px/1.1 var(--display); } .splash .row .by { font-size: 17px; color: var(--muted); }
+.splash .row .cheer { display: grid; justify-items: center; min-width: 54px; padding: 6px 8px; border: 1.5px solid var(--ink); font-weight: 700; font-variant-numeric: lining-nums tabular-nums; line-height: 1.1; }
+.splash .row .cheer svg { width: 14px; height: 10px; fill: var(--red); }
+.splash .row .cheer .num { display: block; height: 1.1em; overflow: hidden; } .splash .row .cheer .num b { display: block; font-weight: 700; }
+.splash .row .cheer.pop svg { animation: example-hop 320ms ease-out 1; } .splash .row .cheer.pop .num b { animation: example-roll 240ms cubic-bezier(0.22, 0.8, 0.24, 1) 1; }
+@keyframes example-hop { 40% { transform: translateY(-5px); } 70% { transform: translateY(1px); } }
+@keyframes example-roll { from { transform: translateY(100%); opacity: 0.4; } to { transform: none; opacity: 1; } }
+.splash .row .first-of { display: none; white-space: nowrap; font-size: 15px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; }
+.splash .board.closed .row.lead .first-of { display: inline; } .splash .board.closed .row.lead .by .who { display: none; }
+@media (max-width: 560px) { .splash .player { flex-direction: column; align-items: flex-start; gap: 6px; } .splash .stages button span { font-size: 16px; } .splash .row { grid-template-columns: 2ch 38px minmax(0, 1fr) auto; gap: 10px; padding-inline: 12px; } .splash .row .cover { width: 38px; } .splash .row .t { font-size: 20px; } .splash .board .when { font-size: 24px; } }
+
+/* The closing panel: when the first board opens. The only full-width colour on the page. */
+.splash .closing { background: var(--blue); color: #fff; padding-block: clamp(64px, 11vw, 128px); }
+.splash .closing .big { font: 300 clamp(40px, 8.4vw, 104px)/1 var(--display); letter-spacing: -0.015em; text-wrap: balance; max-width: 15ch; margin-inline: auto; }
+.splash .closing .small { margin: 18px auto 0; max-width: 34rem; font-size: 22px; }
+.splash .closing .w { display: inline-block; overflow: hidden; vertical-align: bottom; padding: 0.06em 0.12em 0.14em; margin: -0.06em -0.12em -0.14em; }
+.splash .closing .w > span { display: inline-block; }
+.splash.motion .closing .w > span { transform: translateY(115%); transition: transform 620ms cubic-bezier(0.22, 0.8, 0.24, 1); transition-delay: calc(var(--i) * 70ms); }
+.splash.motion .closing.in .w > span { transform: none; }
+.splash.motion .closing .small { opacity: 0; transition: opacity 500ms ease 600ms; } .splash.motion .closing.in .small { opacity: 1; }
+.splash .closing .boxed { position: relative; }
+.splash .closing .boxed::after { content: ""; position: absolute; inset: -0.02em -0.1em 0.02em; border: 0.045em solid var(--mark); }
+.splash.motion .closing .boxed::after { clip-path: inset(0 100% 0 0); transition: clip-path 620ms cubic-bezier(0.3, 0, 0.2, 1) 900ms; } .splash.motion .closing.in .boxed::after { clip-path: inset(0); }
+.splash .btn-on-colour { display: inline-flex; align-items: center; min-height: 48px; margin-top: 22px; padding: 10px 26px; background: var(--mark); color: var(--ink); border: 1.5px solid var(--ink); font-weight: 600; text-decoration: none; box-shadow: 5px 5px 0 var(--ink); }
+.splash .closing :focus-visible { outline-color: var(--mark); }
+@media (prefers-reduced-motion: reduce) { .splash .logo svg, .splash .logo svg .pupil, .splash .dock, .splash .join > .paper, .splash .join::before, .splash .swap, .splash .stages button, .splash .row { transition: none !important; } .splash .row .cheer.pop svg, .splash .row .cheer.pop .num b { animation: none !important; } }
 @media (prefers-reduced-motion: reduce) { .splash .side button[aria-pressed="true"], .splash .joined > *, .splash .join.celebrate::after, .splash .first .wrap > * { animation: none; } .splash .join-form { transition: none; } .splash .faq details::details-content, .splash .faq summary::after { transition: none; } .splash .confetti { display: none; } .splash .swap, .splash .swap .ch, .splash .what span, .splash .side button, .splash .field button { transition: none !important; }  .splash .swap .ch { filter: none; transform: none; }  html { scroll-behavior: auto; } }
 /* Windows high-contrast mode replaces backgrounds, so the chosen side is marked with the system's own colours. */
 @media (forced-colors: active) { .splash .side button[aria-pressed="true"] { background: Highlight; color: HighlightText; forced-color-adjust: none; } .splash .swap { color: LinkText; } .splash .join::before, .splash .trim { display: none; } }

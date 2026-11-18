@@ -16,13 +16,18 @@
  *
  * A screen reader gets the plain words, not the separate letters the
  * animation draws, and hears a change once.
+ *
+ * Which side is chosen lives in the page's shared state (state.tsx), because
+ * the rest of the page follows it too: the docked form, and the sections
+ * below, which make each side its own case.
  */
 
-import { useCallback, useEffect, useLayoutEffect, useRef, useState, type CSSProperties } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, type CSSProperties } from "react";
 import { Countdown } from "./countdown";
 import { LocalTime } from "./local-time";
 import { WaitlistForm } from "./waitlist-form";
 import { slowScrollTo } from "./slow-scroll";
+import { useSplash } from "./state";
 
 type Side = "reader" | "author";
 const WORDS: Record<Side, string> = { reader: "Find your", author: "Be their" };
@@ -32,11 +37,9 @@ function Letters({ text }: { text: string }) {
   return <>{text.split("").map((ch, i) => <span key={i} className="ch" style={{ "--i": i } as CSSProperties}>{ch}</span>)}</>;
 }
 
-export function SplashStage({ opensAt, initialNow, when, hour, src, logo }: { opensAt: number; initialNow: number; when: string; hour: string; src?: string; logo: React.ReactNode }) {
-  const [side, setSide] = useState<Side>("reader");
-  const [said, setSaid] = useState("");
-  const [joined, setJoined] = useState(false);
-  const touched = useRef(false);
+export function SplashStage({ opensAt, initialNow, when, hour, logo }: { opensAt: number; initialNow: number; when: string; hour: string; logo: React.ReactNode }) {
+  const { side, choose, show, said, status, still } = useSplash();
+  const joined = status === "done";
   const swap = useRef<HTMLSpanElement>(null);
   const phrases = useRef<Record<Side, HTMLSpanElement | null>>({ reader: null, author: null });
 
@@ -57,21 +60,14 @@ export function SplashStage({ opensAt, initialNow, when, hour, src, logo }: { op
   // Shown once, unprompted and unannounced, and over within five seconds: nobody has to guess the words change.
   // Not if they've already pressed something, and not for a visitor who has asked for reduced motion.
   useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const a = setTimeout(() => { if (!touched.current) setSide("author"); }, 2000);
-    const b = setTimeout(() => { if (!touched.current) setSide("reader"); }, 4400);
+    if (still) return;
+    const a = setTimeout(() => show("author"), 2000);
+    const b = setTimeout(() => show("reader"), 4400);
     return () => { clearTimeout(a); clearTimeout(b); };
-  }, []);
-
-  function choose(next: Side) {
-    touched.current = true;
-    if (next === side) return;
-    setSide(next);
-    setSaid(`${WORDS[next]} next favorite author. Joining as ${next === "reader" ? "a reader" : "an author"}.`);
-  }
+  }, [still, show]);
 
   return (
-    <div className="first" data-side={side}>
+    <div className="first" id="top" data-side={side}>
       <div className="wrap">
         {logo}
         <p className="when"><span className="hl">Opening {when}</span> at {hour} Eastern.<LocalTime at={opensAt} /></p>
@@ -89,14 +85,14 @@ export function SplashStage({ opensAt, initialNow, when, hour, src, logo }: { op
           </span>{" "}
           <span className="l2">favorite author.</span>
         </h1>
-        <p className="what">
-          <span className="reader" aria-hidden={side !== "reader"}>A daily launch board for authors and their writing, from a single poem to a whole novel. New work goes up each morning, readers cheer for what they love, and every day ends with a ranking.</span>
-          <span className="author" aria-hidden={side !== "author"}>A daily launch board for authors and their writing. Launch anything you&apos;ve finished, from flash fiction or an essay to a novel, to readers looking for someone new. It&apos;s free.</span>
+        <p className="what" data-reveal>
+          <span className="reader" aria-hidden={side !== "reader"}>A daily launch board for authors and their writing, from a single poem to a whole novel. New work goes up each morning, readers cheer for what they love, and <mark className="draw">every day ends with a ranking</mark>.</span>
+          <span className="author" aria-hidden={side !== "author"}>A daily launch board for authors and their writing. Launch anything you&apos;ve finished, from flash fiction or an essay to a novel, to readers looking for someone new. <mark className="draw">It&apos;s free.</mark></span>
         </p>
         <p className="sr" role="status">{said}</p>
         <Countdown opensAt={opensAt} initialNow={initialNow} />
-        <section className={`join ${joined ? "celebrate" : ""}`} id="join" aria-labelledby="join-h"><WaitlistForm side={side} src={src} onJoined={() => setJoined(true)} /></section>
-        <a className="more" href="#launch" onClick={(e) => { e.preventDefault(); slowScrollTo("launch"); }}>What a launch is, and FAQ</a>
+        <section className={`join ${joined ? "celebrate" : ""}`} id="join" aria-labelledby="join-h"><span className="paper" aria-hidden="true" /><WaitlistForm /></section>
+        <a className="more" href="#why" onClick={(e) => { e.preventDefault(); slowScrollTo("why"); }}>{side === "reader" ? "Why read here" : "Why launch here"} <span aria-hidden="true">&darr;</span></a>
       </div>
     </div>
   );

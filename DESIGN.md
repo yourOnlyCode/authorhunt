@@ -116,7 +116,7 @@ contrast, sharp, Victorian in its characteristics and never a costume.
 - **A portrait is a 4:5 rectangle** with a hairline border. A cover is 2:3
   with a hairline border. A book with no cover shows its title set in the
   display face.
-- **The splash page has three moments of its own** (the owner's calls,
+- **The splash page has moments of its own** (the owner's calls,
   November 2026), and they stay on the splash page: the chosen side of the
   reader / author switch glows blue once each time it becomes the chosen
   one; the headline's first words dissolve and resolve; and joining the
@@ -125,9 +125,36 @@ contrast, sharp, Victorian in its characteristics and never a costume.
   none moves anything else on the page. The app's splash
   (`components/splash/`) is now ahead of `docs/mockups/splash.html` for
   these; the code is the reference.
-- **Motion is a response to the reader:** hover and press only, under
-  200ms, with a reduced-motion fallback. No scroll effects, nothing that
-  moves unasked.
+- **Motion shows the reader something, once, and then rests** (the
+  owner's call, November 18, 2026; before this, motion was hover and press
+  only and nothing moved unasked). The rules:
+  - Hover and press stay under 200ms.
+  - A larger moment may play **once, when it comes into view**: words
+    rising into place, a highlighter stroke drawing itself, the sample day
+    on the splash. It ends within five seconds, never loops, and offers
+    "Play again" as a word if it's worth seeing twice. *Why:* a loop pulls
+    the eye for as long as it's on screen (the ticking countdown was
+    removed for this), and anything that plays longer needs a pause control.
+  - One thing moves at a time, and nothing moves beside a form someone is
+    filling in.
+  - The page scrolls the way the reader's device scrolls. No scroll
+    hijacking, pinning, parallax or smooth-scroll library.
+  - Everything is readable with no animation at all: content starts
+    visible, and reduced motion shows the finished state.
+  - Only transform, opacity and clip-path move. No animation library where
+    CSS and the browser's own animation API will do
+    (docs/mockups/splash-motion.html has the vocabulary).
+- **The join form is always in reach on the splash.** While the join box
+  is on screen it is the only form; when it scrolls out of view the same
+  form docks to the top of the page (one state: side, address, joined).
+  The bar has no close button, never pulses, sits above every animated
+  layer, and never swaps while its field has focus. *Why:* the owner's
+  requirement, November 18, 2026: the form is available whatever is
+  playing.
+- **Colour fields belong to the splash's scroll only.** Below the first
+  view, a promise may take a full-width panel in one brand colour (red,
+  highlighter yellow, blue), one sentence each. The first view, and every
+  page of the app, stay a white page.
 
 ## The three directions
 

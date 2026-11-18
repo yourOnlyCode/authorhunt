@@ -180,8 +180,11 @@ Morris credit and the full FAQ.
   (Morning, All day, Midnight) that lead it, fill as they play and can be
   pressed. Its Play button sits above it; "Example launch. The titles are
   samples." sits beside the button, outside the board. First of the day
-  gets confetti. On a wide screen (860px and up) it may sit in the first
-  view beside the form, and then it waits for the headline to finish.
+  gets confetti. It sits in its own section, after the tiles. A split
+  first view (the example beside the form, the count in the header, a
+  replay control under the board) is explored in the mockup behind its
+  "First view" switch, and is not built: the owner chose to keep the
+  stacked page for now (November 18, 2026).
 - **One closing panel in indigo** says when the first board opens, with a
   yellow Join button. It is the only full-width colour on the page.
   *Why:* three colour panels were tried and cut because they repeated the

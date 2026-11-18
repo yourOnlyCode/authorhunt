@@ -80,14 +80,17 @@ export const LAUNCH_WINDOW_DAYS = 60;
 
 export const LIMITS = { genres: 3, references: 5, buyLinks: 12, memberLinks: 40, gallery: 8, updateBody: 2000 } as const;
 
-export type ChecklistItem = { key: "portrait" | "bio" | "genre" | "link_or_work" | "declaration"; label: string; done: boolean };
+export type ChecklistItem = { key: "bio" | "genre" | "link_or_work" | "declaration"; label: string; done: boolean };
 
 type PageFacts = { portraitUrl: string | null; bio: string; genres: string[]; website: string | null; links: unknown[]; aiUse: AiUse | null };
 
+/**
+ * A portrait is not on this list (the owner's call, November 2026: it was the biggest hurdle in setting up, and a
+ * page with none shows the author's initials). The trust meter says what a portrait is worth instead.
+ */
 /** What a page needs before it can be made public (docs/development.md, section 4; AGENTS.md rule 7). */
 export function pageChecklist(page: PageFacts, workCount: number): ChecklistItem[] {
   return [
-    { key: "portrait", label: "A portrait", done: Boolean(page.portraitUrl) },
     { key: "bio", label: "A few lines about you", done: page.bio.trim().length > 0 },
     { key: "genre", label: "At least one genre", done: page.genres.length > 0 },
     { key: "link_or_work", label: "A link or a work", done: Boolean(page.website) || page.links.length > 0 || workCount > 0 },

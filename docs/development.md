@@ -142,7 +142,7 @@ Notes:
 
 ## 4. Launches and the daily board
 
-- **Launching a page.** Once the page has a portrait, a bio, a genre and at
+- **Launching a page.** Once the page has a bio, a genre and at
   least one book or link, the author picks a day. Their page goes on that
   day's board. An author can launch their page once.
 - **Launching a book.** Any number, at most one a day per author, and a book

@@ -37,6 +37,7 @@ import { useState } from "react";
 import type { AiUse, LinkItem, PageKind, WorkKind } from "@/lib/db/schema";
 import { slugify } from "@/lib/slug";
 import { COVER_SWATCHES, LIMITS, WORK_KINDS } from "@/lib/studio/rules";
+import { trustMeter } from "@/lib/studio/trust-meter";
 import { AiChoice, CheckSet, Field, LinkList, NameList, StatusLine } from "@/components/studio/fields";
 import { ImageField } from "@/components/studio/image-field";
 import { send, type Status } from "@/components/studio/send";
@@ -119,7 +120,6 @@ export function StartFlow({ data }: { data: StartData }) {
   async function nextFromYou() {
     if (part === 0) {
       if (!page.name.trim()) return bad("Your page needs a name.");
-      if (!page.portraitUrl) return bad("Add a portrait. A photograph, a drawing or anything you'd put on a book jacket.");
       if (!page.bio.trim()) return bad("Add a few lines about you. Two sentences is plenty.");
     } else {
       if (page.genres.length === 0) return bad("Choose at least one genre, so readers of it can find you.");
@@ -171,6 +171,13 @@ export function StartFlow({ data }: { data: StartData }) {
     if (ok) go(3);
   }
 
+  // Trust with readers: what the page and the launch have so far, and the next thing worth adding (trust-meter.ts).
+  const trust = trustMeter({
+    portraitUrl: page.portraitUrl, bio: page.bio, tagline: page.tagline, genres: page.genres, city: page.city, aiUse: page.aiUse,
+    website: page.website, links: page.links, readersOf: page.readersOf,
+    work: work.title.trim() || work.id ? { hasCover: Boolean(work.coverUrl), description: work.description, buyLinks: work.buyLinks, note: launch.note } : null,
+  });
+
   const genreNames = (slugs: string[]) => slugs.map((s) => data.genres.find((g) => g.slug === s)?.name ?? s).join(", ");
 
   return (
@@ -188,6 +195,11 @@ export function StartFlow({ data }: { data: StartData }) {
             );
           })}
         </ol>
+        <div className="start-trust">
+          <p className="label" id="trust-l">Trust with your readers</p>
+          <div className="meter" role="meter" aria-labelledby="trust-l" aria-valuemin={0} aria-valuemax={100} aria-valuenow={trust.score} aria-valuetext={`${trust.score} out of 100`}><i style={{ "--p": trust.score / 100 } as React.CSSProperties} /></div>
+          <p className="say"><b>{trust.score}</b><span>/100</span>{trust.next && step < 3 && <> · Next: {trust.next.label.toLowerCase()}, <b>+{trust.next.points}</b></>}</p>
+        </div>
       </header>
 
       {step === 0 && (
@@ -207,6 +219,7 @@ export function StartFlow({ data }: { data: StartData }) {
                 onChange={(e) => { setHandleTouched(true); setP("handle", e.target.value.toLowerCase()); }} />
             </Field>
             <ImageField kind="portrait" label="A portrait" value={page.portraitUrl} onChange={(url) => setP("portraitUrl", url)} alt={`Portrait of ${page.name || "the author"}`} />
+            {!page.portraitUrl && <p className="hint start-why">Not required, but nothing does more for a reader&apos;s trust than a face: it&apos;s a quarter of the meter above. A photograph, a drawing, anything you&apos;d put on a book jacket. Without one your page shows your initials.</p>}
             <Field label="In a line" htmlFor="st-tag" hint="What you write, in a sentence. It sits under your name.">
               <input id="st-tag" className="input" value={page.tagline} maxLength={140} placeholder="Novels about maps, weather and inheritance." onChange={(e) => setP("tagline", e.target.value)} />
             </Field>
@@ -387,6 +400,18 @@ export function StartFlow({ data }: { data: StartData }) {
               <p className="facts">{[genreNames(page.genres), [page.city, page.country].filter(Boolean).join(", ") || null, page.links.length + (page.website ? 1 : 0) ? `${page.links.length + (page.website ? 1 : 0)} links` : null].filter(Boolean).join(" · ")}</p>
               <p className="start-see"><Link className="word" href={`/author/${page.handle}`} target="_blank">See your page</Link> · <button type="button" className="word" onClick={() => go(2)}>Add links</button></p>
             </article>
+
+            {trust.score < 100 && (
+              <article className="start-trust-list">
+                <h2>Build trust with your readers: {trust.score} of 100</h2>
+                <p>None of this is required. Each thing you add tells a reader a real person is behind the work.</p>
+                <ul>
+                  {trust.items.filter((i) => !i.done).sort((a, b) => b.points - a.points).map((i) => (
+                    <li key={i.key}><button type="button" className="word" onClick={() => go(i.step, i.part)}>{i.label}</button><span>+{i.points}</span></li>
+                  ))}
+                </ul>
+              </article>
+            )}
 
             {data.founding && (
               <article className="start-founding">

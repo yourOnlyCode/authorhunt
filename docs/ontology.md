@@ -140,6 +140,12 @@ Pro, Premium, upgrade, shelf (replaced by collection, November 2026).
 
 ## Changes
 
+- 2026-11-18, later. A page no longer needs a portrait to go public; one
+  with none shows the author's initials. **Trust with your readers** is a
+  meter an author sees in the setup (`trustMeter`,
+  `lib/studio/trust-meter.ts`): it rises as the page and first launch are
+  filled in, a portrait counting for most. It is the author's own, is
+  shown to nobody else, and is never part of a score.
 - 2026-11-18. **Early access** (`EARLY_ACCESS=1`): before opening, an
   author can make their page and set their first launch at `/start`, "Set
   up your first launch". **Founding author** is now given in code

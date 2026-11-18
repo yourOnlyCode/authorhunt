@@ -154,16 +154,23 @@ contrast, sharp, Victorian in its characteristics and never a costume.
   layer, and never swaps while its field has focus. *Why:* the owner's
   requirement, November 18, 2026: the form is available whatever is
   playing.
-- **The pour** (the owner's idea, November 18, 2026): pressing a side of
-  the reader / author switch, or Join, floods the page with one colour from
-  the button outward (blue for reader, red for author, yellow for joining),
-  and white follows close behind it from the same point: one ring of
-  colour crossing the page in a single motion, never a flood that stops
-  and then clears (that version read as a stutter). About a second, start
-  to finish. The page is white again when it ends: colour never stays as a
-  background, so contrast is never left changed. It multiplies over the
-  page so ink stays ink, runs one at a time so quick presses can't strobe,
-  only on a real press, and not at all under reduced motion.
+- **The pour, and the splash's paper** (the owner's idea, November 18,
+  2026). The splash page takes the colour of the chosen side and keeps it:
+  a pale blue paper for a reader, a pale blush for an author
+  (`--paper-reader`, `--paper-author`). Pressing a side sends one ring of
+  that side's full colour out from the button, and the paper is what it
+  leaves behind; joining sends a yellow ring through and leaves the paper
+  as it was. About a second, in one motion.
+  - **Nothing on the page may wash out.** The paper is a tint, not the
+    full colour, so ink, the red, the blue and the highlighter all keep
+    their contrast on it; a full red or blue page would swallow the red
+    cat, the blue headline words and the small grey text. Boxes (the join
+    box, the board, fields, the docked bar) stay white, like paper on a
+    desk.
+  - The wave is drawn behind the content, so it never covers a word.
+  - One at a time, so quick presses can't strobe. Under reduced motion the
+    paper simply changes.
+  - This is the splash's own. The app stays a white page.
 - **Confetti marks two things:** joining the list, and the example
   launch's first of the day being declared.
 - **Colour fields belong to the splash's scroll only.** Below the first

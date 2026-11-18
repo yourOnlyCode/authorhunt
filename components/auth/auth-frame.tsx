@@ -10,7 +10,9 @@
  *   layout.tsx), so it doesn't ride up on a nearly empty page.
  * - Until Clerk's form is ready, a still picture of it holds its place
  *   (`AuthSkeleton`, passed to Clerk as its `fallback`), the same size and in
- *   the same style, so the form seems to fill in rather than appear.
+ *   the same style, so the form seems to fill in rather than appear. When
+ *   it does, the card stays put and its contents rise in one after another,
+ *   like the splash's first view (the styles are in app/globals.css).
  */
 
 export function AuthFrame({ children }: { children: React.ReactNode }) {

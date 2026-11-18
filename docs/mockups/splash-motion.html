@@ -199,7 +199,20 @@ section.day { padding-block: clamp(56px, 9vw, 104px); border-top: 1.5px solid va
 .chips .on { color: var(--ink); font-weight: 700; text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 4px; }
 .chips.tall { flex-direction: column; align-items: center; gap: 6px; font-size: 17px; margin: 0; }
 .keeps .badge.plain { background: var(--page); }
-.vis { height: 132px; display: grid; place-items: center; text-align: left; }
+/* a whole board row, with the three things you can filter by where they sit in the app */
+.mini.wide { width: min(100%, 270px); align-items: start; }
+.mini.wide .tt { white-space: normal; overflow: visible; }
+.mini.wide .tags { margin-top: 4px; color: var(--ink); font-size: 12.5px; line-height: 1.45; white-space: normal; }
+.mini.wide .tags u { text-underline-offset: 3px; }
+@media (max-width: 760px) { .mini.wide { width: 100%; } .mini.wide .tt small { display: block; } .mini.wide .tt { font-size: 15px; } .mini.wide .tags { font-size: 11.5px; } .proof { font-size: 16px !important; } .proof .ins { font-size: 19px !important; } .vis { padding-bottom: 6px; } }
+/* a line of a draft with a writer's corrections on it: a word struck and a better one written above, a comma
+   made a full stop. A person changed their mind here. */
+.proof { position: relative; margin: 14px 0 0; font: 500 21px/1 var(--text); color: var(--ink); white-space: nowrap; }
+.proof .del { position: relative; text-decoration: line-through; text-decoration-color: var(--red); text-decoration-thickness: 2px; }
+.proof .ins { position: absolute; left: 50%; bottom: 1.05em; transform: translateX(-50%) rotate(-4deg); font: italic 300 24px/1 var(--display); color: var(--red-text); }
+.proof .ins::after { content: ""; position: absolute; left: 50%; top: 100%; width: 9px; height: 9px; margin: 1px 0 0 -5px; border-left: 2px solid var(--red); border-top: 2px solid var(--red); transform: rotate(45deg) skew(8deg, 8deg); }
+.proof .stop { font: italic 300 30px/0.6 var(--display); color: var(--red-text); margin-left: 1px; }
+.vis { min-height: 132px; display: grid; place-items: center; text-align: left; }
 /* a small board row, as in the app */
 .mini { display: grid; grid-template-columns: auto 22px minmax(0, 1fr) auto; align-items: center; gap: 8px; width: min(100%, 210px); padding: 7px 9px; border: 1.5px solid var(--ink); background: var(--page); font-size: 15px; line-height: 1.1; }
 .mini + .mini { margin-top: -1.5px; }
@@ -336,11 +349,11 @@ footer.foot .plate { display: inline-block; padding: 7px 18px; background: var(-
         <h3>New every morning</h3><p>A fresh board of new writing, every day.</p></li>
       <li><div class="vis" aria-hidden="true"><div><p class="chips"><span class="on">Everything</span><span>Books</span><span>Short works</span></p><div class="mini"><span class="rk">1</span><span class="cv b s"></span><span class="tt">A poem</span><span class="cheerbox"><svg viewBox="0 0 14 10"><path d="M7 0l7 10H0z"/></svg>44</span></div><div class="mini"><span class="rk">2</span><span class="cv"></span><span class="tt">A novel</span><span class="cheerbox"><svg viewBox="0 0 14 10"><path d="M7 0l7 10H0z"/></svg>38</span></div></div></div>
         <h3>Every size</h3><p>Poems to novels, each type with its own ranking.</p></li>
-      <li><div class="vis" aria-hidden="true"><p class="chips tall"><span class="on">Fantasy</span><span>Raleigh</span><span>For readers of Le Guin</span></p></div>
+      <li><div class="vis" aria-hidden="true"><div class="mini wide"><span class="rk">1</span><span class="cv"></span><span class="tt">The Salt Road<small>by Maren Okafor</small><small class="tags"><mark>Fantasy</mark> &middot; <u>Raleigh</u> &middot; <u>For readers of Le Guin</u></small></span><span class="cheerbox"><svg viewBox="0 0 14 10"><path d="M7 0l7 10H0z"/></svg>52</span></div></div>
         <h3>Find your kind</h3><p>By genre, by city, or by authors you love.</p></li>
       <li><div class="vis" aria-hidden="true"><div class="fair"><span class="cheerbox"><svg viewBox="0 0 14 10"><path d="M7 0l7 10H0z"/></svg>62</span><span class="coin">$</span></div></div>
         <h3>Your cheer decides</h3><p>One cheer each. No one buys a place.</p></li>
-      <li><div class="vis" aria-hidden="true"><div class="keeps"><span class="badge plain">Written without AI</span><span class="fol">declared by every author</span></div></div>
+      <li><div class="vis" aria-hidden="true"><p class="proof">It was a <span class="del">dark<i class="ins">quiet</i></span> night<span class="del">,</span><i class="stop">.</i></p></div>
         <h3>Written by people</h3><p>No AI-written work, ever.</p></li>
       <li><div class="vis" aria-hidden="true"><span class="price"><mark>$0</mark></span></div>
         <h3>Free to read</h3><p>Every page, with no account and no wall.</p></li>

@@ -17,6 +17,7 @@ import { db } from "@/lib/db";
 import { launches, works, type Launch, type Work } from "@/lib/db/schema";
 import { launchAt } from "@/lib/env";
 import { launchDay } from "@/lib/ranking/day";
+import { earlyDayFull } from "@/lib/studio/day-counts";
 import { dayProblem, dayTaken, notPublicReason, studioAuthor, wentLive } from "@/lib/studio/server";
 
 const Body = z.object({
@@ -54,6 +55,7 @@ export async function POST(req: Request) {
     const [had] = await db.select({ id: launches.id }).from(launches).where(and(eq(launches.authorId, author.id), eq(launches.kind, "author"))).limit(1);
     if (had) return fail(409, "Your page has already been launched, or has a launch set. A page launches once.");
   }
+  if (await earlyDayFull(day, now)) return fail(409, "That day's board is full. Choose the next day with room.");
   if (await dayTaken(author.id, day)) return fail(409, "You already have a launch on that day. One a day; choose another.");
 
   const status = day === launchDay(now) ? "live" as const : "scheduled" as const;

@@ -8,12 +8,12 @@
  * launch stays its author's own business until its day.
  */
 
-import { and, gte, lte, ne, sql } from "drizzle-orm";
+import { and, eq, gte, lte, ne, sql } from "drizzle-orm";
 import { db } from "../db";
 import { launches } from "../db/schema";
 import { launchAt } from "../env";
 import { addDays, launchDay } from "../ranking/day";
-import { EARLY_DAYS, earlyDays } from "./days";
+import { EARLY_DAYS, EARLY_DAY_ROOM, earlyDays } from "./days";
 
 export type DayCount = { day: string; count: number };
 
@@ -25,4 +25,14 @@ export async function launchDays(now: Date): Promise<DayCount[]> {
     .groupBy(launches.launchDay);
   const counts = new Map(rows.map((r) => [r.day, r.n]));
   return days.map((day) => ({ day, count: counts.get(day) ?? 0 }));
+}
+
+/**
+ * Before the site opens, whether a day's board is already full (days.ts, EARLY_DAY_ROOM). `exceptId` leaves out
+ * the launch being moved, so an author already on a full day can save it again. Never true once the site is open.
+ */
+export async function earlyDayFull(day: string, now: Date, exceptId?: string): Promise<boolean> {
+  if (earlyDays(now, launchAt()).length === 0) return false;
+  const rows = await db.select({ id: launches.id }).from(launches).where(and(eq(launches.launchDay, day), ne(launches.status, "pulled")));
+  return rows.filter((r) => r.id !== exceptId).length >= EARLY_DAY_ROOM;
 }

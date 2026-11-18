@@ -20,6 +20,7 @@ import { db } from "@/lib/db";
 import { genres, launches, referenceAuthors, works } from "@/lib/db/schema";
 import { appUrl, beforeLaunch, launchAt } from "@/lib/env";
 import { launchDays } from "@/lib/studio/day-counts";
+import { EARLY_DAY_ROOM, firstDayWithRoom } from "@/lib/studio/days";
 import { StartFlow, type StartData } from "@/components/start/flow";
 
 export const metadata: Metadata = { title: "Set up your first launch", robots: { index: false, follow: false } };
@@ -58,6 +59,9 @@ export default async function Start() {
     genres: genreRows.map((g) => ({ slug: g.slug, name: g.name })),
     knownNames: referenceRows.filter((r) => r.approved).map((r) => r.name),
     days,
+    // Before opening an author is given the first board with room, and may choose a later one.
+    defaultDay: firstDayWithRoom(days),
+    room: beforeLaunch(now) ? EARLY_DAY_ROOM : null,
     appHost: new URL(appUrl).host,
     early: beforeLaunch(now),
     // What a page made now would get: its tools free until this day (two months from opening), and the founding mark.

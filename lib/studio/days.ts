@@ -26,6 +26,20 @@ export function earlyDays(now: Date, opensAt: Date | null): string[] {
 }
 
 /**
+ * How many launches one of the first boards takes before the next author is offered the day after (the owner's
+ * call, November 2026). Nobody knows yet how many authors will come early. With few, they should all be on the
+ * first board, so it is full; with many, a board of hundreds would bury most of them, so the days fill in turn.
+ * One number does both, and it is the one to change as sign-ups come in.
+ */
+export const EARLY_DAY_ROOM = 30;
+
+/** The day an early author is given unless they choose another: the first board with room, or the last if all are full. */
+export function firstDayWithRoom(days: { day: string; count: number }[], room: number = EARLY_DAY_ROOM): string | null {
+  if (days.length === 0) return null;
+  return (days.find((d) => d.count < room) ?? days[days.length - 1]!).day;
+}
+
+/**
  * Whether a day can take a launch: a real date, today or later in New York, and not too far off. Before the
  * site opens there is no board today, so the first day is opening day, and the window is the first four weeks.
  */

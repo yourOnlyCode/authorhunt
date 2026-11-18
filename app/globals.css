@@ -244,8 +244,10 @@ footer .wrap { padding-block: 20px; display: flex; flex-wrap: wrap; justify-cont
 .start-steps { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin-top: 12px; }
 .start-steps button { display: block; width: 100%; min-height: 44px; text-align: left; color: var(--muted); }
 .start-steps button:disabled { cursor: default; }
-.start-steps button i { display: block; height: 4px; margin-bottom: 8px; background: var(--hair); }
-.start-steps li.on button i, .start-steps li.past button i { background: var(--ink); }
+/* A step's bar fills as far as you are through it: half-way on the first of its two screens (--p). */
+.start-steps button i { position: relative; display: block; height: 4px; margin-bottom: 8px; background: var(--hair); overflow: hidden; }
+.start-steps button i::after { content: ""; position: absolute; inset: 0; background: var(--ink); transform-origin: left; transform: scaleX(var(--p, 0)); transition: transform 300ms cubic-bezier(0.22, 0.8, 0.24, 1); }
+@media (prefers-reduced-motion: reduce) { .start-steps button i::after { transition: none; } }
 .start-steps button .n { font: 300 20px/1 var(--display); margin-right: 8px; font-variant-numeric: lining-nums; }
 .start-steps button b { font: 300 20px/1.15 var(--display); }
 .start-steps li.on button, .start-steps li.past button { color: var(--ink); } .start-steps li.on button b { color: var(--red-text); }
@@ -270,6 +272,10 @@ footer .wrap { padding-block: 20px; display: flex; flex-wrap: wrap; justify-cont
 .start-days label.on { background: var(--ink); color: var(--page); } .start-days label.on .wd, .start-days label.on .ct { color: var(--page); }
 .start-days label:has(input:focus-visible) { outline: 2px solid var(--ink); outline-offset: 3px; }
 .start-days:disabled, fieldset:disabled .start-days label { cursor: default; opacity: 0.7; }
+.start-days label.full { cursor: default; background: var(--tint); border-color: var(--hair); color: var(--muted); } .start-days label.full:hover { transform: none; box-shadow: none; }
+/* the day an author is given, said plainly, with the calendar a word away */
+.start-day { font: 300 26px/1.25 var(--display); } .start-day b { font-weight: 300; background: linear-gradient(transparent 56%, var(--mark) 56%, var(--mark) 93%, transparent 93%); padding-inline: 0.1em; }
+.start-day .word { font: 500 18px/1 var(--text); margin-left: 10px; }
 .start-next { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 12px 20px; margin-top: 30px; padding-top: 18px; border-top: 1.5px solid var(--ink); }
 .start-next > :first-child { flex: 1 1 260px; margin: 0; text-align: left; }
 .start-next .word { min-height: 44px; }

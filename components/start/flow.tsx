@@ -6,15 +6,25 @@
  * The guided setup an author goes through to make their page and set their
  * first launch (/start): four steps, one screen each.
  *
- *   1. You            who you are, and how your work is written
- *   2. Your launch    the piece, where to get it, your note, and its day
+ *   1. You            who you are; then what you write, and how
+ *   2. Your launch    the piece; then where to get it, your note, its day
  *   3. More           links and the like; can be skipped
  *   4. A last look    what you've made, what's free, and the page itself
  *
- * Each step saves through the Studio's own routes when you press on, so a
+ * The first two steps are each two short screens, so no screen asks for
+ * much (the owner's call: the first version put fifteen fields on one page).
+ * Their bar in the header fills half-way on the first screen and all the
+ * way on the second.
+ *
+ * Each screen saves through the Studio's own routes when you press on, so a
  * tab closed half-way loses nothing and everything made here is an ordinary
  * page, work and launch. The server decides every rule; this only asks.
  * What happened is said beside the buttons, never in a pop-up (DESIGN.md).
+ *
+ * The day isn't a blank choice. Before opening an author is given the first
+ * board with room (lib/studio/days.ts), so early launches gather on opening
+ * day and spill to the next only when it is full; "Choose another day" opens
+ * the calendar for anyone who wants a later one.
  *
  * The order of saving in step 2 matters: the work is saved, then the page
  * is made public (a public page needs a link or a work), then the launch is
@@ -53,6 +63,9 @@ export type StartData = {
   genres: { slug: string; name: string }[];
   knownNames: string[];
   days: { day: string; count: number }[];
+  defaultDay: string | null;
+  /** How many launches a board takes before opening, or null once the site is open. */
+  room: number | null;
   appHost: string;
   early: boolean;
   toolsUntil: string;
@@ -66,6 +79,9 @@ const dayLabel = (day: string, opts: Intl.DateTimeFormatOptions) => new Intl.Dat
 export function StartFlow({ data }: { data: StartData }) {
   // Someone coming back lands where they left off.
   const [step, setStep] = useState(() => (!data.pageExists ? 0 : !data.launch ? 1 : 3));
+  /** Which half of a two-screen step is showing: 0 or 1. */
+  const [part, setPart] = useState(0);
+  const [pickDay, setPickDay] = useState(false);
   const [page, setPage] = useState<PageValues>(data.page ?? {
     name: data.viewerName, handle: slugify(data.viewerName), kind: "author", tagline: "", bio: "", portraitUrl: null, city: "", region: "", country: "",
     website: "", links: [], genres: [], readersOf: [], inspiredBy: [], mature: false, aiUse: null, supportUrl: "",
@@ -78,7 +94,7 @@ export function StartFlow({ data }: { data: StartData }) {
     pages: null, words: null, buyLinks: [], genres: [], mature: false,
   });
   const [unit, setUnit] = useState<"words" | "pages">(data.work?.pages && !data.work.words ? "pages" : "words");
-  const [launch, setLaunch] = useState<LaunchValues>(data.launch ?? { id: null, day: null, note: "", status: null });
+  const [launch, setLaunch] = useState<LaunchValues>(data.launch ?? { id: null, day: data.defaultDay, note: "", status: null });
   const [busy, setBusy] = useState(false);
   const [status, setStatus] = useState<Status>(null);
 
@@ -87,7 +103,7 @@ export function StartFlow({ data }: { data: StartData }) {
   const length = unit === "words" ? work.words : work.pages;
   const live = launch.status !== null && launch.status !== "scheduled";
 
-  function go(to: number) { setStatus(null); setStep(to); window.scrollTo({ top: 0 }); }
+  function go(to: number, half = 0) { setStatus(null); setStep(to); setPart(half); window.scrollTo({ top: 0 }); }
   const bad = (text: string) => { setStatus({ tone: "bad", text }); return false; };
 
   async function savePage(publish: boolean): Promise<boolean> {
@@ -101,20 +117,23 @@ export function StartFlow({ data }: { data: StartData }) {
   }
 
   async function nextFromYou() {
-    if (!page.name.trim()) return bad("Your page needs a name.");
-    if (!page.bio.trim()) return bad("Add a few lines about you. Two sentences is plenty.");
-    if (page.genres.length === 0) return bad("Choose at least one genre, so readers of it can find you.");
-    if (!page.portraitUrl) return bad("Add a portrait. A photograph, a drawing or anything you'd put on a book jacket.");
-    if (!page.aiUse) return bad("Say how your work is written. No page goes public without it.");
+    if (part === 0) {
+      if (!page.name.trim()) return bad("Your page needs a name.");
+      if (!page.portraitUrl) return bad("Add a portrait. A photograph, a drawing or anything you'd put on a book jacket.");
+      if (!page.bio.trim()) return bad("Add a few lines about you. Two sentences is plenty.");
+    } else {
+      if (page.genres.length === 0) return bad("Choose at least one genre, so readers of it can find you.");
+      if (!page.aiUse) return bad("Say how your work is written. No page goes public without it.");
+    }
     setBusy(true); setStatus(null);
     const ok = await savePage(false);
     setBusy(false);
-    if (ok) go(1);
+    if (ok) { if (part === 0) go(0, 1); else go(1); }
   }
 
   async function nextFromLaunch() {
     if (!work.title.trim()) return bad("Your launch needs a title.");
-    if (!launch.day) return bad("Choose the day it goes on the board.");
+    if (part === 1 && !launch.day) return bad("Choose the day it goes on the board.");
     setBusy(true); setStatus(null);
     try {
       // 1. the work. Its declaration is the one made for the page: one person, one way of writing.
@@ -129,6 +148,7 @@ export function StartFlow({ data }: { data: StartData }) {
       if (!saved.ok) return bad(saved.error);
       const { id, slug } = saved.data.work;
       setWork((old) => ({ ...old, id, slug }));
+      if (part === 0) { go(1, 1); return true; }
       // 2. the page goes public, now that it has a work.
       if (!published && !(await savePage(true))) return false;
       // 3. the launch, on its day, with the author's note.
@@ -161,7 +181,8 @@ export function StartFlow({ data }: { data: StartData }) {
           {STEPS.map((name, i) => {
             const reachable = i <= step || (i === 1 && pageExists) || (i >= 2 && Boolean(launch.id));
             return (
-              <li key={name} className={i === step ? "on" : i < step ? "past" : ""} aria-current={i === step ? "step" : undefined}>
+              <li key={name} className={i === step ? "on" : i < step ? "past" : ""} aria-current={i === step ? "step" : undefined}
+                style={{ "--p": i < step ? 1 : i > step ? 0 : i <= 1 && part === 0 ? 0.5 : 1 } as React.CSSProperties}>
                 <button type="button" disabled={!reachable || busy} onClick={() => go(i)}><i /><span className="n">{i + 1}</span><b>{name}</b></button>
               </li>
             );
@@ -171,8 +192,11 @@ export function StartFlow({ data }: { data: StartData }) {
 
       {step === 0 && (
         <section className="start-step" aria-labelledby="start-h">
-          <h1 id="start-h">First, you.</h1>
-          <p className="start-lede">This becomes your author page: the one place on Author Hunt that is yours, and stays. It&apos;s free, and you can change any of it later.</p>
+          <h1 id="start-h">{part === 0 ? "First, you." : "What you write."}</h1>
+          <p className="start-lede">{part === 0
+            ? <>This becomes your author page: the one place on Author Hunt that is yours, and stays. It&apos;s free, and you can change any of it later.</>
+            : <>How readers will find you, and the one thing every author here says about their work.</>}</p>
+          {part === 0 ? (
           <div className="studio-form">
             <Field label="Your name, as it is on your work" htmlFor="st-name">
               <input id="st-name" className="input" value={page.name} maxLength={80} autoComplete="name"
@@ -189,6 +213,9 @@ export function StartFlow({ data }: { data: StartData }) {
             <Field label="About you" htmlFor="st-bio" hint="A few lines. Two sentences is plenty to start.">
               <textarea id="st-bio" className="textarea" rows={5} value={page.bio} maxLength={4000} onChange={(e) => setP("bio", e.target.value)} />
             </Field>
+          </div>
+          ) : (
+          <div className="studio-form">
             <CheckSet legend="What you write" options={data.genres.map((g) => ({ slug: g.slug, name: g.name }))} value={page.genres} onChange={(v) => setP("genres", v)} max={LIMITS.genres} hint={`Up to ${LIMITS.genres}. Readers filter by these.`} />
             <div className="start-pair">
               <Field label="City" htmlFor="st-city" hint="Optional. Readers can look for authors near them.">
@@ -200,17 +227,22 @@ export function StartFlow({ data }: { data: StartData }) {
             </div>
             <AiChoice legend="How your work is written" value={page.aiUse} onChange={(v) => setP("aiUse", v)} hint="Every author says this once, and it shows on your page." />
           </div>
+          )}
           <div className="start-next">
             <StatusLine status={status} />
-            <button type="button" className="btn solid" disabled={busy} onClick={nextFromYou}>{busy ? "Saving…" : "Save and go on"}</button>
+            {part === 1 && <button type="button" className="word" disabled={busy} onClick={() => go(0, 0)}>Back</button>}
+            <button type="button" className="btn solid" disabled={busy} onClick={nextFromYou}>{busy ? "Saving…" : part === 0 ? "Continue" : "Save and go on"}</button>
           </div>
         </section>
       )}
 
       {step === 1 && (
         <section className="start-step" aria-labelledby="start-h">
-          <h1 id="start-h">Your first launch.</h1>
-          <p className="start-lede">One finished piece of writing, of any size, and the day it goes on the board. A poem gets a row like a novel.</p>
+          <h1 id="start-h">{part === 0 ? "Your first launch." : "Where, and when."}</h1>
+          <p className="start-lede">{part === 0
+            ? <>One finished piece of writing, of any size. A poem gets a row like a novel.</>
+            : <>Where readers can get <i>{work.title || "it"}</i>, what you&apos;d like to say to them, and the day it goes on the board.</>}</p>
+          {part === 0 ? (
           <div className="studio-form">
             <Field label="Title" htmlFor="st-title">
               <input id="st-title" className="input" value={work.title} maxLength={160} onChange={(e) => setW("title", e.target.value)} />
@@ -254,6 +286,9 @@ export function StartFlow({ data }: { data: StartData }) {
             <Field label="About it" htmlFor="st-desc" hint="What it is, as you'd put it on the back of the book.">
               <textarea id="st-desc" className="textarea" rows={6} value={work.description} maxLength={6000} onChange={(e) => setW("description", e.target.value)} />
             </Field>
+          </div>
+          ) : (
+          <div className="studio-form">
             <LinkList legend="Where to read it or get it" value={work.buyLinks} onChange={(v) => setW("buyLinks", v)} max={LIMITS.buyLinks} labelHint="Bookshop.org" addWord="Add a place"
               hint="A bookshop, a magazine, your own site, Archive of Our Own: wherever it lives. These belong to this launch, and readers reach them from its page." />
             <label className="studio-check"><input type="checkbox" checked={work.mature} onChange={(e) => setW("mature", e.target.checked)} /><span>This is for adults only (explicit sex or graphic violence). It gets a Mature mark.</span></label>
@@ -262,23 +297,38 @@ export function StartFlow({ data }: { data: StartData }) {
             </Field>
             <fieldset className="studio-set" disabled={live}>
               <legend className="label">The day it goes on the board</legend>
-              <p className="hint">{data.early ? "The first board opens on the first day here. Each day shows how many launches it has so far: a quieter day is easier to lead." : "Each day shows how many launches it has so far."} Days run midnight to midnight, New York time.</p>
-              <div className="start-days" role="radiogroup" aria-label="Launch day">
-                {data.days.map((d, i) => (
-                  <label key={d.day} className={launch.day === d.day ? "on" : ""}>
-                    <input type="radio" name="st-day" checked={launch.day === d.day} onChange={() => setLaunch((old) => ({ ...old, day: d.day }))} />
-                    <span className="wd">{dayLabel(d.day, { weekday: "short" })}</span>
-                    <span className="dn">{dayLabel(d.day, { month: "short", day: "numeric" })}</span>
-                    <span className="ct">{i === 0 && data.early ? "Opening day · " : ""}{d.count === 0 ? "none yet" : d.count === 1 ? "1 launch" : `${d.count} launches`}</span>
-                  </label>
-                ))}
-              </div>
+              {launch.day && (
+                <p className="start-day">
+                  <b>{dayLabel(launch.day, { weekday: "long", month: "long", day: "numeric" })}</b>
+                  {data.early && launch.day === data.days[0]?.day ? ", the first board." : "."}
+                  {!pickDay && !live && <> <button type="button" className="word" onClick={() => setPickDay(true)}>Choose another day</button></>}
+                </p>
+              )}
+              <p className="hint">{data.early
+                ? "Early launches gather on the first board, so it opens full. When a board fills, the next author is given the day after."
+                : "Each day shows how many launches it has so far."} Days run midnight to midnight, New York time.</p>
+              {(pickDay || !launch.day) && (
+                <div className="start-days" role="radiogroup" aria-label="Launch day">
+                  {data.days.map((d, n) => {
+                    const full = data.room !== null && d.count >= data.room && d.day !== data.launch?.day;
+                    return (
+                      <label key={d.day} className={`${launch.day === d.day ? "on" : ""} ${full ? "full" : ""}`}>
+                        <input type="radio" name="st-day" disabled={full} checked={launch.day === d.day} onChange={() => setLaunch((old) => ({ ...old, day: d.day }))} />
+                        <span className="wd">{dayLabel(d.day, { weekday: "short" })}</span>
+                        <span className="dn">{dayLabel(d.day, { month: "short", day: "numeric" })}</span>
+                        <span className="ct">{full ? "full" : <>{n === 0 && data.early ? "Opening day · " : ""}{d.count === 0 ? "none yet" : d.count === 1 ? "1 launch" : `${d.count} launches`}</>}</span>
+                      </label>
+                    );
+                  })}
+                </div>
+              )}
             </fieldset>
           </div>
+          )}
           <div className="start-next">
             <StatusLine status={status} />
-            <button type="button" className="word" disabled={busy} onClick={() => go(0)}>Back</button>
-            <button type="button" className="btn solid" disabled={busy} onClick={nextFromLaunch}>{busy ? "Saving…" : "Save and go on"}</button>
+            <button type="button" className="word" disabled={busy} onClick={() => (part === 1 ? go(1, 0) : go(0, 1))}>Back</button>
+            <button type="button" className="btn solid" disabled={busy} onClick={nextFromLaunch}>{busy ? "Saving…" : part === 0 ? "Continue" : "Save and go on"}</button>
           </div>
         </section>
       )}
@@ -299,7 +349,7 @@ export function StartFlow({ data }: { data: StartData }) {
           </div>
           <div className="start-next">
             <StatusLine status={status} />
-            <button type="button" className="word" disabled={busy} onClick={() => go(1)}>Back</button>
+            <button type="button" className="word" disabled={busy} onClick={() => go(1, 1)}>Back</button>
             <button type="button" className="word" disabled={busy} onClick={() => go(3)}>Skip for now</button>
             <button type="button" className="btn solid" disabled={busy} onClick={nextFromMore}>{busy ? "Saving…" : "Save and go on"}</button>
           </div>

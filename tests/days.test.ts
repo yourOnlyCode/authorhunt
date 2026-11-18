@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { dayProblem, earlyDays } from "@/lib/studio/days";
+import { dayProblem, earlyDays, firstDayWithRoom } from "@/lib/studio/days";
 
 const opens = new Date("2027-01-08T17:00:00Z"); // noon Eastern on Friday, January 8
 const before = new Date("2026-11-20T15:00:00Z");
@@ -31,5 +31,21 @@ describe("whether a day can take a launch", () => {
     expect(dayProblem("2027-01-31", after, opens)).toMatch(/passed/);
     expect(dayProblem("2027-06-01", after, opens)).toMatch(/days ahead/);
     expect(dayProblem("not-a-day", after, opens)).toMatch(/date/);
+  });
+});
+
+describe("the day an early author is given", () => {
+  const days = (counts: number[]) => counts.map((count, i) => ({ day: `2027-01-${String(8 + i).padStart(2, "0")}`, count }));
+  it("is the first board while it has room, so a small crowd all launch together", () => {
+    expect(firstDayWithRoom(days([0, 0, 0]), 30)).toBe("2027-01-08");
+    expect(firstDayWithRoom(days([29, 0, 0]), 30)).toBe("2027-01-08");
+  });
+  it("moves to the next day once a board is full", () => {
+    expect(firstDayWithRoom(days([30, 12, 0]), 30)).toBe("2027-01-09");
+    expect(firstDayWithRoom(days([30, 30, 4]), 30)).toBe("2027-01-10");
+  });
+  it("is the last day if every board is full, and nothing if there are no days", () => {
+    expect(firstDayWithRoom(days([30, 30, 31]), 30)).toBe("2027-01-10");
+    expect(firstDayWithRoom([], 30)).toBeNull();
   });
 });

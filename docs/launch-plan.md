@@ -153,6 +153,14 @@ authors, and their two months of member tools run from opening day.
 Readers stay on the email list. Nothing they make is visible to anyone
 else until the first board.
 
+**Which day an early author launches on.** Nobody knows yet how many will
+come. So an early author is given the first board with room: opening day
+until it has 30 launches, then the day after, and so on
+(`EARLY_DAY_ROOM`, `lib/studio/days.ts`). With few authors they all launch
+together on January 8 and the first board is full; with many, no board
+buries people. Anyone can choose a later day. Change the one number as
+sign-ups come in.
+
 Turning it on, in order:
 
 - [ ] **You.** Set up Clerk (Author Hunt's own application, production

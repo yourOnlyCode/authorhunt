@@ -13,6 +13,7 @@ import { fail, json, readBody } from "@/lib/api";
 import { db } from "@/lib/db";
 import { launches, works } from "@/lib/db/schema";
 import { launchDay } from "@/lib/ranking/day";
+import { earlyDayFull } from "@/lib/studio/day-counts";
 import { dayProblem, dayTaken, notPublicReason, studioAuthor, wentLive } from "@/lib/studio/server";
 
 type Ctx = { params: Promise<{ id: string }> };
@@ -40,6 +41,7 @@ export async function PATCH(req: Request, ctx: Ctx) {
   if (blocked) return fail(409, blocked);
   const wrongDay = dayProblem(day, now, launchAt());
   if (wrongDay) return fail(400, wrongDay);
+  if (day !== launch.launchDay && await earlyDayFull(day, now, launch.id)) return fail(409, "That day's board is full. Choose the next day with room.");
   if (await dayTaken(author.id, day, launch.id)) return fail(409, "You already have a launch on that day. One a day; choose another.");
   const status = day === launchDay(now) ? "live" as const : "scheduled" as const;
   // The status is checked again in the update, so a launch the day's job has just made live isn't moved.

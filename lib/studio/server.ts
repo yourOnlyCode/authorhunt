@@ -68,7 +68,7 @@ export async function tellFollowers(author: Author, input: { kind: NotificationK
   return rows.length;
 }
 
-export { DAY_PATTERN, EARLY_DAYS, dayProblem, earlyDays } from "./days";
+export { DAY_PATTERN, EARLY_DAYS, EARLY_DAY_ROOM, dayProblem, earlyDays, firstDayWithRoom } from "./days";
 
 /** Whether the author already has a launch on that day (one a day), leaving out the one being moved. */
 export async function dayTaken(authorId: string, day: string, exceptId?: string): Promise<boolean> {

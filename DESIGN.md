@@ -157,7 +157,9 @@ contrast, sharp, Victorian in its characteristics and never a costume.
 - **The pour** (the owner's idea, November 18, 2026): pressing a side of
   the reader / author switch, or Join, floods the page with one colour from
   the button outward (blue for reader, red for author, yellow for joining),
-  and white then pours back in from the same point. About a second, start
+  and white follows close behind it from the same point: one ring of
+  colour crossing the page in a single motion, never a flood that stops
+  and then clears (that version read as a stutter). About a second, start
   to finish. The page is white again when it ends: colour never stays as a
   background, so contrast is never left changed. It multiplies over the
   page so ink stays ink, runs one at a time so quick presses can't strobe,

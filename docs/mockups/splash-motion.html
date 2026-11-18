@@ -164,12 +164,10 @@ section.day { padding-block: clamp(56px, 9vw, 104px); border-top: 1.5px solid va
 .trim { height: 16px; background: var(--marigold) center / 300px auto; border-top: 1.5px solid var(--ink); }
 footer.foot { padding-block: 22px 28px; font-size: 17px; color: var(--muted); }
 
-/* The pour: pressing a side or Join floods the page with one colour from the button outward, then white
-   pours back in from the same point. It multiplies over the page, so ink stays ink and text stays readable. */
-.pour { position: fixed; inset: 0; z-index: 70; pointer-events: none; overflow: hidden; mix-blend-mode: multiply; }
-.pour i { position: absolute; border-radius: 50%; transform: translate(-50%, -50%) scale(0); will-change: transform; }
-.pour .flood { background: var(--c); }
-.pour .hole { box-shadow: 0 0 0 300vmax var(--c); }
+/* The pour: pressing a side or Join sends one wave of colour out from the button, with white following
+   close behind it. It is a single ring drawn on one canvas, so it is one continuous motion with nothing
+   to hand over halfway. It multiplies over the page, so ink stays ink and text stays readable. */
+.pour { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 70; pointer-events: none; mix-blend-mode: multiply; }
 /* Confetti: square paper in the brand's colours. */
 .confetti { position: absolute; left: 50%; top: 50%; width: 0; height: 0; pointer-events: none; z-index: 5; }
 .confetti i { position: absolute; left: 0; top: 0; opacity: 0; will-change: transform, opacity; animation: confetti 1500ms cubic-bezier(0.16, 0.7, 0.3, 1) forwards; }
@@ -274,7 +272,7 @@ footer.foot { padding-block: 22px 28px; font-size: 17px; color: var(--muted); }
 <footer class="foot"><div class="wrap">Author Hunt &middot; a mockup of the splash with motion</div></footer>
 </div>
 
-<div class="pour" id="pour" aria-hidden="true" hidden><i class="flood"></i><i class="hole"></i></div>
+<canvas class="pour" id="pour" aria-hidden="true" hidden></canvas>
 
 <div class="mock"><span>Mockup</span><button type="button" id="grain" aria-pressed="false">Paper grain: off</button></div>
 
@@ -285,22 +283,22 @@ footer.foot { padding-block: 22px 28px; font-size: 17px; color: var(--muted); }
   if (!still) document.documentElement.classList.add("motion");
   const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 
-  // ---- the pour: colour floods out from the pressed button, then white pours back from the same point ----
-  const pourEl = document.getElementById("pour"); let pouring = false;
+  // ---- the pour: one ring of colour travels out from the pressed button; white follows close behind ----
+  const pourEl = document.getElementById("pour"), pen = pourEl.getContext("2d"); let pouring = false;
+  const SPREAD = 900, LAG = 280; // ms for an edge to cross the page; how far behind the white follows
+  const ease = (u) => 1 - Math.pow(1 - Math.min(Math.max(u, 0), 1), 1.8);
   function pour(from, color) {
     if (still || pouring) return; // one at a time, so quick presses can never strobe
     const b = from.getBoundingClientRect(), x = b.left + b.width / 2, y = b.top + b.height / 2;
-    const R = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y)) + 8;
-    pourEl.style.setProperty("--c", color); pourEl.hidden = false; pouring = true;
-    const [flood, hole] = pourEl.children;
-    for (const el of [flood, hole]) Object.assign(el.style, { left: x + "px", top: y + "px", width: 2 * R + "px", height: 2 * R + "px" });
-    const grow = [{ transform: "translate(-50%,-50%) scale(0)" }, { transform: "translate(-50%,-50%) scale(1)" }];
-    flood.style.visibility = "visible"; hole.style.visibility = "hidden";
-    flood.animate(grow, { duration: 520, easing: "cubic-bezier(.5,0,.2,1)", fill: "forwards" }).onfinish = () => setTimeout(() => {
-      // Swap the full flood for a ring of the same colour around a growing hole: white pouring back in.
-      hole.style.visibility = "visible"; flood.style.visibility = "hidden";
-      hole.animate(grow, { duration: 640, easing: "cubic-bezier(.4,0,.2,1)", fill: "forwards" }).onfinish = () => { pourEl.hidden = true; pouring = false; };
-    }, 140);
+    const w = innerWidth, h = innerHeight, R = Math.hypot(Math.max(x, w - x), Math.max(y, h - y)) + 4;
+    pourEl.width = w; pourEl.height = h; pourEl.hidden = false; pouring = true; pen.fillStyle = color;
+    const start = performance.now();
+    (function draw(now) {
+      const t = now - start, outer = R * ease(t / SPREAD), inner = R * ease((t - LAG) / SPREAD);
+      pen.clearRect(0, 0, w, h);
+      if (inner < R) { pen.beginPath(); pen.arc(x, y, outer, 0, 7); pen.arc(x, y, inner, 0, 7, true); pen.fill("evenodd"); requestAnimationFrame(draw); }
+      else { pourEl.hidden = true; pouring = false; }
+    })(start);
   }
   const POUR = { reader: "#2F6FE8", author: "#D9361E", join: "#FFE14D" };
   function confetti(host, count = 40) {

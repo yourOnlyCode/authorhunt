@@ -287,7 +287,7 @@ footer.foot { padding-block: 22px 28px; font-size: 17px; color: var(--muted); }
 
   // ---- the pour: each press starts a wash of that side's paper from the button; the newest is drawn on top ----
   const pourEl = document.getElementById("pour"), pen = pourEl.getContext("2d");
-  const SPREAD = 900; // ms for a wash to cross the page
+  const SPREAD = 1150; // ms for a wash to run its full course, which ends well past the page's edges
   const ease = (u) => 1 - Math.pow(1 - Math.min(Math.max(u, 0), 1), 1.8);
   const PAPER = { reader: "#E6EEFE", author: "#FDE8E2" };
   const EDGE = { "#E6EEFE": "#2F6FE8", "#FDE8E2": "#D9361E" }; // the bold colour at a wash's leading edge
@@ -299,14 +299,17 @@ footer.foot { padding-block: 22px 28px; font-size: 17px; color: var(--muted); }
     const b = from.getBoundingClientRect(), x = b.left + b.width / 2, y = b.top + b.height / 2;
     const w = innerWidth, h = innerHeight;
     if (pourEl.width !== w || pourEl.height !== h) { pourEl.width = w; pourEl.height = h; }
-    washes.push({ x, y, paper, start: performance.now(), R: Math.hypot(Math.max(x, w - x), Math.max(y, h - y)) + 4 });
+    // The wash aims well beyond the farthest corner, so its rim leaves the page at speed and its slowing-down
+    // happens out of sight. It is finished only once the whole fading rim has passed that corner.
+    const far = Math.hypot(Math.max(x, w - x), Math.max(y, h - y));
+    washes.push({ x, y, paper, start: performance.now(), far, R: (far + BAND) * 1.35 });
     pourEl.hidden = false;
     if (!drawing) { drawing = true; requestAnimationFrame(draw); }
   }
   function draw(now) {
     // A wash that has covered the page becomes the page, along with everything under it.
     let done = -1;
-    washes.forEach((v, i) => { if (now - v.start >= SPREAD) done = i; });
+    washes.forEach((v, i) => { if (v.R * ease((now - v.start) / SPREAD) - BAND >= v.far + 2) done = i; });
     if (done >= 0) { settle(washes[done].paper); washes = washes.slice(done + 1); }
     pen.clearRect(0, 0, pourEl.width, pourEl.height);
     for (const v of washes) {

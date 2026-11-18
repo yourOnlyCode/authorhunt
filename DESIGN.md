@@ -131,10 +131,13 @@ contrast, sharp, Victorian in its characteristics and never a costume.
   - Hover and press stay under 200ms.
   - A larger moment may play **once, when it comes into view**: words
     rising into place, a highlighter stroke drawing itself, the sample day
-    on the splash. It ends within five seconds, never loops, and offers
-    "Play again" as a word if it's worth seeing twice. *Why:* a loop pulls
-    the eye for as long as it's on screen (the ticking countdown was
-    removed for this), and anything that plays longer needs a pause control.
+    on the splash. It never loops. Most end within five seconds; one that
+    needs longer to be understood (the example launch takes about ten,
+    because five was too quick to follow) has "Pause" beside it and steps
+    the reader can press, and offers "Play again" when it ends. *Why:* a
+    loop pulls the eye for as long as it's on screen (the ticking
+    countdown was removed for this), and anything that plays for more than
+    five seconds must be pausable.
   - One thing moves at a time, and nothing moves beside a form someone is
     filling in.
   - The page scrolls the way the reader's device scrolls. No scroll

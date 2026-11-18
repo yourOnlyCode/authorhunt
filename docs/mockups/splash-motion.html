@@ -164,6 +164,17 @@ section.day { padding-block: clamp(56px, 9vw, 104px); border-top: 1.5px solid va
 .trim { height: 16px; background: var(--marigold) center / 300px auto; border-top: 1.5px solid var(--ink); }
 footer.foot { padding-block: 22px 28px; font-size: 17px; color: var(--muted); }
 
+/* The pour: pressing a side or Join floods the page with one colour from the button outward, then white
+   pours back in from the same point. It multiplies over the page, so ink stays ink and text stays readable. */
+.pour { position: fixed; inset: 0; z-index: 70; pointer-events: none; overflow: hidden; mix-blend-mode: multiply; }
+.pour i { position: absolute; border-radius: 50%; transform: translate(-50%, -50%) scale(0); will-change: transform; }
+.pour .flood { background: var(--c); }
+.pour .hole { box-shadow: 0 0 0 300vmax var(--c); }
+/* Confetti: square paper in the brand's colours. */
+.confetti { position: absolute; left: 50%; top: 50%; width: 0; height: 0; pointer-events: none; z-index: 5; }
+.confetti i { position: absolute; left: 0; top: 0; opacity: 0; will-change: transform, opacity; animation: confetti 1500ms cubic-bezier(0.16, 0.7, 0.3, 1) forwards; }
+@keyframes confetti { 0% { opacity: 1; transform: translate(0, 0) rotate(0deg) scale(0.6); } 55% { opacity: 1; transform: translate(var(--dx), var(--dy)) rotate(calc(var(--rot) * 0.7)) scale(1); } 100% { opacity: 0; transform: translate(calc(var(--dx) * 1.12), calc(var(--dy) + 190px)) rotate(var(--rot)) scale(0.9); } }
+
 /* The mock's own controls, not part of the design. */
 .mock { position: fixed; right: max(12px, env(safe-area-inset-right, 0px)); bottom: calc(12px + env(safe-area-inset-bottom, 0px)); z-index: 60; display: flex; gap: 10px; align-items: center; padding: 6px 10px; background: var(--ink); color: var(--page); font: 600 13px/1.2 system-ui, sans-serif; letter-spacing: 0.02em; }
 .mock button { color: var(--page); text-decoration: underline; text-underline-offset: 3px; font: inherit; }
@@ -171,7 +182,7 @@ footer.foot { padding-block: 22px 28px; font-size: 17px; color: var(--muted); }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .cat, .cat .pupil, .swap span, .what span, .dock, .steps button, .row { transition: none !important; }
-  .cat.blink .lid, .cat.blink .pupil, .row .cheer.pop svg, .row .cheer.pop .num b { animation: none !important; }
+  .cat.blink .lid, .cat.blink .pupil, .row .cheer.pop svg, .row .cheer.pop .num b { animation: none !important; } .confetti, .pour { display: none !important; }
 }
 </style>
 
@@ -263,6 +274,8 @@ footer.foot { padding-block: 22px 28px; font-size: 17px; color: var(--muted); }
 <footer class="foot"><div class="wrap">Author Hunt &middot; a mockup of the splash with motion</div></footer>
 </div>
 
+<div class="pour" id="pour" aria-hidden="true" hidden><i class="flood"></i><i class="hole"></i></div>
+
 <div class="mock"><span>Mockup</span><button type="button" id="grain" aria-pressed="false">Paper grain: off</button></div>
 
 <script>
@@ -271,6 +284,33 @@ footer.foot { padding-block: 22px 28px; font-size: 17px; color: var(--muted); }
   const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
   if (!still) document.documentElement.classList.add("motion");
   const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+
+  // ---- the pour: colour floods out from the pressed button, then white pours back from the same point ----
+  const pourEl = document.getElementById("pour"); let pouring = false;
+  function pour(from, color) {
+    if (still || pouring) return; // one at a time, so quick presses can never strobe
+    const b = from.getBoundingClientRect(), x = b.left + b.width / 2, y = b.top + b.height / 2;
+    const R = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y)) + 8;
+    pourEl.style.setProperty("--c", color); pourEl.hidden = false; pouring = true;
+    const [flood, hole] = pourEl.children;
+    for (const el of [flood, hole]) Object.assign(el.style, { left: x + "px", top: y + "px", width: 2 * R + "px", height: 2 * R + "px" });
+    const grow = [{ transform: "translate(-50%,-50%) scale(0)" }, { transform: "translate(-50%,-50%) scale(1)" }];
+    flood.style.visibility = "visible"; hole.style.visibility = "hidden";
+    flood.animate(grow, { duration: 520, easing: "cubic-bezier(.5,0,.2,1)", fill: "forwards" }).onfinish = () => setTimeout(() => {
+      // Swap the full flood for a ring of the same colour around a growing hole: white pouring back in.
+      hole.style.visibility = "visible"; flood.style.visibility = "hidden";
+      hole.animate(grow, { duration: 640, easing: "cubic-bezier(.4,0,.2,1)", fill: "forwards" }).onfinish = () => { pourEl.hidden = true; pouring = false; };
+    }, 140);
+  }
+  const POUR = { reader: "#2F6FE8", author: "#D9361E", join: "#FFE14D" };
+  function confetti(host, count = 40) {
+    if (still) return;
+    const box = document.createElement("div"); box.className = "confetti"; const colors = ["var(--red)", "var(--blue)", "var(--mark)", "var(--ink)"];
+    for (let i = 0; i < count; i++) { const a = -Math.PI / 2 + (Math.random() - 0.5) * Math.PI * 1.25, reach = 110 + Math.random() * 220, piece = document.createElement("i");
+      piece.style.cssText = `--dx:${Math.round(Math.cos(a) * reach)}px;--dy:${Math.round(Math.sin(a) * reach)}px;--rot:${Math.round((Math.random() - 0.5) * 900)}deg;background:${colors[i % 4]};width:${i % 3 ? 9 : 6}px;height:${i % 3 ? 9 : 13}px;animation-delay:${Math.round(Math.random() * 140)}ms`;
+      box.append(piece); }
+    host.append(box); setTimeout(() => host.removeChild(box), 2200);
+  }
 
   // ---- one form, two places ----
   const state = { side: "reader", email: "", joined: false };
@@ -288,9 +328,9 @@ footer.foot { padding-block: 22px 28px; font-size: 17px; color: var(--muted); }
     }
     glance();
   }
-  $$("[data-pick]").forEach((b) => b.addEventListener("click", () => { state.side = b.dataset.pick; touched = true; paint(); blink(); }));
+  $$("[data-pick]").forEach((b) => b.addEventListener("click", () => { const changed = state.side !== b.dataset.pick; state.side = b.dataset.pick; touched = true; paint(); blink(); if (changed) pour(b, POUR[state.side]); }));
   emails.forEach((i) => i.addEventListener("input", () => { state.email = i.value; emails.forEach((o) => { if (o !== i) o.value = i.value; }); glance(i); }));
-  $$("[data-join]").forEach((f) => f.addEventListener("submit", (e) => { e.preventDefault(); state.joined = true; paint(); blink(); setTimeout(() => dockShow(false), 2600); }));
+  $$("[data-join]").forEach((f) => f.addEventListener("submit", (e) => { e.preventDefault(); pour(f.querySelector("button"), POUR.join); state.joined = true; paint(); blink(); setTimeout(() => dockShow(false), 2600); }));
 
   // The dock shows only while the real join box is off screen, and never swaps while a field has focus.
   const dock = document.getElementById("dock");
@@ -350,7 +390,9 @@ footer.foot { padding-block: 22px 28px; font-size: 17px; color: var(--muted); }
     steps.forEach((li, k) => { li.classList.toggle("on", k === phase); li.classList.toggle("past", k < phase);
       const len = [MORNING, DAY, NIGHT][k]; li.querySelector("i").style.setProperty("--p", Math.min(Math.max((t - STARTS[k]) / len, 0), 1)); });
     when.textContent = phase === 0 ? "8:00 a.m." : phase === 2 ? "Midnight" : HOURS[Math.min(HOURS.length - 1, Math.floor((dayT / DAY) * HOURS.length))];
-    board.classList.toggle("closed", t >= MORNING + DAY + 500);
+    const closed = t >= MORNING + DAY + 500;
+    if (animate && closed && !board.classList.contains("closed")) setTimeout(() => confetti(rowsEl.firstElementChild), 60);
+    board.classList.toggle("closed", closed);
     const counts = {};
     for (const id in rows) { const r = rows[id];
       // Morning: the work goes up, one piece at a time.

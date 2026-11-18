@@ -154,6 +154,16 @@ contrast, sharp, Victorian in its characteristics and never a costume.
   layer, and never swaps while its field has focus. *Why:* the owner's
   requirement, November 18, 2026: the form is available whatever is
   playing.
+- **The pour** (the owner's idea, November 18, 2026): pressing a side of
+  the reader / author switch, or Join, floods the page with one colour from
+  the button outward (blue for reader, red for author, yellow for joining),
+  and white then pours back in from the same point. About a second, start
+  to finish. The page is white again when it ends: colour never stays as a
+  background, so contrast is never left changed. It multiplies over the
+  page so ink stays ink, runs one at a time so quick presses can't strobe,
+  only on a real press, and not at all under reduced motion.
+- **Confetti marks two things:** joining the list, and the example
+  launch's first of the day being declared.
 - **Colour fields belong to the splash's scroll only.** Below the first
   view, a promise may take a full-width panel in one brand colour (red,
   highlighter yellow, blue), one sentence each. The first view, and every

@@ -159,8 +159,9 @@ contrast, sharp, Victorian in its characteristics and never a costume.
   a pale blue paper for a reader, a pale blush for an author
   (`--paper-reader`, `--paper-author`). Pressing a side sends that paper
   out from the button in one wash of one colour, and the page keeps it.
-  There is no second colour: not a bold edge ahead of it, and not white
-  behind it. About a second, in one motion. Joining doesn't pour.
+  The wash's leading edge is the side's full colour, fading smoothly back
+  into the paper behind it: one wash that deepens at its rim, not a bold
+  band followed by a second colour, and no white behind it. About a second, in one motion. Joining doesn't pour.
   - **Nothing on the page may wash out.** The paper is a tint, not the
     full colour, so ink, the red, the blue and the highlighter all keep
     their contrast on it; a full red or blue page would swallow the red

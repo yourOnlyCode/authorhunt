@@ -290,6 +290,8 @@ footer.foot { padding-block: 22px 28px; font-size: 17px; color: var(--muted); }
   const SPREAD = 900; // ms for a wash to cross the page
   const ease = (u) => 1 - Math.pow(1 - Math.min(Math.max(u, 0), 1), 1.8);
   const PAPER = { reader: "#E6EEFE", author: "#FDE8E2" };
+  const EDGE = { "#E6EEFE": "#2F6FE8", "#FDE8E2": "#D9361E" }; // the bold colour at a wash's leading edge
+  const BAND = 240; // px over which the edge fades back into the paper
   let washes = [], drawing = false;
   function settle(paper) { document.body.style.setProperty("--paper", paper); }
   function pour(from, paper) {
@@ -307,7 +309,13 @@ footer.foot { padding-block: 22px 28px; font-size: 17px; color: var(--muted); }
     washes.forEach((v, i) => { if (now - v.start >= SPREAD) done = i; });
     if (done >= 0) { settle(washes[done].paper); washes = washes.slice(done + 1); }
     pen.clearRect(0, 0, pourEl.width, pourEl.height);
-    for (const v of washes) { pen.fillStyle = v.paper; pen.beginPath(); pen.arc(v.x, v.y, v.R * ease((now - v.start) / SPREAD), 0, 7); pen.fill(); }
+    for (const v of washes) {
+      // One wash: the paper, deepening smoothly into the bold colour at its leading edge.
+      const rad = v.R * ease((now - v.start) / SPREAD); if (rad < 1) continue;
+      const g = pen.createRadialGradient(v.x, v.y, 0, v.x, v.y, rad), from = Math.max(0, 1 - BAND / rad);
+      g.addColorStop(0, v.paper); g.addColorStop(from, v.paper); g.addColorStop(1, EDGE[v.paper]);
+      pen.fillStyle = g; pen.beginPath(); pen.arc(v.x, v.y, rad, 0, 7); pen.fill();
+    }
     if (washes.length) requestAnimationFrame(draw); else { drawing = false; pourEl.hidden = true; }
   }
   function confetti(host, count = 40) {

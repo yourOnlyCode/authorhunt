@@ -4,7 +4,7 @@ import { trustMeter, type TrustFacts } from "@/lib/studio/trust-meter";
 const empty: TrustFacts = { portraitUrl: null, bio: "", tagline: "", genres: [], city: "", aiUse: null, website: "", links: [], readersOf: [], work: null };
 const full: TrustFacts = {
   portraitUrl: "/p.jpg", bio: "I write.", tagline: "Stories.", genres: ["poetry"], city: "Leeds", aiUse: "none", website: "https://a.example", links: [{ url: "https://b.example" }], readersOf: ["mary-oliver"],
-  work: { hasCover: true, description: "About it.", buyLinks: [{ url: "https://c.example" }], note: "Hello." },
+  work: { hasCover: true, description: "About it.", excerpt: "It began.", buyLinks: [{ url: "https://c.example" }], note: "Hello." },
 };
 
 describe("the trust meter", () => {
@@ -21,7 +21,12 @@ describe("the trust meter", () => {
     expect(trustMeter({ ...empty, portraitUrl: "/p.jpg" }).score).toBe(25);
   });
   it("doesn't count blank text or an empty link", () => {
-    expect(trustMeter({ ...empty, bio: "   ", links: [{ url: " " }], work: { hasCover: false, description: " ", buyLinks: [{ url: "" }], note: "" } }).score).toBe(0);
+    expect(trustMeter({ ...empty, bio: "   ", links: [{ url: " " }], work: { hasCover: false, description: " ", excerpt: "\n", buyLinks: [{ url: "" }], note: "" } }).score).toBe(0);
+  });
+  it("counts a sample of the work, and either a website or a link for being findable", () => {
+    expect(trustMeter({ ...empty, work: { hasCover: false, description: "", excerpt: "It began.", buyLinks: [], note: "" } }).score).toBe(10);
+    expect(trustMeter({ ...empty, website: "https://a.example" }).score).toBe(5);
+    expect(trustMeter({ ...empty, website: "https://a.example", links: [{ url: "https://b.example" }] }).score).toBe(5);
   });
   it("is high without a portrait, but never full", () => {
     expect(trustMeter({ ...full, portraitUrl: null }).score).toBe(75);

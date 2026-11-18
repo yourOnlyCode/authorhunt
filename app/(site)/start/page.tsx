@@ -52,7 +52,7 @@ export default async function Start() {
     published: Boolean(author?.publishedAt),
     viewerName: viewer.displayName,
     work: work ? {
-      id: work.id, slug: work.slug, kind: work.kind, form: work.form, title: work.title, tagline: work.tagline, description: work.description,
+      id: work.id, slug: work.slug, kind: work.kind, form: work.form, title: work.title, tagline: work.tagline, description: work.description, excerpt: work.excerpt,
       coverUrl: work.coverUrl, coverColor: work.coverColor, pages: work.pages, words: work.words, buyLinks: work.buyLinks, genres: work.genres, mature: work.mature,
     } : null,
     launch: launch ? { id: launch.id, day: launch.launchDay, note: launch.note, status: launch.status } : null,

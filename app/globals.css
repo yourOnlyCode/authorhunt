@@ -251,6 +251,10 @@ footer .wrap { padding-block: 20px; display: flex; flex-wrap: wrap; justify-cont
 .start-steps button .n { font: 300 20px/1 var(--display); margin-right: 8px; font-variant-numeric: lining-nums; }
 .start-steps button b { font: 300 20px/1.15 var(--display); }
 .start-steps li.on button, .start-steps li.past button { color: var(--ink); } .start-steps li.on button b { color: var(--red-text); }
+/* The no-AI pledge: ruled off and set on the highlighter's pale yellow, so it is read and not skimmed. */
+.studio-pledge { padding: 16px 18px 18px; border: 1.5px solid var(--ink); background: #FFF6C2; }
+.studio-pledge .studio-check { display: flex; gap: 10px; align-items: flex-start; min-height: 44px; padding-block: 6px; }
+.studio-pledge .studio-check input { margin-top: 6px; width: 18px; height: 18px; flex: none; }
 /* Trust with your readers: a meter that rises as the page and the launch fill in. The author's own; never a score. */
 .start-trust { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 6px 14px; margin-top: 16px; padding: 10px 14px; border: 1.5px solid var(--ink); background: var(--page); }
 .start-trust .label { margin: 0; }

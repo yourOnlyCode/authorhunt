@@ -58,7 +58,11 @@ reason; change one only when the owner says so, and change this file with it.
    magazines, journals. Before a page or work goes public its author
    declares that a person wrote every passage (`lib/studio/rules.ts`:
    "without AI", or "with AI as a tool" for research, outlining and the like,
-   never for the text). Work the community reports and that is found to be
+   never for the text). And before every launch they tick each line of a
+   pledge (`AI_PLEDGE`): that they wrote every passage, that none of it is
+   AI's, and that they never will launch AI-written prose here. The server
+   refuses a launch without it and keeps when it was made
+   (`launches.pledged_at`). Work the community reports and that is found to be
    AI-written is removed and the page banned. That finding is a person's
    decision on evidence, logged, never an AI detector's score. *Why:* the
    owner's rule, made stricter in November 2026; and a detector that's wrong

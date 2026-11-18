@@ -3,7 +3,8 @@
  *
  * Puts the author's page, or one of their works, on a day's board
  * (docs/development.md, section 4). Launching is free and never asks about
- * membership (AGENTS.md rule 3). The page must be public and declared; a
+ * membership (AGENTS.md rule 3). The no-AI pledge must be made, every time
+ * (rule 7). The page must be public and declared; a
  * page launches once and a work once; an author has one launch a day; the
  * day is today or later in New York (rule 6). Today's launch starts live.
  * A later one is scheduled, and the day's job makes it live and gives its
@@ -17,6 +18,7 @@ import { db } from "@/lib/db";
 import { launches, works, type Launch, type Work } from "@/lib/db/schema";
 import { launchAt } from "@/lib/env";
 import { launchDay } from "@/lib/ranking/day";
+import { AI_PLEDGE_MISSING } from "@/lib/studio/rules";
 import { earlyDayFull } from "@/lib/studio/day-counts";
 import { dayProblem, dayTaken, notPublicReason, studioAuthor, wentLive } from "@/lib/studio/server";
 
@@ -24,6 +26,8 @@ const Body = z.object({
   kind: z.enum(["author", "work"]),
   workId: z.string().uuid().optional(),
   day: z.string(),
+  /** Every line of the no-AI pledge was ticked (lib/studio/rules.ts). A launch is refused without it. */
+  pledge: z.boolean().default(false),
   /** The author's note for this launch. */
   note: z.string().trim().max(2000, "Keep the note under 2,000 characters.").default(""),
 });
@@ -38,6 +42,7 @@ export async function POST(req: Request) {
   const note = body.data.note ?? "";
   const now = new Date();
 
+  if (!body.data.pledge) return fail(400, AI_PLEDGE_MISSING);
   const blocked = notPublicReason(author);
   if (blocked) return fail(409, blocked);
   const wrongDay = dayProblem(day, now, launchAt());
@@ -61,7 +66,7 @@ export async function POST(req: Request) {
   const status = day === launchDay(now) ? "live" as const : "scheduled" as const;
   let launch: Launch;
   try {
-    launch = (await db.insert(launches).values({ kind, authorId: author.id, workId: work?.id ?? null, launchDay: day, status, note }).returning())[0]!;
+    launch = (await db.insert(launches).values({ kind, authorId: author.id, workId: work?.id ?? null, launchDay: day, status, note, pledgedAt: now }).returning())[0]!;
   } catch {
     // The unique index on the work is the last word if two requests arrive together.
     return fail(409, "This has already been launched, or has a launch set.");

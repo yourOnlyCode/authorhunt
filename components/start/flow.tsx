@@ -36,9 +36,9 @@ import Link from "next/link";
 import { useState } from "react";
 import type { AiUse, LinkItem, PageKind, WorkKind } from "@/lib/db/schema";
 import { slugify } from "@/lib/slug";
-import { COVER_SWATCHES, LIMITS, WORK_KINDS } from "@/lib/studio/rules";
+import { AI_PLEDGE_MISSING, COVER_SWATCHES, LIMITS, WORK_KINDS } from "@/lib/studio/rules";
 import { trustMeter } from "@/lib/studio/trust-meter";
-import { AiChoice, CheckSet, Field, LinkList, NameList, StatusLine } from "@/components/studio/fields";
+import { AiChoice, AiPledge, CheckSet, Field, LinkList, NameList, StatusLine } from "@/components/studio/fields";
 import { ImageField } from "@/components/studio/image-field";
 import { send, type Status } from "@/components/studio/send";
 import { FoundingMark } from "@/components/ui/icons";
@@ -49,7 +49,7 @@ type PageValues = {
   readersOf: string[]; inspiredBy: string[]; mature: boolean; aiUse: AiUse | null; supportUrl: string;
 };
 type WorkValues = {
-  id: string | null; slug: string | null; kind: WorkKind; form: string; title: string; tagline: string; description: string;
+  id: string | null; slug: string | null; kind: WorkKind; form: string; title: string; tagline: string; description: string; excerpt: string;
   coverUrl: string | null; coverColor: string; pages: number | null; words: number | null; buyLinks: LinkItem[]; genres: string[]; mature: boolean;
 };
 type LaunchValues = { id: string | null; day: string | null; note: string; status: string | null };
@@ -83,6 +83,10 @@ export function StartFlow({ data }: { data: StartData }) {
   /** Which half of a two-screen step is showing: 0 or 1. */
   const [part, setPart] = useState(0);
   const [pickDay, setPickDay] = useState(false);
+  /** Every line of the no-AI pledge is ticked. Asked each time a launch is first set; one already set has it on record. */
+  const [pledged, setPledged] = useState(false);
+  /** The author would rather show no sample and send readers straight to the link. */
+  const [noSample, setNoSample] = useState(Boolean(data.launch) && !data.work?.excerpt);
   const [page, setPage] = useState<PageValues>(data.page ?? {
     name: data.viewerName, handle: slugify(data.viewerName), kind: "author", tagline: "", bio: "", portraitUrl: null, city: "", region: "", country: "",
     website: "", links: [], genres: [], readersOf: [], inspiredBy: [], mature: false, aiUse: null, supportUrl: "",
@@ -91,7 +95,7 @@ export function StartFlow({ data }: { data: StartData }) {
   const [published, setPublished] = useState(data.published);
   const [handleTouched, setHandleTouched] = useState(data.pageExists);
   const [work, setWork] = useState<WorkValues>(data.work ?? {
-    id: null, slug: null, kind: "short", form: "", title: "", tagline: "", description: "", coverUrl: null, coverColor: COVER_SWATCHES[0]!.value,
+    id: null, slug: null, kind: "short", form: "", title: "", tagline: "", description: "", excerpt: "", coverUrl: null, coverColor: COVER_SWATCHES[0]!.value,
     pages: null, words: null, buyLinks: [], genres: [], mature: false,
   });
   const [unit, setUnit] = useState<"words" | "pages">(data.work?.pages && !data.work.words ? "pages" : "words");
@@ -134,11 +138,14 @@ export function StartFlow({ data }: { data: StartData }) {
   async function nextFromLaunch() {
     if (!work.title.trim()) return bad("Your launch needs a title.");
     if (part === 1 && !launch.day) return bad("Choose the day it goes on the board.");
+    const linked = work.buyLinks.some((l) => l.url.trim());
+    if (part === 1 && noSample && !linked) return bad("With no sample, readers need somewhere to go. Add a place to read it or get it.");
+    if (part === 1 && !launch.id && !pledged) return bad(AI_PLEDGE_MISSING);
     setBusy(true); setStatus(null);
     try {
       // 1. the work. Its declaration is the one made for the page: one person, one way of writing.
       const body = {
-        kind: work.kind, form: work.form || WORK_KINDS.find((k) => k.value === work.kind)!.form, title: work.title, tagline: work.tagline, description: work.description,
+        kind: work.kind, form: work.form || WORK_KINDS.find((k) => k.value === work.kind)!.form, title: work.title, tagline: work.tagline, description: work.description, excerpt: noSample ? "" : work.excerpt,
         coverUrl: work.coverUrl, coverColor: work.coverColor, pages: unit === "pages" ? length : null, words: unit === "words" ? length : null,
         buyLinks: work.buyLinks.filter((l) => l.url.trim()), genres: work.genres, mature: work.mature, aiUse: page.aiUse,
       };
@@ -155,7 +162,7 @@ export function StartFlow({ data }: { data: StartData }) {
       if (!live) {
         const set = launch.id
           ? await send<{ launch: { id: string; status: string } }>("PATCH", `/api/studio/launches/${launch.id}`, { day: launch.day, note: launch.note })
-          : await send<{ launch: { id: string; status: string } }>("POST", "/api/studio/launches", { kind: "work", workId: id, day: launch.day, note: launch.note });
+          : await send<{ launch: { id: string; status: string } }>("POST", "/api/studio/launches", { kind: "work", workId: id, day: launch.day, note: launch.note, pledge: pledged });
         if (!set.ok) return bad(set.error);
         setLaunch((old) => ({ ...old, id: set.data.launch.id, status: set.data.launch.status }));
       }
@@ -175,7 +182,7 @@ export function StartFlow({ data }: { data: StartData }) {
   const trust = trustMeter({
     portraitUrl: page.portraitUrl, bio: page.bio, tagline: page.tagline, genres: page.genres, city: page.city, aiUse: page.aiUse,
     website: page.website, links: page.links, readersOf: page.readersOf,
-    work: work.title.trim() || work.id ? { hasCover: Boolean(work.coverUrl), description: work.description, buyLinks: work.buyLinks, note: launch.note } : null,
+    work: work.title.trim() || work.id ? { hasCover: Boolean(work.coverUrl), description: work.description, excerpt: noSample ? "" : work.excerpt, buyLinks: work.buyLinks, note: launch.note } : null,
   });
 
   const genreNames = (slugs: string[]) => slugs.map((s) => data.genres.find((g) => g.slug === s)?.name ?? s).join(", ");
@@ -254,7 +261,7 @@ export function StartFlow({ data }: { data: StartData }) {
           <h1 id="start-h">{part === 0 ? "Your first launch." : "Where, and when."}</h1>
           <p className="start-lede">{part === 0
             ? <>One finished piece of writing, of any size. A poem gets a row like a novel.</>
-            : <>Where readers can get <i>{work.title || "it"}</i>, what you&apos;d like to say to them, and the day it goes on the board.</>}</p>
+            : <>A taste of <i>{work.title || "it"}</i>, where readers can get the rest, and the day it goes on the board.</>}</p>
           {part === 0 ? (
           <div className="studio-form">
             <Field label="Title" htmlFor="st-title">
@@ -302,8 +309,14 @@ export function StartFlow({ data }: { data: StartData }) {
           </div>
           ) : (
           <div className="studio-form">
+            <fieldset className="studio-set">
+              <legend className="label">A sample for readers</legend>
+              <p className="hint">The opening, a poem from the set, a page you&apos;re proud of. A reader who has tasted the writing is far likelier to follow the link, so even a few lines help. It&apos;s shown on the launch page as &ldquo;An excerpt&rdquo;.</p>
+              {!noSample && <textarea className="textarea" rows={8} aria-label="A sample of the work" value={work.excerpt} maxLength={8000} placeholder="Paste a passage here." onChange={(e) => setW("excerpt", e.target.value)} />}
+              <label className="studio-check"><input type="checkbox" checked={noSample} onChange={(e) => setNoSample(e.target.checked)} /><span>No sample. I&apos;d rather readers go straight to where the work is.</span></label>
+            </fieldset>
             <LinkList legend="Where to read it or get it" value={work.buyLinks} onChange={(v) => setW("buyLinks", v)} max={LIMITS.buyLinks} labelHint="Bookshop.org" addWord="Add a place"
-              hint="A bookshop, a magazine, your own site, Archive of Our Own: wherever it lives. These belong to this launch, and readers reach them from its page." />
+              hint="A bookshop, a magazine, your own site, Archive of Our Own: wherever it lives. These belong to this launch: its page has a button that takes readers there." />
             <label className="studio-check"><input type="checkbox" checked={work.mature} onChange={(e) => setW("mature", e.target.checked)} /><span>This is for adults only (explicit sex or graphic violence). It gets a Mature mark.</span></label>
             <Field label="Your note to readers" htmlFor="st-note" hint="Why you wrote it, what you'd like them to know. It's shown first on the launch page, in your name.">
               <textarea id="st-note" className="textarea" rows={5} value={launch.note} maxLength={2000} onChange={(e) => setLaunch((old) => ({ ...old, note: e.target.value }))} />
@@ -336,6 +349,7 @@ export function StartFlow({ data }: { data: StartData }) {
                 </div>
               )}
             </fieldset>
+            {!launch.id && <AiPledge onChange={setPledged} />}
           </div>
           )}
           <div className="start-next">
@@ -387,7 +401,7 @@ export function StartFlow({ data }: { data: StartData }) {
                   <p className="t">{work.title || "No title yet"}</p>
                   <p className="by">{work.form || WORK_KINDS.find((k) => k.value === work.kind)!.form} · by {page.name}{data.founding && <FoundingMark />}</p>
                   {work.tagline && <p>{work.tagline}</p>}
-                  <p className="facts">{[genreNames(work.genres), length ? `${length.toLocaleString("en-US")} ${unit}` : null, work.buyLinks.length ? `${work.buyLinks.length} ${work.buyLinks.length === 1 ? "place" : "places"} to get it` : "no link to it yet"].filter(Boolean).join(" · ")}</p>
+                  <p className="facts">{[genreNames(work.genres), length ? `${length.toLocaleString("en-US")} ${unit}` : null, work.excerpt.trim() && !noSample ? "a sample" : null, work.buyLinks.length ? `${work.buyLinks.length} ${work.buyLinks.length === 1 ? "place" : "places"} to get it` : "no link to it yet"].filter(Boolean).join(" · ")}</p>
                 </div>
               </div>
               {work.slug && <p className="start-see"><Link className="btn" href={`/work/${work.slug}`} target="_blank">See the launch page as readers will</Link></p>}

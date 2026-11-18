@@ -140,6 +140,12 @@ Pro, Premium, upgrade, shelf (replaced by collection, November 2026).
 
 ## Changes
 
+- 2026-11-18, later still. **The pledge**: before every launch, in the
+  setup and the Studio, an author ticks each line of `AI_PLEDGE`
+  (lib/studio/rules.ts); the launch records when (`launches.pledged_at`)
+  and the server refuses one without it. The setup asks for **a sample**
+  of the work (it is the work's excerpt, shown as "An excerpt"), which an
+  author may decline if there is a link to the work instead.
 - 2026-11-18, later. A page no longer needs a portrait to go public; one
   with none shows the author's initials. **Trust with your readers** is a
   meter an author sees in the setup (`trustMeter`,

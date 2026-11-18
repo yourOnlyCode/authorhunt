@@ -15,7 +15,7 @@
 export type TrustFacts = {
   portraitUrl: string | null; bio: string; tagline: string; genres: string[]; city: string; aiUse: string | null;
   website: string; links: { url: string }[]; readersOf: string[];
-  work: { hasCover: boolean; description: string; buyLinks: { url: string }[]; note: string } | null;
+  work: { hasCover: boolean; description: string; excerpt: string; buyLinks: { url: string }[]; note: string } | null;
 };
 
 /** Where in the setup a thing is added: the step, and which of its two screens. */
@@ -28,16 +28,17 @@ export function trustMeter(f: TrustFacts): { score: number; items: TrustItem[]; 
     // A face is worth more than anything else on the page.
     { key: "portrait", label: "A portrait", points: 25, done: Boolean(f.portraitUrl), step: 0, part: 0 },
     { key: "bio", label: "A few lines about you", points: 10, done: has(f.bio), step: 0, part: 0 },
-    { key: "declaration", label: "How your work is written", points: 10, done: Boolean(f.aiUse), step: 0, part: 1 },
     { key: "cover", label: "A cover for your launch", points: 10, done: Boolean(w?.hasCover), step: 1, part: 0 },
+    // A sample lets a reader judge the writing before they follow a link anywhere.
+    { key: "sample", label: "A sample of the work", points: 10, done: Boolean(w && has(w.excerpt)), step: 1, part: 1 },
+    { key: "declaration", label: "How your work is written", points: 5, done: Boolean(f.aiUse), step: 0, part: 1 },
     { key: "tagline", label: "What you write, in a line", points: 5, done: has(f.tagline), step: 0, part: 0 },
     { key: "genres", label: "Your genres", points: 5, done: f.genres.length > 0, step: 0, part: 1 },
     { key: "city", label: "Your city", points: 5, done: has(f.city), step: 0, part: 1 },
     { key: "description", label: "What your launch is about", points: 5, done: Boolean(w && has(w.description)), step: 1, part: 0 },
     { key: "get", label: "Where to read or get it", points: 5, done: Boolean(w?.buyLinks.some((l) => has(l.url))), step: 1, part: 1 },
     { key: "note", label: "Your note to readers", points: 5, done: Boolean(w && has(w.note)), step: 1, part: 1 },
-    { key: "website", label: "Your website", points: 5, done: has(f.website), step: 2, part: 0 },
-    { key: "links", label: "Somewhere else to find you", points: 5, done: f.links.some((l) => has(l.url)), step: 2, part: 0 },
+    { key: "online", label: "Your website, or somewhere else to find you", points: 5, done: has(f.website) || f.links.some((l) => has(l.url)), step: 2, part: 0 },
     { key: "readersOf", label: "Whose readers might like you", points: 5, done: f.readersOf.length > 0, step: 2, part: 0 },
   ];
   const score = items.filter((i) => i.done).reduce((sum, i) => sum + i.points, 0);

@@ -10,8 +10,8 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { LIMITS, UPDATE_KINDS } from "@/lib/studio/rules";
-import { Field, StatusLine } from "./fields";
+import { AI_PLEDGE_MISSING, LIMITS, UPDATE_KINDS } from "@/lib/studio/rules";
+import { AiPledge, Field, StatusLine } from "./fields";
 import { send, type Status } from "./send";
 
 type Choice = { value: string; label: string };
@@ -22,11 +22,13 @@ export function LaunchForm({ choices, today, lastDay, preset }: { choices: Choic
   const [day, setDay] = useState(today);
   const [busy, setBusy] = useState(false);
   const [status, setStatus] = useState<Status>(null);
+  const [pledged, setPledged] = useState(false);
 
   async function submit() {
+    if (!pledged) { setStatus({ tone: "bad", text: AI_PLEDGE_MISSING }); return; }
     setBusy(true);
     setStatus(null);
-    const body = what === "page" ? { kind: "author", day } : { kind: "work", workId: what, day };
+    const body = what === "page" ? { kind: "author", day, pledge: true } : { kind: "work", workId: what, day, pledge: true };
     const res = await send<{ launch: { status: string } }>("POST", "/api/studio/launches", body);
     setBusy(false);
     if (!res.ok) { setStatus({ tone: "bad", text: res.error }); return; }
@@ -44,6 +46,7 @@ export function LaunchForm({ choices, today, lastDay, preset }: { choices: Choic
       <Field label="The day" htmlFor="lf-day" hint="Days run midnight to midnight, New York time. Choose today to go live now, or any day in the next sixty.">
         <input id="lf-day" type="date" className="input" required min={today} max={lastDay} value={day} onChange={(e) => setDay(e.target.value)} />
       </Field>
+      <AiPledge onChange={setPledged} />
       <div className="studio-actions"><button type="submit" className="btn solid" disabled={busy || !what}>{day === today ? "Launch today" : "Set the launch"}</button></div>
       <StatusLine status={status} />
     </form>

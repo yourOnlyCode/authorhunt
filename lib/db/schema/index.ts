@@ -133,6 +133,8 @@ export const launches = pgTable("launches", {
   rankDay: integer("rank_day"),
   /** The author's note: what they say to readers about this launch. Shown first on the launch page. */
   note: text("note").notNull().default(""),
+  /** When the author made the no-AI pledge for this launch (lib/studio/rules.ts, AI_PLEDGE). Null only on launches made before the pledge existed. */
+  pledgedAt: timestamp("pledged_at", { withTimezone: true }),
   createdAt: createdAt(),
 }, (t) => [
   index("launches_day_score_idx").on(t.launchDay, t.score),

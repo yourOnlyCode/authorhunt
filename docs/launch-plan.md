@@ -169,9 +169,9 @@ Turning it on, in order:
       now the first step here.)
 - [ ] **You.** Turn on Vercel Blob and add its token in Vercel. Portraits
       and covers can't be saved without it.
-- [ ] **You.** Run `npm run db:migrate` against production. Two migrations
-      are waiting: the genres and platforms, and a work's word count with a
-      launch's author note. Without the genres there is nothing to choose
+- [ ] **You.** Run `npm run db:migrate` against production. Three migrations
+      are waiting: the genres and platforms; a work's word count with a
+      launch's author note; and the record of a launch's no-AI pledge. Without the genres there is nothing to choose
       at step 1.
 - [ ] **Claude.** With those in place, go through `/start` on production
       with a real account, start to finish.

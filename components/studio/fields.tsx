@@ -11,7 +11,7 @@
 
 import { useId, useState } from "react";
 import type { AiUse, LinkItem } from "@/lib/db/schema";
-import { AI_CHOICES, AI_NOT_ACCEPTED } from "@/lib/studio/rules";
+import { AI_CHOICES, AI_NOT_ACCEPTED, AI_PLEDGE } from "@/lib/studio/rules";
 
 export function Field({ label, hint, children, htmlFor }: { label: string; hint?: React.ReactNode; children: React.ReactNode; htmlFor?: string }) {
   return (
@@ -76,6 +76,31 @@ export function AiChoice({ legend, value, onChange, hint }: { legend: string; va
         <label key={c.value} className="studio-radio">
           <input type="radio" name={name} checked={value === c.value} onChange={() => onChange(c.value)} />
           <span><b>{c.label}.</b> {c.means}</span>
+        </label>
+      ))}
+    </fieldset>
+  );
+}
+
+/**
+ * The no-AI pledge, made before every launch: each line is its own tick-box, and `onChange` says whether all
+ * of them are ticked. Nothing is pre-ticked, ever.
+ */
+export function AiPledge({ onChange }: { onChange: (all: boolean) => void }) {
+  const [ticked, setTicked] = useState<boolean[]>(() => AI_PLEDGE.map(() => false));
+  function set(i: number, on: boolean) {
+    const next = ticked.map((t, n) => (n === i ? on : t));
+    setTicked(next);
+    onChange(next.every(Boolean));
+  }
+  return (
+    <fieldset className="studio-set studio-pledge">
+      <legend className="label">Before you launch: written by you</legend>
+      <p className="hint">Tick each line. This is your word to readers, kept with the launch.</p>
+      {AI_PLEDGE.map((line, i) => (
+        <label key={line} className="studio-check">
+          <input type="checkbox" checked={ticked[i]} onChange={(e) => set(i, e.target.checked)} />
+          <span>{line}</span>
         </label>
       ))}
     </fieldset>

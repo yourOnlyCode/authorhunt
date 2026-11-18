@@ -22,6 +22,20 @@ export const AI_CHOICES: { value: AiUse; label: string; means: string }[] = [
   { value: "assisted", label: "Written by me, with AI as a tool", means: "You wrote every passage. AI helped only around the writing, such as research, outlining, or suggestions you took or left one at a time. It drafted, rewrote or translated none of the text." },
 ];
 export const AI_VALUES = ["none", "assisted"] as const;
+
+/**
+ * The pledge an author makes each time they launch (the owner's rule, November 2026): every line is ticked
+ * before a launch is set, in the setup and in the Studio alike, and the server refuses a launch without it.
+ * The declaration above says how a person works; this is a promise about this piece and every later one, and
+ * the time it was made is kept on the launch (`launches.pledged_at`) as the record.
+ */
+export const AI_PLEDGE = [
+  "I wrote every passage of this work myself.",
+  "No part of its text was drafted, rewritten or translated by AI.",
+  "I will never launch work on Author Hunt that contains AI-written prose.",
+  "I understand that work found to be AI-written is removed, and my page banned.",
+] as const;
+export const AI_PLEDGE_MISSING = "Tick every line of the pledge first. Author Hunt does not accept work written by AI.";
 /** Whether a declaration lets a page go public or a work launch. */
 export function aiAccepted(value: AiUse | null): boolean {
   return value === "none" || value === "assisted";

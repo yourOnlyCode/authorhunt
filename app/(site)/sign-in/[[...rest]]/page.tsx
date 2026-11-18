@@ -8,6 +8,7 @@ import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { getViewer } from "@/lib/auth";
 import { clerkEnabled, devAuthEnabled } from "@/lib/env";
+import { AuthFrame, AuthSkeleton } from "@/components/auth/auth-frame";
 
 export const metadata: Metadata = { title: "Sign in", robots: { index: false } };
 
@@ -26,7 +27,7 @@ export default async function SignIn({ searchParams }: { searchParams: Promise<{
   if (clerkEnabled) {
     if (viewer) redirect(next);
     const { SignIn: ClerkSignIn } = await import("@clerk/nextjs");
-    return <main className="wrap" style={{ paddingBlock: 56, display: "grid", placeItems: "center" }}><ClerkSignIn fallbackRedirectUrl={next} /></main>;
+    return <AuthFrame><ClerkSignIn fallbackRedirectUrl={next} signUpUrl={`/sign-up?next=${encodeURIComponent(next)}`} fallback={<AuthSkeleton title="Sign in to Author Hunt" />} /></AuthFrame>;
   }
 
   return (

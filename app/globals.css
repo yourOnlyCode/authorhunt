@@ -234,6 +234,24 @@ footer .wrap { padding-block: 20px; display: flex; flex-wrap: wrap; justify-cont
 .author-note p + p { margin-top: 10px; }
 .author-note .signed { font: italic 300 22px/1.2 var(--display); }
 
+/* Every page: the footer at the bottom of the screen however little is above it (app/(site)/layout.tsx). */
+.site { display: flex; flex-direction: column; min-height: 100vh; min-height: 100svh; }
+.site-body { flex: 1 0 auto; }
+
+/* Sign in and sign up (components/auth/auth-frame.tsx). The footer already sits at the bottom of the screen;
+   the skeleton holds the form's place so the form fills in rather than appears. */
+.auth-frame { display: grid; justify-items: center; align-content: start; padding-block: 56px 72px; }
+.auth-skeleton { display: grid; gap: 16px; width: min(100%, 400px); padding: 34px 40px 0; border: 1.5px solid var(--ink); box-shadow: 8px 8px 0 var(--ink); background: var(--page); }
+.auth-skeleton .t { text-align: center; font: 300 1.6rem/1.2 var(--display); }
+.auth-skeleton .bar, .auth-skeleton .box, .auth-skeleton .btn-shape { display: block; background: var(--tint); }
+.auth-skeleton .bar { height: 12px; width: 50%; margin-inline: auto; } .auth-skeleton .bar.wide { width: 70%; margin-top: -6px; } .auth-skeleton .bar.short { width: 30%; margin: 0 0 8px; }
+.auth-skeleton .btn-shape { height: 40px; border: 1px solid var(--hair); background: var(--page); } .auth-skeleton .btn-shape.dark { background: var(--ink); border-color: var(--ink); opacity: 0.85; }
+.auth-skeleton .or { height: 1px; background: var(--hair); margin-block: 6px; }
+.auth-skeleton .box { height: 40px; border: 1px solid var(--hair); background: var(--page); }
+.auth-skeleton .foot { display: block; margin: 8px -40px 0; padding: 18px 0; border-top: 1px solid var(--hair); background: var(--tint); } .auth-skeleton .foot .bar { background: var(--hair); }
+@media (prefers-reduced-motion: no-preference) { .auth-skeleton .bar, .auth-skeleton .box { animation: auth-breathe 1.4s ease-in-out infinite alternate; } }
+@keyframes auth-breathe { from { opacity: 1; } to { opacity: 0.55; } }
+
 /* The founding author's mark, beside a name (components/ui/icons.tsx). */
 .founding-mark { display: inline-block; width: 0.82em; height: 0.82em; margin-left: 0.32em; vertical-align: -0.04em; fill: none; stroke: var(--red); stroke-width: 1.6; stroke-linejoin: miter; }
 .founding-mark .f { fill: var(--red); stroke: none; }

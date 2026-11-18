@@ -6,6 +6,8 @@
  * splash page in particular) runs before sign-in is wired up.
  */
 
+import { preconnect } from "react-dom";
+import { clerkFrontendOrigin } from "@/lib/clerk-frontend";
 import type { Metadata, Viewport } from "next";
 import { Averia_Serif_Libre, Cormorant_Garamond } from "next/font/google";
 import { appUrl, clerkEnabled } from "@/lib/env";
@@ -27,11 +29,32 @@ export const metadata: Metadata = {
 };
 export const viewport: Viewport = { themeColor: "#FFFFFF", colorScheme: "light" };
 
+/**
+ * Clerk's forms in Author Hunt's own look (DESIGN.md): white, ink, the text face, square corners, and a card on a
+ * hard ink shadow like the join box. The colours are the tokens' values, since Clerk can't read CSS variables
+ * for colour; the font is the variable next/font sets on <html>.
+ */
+const CLERK_LOOK = {
+  variables: {
+    colorPrimary: "#111111", colorPrimaryForeground: "#FFFFFF", colorForeground: "#111111", colorMutedForeground: "#5C5C5C",
+    colorBackground: "#FFFFFF", colorInput: "#FFFFFF", colorInputForeground: "#111111", colorBorder: "#111111", colorRing: "#111111",
+    colorDanger: "#9C2F25", colorNeutral: "#111111", borderRadius: "0", fontFamily: "var(--font-text), Garamond, Georgia, serif", fontSize: "1.05rem",
+  },
+  elements: {
+    cardBox: { border: "1.5px solid #111111", boxShadow: "8px 8px 0 #111111" },
+    card: { boxShadow: "none" },
+    headerTitle: { fontFamily: "var(--font-display), Georgia, serif", fontWeight: 300, fontSize: "1.6rem" },
+  },
+};
+
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   // The face variables sit on <html>, because the tokens that use them are defined on :root.
   // Clerk's provider goes inside <body> for the current SDK (@clerk/nextjs 7), not around <html>.
   const html = (body: React.ReactNode) => <html lang="en" className={`${display.variable} ${text.variable}`}><body>{body}</body></html>;
   if (!clerkEnabled) return html(children);
+  // Open the connection to Clerk's address now, so its sign-in form has less to wait for (lib/clerk-frontend.ts).
+  const clerkOrigin = clerkFrontendOrigin(process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY);
+  if (clerkOrigin) preconnect(clerkOrigin, { crossOrigin: "anonymous" });
   const { ClerkProvider } = await import("@clerk/nextjs");
-  return html(<ClerkProvider>{children}</ClerkProvider>);
+  return html(<ClerkProvider appearance={CLERK_LOOK}>{children}</ClerkProvider>);
 }

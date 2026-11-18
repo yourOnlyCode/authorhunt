@@ -11,6 +11,7 @@ import { clerkFrontendOrigin } from "@/lib/clerk-frontend";
 import type { Metadata, Viewport } from "next";
 import { Averia_Serif_Libre, Cormorant_Garamond } from "next/font/google";
 import { appUrl, clerkEnabled } from "@/lib/env";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 import "./styles/pages.css";
 import "./styles/discover.css";
@@ -59,7 +60,7 @@ const CLERK_WORDS = {
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   // The face variables sit on <html>, because the tokens that use them are defined on :root.
   // Clerk's provider goes inside <body> for the current SDK (@clerk/nextjs 7), not around <html>.
-  const html = (body: React.ReactNode) => <html lang="en" className={`${display.variable} ${text.variable}`}><body>{body}</body></html>;
+  const html = (body: React.ReactNode) => <html lang="en" className={`${display.variable} ${text.variable}`}><body>{body}<Analytics /></body></html>;
   if (!clerkEnabled) return html(children);
   // Open the connection to Clerk's address now, so its sign-in form has less to wait for (lib/clerk-frontend.ts).
   const clerkOrigin = clerkFrontendOrigin(process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY);

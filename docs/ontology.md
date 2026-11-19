@@ -140,6 +140,12 @@ Pro, Premium, upgrade, shelf (replaced by collection, November 2026).
 
 ## Changes
 
+- 2026-11-19. **The launch page's main button** no longer says "Get the
+  book". Its words follow the kind of work (`GO_WORDS`, lib/work-words.ts):
+  "View the book", "Read it" (short work), "Read the serial", "View the
+  issue". We don't say "get" or "buy" on it. The splash's author side
+  gains **"What a launch gets you"** (a reader's path to the author's own
+  store or site), named in DESIGN.md.
 - 2026-11-18, later still. **The pledge**: before every launch, in the
   setup and the Studio, an author ticks each line of `AI_PLEDGE`
   (lib/studio/rules.ts); the launch records when (`launches.pledged_at`)

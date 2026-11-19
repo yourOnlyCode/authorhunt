@@ -126,10 +126,12 @@ section > .wrap { display: grid; gap: 1.75rem; }
 
 @media (max-width: 60rem) { .tiles { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 46rem) {
-  .path { grid-template-columns: 1fr; } .arrow { justify-self: center; transform: rotate(90deg); }
+  /* On a phone each set of cards is one row to swipe; the next card shows at the edge. */
+  .path, .tiles { display: flex; gap: .75rem; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; margin-inline: -16px; padding: 2px 16px 10px; scroll-padding-inline: 16px; }
+  .path > .stop, .tiles > li { flex: 0 0 min(78%, 19rem); scroll-snap-align: start; } .arrow { display: none; }
   .ads { grid-template-columns: 1fr; }
 }
-@media (max-width: 30rem) { .tiles, .nums { grid-template-columns: 1fr; } }
+@media (max-width: 30rem) { .nums { grid-template-columns: 1fr; } }
 </style>
 
 <div id="root" data-view="new">
@@ -165,7 +167,7 @@ section > .wrap { display: grid; gap: 1.75rem; }
       <h3>Readers see it</h3><p>Your work has a row on the day's board, where readers come to find someone new.</p></div>
     <span class="arrow" aria-hidden="true">&rarr;</span>
     <div class="stop"><p class="sc">Your launch page</p>
-      <div class="pic"><div class="lp"><span class="cv"></span><div><h4>Your title</h4><small>A sample, and a note from you</small><br><span class="get">Get the work &rarr;</span></div></div></div>
+      <div class="pic"><div class="lp"><span class="cv"></span><div><h4>Your title</h4><small>A sample, and a note from you</small><br><span class="get">Read it &rarr;</span></div></div></div>
       <h3>They read a sample</h3><p>Then one button, the largest on the page, goes where you send it.</p></div>
     <span class="arrow" aria-hidden="true">&rarr;</span>
     <div class="stop"><p class="sc">Your store</p>
@@ -189,7 +191,7 @@ section > .wrap { display: grid; gap: 1.75rem; }
     <p class="note new">Proposed: outcomes first. The four marked tiles are new; "Readers come looking" moves into the section above.</p>
     <p class="note now">Live now: how it works first, what you get last.</p></div>
   <ul class="tiles new">
-    <li class="is-new"><div class="vis"><span class="get">Get the work &rarr;</span></div><h3>Readers go to your store</h3><p>One button, straight to where you sell or publish. No cut.</p></li>
+    <li class="is-new"><div class="vis"><span class="get">Read it &rarr;</span></div><h3>Readers go to your work</h3><p>One button, straight to where you sell or publish. No cut.</p></li>
     <li class="is-new"><div class="vis"><span class="fol"><b>128</b>followers</span></div><h3>Readers for next time</h3><p>Followers are told about your next launch.</p></li>
     <li class="is-new"><div class="vis"><div class="letter"><small>Sunday</small>This week's best<small>1. Your title</small></div></div><h3>In the Sunday letter</h3><p>The week's best is emailed to readers.</p></li>
     <li class="is-new"><div class="vis"><div class="found"><small>authorhunt.com &rsaquo; work</small><u>Your title, by you</u><small>Launched January 8, 2027</small></div></div><h3>A page that lasts</h3><p>It stays up, and can be found by search, long after the day.</p></li>

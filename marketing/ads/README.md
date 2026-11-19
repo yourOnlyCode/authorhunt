@@ -24,7 +24,7 @@ phone width (`shots.mjs` takes them), showing the sample authors from
 | File | Says | Shows |
 |---|---|---|
 | `p1-board-*` | Every morning, a new board. | The day's board, with its filter by type |
-| `p2-launch-*` | Each piece gets a page of its own. | A launch page: cover, First of the day, Get the book |
+| `p2-launch-*` | Each piece gets a page of its own. | A launch page: cover, First of the day, View the book |
 | `p3-author-*` | Your page stays. | An author page, with followers and Support |
 | `p4-add-*` | Add it. Pick a day. Launch. | The Studio's "Add a work" form |
 
@@ -136,3 +136,18 @@ Worth trying after those:
 
 Not yet: BookBub and Goodreads sell books to readers, which matters once
 there is a board to send readers to.
+
+## The outcome angle (November 19, 2026)
+
+Lead with what a launch gets an author, not with how the board works. No
+promise of sales, no "get discovered", no invented counts.
+
+| Headline | Body |
+|---|---|
+| Your writing deserves more than one post. | Give it a launch day: a day on the board, and one button to where you sell it. |
+| You posted it once and it sank. | Launch it instead, in front of readers looking for someone new. Free for authors. |
+| A launch day for the thing you just finished. | Poem, story or novel. Readers cheer, follow, and go on to your work. |
+
+The sample square is in docs/mockups/splash-outcomes.html. The launch-page
+shot (`p2-launch-*`) still shows the old button words, "Get the book", and
+needs retaking before it runs again.

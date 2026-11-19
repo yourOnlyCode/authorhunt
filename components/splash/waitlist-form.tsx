@@ -22,6 +22,7 @@ import { useLayoutEffect, useRef, useState } from "react";
 import { Confetti, throwConfetti, type Piece } from "./confetti";
 import { gazeProps, useSplash } from "./state";
 import { ShareAsk } from "./share";
+import { EARLY_DAY_ROOM } from "@/lib/studio/days";
 
 export function WaitlistForm({ count, early }: { count: string | null; early: boolean }) {
   const { side, email, setEmail, status, error, join, look, still } = useSplash();
@@ -75,7 +76,7 @@ export function WaitlistForm({ count, early }: { count: string | null; early: bo
           {error && <p className="error-text" role="alert" style={{ marginTop: 10 }}>{error}</p>}
           <p className="fine">Free for readers, and free to launch. One email to confirm, one when we open. <a href="/privacy">What we keep</a>.</p>
           {count && <p className="count">{count}</p>}
-          {setUp && <p className="early-link">Ready now? <a href="/sign-up?next=/start">Set up your first launch</a> and pick its day.</p>}
+          {setUp && <p className="early-link">Opening day has room for {EARLY_DAY_ROOM} launches. <a href="/sign-up?next=/start">Set up yours</a> and hold a place.</p>}
         </div>
       )}
       <Confetti pieces={pieces} />

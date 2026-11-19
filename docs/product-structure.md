@@ -19,7 +19,7 @@ building.
 | "Promoted" rows in the list | "Promoted" rows, unranked, for services authors buy | Never a book or an author (docs/monetization.md §3). |
 | Launch archive by day, week, month, year | `/launches/2026-11-13` for a day, `/launches` for the archive (weeks and months later) | The same. |
 | A product's page, with its launches under it | An **author's page**, with their books and launches under it | The author is the lasting thing, as the product is there. |
-| A launch page: thumbnail, name, tagline, Visit, upvote; gallery; description; makers; comments | A **launch page**: cover, title, tagline, byline, Get the book, cheer; pictures; description; excerpt; content notes; the author; comments | "Visit" becomes "Get the book", which opens the author's buy links. |
+| A launch page: thumbnail, name, tagline, Visit, upvote; gallery; description; makers; comments | A **launch page**: cover, title, tagline, byline, View the book (or Read it), cheer; pictures; description; excerpt; content notes; the author; comments | "Visit" becomes "View the book", "Read it", "Read the serial" or "View the issue" by the kind of work (`lib/work-words.ts`), and opens the author's first link. |
 | Makers and hunters | The **author** only | No hunters: an author launches their own work. Unclaimed pages are later. |
 | The maker's first comment | The **author's note**, pinned first | The same. |
 | Comments: threaded, upvoted, maker badge | Comments: threaded, cheered, Author mark | The same (§2). |

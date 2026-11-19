@@ -2,7 +2,7 @@
  * app/(site)/work/[slug]/page.tsx
  *
  * A work's page, which is also its launch page (docs/product-structure.md:
- * Product Hunt's launch page, with "Visit" become "Get the book"). Public and
+ * Product Hunt's launch page, with "Visit" become "View the book" or "Read it": lib/work-words.ts). Public and
  * server-rendered, so a reader never meets a wall here (AGENTS.md rule 1): an
  * account is asked for at the cheer, the follow, the save and the comment.
  *
@@ -12,6 +12,7 @@
  * launch shows what is coming and takes no cheers or comments yet.
  */
 
+import { GO_WORDS } from "@/lib/work-words";
 import { cache } from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
@@ -194,7 +195,7 @@ export default async function WorkPage({ params, searchParams }: Props) {
             <span>by <Link className="word" href={`/author/${author.handle}`}>{author.name}</Link>{author.founding && <FoundingMark />} &ensp;<FollowButton authorId={author.id} following={state.following} signedIn={signedIn} variant="word" isSelf={isOwner} /></span>
           </div>
           <div className="go">
-            {buy[0] && <OutLink className="btn solid" href={buy[0].url} rel={relFor("buy", facts)} authorId={author.id}>{`Get the ${NOUN[work.kind]}`}</OutLink>}
+            {buy[0] && <OutLink className="btn solid" href={buy[0].url} rel={relFor("buy", facts)} authorId={author.id}>{GO_WORDS[work.kind]}</OutLink>}
             {supportButton("Support the author")}
             <SaveButton workId={work.id} saved={state.saved} signedIn={signedIn} />
             <ShareButton title={`${work.title} by ${author.name}`} text={work.tagline || undefined} />

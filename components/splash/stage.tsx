@@ -79,12 +79,12 @@ export function SplashStage({ opensAt, initialNow, when, hour, logo, count, earl
         </h1>
         <p className="what" data-reveal>
           <span className="reader" aria-hidden={side !== "reader"}>A daily launch board for authors and their writing, from a single poem to a whole novel. New work goes up each morning, readers cheer for what they love, and <mark className="draw">every day ends with a ranking</mark>.</span>
-          <span className="author" aria-hidden={side !== "author"}>A daily launch board for authors and their writing. Launch anything you&apos;ve finished, from flash fiction or an essay to a novel, to readers looking for someone new. <mark className="draw">It&apos;s free.</mark></span>
+          <span className="author" aria-hidden={side !== "author"}>You posted it once and it sank. Give it a launch day instead: a day on the board, in front of readers looking for someone new, with <mark className="draw">one button that takes them to where you sell it</mark>. It&apos;s free.</span>
         </p>
         <p className="sr" role="status">{said}</p>
         <Countdown opensAt={opensAt} initialNow={initialNow} />
         <section className={`join ${joined ? "celebrate" : ""}`} id="join" aria-labelledby="join-h"><span className="paper" aria-hidden="true" /><WaitlistForm count={count} early={early} /></section>
-        <a className="more" href="#why" onClick={(e) => { e.preventDefault(); slowScrollTo("why"); }}>{side === "reader" ? "Why read here" : "Why launch here"} <span aria-hidden="true">&darr;</span></a>
+        <a className="more" href={side === "reader" ? "#why" : "#gets"} onClick={(e) => { e.preventDefault(); slowScrollTo(side === "reader" ? "why" : "gets"); }}>{side === "reader" ? "Why read here" : "What a launch gets you"} <span aria-hidden="true">&darr;</span></a>
       </div>
     </div>
   );

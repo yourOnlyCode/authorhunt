@@ -18,6 +18,7 @@ import { SplashStage } from "@/components/splash/stage";
 import { SplashProvider } from "@/components/splash/state";
 import { Dock } from "@/components/splash/dock";
 import { Why } from "@/components/splash/why";
+import { Gets } from "@/components/splash/gets";
 import { ExampleDay } from "@/components/splash/example-day";
 import { confirmedOnList } from "@/lib/queries/waitlist-count";
 import { listLine } from "@/lib/waitlist";
@@ -65,6 +66,7 @@ export default async function Splash({ searchParams }: { searchParams: Promise<{
       <Dock logo={logo} />
       <SplashStage opensAt={opens} initialNow={serverNow()} when={when} hour={hour} logo={logo} count={count} early={earlyAccess} />
       <div className="band" aria-hidden="true" />
+      <Gets />
       <Why />
       <div className="band" aria-hidden="true" />
       <section className="day" id="launch" aria-labelledby="launch-h">

@@ -176,11 +176,30 @@ Morris credit and the full FAQ.
   the page's one colour move, and it happens inside the box that asks for
   the address. The box is white, papered with the marigold, on a hard ink
   shadow.
-- **Each side gets its own case:** "Why read here" for a reader, "Why
-  launch here" for an author, six tiles each, drawn from the app's own
+- **Each side gets its own case:** "Why read here" for a reader (six
+  tiles), "Why launch here" for an author (eight), drawn from the app's own
   parts. Then the example launch, framed as "How you discover" or "What a
   launch is". Why comes before how. "Written by people" is a line of a
   draft with a writer's corrections on it.
+- **An author is told what a launch gets them first.** The line under the
+  headline names the problem ("You posted it once and it sank") and the
+  answer (a day on the board, one button to where you sell it). Then
+  "What a launch gets you" (`gets.tsx`): a reader's path in three boxes,
+  the board, the launch page, the author's own store or site, and the
+  counts an author sees a week on, marked "An example, not a promise".
+  The author's tiles lead with outcomes (readers go to your work,
+  followers for next time, the Sunday letter, a page that lasts) and end
+  with how the board works. *Why:* the owner's point, November 2026: an
+  author wants readers and sales, and the page explained the board
+  without saying what it does for them.
+- **Say what a launch does, never what it will earn.** No promise of
+  sales, no "get discovered", no invented reader counts or quotes. An
+  example number is labelled as one. Once the board is open, real totals
+  replace examples.
+- **On a phone, a set of cards is one row to swipe** (`.swipe`: the tiles
+  and the path), with the next card showing at the edge. Native scrolling
+  and scroll snap, no library, no arrows or dots. *Why:* the owner's call,
+  November 2026: a stack of eight cards was a long scroll.
 - **The example launch** is one day on the board in four named stages
   (Morning, All day, Midnight, Sunday) that lead it, fill as they play and can be
   pressed. Its Play button sits above it; "Example launch. The titles are

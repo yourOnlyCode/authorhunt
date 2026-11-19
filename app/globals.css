@@ -503,16 +503,25 @@ html:has(.splash) { scroll-padding-top: 76px; }
 .splash footer.foot .plate { display: inline-block; padding: 7px 18px; background: var(--page); border: 1.5px solid var(--ink); box-shadow: 4px 4px 0 var(--ink); }
 
 /* Why read here / Why launch here: six reasons, each shown before it is told. */
-.splash .why, .splash .day { padding-block: clamp(48px, 8vw, 88px); }
-.splash .why h2, .splash .day h2 { font: 300 clamp(32px, 5vw, 52px)/1.05 var(--display); text-wrap: balance; }
+.splash .why, .splash .day, .splash .gets { padding-block: clamp(48px, 8vw, 88px); }
+.splash .why h2, .splash .day h2, .splash .gets h2 { font: 300 clamp(32px, 5vw, 52px)/1.05 var(--display); text-wrap: balance; }
 .splash .day .lede { max-width: 36rem; margin: 10px auto 0; color: var(--ink-2); }
-.splash .tiles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: 28px; border-block: 1.5px solid var(--ink); }
-.splash .tiles li { padding: 22px 16px 24px; border-left: 1px solid var(--hair); border-top: 1px solid var(--hair); min-width: 0; }
-.splash .tiles li:nth-child(3n + 1) { border-left: 0; } .splash .tiles li:nth-child(-n + 3) { border-top: 0; }
+.splash .tiles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; margin-top: 28px; border-block: 1.5px solid var(--ink); background: var(--hair); }
+.splash .tiles li { padding: 22px 16px 24px; min-width: 0; background: var(--page); }
+.splash .for-author .tiles { grid-template-columns: repeat(4, minmax(0, 1fr)); } /* eight for an author, six for a reader: each fills its rows */
+@media (max-width: 900px) { .splash .for-author .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .splash .tiles h3 { font: 300 26px/1.1 var(--display); margin-top: 14px; }
 .splash .tiles li p { margin: 4px auto 0; color: var(--ink-2); max-width: 22ch; line-height: 1.3; }
 .splash .vis { min-height: 132px; display: grid; place-items: center; text-align: left; }
-@media (max-width: 760px) { .splash .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); } .splash .tiles li, .splash .tiles li:nth-child(-n + 3) { border-top: 1px solid var(--hair); } .splash .tiles li:nth-child(3n + 1) { border-left: 1px solid var(--hair); } .splash .tiles li:nth-child(2n + 1) { border-left: 0; } .splash .tiles li:nth-child(-n + 2) { border-top: 0; } .splash .tiles h3 { font-size: 22px; } .splash .tiles li { padding-inline: 10px; } .splash .vis { padding-bottom: 6px; } }
+/* On a phone a set of cards is one row to swipe, not a long stack (the owner's call, November 2026). The next card
+   shows at the edge, so the row says it moves; it snaps, and the browser's own scrolling does the rest. */
+@media (max-width: 760px) {
+  .splash .swipe, .splash .for-author .swipe { display: flex; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; border: 0; background: none; margin-inline: -20px; padding: 2px 20px 10px; scroll-padding-inline: 20px; }
+  .splash .swipe::-webkit-scrollbar { display: none; }
+  .splash .swipe > li { flex: 0 0 min(78%, 300px); scroll-snap-align: start; border: 1.5px solid var(--ink); }
+  .splash .swipe:focus-visible { outline: 3px solid var(--blue); outline-offset: -3px; }
+  .splash .tiles h3 { font-size: 24px; }
+}
 /* the tiles' pictures: small pieces of the app */
 .splash .mini { display: grid; grid-template-columns: auto 22px minmax(0, 1fr) auto; align-items: center; gap: 8px; width: min(100%, 210px); padding: 7px 9px; border: 1.5px solid var(--ink); background: var(--page); font-size: 15px; line-height: 1.1; }
 .splash .mini + .mini { margin-top: -1.5px; }
@@ -543,7 +552,39 @@ html:has(.splash) { scroll-padding-top: 76px; }
 .splash .proof .ins { position: absolute; left: 50%; bottom: 1.05em; transform: translateX(-50%) rotate(-4deg); font: italic 300 24px/1 var(--display); color: var(--red-text); }
 .splash .proof .ins::after { content: ""; position: absolute; left: 50%; top: 100%; width: 9px; height: 9px; margin: 1px 0 0 -5px; border-left: 2px solid var(--red); border-top: 2px solid var(--red); transform: rotate(45deg) skew(8deg, 8deg); }
 .splash .proof .stop { font: italic 300 30px/0.6 var(--display); color: var(--red-text); margin-left: 1px; }
-@media (max-width: 760px) { .splash .chips { gap: 8px; font-size: 12.5px; } .splash .mini { grid-template-columns: 18px minmax(0, 1fr) auto; gap: 6px; padding: 6px 7px; width: min(100%, 150px); } .splash .mini .rk, .splash .mini .tt small { display: none; } .splash .mini .cv { width: 18px; height: 26px; } .splash .mini .cv.s { height: 18px; } .splash .mini .tt { font-size: 14px; } .splash .mini.wide { width: 100%; } .splash .mini.wide .tt small { display: block; } .splash .mini.wide .tt { font-size: 15px; } .splash .mini.wide .tags { font-size: 11.5px; } .splash .proof { font-size: 16px; } .splash .proof .ins { font-size: 19px; } }
+@media (max-width: 760px) { .splash .mini.wide { width: 100%; } .splash .mini.wide .tags { font-size: 12px; } }
+
+/* What a launch gets you: a reader's path from the board to the author's own store, then the three counts an author sees. */
+.splash .gets { padding-bottom: 0; }
+.splash .gets .lede { max-width: 36rem; margin: 10px auto 0; color: var(--ink-2); }
+.splash .path { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 40px; margin-top: 28px; text-align: left; }
+.splash .path > li { position: relative; display: grid; align-content: start; gap: 10px; padding: 16px; border: 1.5px solid var(--ink); background: var(--page); min-width: 0; }
+.splash .path > li + li::before { content: "\2192"; position: absolute; left: -32px; top: 50%; translate: 0 -50%; font: 300 28px/1 var(--display); color: var(--red); }
+.splash .path .sc { color: var(--blue); }
+.splash .path .pic { display: grid; align-content: center; justify-items: center; gap: 8px; min-height: 150px; padding: 14px; background: var(--tint); }
+.splash .path h3 { font: 300 26px/1.1 var(--display); }
+.splash .path li > p:last-child { color: var(--ink-2); font-size: 18px; line-height: 1.3; }
+.splash .lp { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 12px; align-items: center; width: 100%; padding: 10px; border: 1.5px solid var(--ink); background: var(--page); line-height: 1.15; }
+.splash .lp .cv { width: 48px; height: 70px; border: 1px solid var(--ink); background: var(--blue); }
+.splash .lp b { display: block; font: 300 20px/1.1 var(--display); } .splash .lp small { display: block; color: var(--muted); font-size: 14px; }
+.splash .goes { display: inline-block; margin-top: 8px; padding: 5px 11px; background: var(--ink); color: var(--page); font-size: 16px; font-weight: 600; line-height: 1.2; box-shadow: 0 0 0 4px var(--mark); white-space: nowrap; }
+.splash .lp.shop { grid-template-columns: minmax(0, 1fr); gap: 0; padding: 0; }
+.splash .lp.shop .url { padding: 4px 10px; border-bottom: 1px solid var(--hair); color: var(--muted); font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.splash .lp.shop .in { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 12px; align-items: center; padding: 10px; } .splash .lp.shop .cv { width: 38px; height: 54px; }
+.splash .lp .buy { display: inline-block; margin-top: 6px; padding: 2px 9px; border: 1.5px solid var(--ink); font-size: 15px; font-variant-numeric: lining-nums; }
+.splash .path .places { color: var(--muted); font-size: 15px; line-height: 1.25; text-align: center; }
+.splash .results { margin-top: 28px; padding: 22px; border: 1.5px solid var(--ink); box-shadow: 8px 8px 0 var(--blue); background: var(--page); text-align: left; }
+.splash .results header { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 4px 16px; }
+.splash .results h3 { font: 300 26px/1.1 var(--display); } .splash .results header .sc { color: var(--red-text); }
+.splash .results dl { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin: 16px 0 0; }
+.splash .results dl > div { display: flex; flex-direction: column-reverse; justify-content: flex-end; border-top: 1.5px solid var(--ink); padding-top: 10px; min-width: 0; }
+.splash .results dd { margin: 0; font: 300 clamp(34px, 6vw, 54px)/1 var(--display); font-variant-numeric: lining-nums tabular-nums; } .splash .results dl > div:nth-child(2) dd { color: var(--red-text); }
+.splash .results dt { font-size: 18px; line-height: 1.25; margin-top: 4px; }
+.splash .results .fine { margin-top: 14px; color: var(--muted); font-size: 16px; }
+/* the outcome tiles' pictures */
+.splash .sunday { width: min(100%, 190px); padding: 9px 12px; border: 1.5px solid var(--ink); background: var(--page); box-shadow: 5px 5px 0 var(--ink); line-height: 1.2; } .splash .sunday b { display: block; font: 300 19px/1.15 var(--display); } .splash .sunday small { display: block; color: var(--muted); font-size: 13px; }
+.splash .found { width: min(100%, 200px); line-height: 1.25; } .splash .found u { color: var(--blue); font-size: 18px; text-underline-offset: 3px; } .splash .found small { display: block; color: var(--muted); font-size: 13px; }
+@media (max-width: 760px) { .splash .path > li + li::before { content: none; } .splash .results dl { grid-template-columns: minmax(0, 1fr); gap: 12px; } .splash .results { padding: 16px; box-shadow: 6px 6px 0 var(--blue); } }
 
 /* After joining: pass it on. A ruled-off strip inside the box, the link as text, and two plain buttons. */
 .splash .pass-on { margin: 16px auto 0; padding-top: 14px; border-top: 1px solid var(--hair); max-width: 30rem; }

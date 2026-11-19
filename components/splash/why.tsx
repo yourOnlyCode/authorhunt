@@ -5,6 +5,9 @@
  * reader, "Why launch here" for an author. Both are rendered, and the styles
  * show the one for the chosen side (`data-side` on the page's root).
  *
+ * An author gets eight, led by what a launch gets them (gets.tsx makes that
+ * case first); a reader gets six. On a phone each set is one row to swipe.
+ *
  * Every reason is shown before it is told (DESIGN.md, "Show it before you
  * tell it"): a small piece of the app drawn in the page's own parts (a board
  * row, a cheer, a date, the filters), a heading and one short line. The
@@ -29,12 +32,15 @@ const Free = () => <span className="price"><mark>$0</mark></span>;
 
 type Tile = { h: string; p: string; vis: React.ReactNode };
 
+// What a launch gets an author comes first, then how the board works (the owner's call, November 2026).
 const AUTHOR: Tile[] = [
+  { h: "Readers go to your work", p: "One button, straight to where you sell or publish. No cut.", vis: <span className="goes">Read it &rarr;</span> },
+  { h: "Readers for next time", p: "Followers are told about your next launch.", vis: <div className="keeps"><span className="fol"><b>128</b> followers</span></div> },
+  { h: "In the Sunday letter", p: "The week's best is emailed to readers.", vis: <div className="sunday"><small>Sunday</small><b>This week&apos;s best</b><small>1. Your title</small></div> },
+  { h: "A page that lasts", p: "It stays up, and can be found by search, long after the day.", vis: <div className="found"><small>authorhunt.com &rsaquo; work</small><u>Your title, by you</u><small>First of the day, January 8</small></div> },
   { h: "A day that's yours", p: "One day, your work on the board.", vis: <Leaf top="JAN" /> },
-  { h: "Readers come looking", p: "They open the board to find someone new.", vis: <div><div className="mini you"><span className="rk">1</span><span className="cv" /><span className="tt">Your title<small>by you</small></span><Cheer n={61} /></div></div> },
   { h: "Small counts", p: "Every piece gets a row, and every type its own ranking.", vis: <ByType /> },
   { h: "A fair order", p: "Decided by readers and writers alike. No one pays for a place.", vis: <Fair n={61} /> },
-  { h: "It lasts", p: "Your rank and your followers stay.", vis: <div className="keeps"><span className="badge">First of the day</span><span className="fol"><b>128</b> followers</span></div> },
   { h: "It's free", p: "Your page and every launch, for good.", vis: <Free /> },
 ];
 
@@ -49,7 +55,7 @@ const READER: Tile[] = [
 ];
 
 function Tiles({ tiles }: { tiles: Tile[] }) {
-  return <ul className="tiles">{tiles.map((t) => <li key={t.h}><div className="vis" aria-hidden="true">{t.vis}</div><h3>{t.h}</h3><p>{t.p}</p></li>)}</ul>;
+  return <ul className="tiles swipe">{tiles.map((t) => <li key={t.h}><div className="vis" aria-hidden="true">{t.vis}</div><h3>{t.h}</h3><p>{t.p}</p></li>)}</ul>;
 }
 
 export function Why() {

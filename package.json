@@ -20,6 +20,7 @@
     "@electric-sql/pglite": "^0.5.16",
     "@upstash/ratelimit": "^2.2.1",
     "@upstash/redis": "^1.41.0",
+    "@vercel/analytics": "^2.0.1",
     "@vercel/blob": "^2.9.0",
     "drizzle-orm": "^0.45.4",
     "next": "^16.4.6",

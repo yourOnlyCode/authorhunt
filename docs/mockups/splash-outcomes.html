@@ -1,0 +1,235 @@
+<title>Author Hunt: the deeper why</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Averia+Serif+Libre:wght@300;400&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+<style>
+/* A mockup of the splash page's author side, led by what a launch gets an author.
+   One look on purpose: it stands in for the live page, which is white in every theme (DESIGN.md). */
+:root {
+  --paper: #ffffff; --ink: #111111; --soft: #55524c; --rule: #d9d6cf; --wash: #f6f4ef;
+  --indigo: #2B3F8C; --madder: #B23A2E; --madder-text: #9C2F25; --hl: #FFD84D;
+  --display: "Averia Serif Libre", "Iowan Old Style", Georgia, serif;
+  --text: "Cormorant Garamond", Garamond, Georgia, serif;
+}
+* { box-sizing: border-box; }
+body { background: var(--paper); color: var(--ink); font: 500 1.2rem/1.45 var(--text); }
+.wrap { max-width: 68rem; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+h1, h2, h3 { font-family: var(--display); font-weight: 300; margin: 0; text-wrap: balance; }
+p { margin: 0; }
+mark { background: linear-gradient(transparent 55%, var(--hl) 55%); color: inherit; }
+.sc { font-size: .95rem; letter-spacing: .14em; text-transform: uppercase; color: var(--madder-text); font-weight: 600; }
+button { font: inherit; color: inherit; cursor: pointer; }
+:focus-visible { outline: 3px solid var(--indigo); outline-offset: 2px; }
+
+/* The mockup's own bar */
+.bar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--ink); color: var(--paper); }
+.bar .wrap { display: flex; flex-wrap: wrap; gap: .5rem 1.25rem; align-items: center; padding-block: .6rem; font-size: 1rem; }
+.bar b { font-weight: 600; }
+.seg { display: inline-flex; border: 1.5px solid var(--paper); }
+.seg button { background: none; border: 0; color: var(--paper); padding: .2rem .9rem; }
+.seg button[aria-pressed="true"] { background: var(--paper); color: var(--ink); }
+.note { font-size: 1rem; color: var(--soft); font-style: italic; }
+
+section { padding-block: 3.5rem; border-top: 1.5px solid var(--ink); }
+section > .wrap { display: grid; gap: 1.75rem; }
+.head { display: grid; gap: .4rem; }
+.head h2 { font-size: clamp(2rem, 5vw, 3rem); line-height: 1.05; }
+
+/* 1. First view */
+.first { border-top: 0; text-align: center; }
+.first .wrap { justify-items: center; }
+.side { display: inline-flex; border: 1.5px solid var(--ink); }
+.side span { padding: .25rem 1rem; }
+.side .on { background: var(--ink); color: var(--paper); }
+.first h1 { font-size: clamp(2.6rem, 9vw, 5.5rem); line-height: 1; }
+.what { max-width: 36rem; font-size: 1.35rem; min-height: 6.5em; }
+[data-view="now"] .new, [data-view="new"] .now { display: none; }
+.joinbox { display: flex; flex-wrap: wrap; width: min(100%, 30rem); border: 1.5px solid var(--ink); box-shadow: 6px 6px 0 var(--ink); background: var(--paper); }
+.joinbox span { flex: 1 1 12rem; padding: .7rem .9rem; text-align: left; color: var(--soft); }
+.joinbox b { background: var(--ink); color: var(--paper); padding: .7rem 1.1rem; font-weight: 600; flex: 0 0 auto; }
+.room { font-size: 1.1rem; }
+.room b { color: var(--madder-text); font-weight: 600; }
+
+/* 2. The path */
+.path { display: grid; grid-template-columns: 1fr auto 1fr auto 1fr; gap: 1rem; align-items: stretch; }
+.stop { border: 1.5px solid var(--ink); padding: 1rem; display: grid; gap: .8rem; align-content: start; min-width: 0; }
+.stop > .sc { color: var(--indigo); }
+.stop h3 { font-size: 1.45rem; }
+.stop p { font-size: 1.1rem; color: var(--soft); }
+.pic { background: var(--wash); padding: .8rem; min-height: 9.5rem; display: grid; align-content: center; gap: .5rem; }
+.arrow { align-self: center; font-family: var(--display); font-size: 2rem; color: var(--madder); }
+.row { display: grid; grid-template-columns: auto auto 1fr auto; gap: .6rem; align-items: center; background: var(--paper); border: 1px solid var(--rule); padding: .45rem .6rem; font-size: 1rem; line-height: 1.15; }
+.row.you { border: 1.5px solid var(--ink); }
+.row small { display: block; color: var(--soft); }
+.rk { font-family: var(--display); font-size: 1.2rem; width: 1ch; }
+.cv { width: 1.5rem; height: 2.1rem; background: var(--indigo); }
+.row:not(.you) .cv { background: var(--rule); }
+.cheer { border: 1.5px solid var(--ink); padding: .1rem .4rem; text-align: center; font-size: .9rem; font-variant-numeric: tabular-nums; line-height: 1.1; }
+.cheer::before { content: ""; display: block; width: 0; margin: 0 auto 2px; border: 5px solid transparent; border-top: 0; border-bottom: 7px solid var(--ink); }
+.lp { display: grid; grid-template-columns: auto 1fr; gap: .8rem; align-items: center; background: var(--paper); border: 1px solid var(--rule); padding: .7rem; }
+.lp .cv { width: 3.2rem; height: 4.6rem; }
+.lp h4 { margin: 0; font: 300 1.2rem/1.1 var(--display); }
+.lp small { color: var(--soft); font-size: .95rem; }
+.get { display: inline-block; margin-top: .45rem; background: var(--ink); color: var(--paper); padding: .3rem .7rem; font-size: 1rem; font-weight: 600; box-shadow: 0 0 0 4px var(--hl); }
+.store { background: var(--paper); border: 1px solid var(--rule); }
+.url { border-bottom: 1px solid var(--rule); padding: .25rem .6rem; font-size: .9rem; color: var(--soft); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.store .in { display: grid; grid-template-columns: auto 1fr; gap: .8rem; padding: .7rem; align-items: center; }
+.store .cv { width: 2.6rem; height: 3.7rem; }
+.store b { font-weight: 600; }
+.buy { display: inline-block; border: 1.5px solid var(--ink); padding: .15rem .6rem; font-size: .95rem; margin-top: .3rem; }
+.places { font-size: 1rem; color: var(--soft); }
+
+/* The results card */
+.results { border: 1.5px solid var(--ink); box-shadow: 8px 8px 0 var(--indigo); padding: 1.4rem; display: grid; gap: 1.1rem; }
+.results header { display: flex; flex-wrap: wrap; gap: .3rem 1rem; justify-content: space-between; align-items: baseline; }
+.results h3 { font-size: 1.5rem; }
+.nums { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+.nums div { border-top: 1.5px solid var(--ink); padding-top: .6rem; min-width: 0; }
+.nums b { display: block; font: 300 clamp(2rem, 6vw, 3.2rem)/1 var(--display); font-variant-numeric: tabular-nums; }
+.nums div:nth-child(2) b { color: var(--madder-text); }
+.nums span { font-size: 1.05rem; }
+
+/* 3. Tiles */
+.tiles { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
+.tiles li { border: 1.5px solid var(--ink); padding: 1rem; display: grid; gap: .5rem; align-content: start; min-width: 0; }
+.tiles .vis { background: var(--wash); min-height: 6.5rem; display: grid; place-items: center; padding: .7rem; font-size: 1rem; text-align: center; }
+.tiles h3 { font-size: 1.3rem; }
+.tiles p { font-size: 1.08rem; color: var(--soft); }
+.tiles li.is-new { box-shadow: 5px 5px 0 var(--hl); }
+.fol b { font: 300 2rem/1 var(--display); display: block; }
+.letter { background: var(--paper); border: 1px solid var(--rule); padding: .5rem .7rem; text-align: left; width: 100%; line-height: 1.2; }
+.letter small { color: var(--soft); display: block; }
+.found { text-align: left; width: 100%; line-height: 1.2; }
+.found u { color: var(--indigo); }
+.found small { color: var(--soft); display: block; }
+.leaf { border: 1.5px solid var(--ink); background: var(--paper); width: 4rem; }
+.leaf b { display: block; background: var(--madder); color: var(--paper); font-size: .8rem; letter-spacing: .1em; }
+.leaf span { font: 300 2rem/1.2 var(--display); }
+.fair { display: flex; gap: .8rem; align-items: center; }
+.coin { width: 2rem; height: 2rem; border: 1.5px solid var(--soft); border-radius: 50%; display: grid; place-items: center; color: var(--soft); position: relative; }
+.coin::after { content: ""; position: absolute; inset: 45% -6px auto; border-top: 2px solid var(--madder); transform: rotate(-35deg); }
+.price { font: 300 2.4rem/1 var(--display); }
+
+/* 4. Ads */
+.ads { display: grid; grid-template-columns: minmax(0, 22rem) 1fr; gap: 2rem; align-items: start; }
+.ad { aspect-ratio: 1; max-width: 100%; background: var(--indigo); color: var(--paper); padding: 1.6rem; display: grid; align-content: space-between; }
+.ad .sunk { display: grid; gap: .35rem; }
+.ad .post { border: 1px solid rgb(255 255 255 / .35); padding: .35rem .6rem; font-size: .95rem; }
+.ad .post:nth-child(2) { opacity: .55; } .ad .post:nth-child(3) { opacity: .3; } .ad .post:nth-child(4) { opacity: .12; }
+.ad h3 { font-size: clamp(1.7rem, 6vw, 2.3rem); line-height: 1.05; }
+.ad h3 em { font-style: normal; color: var(--hl); }
+.ad p { font-size: 1.05rem; }
+.copy { display: grid; gap: 1rem; }
+.copy dl { margin: 0; display: grid; gap: .9rem; }
+.copy dt { font-family: var(--display); font-size: 1.45rem; line-height: 1.15; }
+.copy dd { margin: .15rem 0 0; color: var(--soft); font-size: 1.1rem; }
+.avoid { border-left: 3px solid var(--madder); padding-left: .9rem; font-size: 1.1rem; }
+
+@media (max-width: 60rem) { .tiles { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 46rem) {
+  .path { grid-template-columns: 1fr; } .arrow { justify-self: center; transform: rotate(90deg); }
+  .ads { grid-template-columns: 1fr; }
+}
+@media (max-width: 30rem) { .tiles, .nums { grid-template-columns: 1fr; } }
+</style>
+
+<div id="root" data-view="new">
+<div class="bar"><div class="wrap">
+  <b>Mockup: the author's side</b>
+  <span class="seg" role="group" aria-label="Which version">
+    <button type="button" id="v-now" aria-pressed="false">Live now</button>
+    <button type="button" id="v-new" aria-pressed="true">Proposed</button>
+  </span>
+  <span>The switch changes the line under the headline and the tiles.</span>
+</div></div>
+
+<section class="first"><div class="wrap">
+  <div class="side"><span>I'm a reader</span><span class="on">I'm an author</span></div>
+  <h1>Be their next<br>favorite author.</h1>
+  <p class="what">
+    <span class="now">A daily launch board for authors and their writing. Launch anything you've finished, from flash fiction or an essay to a novel, to readers looking for someone new. <mark>It's free.</mark></span>
+    <span class="new">You posted it once and it sank. Give it a launch day instead: a day on the board, in front of readers looking for someone new, with <mark>one button that takes them to where you sell it</mark>. It's free.</span>
+  </p>
+  <div class="joinbox"><span>you@example.com</span><b>Join the list</b></div>
+  <p class="room new">Opening day has room for <b>30 launches</b>. Set yours up now and hold a place.</p>
+</div></section>
+
+<section><div class="wrap">
+  <div class="head"><p class="sc">New section, above "Why launch here"</p><h2>What a launch gets you</h2>
+    <p>A reader's path from the board to the place you sell or publish. Three steps, and we take no cut.</p></div>
+  <div class="path">
+    <div class="stop"><p class="sc">On the board</p>
+      <div class="pic">
+        <div class="row you"><span class="rk">1</span><span class="cv"></span><span>Your title<small>by you</small></span><span class="cheer">61</span></div>
+        <div class="row"><span class="rk">2</span><span class="cv"></span><span>Another launch</span><span class="cheer">48</span></div>
+      </div>
+      <h3>Readers see it</h3><p>Your work has a row on the day's board, where readers come to find someone new.</p></div>
+    <span class="arrow" aria-hidden="true">&rarr;</span>
+    <div class="stop"><p class="sc">Your launch page</p>
+      <div class="pic"><div class="lp"><span class="cv"></span><div><h4>Your title</h4><small>A sample, and a note from you</small><br><span class="get">Get the work &rarr;</span></div></div></div>
+      <h3>They read a sample</h3><p>Then one button, the largest on the page, goes where you send it.</p></div>
+    <span class="arrow" aria-hidden="true">&rarr;</span>
+    <div class="stop"><p class="sc">Your store</p>
+      <div class="pic"><div class="store"><p class="url">yourstore.com/your-title</p><div class="in"><span class="cv"></span><div><b>Your title</b><br><span class="buy">Buy &middot; $4.99</span></div></div></div>
+        <p class="places">Amazon, your own site, Substack, Wattpad, AO3: wherever it lives.</p></div>
+      <h3>They buy or read it</h3><p>On your terms. The sale and the reader are yours.</p></div>
+  </div>
+  <div class="results">
+    <header><h3>Your launch, a week on</h3><p class="sc">An example, not a promise</p></header>
+    <div class="nums">
+      <div><b>1,240</b><span>readers saw it</span></div>
+      <div><b>186</b><span>went on to your store</span></div>
+      <div><b>43</b><span>new followers, told about your next launch</span></div>
+    </div>
+    <p class="note">These are the three numbers you'd see in your Studio after a launch. Once the board is open, this card shows real totals from the week instead.</p>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="head"><p class="sc">For authors</p><h2>Why launch here</h2>
+    <p class="note new">Proposed: outcomes first. The four marked tiles are new; "Readers come looking" moves into the section above.</p>
+    <p class="note now">Live now: how it works first, what you get last.</p></div>
+  <ul class="tiles new">
+    <li class="is-new"><div class="vis"><span class="get">Get the work &rarr;</span></div><h3>Readers go to your store</h3><p>One button, straight to where you sell or publish. No cut.</p></li>
+    <li class="is-new"><div class="vis"><span class="fol"><b>128</b>followers</span></div><h3>Readers for next time</h3><p>Followers are told about your next launch.</p></li>
+    <li class="is-new"><div class="vis"><div class="letter"><small>Sunday</small>This week's best<small>1. Your title</small></div></div><h3>In the Sunday letter</h3><p>The week's best is emailed to readers.</p></li>
+    <li class="is-new"><div class="vis"><div class="found"><small>authorhunt.com &rsaquo; work</small><u>Your title, by you</u><small>Launched January 8, 2027</small></div></div><h3>A page that lasts</h3><p>It stays up, and can be found by search, long after the day.</p></li>
+    <li><div class="vis"><div class="leaf"><b>JAN</b><span>8</span></div></div><h3>A day that's yours</h3><p>One day, your work on the board.</p></li>
+    <li><div class="vis"><div style="width:100%;display:grid;gap:.3rem"><div class="row"><span class="rk">1</span><span class="cv"></span><span>A poem</span><span class="cheer">44</span></div><div class="row"><span class="rk">2</span><span class="cv"></span><span>A novel</span><span class="cheer">38</span></div></div></div><h3>Small counts</h3><p>Every piece gets a row, and every type its own ranking.</p></li>
+    <li><div class="vis"><div class="fair"><span class="cheer">61</span><span class="coin">$</span></div></div><h3>A fair order</h3><p>Decided by readers and writers alike. No one pays for a place.</p></li>
+    <li><div class="vis"><span class="price"><mark>$0</mark></span></div><h3>It's free</h3><p>Your page and every launch, for good.</p></li>
+  </ul>
+  <ul class="tiles now">
+    <li><div class="vis"><div class="leaf"><b>JAN</b><span>8</span></div></div><h3>A day that's yours</h3><p>One day, your work on the board.</p></li>
+    <li><div class="vis"><div class="row you" style="width:100%"><span class="rk">1</span><span class="cv"></span><span>Your title<small>by you</small></span><span class="cheer">61</span></div></div><h3>Readers come looking</h3><p>They open the board to find someone new.</p></li>
+    <li><div class="vis"><div style="width:100%;display:grid;gap:.3rem"><div class="row"><span class="rk">1</span><span class="cv"></span><span>A poem</span><span class="cheer">44</span></div><div class="row"><span class="rk">2</span><span class="cv"></span><span>A novel</span><span class="cheer">38</span></div></div></div><h3>Small counts</h3><p>Every piece gets a row, and every type its own ranking.</p></li>
+    <li><div class="vis"><div class="fair"><span class="cheer">61</span><span class="coin">$</span></div></div><h3>A fair order</h3><p>Decided by readers and writers alike. No one pays for a place.</p></li>
+    <li><div class="vis"><span class="fol"><b>128</b>followers</span></div><h3>It lasts</h3><p>Your rank and your followers stay.</p></li>
+    <li><div class="vis"><span class="price"><mark>$0</mark></span></div><h3>It's free</h3><p>Your page and every launch, for good.</p></li>
+  </ul>
+</div></section>
+
+<section><div class="wrap">
+  <div class="head"><p class="sc">For the ads</p><h2>The same angle, outside the page</h2></div>
+  <div class="ads">
+    <div class="ad">
+      <div class="sunk" aria-hidden="true"><p class="post">My new story is out today. Link below.</p><p class="post">2 hours ago</p><p class="post">Yesterday</p><p class="post">Last week</p></div>
+      <div><h3>Your writing deserves more than <em>one post</em>.</h3><p>Give it a launch day. Free, on Author Hunt.</p></div>
+    </div>
+    <div class="copy">
+      <dl>
+        <div><dt>Your writing deserves more than one post.</dt><dd>Give it a launch day: a day on the board, and one button to where you sell it.</dd></div>
+        <div><dt>You posted it once and it sank.</dt><dd>Launch it instead, in front of readers looking for someone new. Free for authors.</dd></div>
+        <div><dt>A launch day for the thing you just finished.</dt><dd>Poem, story or novel. Readers cheer, follow, and go to your store. Opening day has room for 30.</dd></div>
+      </dl>
+      <p class="avoid">Left out on purpose: any promise of sales, "get discovered", and invented reader counts or quotes.</p>
+    </div>
+  </div>
+</div></section>
+</div>
+
+<script>
+const root = document.getElementById("root");
+const set = (v) => { root.dataset.view = v; for (const k of ["now", "new"]) document.getElementById("v-" + k).setAttribute("aria-pressed", String(k === v)); };
+document.getElementById("v-now").addEventListener("click", () => set("now"));
+document.getElementById("v-new").addEventListener("click", () => set("new"));
+</script>

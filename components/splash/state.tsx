@@ -18,7 +18,7 @@
  * there. Things marked `data-reveal` get `.in` once, when they come into view.
  */
 
-import { metaEvent } from "@/components/analytics/meta-pixel";
+import { adEvent } from "@/components/analytics/ad-pixels";
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 
 export type Side = "reader" | "author";
@@ -102,7 +102,7 @@ export function SplashProvider({ src, start = "author", children }: { src?: stri
         fetch("/api/waitlist", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ email, kind: side, website: honeypot || undefined, src }) }),
         exit,
       ]);
-      if (res.ok) { setStatus("done"); metaEvent("Lead"); return true; }
+      if (res.ok) { setStatus("done"); adEvent("joined"); return true; }
       const data = await res.json().catch(() => ({}));
       setError(data.error ?? FAILED);
     } catch { setError(FAILED); }

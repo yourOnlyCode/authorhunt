@@ -31,7 +31,7 @@ export default function Privacy() {
       <div className="prose">
         <h2>The short version</h2>
         <ul>
-          <li>Reading Author Hunt needs no account. Its own pages set no tracking cookies; the only exception is Meta&apos;s, on the sign-up page before opening, below.</li>
+          <li>Reading Author Hunt needs no account, and no page sets a tracking cookie of Author Hunt&apos;s. Before opening, the sign-up pages load two ad platforms&apos; pixels, below.</li>
           <li>What an author puts on a page is public. What a reader cheers for and says is public. What a reader saves is private unless they share it.</li>
           <li>Your email address is never shown on the site and never sold.</li>
           <li>You can turn off any email yourself, and have your account deleted by asking.</li>
@@ -77,9 +77,10 @@ export default function Privacy() {
         <p>Author Hunt counts page views and presses on outbound links itself, so authors can see how their pages are doing. A count records the page, the day, the site you came from and the link pressed. It records no name, no account, no IP address and no identifier that follows you from page to page, and it sets no cookie. That is why there is no cookie banner.</p>
         <p>Author Hunt&apos;s own cookies are the ones that keep you signed in, and one that remembers you have seen the site before it opened, if you were given a preview link.</p>
 
-        <h2>Meta&apos;s pixel, on the sign-up pages only</h2>
-        <p>Before opening, Author Hunt advertises its waiting list on Facebook and Instagram. To know which ads bring people to the list, the front page and the page that confirms your address load Meta&apos;s pixel. It tells Meta that the page was visited, that someone joined the list, and that someone confirmed an address. It sends no email address, no name and nothing you typed. Meta sets its own cookie to do this, and what Meta does with it is in Meta&apos;s own privacy policy.</p>
-        <p>It is not loaded on any other page, and it is not loaded at all if your browser sends Global Privacy Control or Do Not Track. Blocking Meta&apos;s scripts or cookies in your browser stops it too, and the sign-up works the same either way.</p>
+        <h2>Ad pixels, on the sign-up pages only</h2>
+        <p>Before opening, Author Hunt advertises its waiting list on Facebook and Instagram, through Meta, and in ChatGPT, through OpenAI. To know which ads bring people to the list, the front page and the page that confirms your address load each one&apos;s pixel. A pixel tells its platform that the page was visited, that someone joined the list, and that someone confirmed an address. It sends no email address, no name and nothing you typed. Each platform sets or reads its own identifier to do this, and what it does with that is in its own privacy policy: Meta&apos;s, and OpenAI&apos;s.</p>
+        <p>The pixels are not loaded on any other page, and not loaded at all if your browser sends Global Privacy Control or Do Not Track. Blocking their scripts or cookies in your browser stops them too, and the sign-up works the same either way.</p>
+        <p>Author Hunt also uses Vercel Web Analytics, from the company that hosts the site, to count visits to each page across the whole site. It sets no cookie and keeps no identifier that follows you from day to day: Vercel counts a visit from the page, the site you came from, your country and the kind of device and browser, and does not keep your IP address. It is there to tell us which pages people use, and nothing about you is sold or shared from it.</p>
         <p>To stop misuse, requests are rate limited by IP address for a few minutes at a time. Those addresses aren&apos;t kept.</p>
 
         <h2>Payments</h2>

@@ -156,14 +156,18 @@ Do every step in **test mode** first, then repeat in live mode.
 - [ ] **You.** Decide on page analytics: Lorec's own `site_events`
       approach ported here (no cookies, no consent banner) or Vercel's.
 
-## 9a. Ads: Meta's pixel
+## 9a. Ads: the pixels
 
-The waitlist ads on Facebook and Instagram are measured with Meta's pixel
-(id 1609685179509267, in `components/analytics/meta-pixel.tsx`). It loads on
-the splash and the confirm page only, sends PageView, Lead (joined the list)
-and CompleteRegistration (confirmed), and carries nothing about the person.
-It doesn't load for a browser that sends Global Privacy Control or Do Not
-Track. The privacy page says all of this.
+The waitlist ads are measured with two pixels, both in
+`components/analytics/ad-pixels.tsx`: Meta's (id 1609685179509267, for
+Facebook and Instagram) and OpenAI's (id G1paEUxiMrM9B5KQVfuSJR, for ads in
+ChatGPT). They load on the splash and the confirm page only, and count the
+page being seen, someone joining (Meta Lead, and OpenAI
+registration_completed with type customer_action) and someone confirming
+(Meta CompleteRegistration). Nothing about the person goes with them. They
+don't load for a browser that sends Global Privacy Control or Do Not Track.
+OpenAI's logs to the console in development only. The privacy page says
+all of this, and that Vercel Web Analytics counts visits site-wide.
 
 - [ ] **You.** In Meta's Events Manager, check that Lead and
       CompleteRegistration arrive after a real sign-up on authorhunt.com, and
@@ -171,10 +175,12 @@ Track. The privacy page says all of this.
       once enough have come in, Lead until then.
 - [ ] **You.** Verify the domain authorhunt.com in Meta's Business
       settings, so the events count for your ads.
-- [ ] To change the pixel, set `NEXT_PUBLIC_META_PIXEL_ID` in Vercel; set it
-      to `off` to remove it without a deploy of new code.
+- [ ] **You.** In OpenAI's ads manager, check that page_viewed and
+      registration_completed arrive after a real sign-up.
+- [ ] To change a pixel, set `NEXT_PUBLIC_META_PIXEL_ID` or
+      `NEXT_PUBLIC_OPENAI_PIXEL_ID` in Vercel; set one to `off` to remove it.
 - [ ] **Before ads reach the EU or UK:** those visitors must be asked before
-      the pixel loads. Until there is a consent prompt, keep the ads aimed at
+      a pixel loads. Until there is a consent prompt, keep the ads aimed at
       the United States and Canada.
 
 ## 10. Environment variables

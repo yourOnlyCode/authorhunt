@@ -22,7 +22,7 @@ import { ExampleDay } from "@/components/splash/example-day";
 import { confirmedOnList } from "@/lib/queries/waitlist-count";
 import { listLine } from "@/lib/waitlist";
 import { Track } from "@/components/analytics/track";
-import { MetaPixel } from "@/components/analytics/meta-pixel";
+import { AdPixels } from "@/components/analytics/ad-pixels";
 
 export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
@@ -92,7 +92,7 @@ export default async function Splash({ searchParams }: { searchParams: Promise<{
       </section>
       <footer className="foot"><div className="wrap"><span className="plate">Ornament: William Morris, Marigold, 1875. Art Institute of Chicago, public domain.</span></div></footer>
       <Track />
-      <MetaPixel />
+      <AdPixels />
     </SplashProvider>
   );
 }
